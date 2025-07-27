@@ -11,7 +11,7 @@ A plataforma será **desktop-first** e oferecerá uma experiência focada em *fa
 - Professores de ONGs, autonomos, escolas públicas, projetos sociais, 
 - Pessoas com pouca familiaridade com plataformas de ensino complexas
 
-## 💡 Funcionalidades Principais (MVP)
+## Funcionalidades Principais (MVP)
 
 ### Para Professores
 - Cadastro/Login

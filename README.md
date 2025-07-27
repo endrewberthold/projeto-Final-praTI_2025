@@ -1,6 +1,6 @@
 # Plataforma AVA - Ensino Digital Acessível
 
-Este projeto tem como objetivo o desenvolvimento de uma **plataforma AVA (Ambiente Virtual de Aprendizagem)** voltada a professores que atuam em **ONGs, escolas públicas, projetos sociais e cursos livres, permitindo que compartilhem conteúdos educativos com seus alunos de forma **simples, acessível e intuitiva**.
+Este projeto tem como objetivo o desenvolvimento de uma **plataforma AVA (Ambiente Virtual de Aprendizagem)** voltada a professores que atuam em **ONGs, escolas públicas, projetos sociais e cursos livres**, permitindo que compartilhem conteúdos educativos com seus alunos de forma **ornagizada, acessível e intuitiva**.
 
 ## Visão Geral
 
@@ -86,5 +86,5 @@ Utilizaremos o **GitHub Projects** em formato **Kanban**, com sprints organizada
 
 Todos os membros do projeto são convidados a contribuir com ideias, melhorias, correções e testes. Valorizamos o trabalho em equipe, comunicação clara e código limpo.
 
---
+---
 

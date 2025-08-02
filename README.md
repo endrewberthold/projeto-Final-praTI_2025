@@ -1,90 +1,58 @@
-# Plataforma AVA - Ensino Digital Acessível
+# Plataforma de Estudos ENEM – Habilidades e Níveis
 
-Este projeto tem como objetivo o desenvolvimento de uma **plataforma AVA (Ambiente Virtual de Aprendizagem)** voltada a professores que atuam em **ONGs, escolas, projetos sociais, cursos livres**, permitindo que compartilhem conteúdos educativos com seus alunos de forma **simples, acessível e intuitiva**.
+Uma plataforma interativa de estudos voltada para alunos do Ensino Médio e vestibulandos, com foco em questões do ENEM. O sistema promove a progressão por **níveis de dificuldade** dentro de cada **matéria**, agrupadas por **habilidades da prova**. Os alunos só avançam ao acertar as questões, garantindo fixação dos conceitos.
 
-## Visão Geral
+---
 
-A plataforma será **desktop-first** e oferecerá uma experiência focada em *facilidade de uso e organização*, tanto para professores quanto para alunos. Professores poderão criar cursos, enviar vídeos e materiais em PDF, além de agendar aulas ao vivo com link direto para o Google Meet.
+## Objetivo
 
-## Público-Alvo
+Desenvolver uma aplicação educacional que estimule o aprendizado ativo e gradual através de:
+- Questões segmentadas por habilidade, matéria e nível.
+- Progresso condicional ao acerto das questões.
+- Reforço de conteúdo via flashcards salvos durante a resolução.
+- Interface intuitiva e responsiva para uso recorrente por alunos.
 
-- Professores, cursos livres, escolas, projetos sociais, 
-- Pessoas com pouca familiaridade com plataformas de ensino complexas
+---
 
-## Funcionalidades Principais (MVP)
+## Funcionalidades
 
-### Para Professores
-- Cadastro/Login
-- Criação de cursos de forma prática
-- Upload de vídeos e PDFs
-- Agendamento de aulas ao vivo com link do Google Meet
-- Compartilhamento de link de acesso ao curso para os alunos
-- Postagem de atualização de conteudo no feed
-- Acompanhamento de comentários e respostas a dúvidas
+### 1. **Home**
+- Acesso rápido aos principais módulos:
+    - Estudar por Habilidade
+    - Flashcards (banco de conceitos)
+    - Meu Progresso (em desenvolvimento)
 
-### Para Alunos
-- Acesso ao curso via link (com opção de cadastro ou convite)
-- Visualização de vídeos e materiais PDF
-- Acompanhamento das aulas agendadas com links diretos
-- Acompanhamento de comentários e respostas feito nas aulas
+### 2. **Estudo por Habilidade**
+- Escolha entre habilidades do ENEM (Matemática, Linguagens, etc).
+- Cada habilidade lista suas matérias associadas (ex: Álgebra, Português...).
+- Cada matéria possui 5 níveis de dificuldade com 10 questões cada.
+- O aluno deve acertar a questão atual para desbloquear a próxima.
 
-##  Design e Acessibilidade
+### 3. **Questões**
+- Modal com enunciado e 5 alternativas (A-E).
+- Feedback instantâneo sobre a resposta. (Em revisão)
+- Avanço somente após acerto.
+- Botão para salvar conceitos como flashcards.
 
-- Interface amigável com foco em **usabilidade**
-- Navegação clara e intuitiva
-- Paleta de cores acessível e responsiva para diferentes níveis de visão
-- Design inclusivo para usuários com pouca experiência digital
+### 4. **Flashcards**
+- Criados diretamente das questões ou via acesso direto.
+- Campos:
+    - Termo/Palavra-chave
+    - Descrição/Explicação
+    - (Opcional) Questão de origem
+- Sistema de busca e filtro por matéria/habilidade.
 
-## Tecnologias Sugeridas
+---
 
-### Front-end
-- HTML, CSS, JavaScript
-- Frameworks: React, Tailwind, Bootstrap
-- UI/UX focado em acessibilidade
+## 🧩 Estrutura Lógica do Fluxo
 
-### Back-end
-- Java Spring Boot, Python
-- Banco de dados relacional (PostgreSQL)
-- Autenticação JWT
-
-### Integrações
-- Google Meet (agendamento e links de aulas ao vivo)
-- APIs de noticias educacionais
-
-## Equipes e Organização
-
-O desenvolvimento será feito em 3 grupos com responsabilidades rotativas:
-
-### G1 - Back-end & Database
-- Criação e gerenciamento das APIs
-- Modelagem do banco de dados
-- Regras de negócio
-
-### G2 - Front-end & UI/UX
-- Interface do usuário
-- Experiência de navegação
-- Acessibilidade
-
-### G3 - Testes, Integração e Padronização
-- Testes de usabilidade e funcionamento
-- Padrões de código e integração das equipes
-- Validação e controle de qualidade
-
-## Organização de Tarefas
-
-Utilizaremos o **GitHub Projects** em formato **Kanban**, com sprints organizadas por funcionalidades do MVP e priorização de tarefas críticas.
-
-## Roadmap (MVP)
-
-1. Cadastro e login de professores
-2. Criação de curso com upload de vídeos e PDFs
-3. Acesso dos alunos via link
-4. Agendamento de aulas ao vivo com link Meet
-5. Interface desktop funcional com usabilidade testada
-
-## Contribuições
-
-Todos os membros do projeto são convidados a contribuir com ideias, melhorias, correções e testes. Valorizamos o trabalho em equipe, comunicação clara e código limpo.
-
---
-
+```plaintext
+Home
+ ├── Estudar por Habilidade
+ │    └── Seleção de Habilidade
+ │         └── Lista de Matérias
+ │              └── Níveis 1-5
+ │                   └── Modal de Questão (com acerto obrigatório)
+ │                        └── Criar Flashcard
+ └── Flashcards
+      └── Visualizar / Criar / Editar / Filtrar

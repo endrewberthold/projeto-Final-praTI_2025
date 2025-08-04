@@ -13,8 +13,8 @@ function FormularioLogin() {
         console.log(`Email: ${e.target.email.value} Password ${e.target.senha.value}`)
       }
       }>
-        <input type="email" name="email" placeholder="email/user" />
-        <input type="password" name="senha" placeholder="Senha" />
+        <input type="email" name="email" placeholder="Email/User" required/>
+        <input type="password" name="senha" placeholder="Senha" minLength={8} maxLength={12} required/>
 
         <div id="auxiliares">
           <div id="checkbox">

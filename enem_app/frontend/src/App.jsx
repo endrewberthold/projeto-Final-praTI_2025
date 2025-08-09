@@ -1,21 +1,40 @@
-import Dashboard from "./components/Dashboard";
-import NavBar from "./components/NavBar";
-
 import "./styles/components/app.sass";
+import CardHabilidade from "./components/CardHabilidade"
+import { BiMath } from 'react-icons/bi'
 
-function App() {
+const App = () => {
+  const dadosCards = [
+    {
+      icone: BiMath,
+      titulo: 'Matemática e Suas Tecnologias',
+      porcentagem: 10,
+      questoes: 200,
+      conteudoVerso: [
+        'Números e operações',
+        'Expressões algébricas',
+        'Funções e seus gráficos',
+        'Geometria e o espaço',
+        'Estatística e probabilidade',
+        'Grandezas e medidas'
+      ],
+      icone: BiMath,
+    }
+  ]
+
   return (
-    <>
-      <h1>Aplicativo rodando :D</h1>
-      <br />
-      <p>Adicione aqui seus componentes</p>
-      <p>Você pode deletar esses elementos!</p>
-      <NavBar />
-      <Dashboard />
-      {/* <Praticar />  precisa re importar caso for usar esta pagina*/}
-      {/* <FlashCards /> precisa re importar caso for usar esta pagina*/}
-    </>
-  );
+    <div className='cards-container'>
+      {dadosCards.map((card, index) => (
+        <CardHabilidade
+        key={index}
+        icone={card.icone}
+        titulo={card.titulo}
+        porcentagem={card.porcentagem}
+        questoes={card.questoes}
+        conteudoVerso={card.conteudoVerso}
+    />
+      ))}
+  </div>
+  )
 }
 
 export default App;

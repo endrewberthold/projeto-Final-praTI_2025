@@ -1,7 +1,7 @@
-import Dashboard from "./components/Dashboard";
-import NavBar from "./components/NavBar";
+import Dashboard from './components/Dashboard';
+import NavBar from './components/NavBar';
 
-import "./styles/components/app.sass";
+import './styles/components/app.sass';
 
 function App() {
   return (

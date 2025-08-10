@@ -1,0 +1,78 @@
+@use '../variables'
+@use '../mixins'
+
+#formulario-login 
+    background-color: variables.$clr-card
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1.5rem
+    height: 35rem
+    width: 30rem
+    padding-top: 4rem
+    font-size: large
+    border-radius: 16px
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1)
+
+#formulario-login p 
+    margin-bottom: 2rem
+
+
+#formulario-login b 
+    cursor: pointer
+
+form 
+    display: flex
+    flex-direction: column
+    width: 25rem
+    gap: 1rem
+
+
+form input 
+    border: 1px solid
+    padding: 1rem
+    border-radius: 8px
+
+
+form input::placeholder 
+    color: black
+    opacity: 1
+
+
+form input[type="email"] 
+    margin-bottom: 1.5rem
+
+
+form button 
+    border: 1px solid
+    background-color: #C2C2C2
+    padding: 1rem
+    border-radius: 8px
+    cursor: pointer
+    border: none
+
+
+form button:active 
+    transform: translateY(1px)
+
+
+#auxiliares 
+    display: flex
+    justify-content: space-between
+    font-size: 14px
+    margin-bottom: 1.5rem
+
+
+#auxiliares a 
+    cursor: pointer
+
+
+#checkbox 
+    display: flex
+    gap: 0.2rem
+    border-radius: 4rem
+
+
+h1 
+    font-weight: 100
+    font-size: variables.$font-size-title

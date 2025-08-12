@@ -1,7 +1,9 @@
 import Dashboard from "./components/Dashboard";
 import NavBar from "./components/NavBar";
-
+import "./styles/main.sass";
 import "./styles/components/app.sass";
+import Praticar from "./components/Praticar";
+
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
       <p>Você pode deletar esses elementos!</p>
       <NavBar />
       <Dashboard />
-      {/* <Praticar />  precisa re importar caso for usar esta pagina*/}
+      <Praticar />
       {/* <FlashCards /> precisa re importar caso for usar esta pagina*/}
     </>
   );

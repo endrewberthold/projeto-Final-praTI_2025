@@ -1,0 +1,48 @@
+.level-card
+  width: 150px
+  height: 200px
+  background-color: #ffffff
+  border-radius: 12px
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: space-around
+  padding: 15px
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  font-family: 'Segoe UI', sans-serif
+  border: 1px solid #e0e0e0
+  transition: transform 0.2s ease-in-out
+
+  &:hover
+    transform: translateY(-3px)
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15)
+
+  .level-icon
+    font-size: 50px
+    color: #e63946 // vermelho moderno
+    margin-bottom: 8px
+
+  .level-title
+    font-size: 18px
+    font-weight: bold
+    color: #111
+    text-align: center
+
+  .level-subtitle
+    font-size: 14px
+    color: #555
+    margin: 4px 0 10px
+    text-align: center
+
+  .level-button
+    background-color: #fff
+    border: 1px solid #ccc
+    color: #333
+    padding: 6px 12px
+    font-size: 14px
+    cursor: pointer
+    border-radius: 8px
+    transition: background-color 0.2s ease
+
+    &:hover
+      background-color: #f1f1f1

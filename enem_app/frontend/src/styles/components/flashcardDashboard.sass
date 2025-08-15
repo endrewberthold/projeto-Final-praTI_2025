@@ -1,14 +1,17 @@
+//! position: aboslute está dando conflito de sobreposição com outros elementos
+// z-index e top se tornam obsoletos com sua desativação
+    
 @use '../variables.sass' 
 @use '../mixins.sass'
 
 #flash-principal
     +mixins.estilo-flashcards
-    position: absolute
-    z-index: 4
+    //position: absolute
+    //z-index: 4
     cursor: pointer
     transition: 0.3s ease
     transform: rotate(0deg)
-    top: 3rem
+    //top: 3rem
 
     p
         width: 17rem

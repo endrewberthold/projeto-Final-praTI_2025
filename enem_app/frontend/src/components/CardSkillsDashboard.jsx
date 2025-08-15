@@ -1,11 +1,16 @@
+//! Antigo componente CardHabilidade.jsx
+//! styles -> CardHabilidade.sass agora é cardHabilidadeDashboard.sass
+//! Novo import de styles
 import React, { useState } from "react";
+import { BiMath } from "react-icons/bi";
+import "../styles/components/cardSkillsDashboard.sass";
 
 const CardHabilidade = ({
-  icone: Icone,
+  //icone: Icone,
   titulo,
   porcentagem,
   questoes,
-  conteudoVerso,
+  //conteudoVerso,
 }) => {
   const [flipped, setFlipped] = useState(false);
 
@@ -18,7 +23,7 @@ const CardHabilidade = ({
         {/* Lado da frente*/}
         <div className="card__face card__face--front">
           <div className="card__icon">
-            <Icone />
+            <BiMath />
           </div>
           <div className="card__title">{titulo}</div>
           <p className="card__percentText">{porcentagem}%</p>
@@ -29,11 +34,11 @@ const CardHabilidade = ({
         </div>
 
         {/* Lado de trás*/}
-        <div className="card__face card__face--back">
+        {/* <div className="card__face card__face--back">
           <div className="card__icon-container">
             <div className="card__icon-background"></div>
             <div className="card__icon-foreground">
-              <Icone />
+              <BiMath />
             </div>
           </div>
           <div className="card__topics">
@@ -42,7 +47,7 @@ const CardHabilidade = ({
             ))}
           </div>
           <button className="card__button">Responder</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

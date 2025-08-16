@@ -5,7 +5,7 @@ import "../styles/pages/dashboard.sass";
 //import NavBar from "../components/NavBar";
 import FlashCardDashboard from "../components/FlashCardDashboard";
 import UserStatusDashboard from "../components/UserStatusDashboard";
-import CardHabilidadeDashboard from "../components/CardHabilidadeDashboard";
+import CardSkillsDashboard from "../components/CardSkillsDashboard";
 //import { BiMath } from "react-icons/bi";
 
 export default function Dashboard() {
@@ -36,7 +36,7 @@ export default function Dashboard() {
 
       <div>
         <NavLink to="/praticar">
-          <CardHabilidadeDashboard
+          <CardSkillsDashboard
             //icone={<BiMath />} erro ao passar assim ou com ''
             titulo={"Titulo"}
             porcentagem={30}
@@ -46,7 +46,7 @@ export default function Dashboard() {
         </NavLink>
 
         <NavLink to="/praticar">
-          <CardHabilidadeDashboard
+          <CardSkillsDashboard
             //icone={<BiMath />} erro ao passar assim ou com ''
             titulo={"Titulo"}
             porcentagem={30}

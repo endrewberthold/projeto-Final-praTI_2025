@@ -1,0 +1,148 @@
+// Variáveis de cores (ajuste conforme necessário)
+$primary-color: #e91e63; // Cor primária (rosa)
+$secondary-color: #f5f5f5; // Cor secundária (cinza claro)
+$text-color: #333;
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+$border-radius: 8px;
+$flip-transition: transform 0.7s;
+
+.flashcard-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(290, 9%, 13%, 0.703);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  perspective: 1000px;
+}
+
+.flashcard-container {
+  position: relative;
+  width: 360px;
+  height: 560px;
+  transition: $flip-transition;
+  transform-style: preserve-3d;
+
+  &.is-flipped {
+    transform: rotateY(180deg);
+  }
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: $secondary-color;
+
+  .difficulty-indicator {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 320px;
+    height: 20px;
+    border-radius: 10px;
+
+    &.difficulty-easy {
+      background-color: green;
+    }
+    &.difficulty-medium {
+      background-color: yellow;
+    }
+    &.difficulty-hard {
+      background-color: red;
+    }
+  }
+}
+
+.flashcard-front {
+  background-color: #ffffff;
+  cursor: pointer;
+
+  .card-title {
+    font-size: 1.6rem;
+    color: $text-color;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .remember-button {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+.flashcard-back {
+  background-color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+
+  .card-tilte-back {
+    padding-top: 20px;
+  }
+
+  .card-textarea {
+    max-width: 320px;
+    max-height: 365px;
+    flex-grow: 1;
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    resize: none;
+    outline: none;
+  }
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    outline: none;
+
+    &.ocultar-btn {
+      color: $primary-color;
+      font-weight: bold;
+    }
+
+    &.edit-btn::before {
+      content: '✏️'; // Placeholder for edit icon
+      font-size: 1.2rem;
+    }
+
+    &.delete-btn::before {
+      content: '🗑️'; // Placeholder for delete icon
+      font-size: 1.2rem;
+      color: #dc3545;
+    }
+  }
+}

@@ -1,18 +1,18 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import "./styles/main.sass";
-import App from "./App.jsx";
+import './styles/main.sass';
+import App from './App.jsx';
 
-import Home from "./pages/Home.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
-import UserStatusPage from "./pages/UserStatusPage.jsx";
-import FlashCardPage from "./pages/FlashCardPage.jsx";
-import PraticarPage from "./pages/PraticarPage.jsx";
-import TelaLogin from "./pages/TelaLogin.jsx";
+import Home from './pages/Home.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import UserStatusPage from './pages/UserStatusPage.jsx';
+import FlashCardPage from './pages/FlashCardPage.jsx';
+import PraticarPage from './pages/PraticarPage.jsx';
+import TelaLogin from './pages/TelaLogin.jsx';
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
@@ -25,5 +25,5 @@ createRoot(document.getElementById("root")).render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

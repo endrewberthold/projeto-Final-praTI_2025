@@ -1,10 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import './styles/main.sass';
-import App from './App.jsx';
+import AppFlash from './AppFlash';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <AppFlash />
   </StrictMode>,
 );

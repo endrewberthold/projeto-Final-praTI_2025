@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Flashcard from './components/Flashcard/Flashcard';
-import './styles/components/App.scss';
+import './styles/components/app.sass';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mockCardData = {
-    title: 'Tema ou Matéria a Estudar aqui',
-    difficulty: 'hard',
+    title: 'Palavra ou Tema aqui',
+    difficulty: 'medium',
     initialContent: '',
-    // Algumas informações já adicionadas
     questionId: '/questions/123',
   };
 
   const handleModal = () => {
-    setIsModalOpen((modal) => !modal);
+    setIsModalOpen((prev) => !prev);
   };
 
   return (

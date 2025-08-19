@@ -1,11 +1,11 @@
 package org.plataform.backend.services;
 
-import org.plataform.backend.models.User;
 import org.plataform.backend.models.Subject;
 import org.plataform.backend.models.Question;
 import org.plataform.backend.dtos.FlashcardDTO;
 import org.plataform.backend.models.Flashcard;
 import org.plataform.backend.repositories.FlashcardRepository;
+import org.plataform.backend.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +24,12 @@ public class FlashcardService {
         return flashcardRepository.save(flashcard);
     }
 
-    public List<Flashcard> getFlashcardsByUser(UUID userId) {
+    public List<Flashcard> getFlashcardsByUser(Long userId) {
         return flashcardRepository.findByUserId(userId);
     }
 
-    public List<Flashcard> getFlashcardsByUserAndSubjectId(UUID userId, UUID subjectId) {
-        return flashcardRepository.findByUserIdAndSubjectId(userId, subjectId);
+    public List<Flashcard> getFlashcardsByUserAndSubjectId(Long userId, UUID subjectId) {
+        return flashcardRepository.findByUserAndSubject(userId, subjectId);
     }
 
     public FlashcardDTO toDto(Flashcard flashcard) {
@@ -38,14 +38,13 @@ public class FlashcardService {
         dto.setConcept(flashcard.getConcept());
         dto.setDescription(flashcard.getDescription());
         dto.setCreatedDate(flashcard.getCreateDate());
-        dto.setUserId(flashcard.getUser().getId());
+        dto.setId_user(flashcard.getUser().getId_user());
         dto.setSubjectId(flashcard.getSubject().getId());
         dto.setQuestionId(flashcard.getQuestion() != null ? flashcard.getQuestion().getId() : null);
         return dto;
     }
 
     public Flashcard toEntity(FlashcardDTO dto, User user, Subject subject, Question question) {
-
         Flashcard flashcard = new Flashcard();
         flashcard.setId(dto.getId());
         flashcard.setConcept(dto.getConcept());

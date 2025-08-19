@@ -14,7 +14,7 @@ public class FlashcardDTO {
     private String concept;
     private String description;
     private LocalDateTime createdDate;
-    private UUID userId;
+    private Long id_user;
     private UUID subjectId;
     private UUID questionId;
 

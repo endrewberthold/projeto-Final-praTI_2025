@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgres:16.9
-    container_name: app_db
+    image: postgres:latest
+    container_name: enem_app_db
     restart: always
     environment:
       POSTGRES_USER: admin

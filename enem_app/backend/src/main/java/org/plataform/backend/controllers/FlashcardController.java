@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-//TODO adicionar validações @Valid @NotNull e @Size nos controllers e nos DTOs
-
 @RestController
 @RequestMapping("/api/flashcards")
 public class FlashcardController {
@@ -19,7 +17,6 @@ public class FlashcardController {
 
     public FlashcardController(FlashcardService flashcardService) {
         this.flashcardService = flashcardService;
-
     }
 
     @PostMapping
@@ -29,8 +26,20 @@ public class FlashcardController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<FlashcardDTO>> getFlashcardsByUser(@PathVariable UUID userId) {
+    public ResponseEntity<List<FlashcardDTO>> getFlashcardsByUser(@PathVariable Long userId) {
         List<Flashcard> flashcards = flashcardService.getFlashcardsByUser(userId);
+        List<FlashcardDTO> dtos = flashcards.stream()
+                .map(flashcardService::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/user/{userId}/subject/{subjectId}")
+    public ResponseEntity<List<FlashcardDTO>> getFlashcardsByUserAndSubject(
+            @PathVariable Long userId,
+            @PathVariable UUID subjectId
+    ) {
+        List<Flashcard> flashcards = flashcardService.getFlashcardsByUserAndSubjectId(userId, subjectId);
         List<FlashcardDTO> dtos = flashcards.stream()
                 .map(flashcardService::toDto)
                 .toList();

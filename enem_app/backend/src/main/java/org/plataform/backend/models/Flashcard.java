@@ -2,6 +2,7 @@ package org.plataform.backend.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.plataform.backend.user.User;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

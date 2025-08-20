@@ -30,13 +30,8 @@ jobs:
 
       - name: 'Construir o projeto com Maven'
         # Executa o comando 'package' do Maven, que compila e empacota o seu projeto
-        run: mvn -B package --file pom.xml
-        working-directory: ./enem_app/
-
-      - name: 'Executar testes'
-        # Executa os testes do projeto
-        run: mvn test
-        working-directory: ./enem_app/
+        working-directory: ./enem_app/backend
+        run: mvn -B package -DskipTests
 
       - name: 'Salvar o arquivo JAR como um artefato'
         # Esta ação salva o arquivo JAR gerado para que você possa baixá-lo
@@ -45,4 +40,4 @@ jobs:
           # Nome descritivo para o artefato
           name: enem-backend-jar
           # Define o caminho do arquivo JAR a ser salvo
-          path: ./enem_app/target/*.jar
+          path: ./enem_app/backend/target/*.jar

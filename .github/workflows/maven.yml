@@ -1,0 +1,45 @@
+# Nome do workflow que aparecerá na aba "Actions" do seu repositório
+name: Java Build com Maven
+
+# Define quando o workflow será executado
+# Este workflow será disparado em cada 'push' para a branch 'test-branch'
+on:
+  push:
+    branches: [ atualizacoes ] # <-- AQUI! Altere para o nome da sua branch de teste
+
+# Define um único 'job' para o build
+jobs:
+  build:
+    # O ambiente onde o job irá rodar. 'ubuntu-latest' é uma boa escolha.
+    runs-on: ubuntu-latest
+
+    # Os passos que o job irá seguir
+    steps:
+      - name: 'Clonar o repositório'
+        # Esta ação faz o checkout do seu código no ambiente do GitHub Actions
+        uses: actions/checkout@v4
+
+      - name: 'Configurar o JDK 21'
+        # Configura o ambiente Java necessário para o seu projeto
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven' # Cacheia as dependências do Maven para builds mais rápidos
+
+      - name: 'Construir o projeto com Maven'
+        # Adiciona a pasta de trabalho para que o Maven encontre o pom.xml
+        working-directory: ./backend/
+        # Executa o comando 'package' do Maven, que compila e empacota o seu projeto
+        run: mvn -B package --file pom.xml
+
+      - name: 'Salvar o arquivo JAR como um artefato'
+        # Adiciona a pasta de trabalho para que o artifact-upload encontre o arquivo JAR
+        working-directory: ./backend/
+        # Esta ação salva o arquivo JAR gerado para que você possa baixá-lo
+        uses: actions/upload-artifact@v4
+        with:
+          # Alteração sugerida: use um nome mais descritivo para o artefato
+          name: enem-backend-jar
+          # Define o caminho do arquivo JAR a ser salvo.
+          path: target/*.jar

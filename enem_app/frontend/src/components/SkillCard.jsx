@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./cardhabilidade.sass"
+import "./skillcard.sass"
 import { BiMath } from "react-icons/bi";
 
 const CardHabilidade = ({

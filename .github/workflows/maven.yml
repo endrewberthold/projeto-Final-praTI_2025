@@ -31,7 +31,7 @@ jobs:
 
       - name: 'Build e Teste do Backend'
         # Compila e executa os testes do projeto Maven
-        working-directory: ./backend
+        working-directory: ./enem_app/backend
         run: mvn clean verify -B
 
       - name: 'Salvar o arquivo JAR como artefato'
@@ -48,6 +48,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: './enem_app/frontend/package-lock.json'
 
       - name: 'Instalar dependências do Frontend'
         # Navega para o diretório do frontend e instala as dependências
@@ -75,19 +76,20 @@ jobs:
       - name: 'Rodar testes de integração com Docker Compose'
         # Este passo é o único responsável por subir os serviços necessários para os testes
         run: |
-          # Sobe os contêineres definidos no docker-compose.yml em modo detached
+          # Sube os contêineres definidos no docker-compose.yml em modo detached
           docker-compose up -d
           
           # Aguarde alguns segundos para os serviços estarem prontos
-          echo "Esperando 15 segundos para os serviços subirem..."
-          sleep 15
+          echo "Esperando 30 segundos para os serviços subirem..."
+          sleep 30
+          
+          # Verifica se os serviços estão rodando
+          docker-compose ps
           
           # Aqui você rodaria os comandos de teste de integração
           echo "Rodando testes de integração..."
-          # Substitua esta linha pelo comando que executa os testes de integração do seu backend
-          # Ex:
-          # working-directory: ./backend
-          # mvn test -P integration-test
+          # Exemplo de como executar testes de integração no backend:
+          # docker-compose exec -T backend mvn test -Dtest=*IntegrationTest
           
           # Por fim, derruba os serviços para liberar recursos do runner do GitHub Actions
           docker-compose down

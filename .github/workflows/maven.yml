@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: enem-backend-jar
-          path: ./backend/target/*.jar
+          path: ./enem_app/backend/target/*.jar
 
       # --- FRONTEND ---
       - name: 'Configurar o Node.js 20'
@@ -51,17 +51,17 @@ jobs:
 
       - name: 'Instalar dependências do Frontend'
         # Navega para o diretório do frontend e instala as dependências
-        working-directory: ./frontend
+        working-directory: ./enem_app/frontend
         run: npm install
 
       - name: 'Testar o Frontend'
         # Executa os testes do frontend
-        working-directory: ./frontend
+        working-directory: ./enem_app/frontend
         run: npm test -- --watchAll=false
 
       - name: 'Build do Frontend'
         # Cria a versão de produção do frontend
-        working-directory: ./frontend
+        working-directory: ./enem_app/frontend
         run: npm run build
 
       - name: 'Salvar o build do Frontend como artefato'
@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: enem-frontend-build
-          path: ./frontend/build # Ou use 'dist' se for o caso
+          path: ./enem_app/frontend/build # Ou use 'dist' se for o caso
 
       # --- TESTES DE INTEGRAÇÃO COM DOCKER COMPOSE ---
       - name: 'Rodar testes de integração com Docker Compose'

@@ -1,43 +1,93 @@
 # Nome do workflow que aparecerá na aba "Actions" do seu repositório
-name: Java Build com Maven
+name: CI/CD Fullstack
 
 # Define quando o workflow será executado
 on:
   push:
-    branches: [ atualizacoes ] # Usando o nome da sua branch
+    branches: [ atualizacoes ]
   pull_request:
     branches: [ atualizacoes ]
 
 # Define um único 'job' para o build
 jobs:
   build:
-    # O ambiente onde o job irá rodar
+    # O ambiente onde o job irá rodar.
     runs-on: ubuntu-latest
 
     # Os passos que o job irá seguir
     steps:
       - name: 'Clonar o repositório'
-        # Esta ação faz o checkout do seu código no ambiente do GitHub Actions
+        # Esta ação faz o checkout do seu código
         uses: actions/checkout@v4
 
+      # --- BACKEND ---
       - name: 'Configurar o JDK 21'
-        # Configura o ambiente Java necessário para o seu projeto
+        # Configura o ambiente Java
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'maven' # Cacheia as dependências do Maven para builds mais rápidos
+          cache: 'maven'
 
-      - name: 'Construir o projeto com Maven'
-        # Executa o comando 'package' do Maven, que compila e empacota o seu projeto
-        working-directory: ./enem_app/backend
-        run: mvn -B package -DskipTests
+      - name: 'Build e Teste do Backend'
+        # Compila e executa os testes do projeto Maven
+        working-directory: ./backend
+        run: mvn clean verify -B
 
-      - name: 'Salvar o arquivo JAR como um artefato'
-        # Esta ação salva o arquivo JAR gerado para que você possa baixá-lo
+      - name: 'Salvar o arquivo JAR como artefato'
+        # Salva o arquivo JAR para ser usado em futuros deploys
         uses: actions/upload-artifact@v4
         with:
-          # Nome descritivo para o artefato
           name: enem-backend-jar
-          # Define o caminho do arquivo JAR a ser salvo
-          path: ./enem_app/backend/target/*.jar
+          path: ./backend/target/*.jar
+
+      # --- FRONTEND ---
+      - name: 'Configurar o Node.js 20'
+        # Configura o ambiente Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 'Instalar dependências do Frontend'
+        # Navega para o diretório do frontend e instala as dependências
+        working-directory: ./frontend
+        run: npm install
+
+      - name: 'Testar o Frontend'
+        # Executa os testes do frontend
+        working-directory: ./frontend
+        run: npm test -- --watchAll=false
+
+      - name: 'Build do Frontend'
+        # Cria a versão de produção do frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: 'Salvar o build do Frontend como artefato'
+        # Salva a pasta 'build' ou 'dist' para ser usada em futuros deploys
+        uses: actions/upload-artifact@v4
+        with:
+          name: enem-frontend-build
+          path: ./frontend/build # Ou use 'dist' se for o caso
+
+      # --- TESTES DE INTEGRAÇÃO COM DOCKER COMPOSE ---
+      - name: 'Rodar testes de integração com Docker Compose'
+        # Este passo é o único responsável por subir os serviços necessários para os testes
+        run: |
+          # Sobe os contêineres definidos no docker-compose.yml em modo detached
+          docker-compose up -d
+          
+          # Aguarde alguns segundos para os serviços estarem prontos
+          echo "Esperando 15 segundos para os serviços subirem..."
+          sleep 15
+          
+          # Aqui você rodaria os comandos de teste de integração
+          echo "Rodando testes de integração..."
+          # Substitua esta linha pelo comando que executa os testes de integração do seu backend
+          # Ex:
+          # working-directory: ./backend
+          # mvn test -P integration-test
+          
+          # Por fim, derruba os serviços para liberar recursos do runner do GitHub Actions
+          docker-compose down

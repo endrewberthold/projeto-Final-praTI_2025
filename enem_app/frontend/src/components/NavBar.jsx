@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { MdBookmark, MdBookmarkBorder } from 'react-icons/md';
 import { GoHome, GoHomeFill } from 'react-icons/go';
 import { LuCrown } from 'react-icons/lu';
-import '../styles/components/navbar.sass';
 import { NavLink } from 'react-router-dom';
 
 export default function NavBar() {

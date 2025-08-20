@@ -5,7 +5,7 @@ name: Java Build com Maven
 # Este workflow será disparado em cada 'push' para a branch 'test-branch'
 on:
   push:
-    branches: [ atualizacoes ] # <-- AQUI! Altere para o nome da sua branch de teste
+    branches: [ atualizacoes ] # Usando o nome da sua branch
 
 # Define um único 'job' para o build
 jobs:

@@ -5,11 +5,13 @@ name: Java Build com Maven
 on:
   push:
     branches: [ atualizacoes ] # Usando o nome da sua branch
+  pull_request:
+    branches: [ atualizacoes ]
 
 # Define um único 'job' para o build
 jobs:
   build:
-    # O ambiente onde o job irá rodar.
+    # O ambiente onde o job irá rodar
     runs-on: ubuntu-latest
 
     # Os passos que o job irá seguir
@@ -27,18 +29,20 @@ jobs:
           cache: 'maven' # Cacheia as dependências do Maven para builds mais rápidos
 
       - name: 'Construir o projeto com Maven'
-        # Adiciona a pasta de trabalho para que o Maven encontre o pom.xml
-        working-directory: ./backend/
         # Executa o comando 'package' do Maven, que compila e empacota o seu projeto
         run: mvn -B package --file pom.xml
+        working-directory: ./backend/
+
+      - name: 'Executar testes'
+        # Executa os testes do projeto
+        run: mvn test
+        working-directory: ./backend/
 
       - name: 'Salvar o arquivo JAR como um artefato'
-        # Adiciona a pasta de trabalho para que o artifact-upload encontre o arquivo JAR
-        working-directory: ./backend/
         # Esta ação salva o arquivo JAR gerado para que você possa baixá-lo
         uses: actions/upload-artifact@v4
         with:
-          # Alteração sugerida: use um nome mais descritivo para o artefato
+          # Nome descritivo para o artefato
           name: enem-backend-jar
-          # Define o caminho do arquivo JAR a ser salvo.
-          path: target/*.jar
+          # Define o caminho do arquivo JAR a ser salvo
+          path: ./backend/target/*.jar

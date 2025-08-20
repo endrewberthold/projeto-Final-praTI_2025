@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import "../styles/pages/FlashCardPage.sass";
+import "../styles/pages/flashCardPage.sass";
 
 export default function FlashCardPage() {
   return (

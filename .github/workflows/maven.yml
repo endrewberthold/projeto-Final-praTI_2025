@@ -78,11 +78,12 @@ jobs:
         run: |
           echo "Testando Docker Compose..."
           if [ -f "docker-compose.yml" ]; then
-            docker-compose up -d
+            # Usar docker compose (v2) ao invés de docker-compose (v1)
+            docker compose up -d
             sleep 20
-            docker-compose ps
-            docker-compose logs
-            docker-compose down -v
+            docker compose ps
+            docker compose logs
+            docker compose down -v
             echo "Docker Compose testado com sucesso!"
           else
             echo "docker-compose.yml não encontrado, pulando teste de integração"

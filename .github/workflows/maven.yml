@@ -2,7 +2,6 @@
 name: Java Build com Maven
 
 # Define quando o workflow será executado
-# Este workflow será disparado em cada 'push' para a branch 'test-branch'
 on:
   push:
     branches: [ atualizacoes ] # Usando o nome da sua branch
@@ -10,7 +9,7 @@ on:
 # Define um único 'job' para o build
 jobs:
   build:
-    # O ambiente onde o job irá rodar. 'ubuntu-latest' é uma boa escolha.
+    # O ambiente onde o job irá rodar.
     runs-on: ubuntu-latest
 
     # Os passos que o job irá seguir

@@ -1,90 +1,176 @@
-# Nome do workflow que aparecerá na aba "Actions" do seu repositório
-name: CI/CD Fullstack ENEM App
+  # Nome do workflow que aparecerá na aba "Actions" do seu repositório
+  name: CI/CD Fullstack ENEM App
 
-# Define quando o workflow será executado
-on:
-  push:
-    branches: [ atualizacoes , minhas-atualizações ]
-  pull_request:
-    branches: [ atualizacoes , minhas-atualizações]
+  # Define quando o workflow será executado
+  on:
+    push:
+      branches: [ atualizacoes, minhas-atualizações ]
+    pull_request:
+      branches: [ atualizacoes, minhas-atualizações ]
 
-# Define um único 'job' para o build
-jobs:
-  build:
-    # O ambiente onde o job irá rodar
-    runs-on: ubuntu-latest
+  env:
+    NODE_VERSION: '20'
+    JAVA_VERSION: '21'
+    DOCKER_BUILDKIT: 1
+    COMPOSE_DOCKER_CLI_BUILD: 1
 
-    # Os passos que o job irá seguir
-    steps:
-      - name: 'Checkout do repositório'
-        # Esta ação faz o checkout do seu código
-        uses: actions/checkout@v4
+  # Define um único 'job' para o build
+  jobs:
+    build:
+      # O ambiente onde o job irá rodar
+      runs-on: ubuntu-latest
 
-      # --- BACKEND (Java Spring Boot) ---
-      - name: 'Configurar JDK 21'
-        # Configura o ambiente Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
+      # Os passos que o job irá seguir
+      steps:
+        - name: 'Checkout do repositório'
+          # Esta ação faz o checkout do seu código
+          uses: actions/checkout@v4
 
-      - name: 'Build e package do Backend'
-        # Compila o projeto e gera o JAR (pulando testes por enquanto)
-        working-directory: ./enem_app/backend
-        run: mvn clean package -B -DskipTests
+        # --- BACKEND (Java Spring Boot) ---
+        - name: 'Configurar JDK 21'
+          # Configura o ambiente Java
+          uses: actions/setup-java@v4
+          with:
+            java-version: '21'
+            distribution: 'temurin'
+            cache: 'maven'
 
-      - name: 'Upload JAR do Backend'
-        # Salva o arquivo JAR para deploy
-        uses: actions/upload-artifact@v4
-        with:
-          name: enem-backend-jar
-          path: ./enem_app/backend/target/*.jar
-          retention-days: 30
+        - name: 'Build e package do Backend'
+          # Compila o projeto e gera o JAR (pulando testes por enquanto)
+          working-directory: ./backend
+          run: mvn clean package -B -DskipTests
 
-      # --- FRONTEND (React + Vite) ---
-      - name: 'Configurar Node.js 20'
-        # Configura o ambiente Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: './enem_app/frontend/package-lock.json'
+        - name: 'Upload JAR do Backend'
+          # Salva o arquivo JAR para deploy
+          uses: actions/upload-artifact@v4
+          with:
+            name: enem-backend-jar
+            path: ./backend/target/*.jar
+            retention-days: 30
 
-      - name: 'Instalar dependências do Frontend'
-        # Instala as dependências do React/Vite
-        working-directory: ./enem_app/frontend
-        run: npm ci --prefer-offline
+        # --- FRONTEND (React + Vite) ---
+        - name: 'Configurar Node.js 20'
+          # Configura o ambiente Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+            cache: 'npm'
+            cache-dependency-path: './frontend/package-lock.json'
 
-      - name: 'Build do Frontend'
-        # Cria a versão otimizada para produção
-        working-directory: ./enem_app/frontend
-        continue-on-error: true
-        run: npm run build
+        - name: 'Instalar dependências do Frontend'
+          # Instala as dependências do React/Vite
+          working-directory: ./frontend
+          run: npm ci --prefer-offline
 
-      - name: 'Upload build do Frontend'
-        # Salva os arquivos estáticos do frontend
-        uses: actions/upload-artifact@v4
-        with:
-          name: enem-frontend-build
-          path: ./enem_app/frontend/dist
-          retention-days: 30
+        - name: 'Build do Frontend'
+          # Cria a versão otimizada para produção
+          working-directory: ./frontend
+          continue-on-error: true
+          run: npm run build
 
-      # --- DOCKER COMPOSE (Opcional) ---
-      - name: 'Teste de integração com Docker'
-        # Testa se os serviços sobem corretamente
-        working-directory: ./enem_app/db
-        continue-on-error: true
-        run: |
-          echo "Testando Docker Compose..."
-          if [ -f "docker-compose.yml" ]; then
-            # Usar docker compose (v2) ao invés de docker-compose (v1)
-            docker compose up -d
-            sleep 20
-            docker compose ps
-            docker compose logs
-            docker compose down -v
-            echo "Docker Compose testado com sucesso!"
-          else
-            echo "docker-compose.yml não encontrado, pulando teste de integração"
-          fi
+        - name: 'Upload build do Frontend'
+          # Salva os arquivos estáticos do frontend
+          uses: actions/upload-artifact@v4
+          with:
+            name: enem-frontend-build
+            path: ./frontend/dist
+            retention-days: 30
+
+        # --- DOCKER COMPOSE - TESTES INTEGRADOS ---
+        - name: Setup Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Cache Docker layers
+          uses: actions/cache@v3
+          with:
+            path: /tmp/.buildx-cache
+            key: ${{ runner.os }}-buildx-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-buildx-
+
+        - name: 'Verificar estrutura do projeto e arquivos Docker'
+          run: |
+            echo "=== Verificando estrutura do projeto ==="
+            ls -la
+            echo "=== Verificando diretórios ==="
+            find . -name "docker-compose*.yml" -type f || echo "Nenhum docker-compose encontrado"
+            find . -name "Dockerfile*" -type f || echo "Nenhum Dockerfile encontrado"
+            echo "=== Conteúdo do diretório db ==="
+            ls -la db/ 2>/dev/null || echo "Diretório db não encontrado"
+
+        - name: 'Build Docker containers'
+          continue-on-error: true
+          run: |
+            echo "=== Iniciando build dos containers ==="
+            if [ -f "docker-compose.ci.yml" ]; then
+              echo "Usando docker-compose.ci.yml para CI/CD"
+              docker compose -f docker-compose.ci.yml build --parallel
+            elif [ -f "docker-compose.yml" ]; then
+              echo "Usando docker-compose.yml"
+              docker compose build --parallel
+            else
+              echo "Nenhum arquivo docker-compose encontrado"
+              exit 0
+            fi
+            echo "=== Build concluído com sucesso ==="
+
+        - name: 'Verificar imagens criadas'
+          run: |
+            echo "=== Imagens Docker criadas ==="
+            docker images
+            echo "=== Status do Docker ==="
+            docker system df
+
+        - name: 'Run integration tests with Docker'
+          continue-on-error: true
+          run: |
+            echo "=== Iniciando testes de integração ==="
+            if [ -f "docker-compose.ci.yml" ]; then
+              echo "Executando testes com docker-compose.ci.yml"
+              timeout 300 docker compose -f docker-compose.ci.yml up --abort-on-container-exit || echo "Testes completados ou timeout atingido"
+            elif [ -f "docker-compose.yml" ]; then
+              echo "Testando com docker-compose.yml"
+              timeout 120 docker compose up -d
+              sleep 20
+              docker compose ps
+              echo "=== Testando conectividade dos serviços ==="
+              # Teste básico de conectividade
+              docker compose exec -T db pg_isready -U admin -d enem_app || echo "PostgreSQL não acessível"
+              docker compose down -v
+            else
+              echo "Pulando testes - nenhum docker-compose configurado"
+            fi
+            echo "=== Testes concluídos ==="
+
+        - name: 'Coletar logs dos containers'
+          if: always()  # Executa mesmo se os testes falharem
+          run: |
+            echo "=== Coletando logs dos containers ==="
+            if [ -f "docker-compose.ci.yml" ]; then
+              docker compose -f docker-compose.ci.yml logs || echo "Não foi possível obter logs"
+            elif [ -f "docker-compose.yml" ]; then
+              docker compose logs || echo "Não foi possível obter logs"
+            fi
+
+        - name: 'Cleanup containers'
+          if: always()
+          run: |
+            echo "=== Limpando containers e volumes ==="
+            if [ -f "docker-compose.ci.yml" ]; then
+              docker compose -f docker-compose.ci.yml down -v --remove-orphans || true
+            elif [ -f "docker-compose.yml" ]; then
+              docker compose down -v --remove-orphans || true
+            fi
+            docker system prune -f
+
+        - name: 'Upload test results'
+          if: always()
+          uses: actions/upload-artifact@v4
+          with:
+            name: test-results-and-logs
+            path: |
+              ./test-results/
+              ./coverage/
+              ./logs/
+            retention-days: 7
+

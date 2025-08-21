@@ -1,4 +1,4 @@
-@use './variables.sass'
+@use '../variables.sass'
 
 .card 
   perspective: 1000px
@@ -113,7 +113,6 @@
   color: variables.$clr-card
   font-size: 35px
 
-
 .topics 
   display: flex
   flex-direction: column
@@ -122,18 +121,28 @@
   font-size: 14px
   margin: 15px 0
 
+.topics-ul
+  list-style: none
+  line-height: 1.5
+  padding: 0
+  margin: 0
 
-.button 
-  align-self: center
-  padding: 8px 16px
-  background: variables.$clr-card
-  color: black
-  border: 1px solid black
-  border-radius: 6px
+
+.skill-footer
+  display: flex
+  justify-content: center
+
+.skill-button
+  background-color: #fff
+  border: 1px solid #ccc
+  color: #333
+  padding: 6px 12px
+  font-size: 14px
   cursor: pointer
-  font-weight: bold
-  transition: background 0.3s
-  
-  &:hover 
-    background: #f0f0f0
+  border-radius: 8px
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease
+
+  &:hover
+    background-color: #f1f1f1
+      color: variables.$clr-card
   

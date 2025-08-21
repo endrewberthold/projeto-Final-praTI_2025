@@ -1,14 +1,16 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/pages/dashboard.sass";
 
 //import NavBar from "../components/NavBar";
 import FlashCardDashboard from "../components/FlashCardDashboard";
 import UserStatusDashboard from "../components/UserStatusDashboard";
-import CardSkillsDashboard from "../components/CardSkillsDashboard";
+import SkillCard from "../components/SkillCard"
 //import { BiMath } from "react-icons/bi";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="container-dashboard">
       <div className="upperCards">
@@ -35,25 +37,17 @@ export default function Dashboard() {
       </div>
 
       <div>
-        <NavLink to="/praticar">
-          <CardSkillsDashboard
+        {/*Removi o NavLink daqui e troquei por useNavigate*/}
+          <SkillCard
             //icone={<BiMath />} erro ao passar assim ou com ''
             titulo={"Titulo"}
             porcentagem={30}
             questoes={200}
-            conteudoVerso={true}
+            textoBotao="Responder"
+            onClick={() => navigate("/praticar")}
+            conteudoVerso={["Tema 1", "Tema 2", "Tema 3"]}
           />
-        </NavLink>
 
-        <NavLink to="/praticar">
-          <CardSkillsDashboard
-            //icone={<BiMath />} erro ao passar assim ou com ''
-            titulo={"Titulo"}
-            porcentagem={30}
-            questoes={200}
-            conteudoVerso={true}
-          />
-        </NavLink>
       </div>
     </div>
   );

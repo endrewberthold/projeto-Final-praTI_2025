@@ -1,27 +1,27 @@
 import React, { useState } from "react";
-import "./cardhabilidade.sass"
+import "../styles/components/skillCard.sass"
 import { BiMath } from "react-icons/bi";
 
-const CardHabilidade = ({
+const CardSkill = ({
   titulo,
   porcentagem,
   questoes,
+  textoBotao,
+  onClick,
   conteudoVerso
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleMouseEnter = () => setIsFlipped(true);
-  const handleMouseLeave = () => setIsFlipped(false);
+  const handleCardClick = () => setIsFlipped((prev) => !prev);
 
   return (
     <div
       className={`card ${isFlipped ? "flipped" : ""}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
     >
       <div className="card-inner">
         {/* Frente do Card */}
-        <div className="card-front">
+        <div className="card-front card-face">
           <div className="front-icon">
             <BiMath />
           </div>
@@ -41,7 +41,7 @@ const CardHabilidade = ({
         </div>
 
         {/* Verso do Card */}
-        <div className="card-back">
+        <div className="card-back card-face">
           <div className="icon-container">
             <div className="icon-background"></div>
             <div className="back-icon">
@@ -50,16 +50,24 @@ const CardHabilidade = ({
           </div>
           
           <div className="topics">
-            {conteudoVerso.map((topico, index) => (
-              <span key={index}>{topico}</span>
-            ))}
+            <ul className="topics-ul">
+              {Array.isArray(conteudoVerso) && conteudoVerso.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
           </div>
           
-          <button className="button">Responder</button>
+           <footer className="skill-footer">
+        <button className="skill-button" onClick={onClick}>
+          {textoBotao}
+        </button>
+
+      </footer>
+    </div>
         </div>
       </div>
-    </div>
+
   );
 };
 
-export default CardHabilidade;
+export default CardSkill;

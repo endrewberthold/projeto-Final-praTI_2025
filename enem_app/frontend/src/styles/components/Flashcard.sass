@@ -1,0 +1,235 @@
+@use '../variables.sass'
+
+body 
+  color: variables.$clr-primary
+
+body,
+textarea,
+button, h2
+  font-family: variables.$font-family
+
+.open-card-btn
+  height: 60px
+  min-width: 160px
+  margin: 10px
+  padding: 10px 25px
+  background-color: #D9D9D9
+  color: variables.$clr-primary
+  border: 1px solid #000
+  border-radius: variables.$border-radius-card
+  cursor: pointer
+  font-weight: bold
+  transition: 0.2s
+
+  &:hover,
+  &:active
+    background-color: rgba(#221d23cc, 0.2)
+    box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+.flashcard-modal-overlay 
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: hsla(290, 9%, 13%, 0.70)
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1000
+  perspective: 1000px
+
+.flashcard-container 
+  position: relative
+  display: flex
+  width: 360px
+  height: 560px
+  transition: transform 0.7s
+  transform-style: preserve-3d
+
+  &.is-flipped 
+    transform: rotateY(180deg)
+  
+.flashcard-front-container,
+.flashcard-back-container 
+  position: absolute
+  width: 100%
+  height: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 12px
+  background-color: variables.$clr-card
+  backface-visibility: hidden
+  border: 0.5rem solid rgba(variables.$clr-body, 0.2)
+  border-radius: variables.$border-radius-card-secondary
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
+
+  .difficulty-indicator 
+    width: 320px
+    height: 20px
+    border-radius: 10px
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25)
+
+    &.difficulty-easy 
+      background-color: variables.$clr-habilidade-2
+    
+    &.difficulty-medium 
+      background-color: rgba(255, 255, 0, 0.8)
+    
+    &.difficulty-hard 
+      background-color: variables.$clr-habilidade-1
+
+  .card-title 
+    font-size: variables.$font-size-title
+    color: variables.$clr-primary
+    text-align: center
+
+    &.card-back-tilte 
+      font-size: 20px
+      font-weight: 400
+
+.flashcard-front-container
+  display: flex
+  flex-direction: columns
+  justify-content: space-between
+  cursor: pointer
+
+  .remember-button
+    height: 65px
+    min-width: 180px
+    margin: 10px
+    padding: 10px 25px
+    background-color: #D9D9D9
+    color: variables.$clr-primary
+    border: 1px solid #000
+    border-radius: variables.$border-radius-card
+    cursor: pointer
+    font-weight: bold
+    transition: 0.2s
+
+    &:hover,
+    &:active        
+      outline: none;
+      border-radius: variables.$border-radius-card
+      border: none
+
+      &.difficulty-easy 
+        background-color: rgba(#0b9f03, 0.8)
+        box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+      &.difficulty-medium
+        background-color: #ffff00b3
+        box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+      
+      &.difficulty-hard 
+        background-color: #FB0843
+        box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+.flashcard-back-container 
+  transform: rotateY(180deg)
+
+  .card-back-title-container 
+    display: flex
+    display: row
+    align-items: center
+    justify-content: space-between
+    width: 320px
+    padding: 20px 10px 20px 10px
+
+    .luFile-icon 
+      height: 31px
+      width: 31px
+      cursor: pointer
+      
+  .card-textarea 
+    width: 100%
+    max-height: 365px
+    flex-grow: 1
+    padding: 15px
+    background-color: #d8dde299
+    border: none
+    border-radius: variables.$border-radius-card
+    font-size: 1rem
+    resize: none
+    outline: none
+    transition: 0.2s
+    cursor: pointer
+
+    &.difficulty-easy 
+      box-shadow: 0 0 0 1px rgba(#0b9f03, 0.8)
+
+    &.difficulty-medium
+      box-shadow: 0 0 0 2px (#ffff00), 3px 3px 4px rgba(0, 0, 0, 0.2)
+    
+    &.difficulty-hard 
+      box-shadow: 0 0 0 1px (#FB0843)
+
+    &:hover,
+    &:focus        
+      outline: none;
+      border-radius: variables.$border-radius-card
+
+      &.difficulty-easy 
+        box-shadow: 0 0 0 2px rgba(#0b9f03, 0.8), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+      &.difficulty-medium
+        box-shadow: 0 0 0 3px (#ffff00), 6px 6px 4px rgba(0, 0, 0, 0.2)
+      
+      &.difficulty-hard 
+        box-shadow: 0 0 0 2px (#FB0843), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+  .card-actions-container 
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 20px 0px 0 0 
+    cursor: default
+
+    .ocultar-btn
+      height: 60px
+      min-width: 160px
+      background-color: #D9D9D9
+      border: 1px solid #000
+      border-radius: variables.$border-radius-card
+      transition: 0.2s
+
+      &:hover,
+      &:active        
+        outline: none;
+        border-radius: variables.$border-radius-card
+        border: none
+
+        &.difficulty-easy 
+          background-color: rgba(#0b9f03, 0.8)
+          box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+        &.difficulty-medium
+          background-color: #ffff00b3
+          box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+        
+        &.difficulty-hard 
+          background-color: #FB0843
+          box-shadow: 0 0 0 2px (#221d23cc), 5px 5px 4px rgba(0, 0, 0, 0.2)
+
+    .action-btn 
+      display: flex
+      align-items: center
+      justify-content: end
+      height: 100%
+      width: 100%
+      background: none
+      border: none
+      outline: none
+      padding: 10px 0 10px 10px
+
+      .action-btn-icon 
+        cursor: pointer
+        height: 31px
+        width: 31px
+
+        &:nth-child(2) 
+          margin-left: 25px
+

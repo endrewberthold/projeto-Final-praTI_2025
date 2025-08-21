@@ -4,9 +4,9 @@ name: CI/CD Fullstack ENEM App
 # Define quando o workflow será executado
 on:
   push:
-    branches: [ atualizacoes ]
+    branches: [ atualizacoes , minhas-atualizações ]
   pull_request:
-    branches: [ atualizacoes ]
+    branches: [ atualizacoes , minhas-atualizações]
 
 # Define um único 'job' para o build
 jobs:

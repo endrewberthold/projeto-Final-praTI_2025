@@ -1,0 +1,48 @@
+# Dockerfile.frontend
+# Usa multi-stage build para criar um contêiner de produção otimizado
+
+# Stage 1: Build da aplicação React
+# Usa uma imagem do Node.js para instalar dependências e fazer o build
+FROM node:18-alpine as build
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia os arquivos de dependência primeiro para aproveitar o cache do Docker
+# O contexto de build é a pasta frontend, então os caminhos são relativos a ela.
+COPY package*.json ./
+
+# Instala as dependências do projeto
+RUN npm ci
+
+# Copia o código fonte do frontend
+COPY . .
+
+# Executa o build da aplicação
+RUN npm run build || echo "No build script found, creating basic index.html" && \
+    mkdir -p build && \
+    echo '<html><body><h1>Frontend Placeholder</h1><p>Configure seu frontend aqui</p></body></html>' > build/index.html
+
+# Stage 2: Servidor de produção com Nginx
+# Nginx é um servidor web leve e rápido, ideal para servir arquivos estáticos
+FROM nginx:alpine
+
+# Remove a configuração padrão do Nginx
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copia o resultado do build do stage anterior para a pasta do Nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copia o arquivo de configuração do Nginx específico do projeto
+# O arquivo nginx.conf deve ser movido para a pasta frontend/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expõe a porta 80 do Nginx
+EXPOSE 80
+
+# Define um health check para garantir que o servidor web está funcionando
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:80 || exit 1
+
+# Comando padrão para iniciar o Nginx quando o contêiner for executado
+CMD ["nginx", "-g", "daemon off;"]

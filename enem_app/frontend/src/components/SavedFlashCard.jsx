@@ -3,7 +3,7 @@ import { LuFileQuestion } from 'react-icons/lu';
 import { TiPencil } from 'react-icons/ti';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-import '../styles/components/savedFlashCard.sass';
+import '../../styles/components/Flashcard.sass';
 
 const FlashCard = ({ data, onClose }) => {
   const [isFlipped, setIsFlipped] = useState(false);

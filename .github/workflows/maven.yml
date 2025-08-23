@@ -37,7 +37,7 @@
 
         - name: 'Build e package do Backend'
           # Compila o projeto e gera o JAR (pulando testes por enquanto)
-          working-directory: ./backend
+          working-directory: ./enem_app/backend
           run: mvn clean package -B -DskipTests
 
         - name: 'Upload JAR do Backend'
@@ -45,7 +45,7 @@
           uses: actions/upload-artifact@v4
           with:
             name: enem-backend-jar
-            path: ./backend/target/*.jar
+            path: ./enem_app/backend/target/*.jar
             retention-days: 30
 
         # --- FRONTEND (React + Vite) ---
@@ -55,16 +55,16 @@
           with:
             node-version: '20'
             cache: 'npm'
-            cache-dependency-path: './frontend/package-lock.json'
+            cache-dependency-path: './enem_app/frontend/package-lock.json'
 
         - name: 'Instalar dependências do Frontend'
           # Instala as dependências do React/Vite
-          working-directory: ./frontend
+          working-directory: ./enem_app/frontend
           run: npm ci --prefer-offline
 
         - name: 'Build do Frontend'
           # Cria a versão otimizada para produção
-          working-directory: ./frontend
+          working-directory: ./enem_app/frontend
           continue-on-error: true
           run: npm run build
 
@@ -73,7 +73,7 @@
           uses: actions/upload-artifact@v4
           with:
             name: enem-frontend-build
-            path: ./frontend/dist
+            path: ./enem_app/frontend/dist
             retention-days: 30
 
         # --- DOCKER COMPOSE - TESTES INTEGRADOS ---

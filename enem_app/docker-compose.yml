@@ -12,6 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      # Se você tem um arquivo init.sql, coloque na pasta db/ dentro de enem_app/
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,7 +23,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./backend  # Já está correto - relativo à pasta enem_app
       dockerfile: Dockerfile.backend
     container_name: enem_app_backend
     ports:
@@ -37,7 +38,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend  # Já está correto - relativo à pasta enem_app
       dockerfile: Dockerfile.frontend
     container_name: enem_app_frontend
     ports:

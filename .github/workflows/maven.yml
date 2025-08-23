@@ -42,9 +42,25 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: 'Verificar arquivos do Backend'
+        working-directory: ./enem_app/backend
+        run: |
+          echo "=== Verificando arquivos do backend ==="
+          ls -la
+          echo "=== Verificando application.properties ==="
+          file src/main/resources/application.properties || echo "application.properties não encontrado"
+          echo "=== Conteúdo do application.properties ==="
+          cat src/main/resources/application.properties | head -10 || echo "Não foi possível ler o arquivo"
+          echo "=== Verificando encoding ==="
+          file -i src/main/resources/application.properties || echo "Não foi possível verificar encoding"
+
       - name: 'Build e package do Backend'
-        working-directory: ./enem_app/backend  # CAMINHO CORRIGIDO
-        run: mvn clean package -B -DskipTests
+        working-directory: ./enem_app/backend
+        env:
+          MAVEN_OPTS: "-Dfile.encoding=UTF-8 -Dmaven.compiler.encoding=UTF-8"
+        run: |
+          echo "=== Iniciando build do Maven ==="
+          mvn clean package -B -DskipTests -Dfile.encoding=UTF-8
 
       - name: 'Upload JAR do Backend'
         uses: actions/upload-artifact@v4

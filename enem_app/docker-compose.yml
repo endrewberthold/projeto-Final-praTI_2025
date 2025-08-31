@@ -12,7 +12,6 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      # Se você tem um arquivo init.sql, coloque na pasta db/ dentro de enem_app/
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,7 +22,7 @@ services:
 
   backend:
     build:
-      context: ./backend  # Já está correto - relativo à pasta enem_app
+      context: ./backend
       dockerfile: Dockerfile.backend
     container_name: enem_app_backend
     ports:
@@ -35,16 +34,22 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/enem_app
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password
+      # Variável opcional para frontend, caso queira backend URL dinamicamente
+      - BACKEND_URL=http://backend:8080
 
   frontend:
     build:
-      context: ./frontend  # Já está correto - relativo à pasta enem_app
+      context: ./frontend
       dockerfile: Dockerfile.frontend
     container_name: enem_app_frontend
     ports:
-      - "3000:80"
+      - "80:80"
+    restart: always
     depends_on:
       - backend
+    environment:
+      # Faz o frontend saber onde está o backend dentro da rede Docker
+      - REACT_APP_API_URL=http://backend:8080
 
 volumes:
   postgres_data:

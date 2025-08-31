@@ -31,7 +31,7 @@ FROM nginx:alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copia o resultado do build do stage anterior para a pasta do Nginx
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copia o arquivo de configuração do Nginx específico do projeto
 # O arquivo nginx.conf deve ser movido para a pasta frontend/

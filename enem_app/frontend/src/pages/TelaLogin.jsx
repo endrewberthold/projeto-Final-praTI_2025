@@ -1,6 +1,7 @@
 import React from "react";
 import FormularioLogin from "../components/FormularioLogin";
-import "../styles/pages/telaLogin.sass";
+
+import "../styles/pages/TelaLogin.sass";
 
 function TelaLogin() {
   return (

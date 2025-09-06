@@ -23,13 +23,18 @@ public class FlashcardService {
     private final UserRepository userRepository;
     private final KnowledgeAreaRepository knowledgeAreaRepository;
 
+    /**@author Endrew
+     * Serviço que verifica se o user existe ao criar o flashcard e se
+     * a Área de Conhecimento existe
+     * Se True retorna o flashcard criado, se False expõe um Exception
+     * **/
     @Transactional
     public FlashcardResponseDTO createFlashcard(Long userId, FlashcardRequestDTO dto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         KnowledgeArea area = knowledgeAreaRepository.findById(dto.getAreaId())
-                .orElseThrow(() -> new EntityNotFoundException("Knowledge Area not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Área de conhecimento não encontrada"));
 
         Flashcard flashcard = Flashcard.builder()
                 .user(user)
@@ -41,30 +46,42 @@ public class FlashcardService {
         return mapToResponseDTO(flashcard);
     }
 
+    /**@author Endrew
+     * Gera paginação de todos os flashcards criados pelo user
+     * Esta definido com máximo 20 por página
+     * Este serviço retorna todos
+     * **/
     @Transactional(readOnly = true)
     public Page<FlashcardResponseDTO> getUserFlashcards(Long userId, Pageable pageable) {
         return flashcardRepository.findByUser_Id(userId, pageable)
                 .map(this::mapToResponseDTO);
     }
 
+    /**@author Endrew
+     * Gera paginação de todos os flashcards criados por Área de conhecimento
+     * **/
     @Transactional(readOnly = true)
     public Page<FlashcardResponseDTO> getUserFlashcardsByArea(Long userId, String areaId, Pageable pageable) {
         return flashcardRepository.findByUser_IdAndArea_Id(userId, areaId, pageable)
                 .map(this::mapToResponseDTO);
     }
 
-
+    /**@author Endrew
+     * Serviço de update do flashcards, faz verificações de que se o flashcard existe,
+     * se a Área de conhecimento foi criada
+     * e se o id do flashcard pertence ao user que esta logado
+     * **/
     @Transactional
     public FlashcardResponseDTO updateFlashcard(Long userId, Long flashcardId, FlashcardRequestDTO dto) {
         Flashcard flashcard = flashcardRepository.findById(flashcardId)
-                .orElseThrow(() -> new EntityNotFoundException("Flashcard not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Flashcard não encontrado."));
 
         if(!flashcard.getUser().getId().equals(userId)) {
-            throw new SecurityException("You are not allowed to update this flashcard");
+            throw new SecurityException("Você não tem permissão para editar este Flashcard.");
         }
 
         KnowledgeArea area = knowledgeAreaRepository.findById(dto.getAreaId())
-                .orElseThrow(() -> new EntityNotFoundException("Knowledge Area not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Área de Conhecimento não encontrada."));
 
         flashcard.setTerm(dto.getTerm());
         flashcard.setDescription(dto.getDescription());
@@ -74,18 +91,25 @@ public class FlashcardService {
         return mapToResponseDTO(flashcard);
     }
 
+    /**@author Endrew
+     * Serviço de delete do flashcards
+     * Fazas mesmas verificações do update
+     * **/
     @Transactional
     public void deleteFlashcard(Long userId, Long flashcardId) {
         Flashcard flashcard = flashcardRepository.findById(flashcardId)
-                .orElseThrow(() -> new EntityNotFoundException("Flashcard not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Flashcard não encontrado."));
 
         if (!flashcard.getUser().getId().equals(userId)) {
-            throw new SecurityException("You are not allowed to delete this flashcard");
+            throw new SecurityException("Você não tem permissão para editar este Flashcard.");
         }
 
         flashcardRepository.delete(flashcard);
     }
 
+    /**@author Endrew
+     * Mapper que build a resposta dos metodos do flashcard
+     * **/
     private FlashcardResponseDTO mapToResponseDTO(Flashcard flashcard) {
         return FlashcardResponseDTO.builder()
                 .id(flashcard.getId())

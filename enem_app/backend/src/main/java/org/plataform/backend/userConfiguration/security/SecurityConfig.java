@@ -41,7 +41,7 @@ public class SecurityConfig {
                 // Regras de autorização
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS).permitAll()
-                        .requestMatchers("/api/auth/**").permitAll() // liberar endpoints de auth/registro/forgot
+                        .requestMatchers("/api/auth/**", "/api/**").permitAll() // liberar endpoints de auth/registro/forgot
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()

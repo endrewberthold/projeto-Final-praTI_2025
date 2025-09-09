@@ -63,10 +63,6 @@ const FormularioLogin = () => {
         const token = data.accessToken;
         setAuth({ accessToken: token });
       }
-      //setAccessToken(data.accessToken);
-      //navigate(from, { replace: true });
-      //console.log("FROM: ", from);
-      //console.log("LOCATION: ", location);
 
       // ######################################################################
 
@@ -113,7 +109,7 @@ const FormularioLogin = () => {
 
     try {
       // MUDANÇA 4: URL consistente com proxy (remover localhost:8080)
-      const response = await fetch("/auth/register", {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,6 +128,7 @@ const FormularioLogin = () => {
       }
 
       const data = await response.json();
+      console.log("DATA REGISTER: ", data);
 
       if (!response.ok) {
         const errorMessage =

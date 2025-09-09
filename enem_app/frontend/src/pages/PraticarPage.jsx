@@ -4,6 +4,7 @@ import Cardlvl from "../components/Cardlvl";
 export default function PraticarPage() {
   return (
     <div>
+      <h1>SKILLPAGE</h1>
       <h1>Praticar</h1>
 
       <Cardlvl

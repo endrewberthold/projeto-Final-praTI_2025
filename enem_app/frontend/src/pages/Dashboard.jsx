@@ -11,11 +11,12 @@ import CardSkillsDashboard from "../components/CardSkillsDashboard";
 export default function Dashboard() {
   return (
     <div className="container-dashboard">
+      <h1>DASHBOARD</h1>
       <div className="upperCards">
-        <NavLink to="/flashcards">
+        <NavLink to="/flashcardPage">
           <FlashCardDashboard />
         </NavLink>
-        <NavLink to="/userStatus">
+        <NavLink to="/userStatusPage">
           <UserStatusDashboard
             imagemPerfil="/"
             porcentagem={50}
@@ -35,17 +36,7 @@ export default function Dashboard() {
       </div>
 
       <div>
-        <NavLink to="/praticar">
-          <CardSkillsDashboard
-            //icone={<BiMath />} erro ao passar assim ou com ''
-            titulo={"Titulo"}
-            porcentagem={30}
-            questoes={200}
-            conteudoVerso={true}
-          />
-        </NavLink>
-
-        <NavLink to="/praticar">
+        <NavLink to="/SkillPage">
           <CardSkillsDashboard
             //icone={<BiMath />} erro ao passar assim ou com ''
             titulo={"Titulo"}

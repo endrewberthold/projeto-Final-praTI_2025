@@ -1,64 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FormularioLogin = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+
+  //
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  //const from = "/dashboard";
+
+  //
+
+  const { setAuth } = useAuth();
 
   // Estados para Login
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   // Estados para Cadastro
   const [registerData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   // Função para Login - CORRIGIDA
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
+    setMessage("");
 
     try {
-      const response = await fetch('/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: loginData.email,
-          password: loginData.password
+          password: loginData.password,
         }),
       });
 
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
+      console.log("RESPONSE: ", response);
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
         throw new Error(`Resposta não é JSON. Status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("DATA: ", data);
+
+      // AQUIIII ###########################################################
+      if (data) {
+        const token = data.accessToken;
+        setAuth({ accessToken: token });
+      }
+      //setAccessToken(data.accessToken);
+      //navigate(from, { replace: true });
+      //console.log("FROM: ", from);
+      //console.log("LOCATION: ", location);
+
+      // ######################################################################
 
       if (!response.ok) {
-        const errorMessage = data.message || `Erro ${response.status} - ${response.statusText}`;
+        const errorMessage =
+          data.message || `Erro ${response.status} - ${response.statusText}`;
         throw new Error(errorMessage);
       }
 
       // Login bem-sucedido
-      console.log('Login bem-sucedido:', data);
+      console.log("Login bem-sucedido:", data);
 
-      setMessage('Login realizado com sucesso!');
+      setMessage("Login realizado com sucesso!");
 
       // Aqui você pode redirecionar o usuário
       // setTimeout(() => navigate('/dashboard'), 1500);
-
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Erro no login:', error.message);
+      console.error("Erro no login:", error.message);
       setMessage(` Erro: ${error.message}`);
     } finally {
       setLoading(false);
@@ -69,67 +96,69 @@ const FormularioLogin = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
+    setMessage("");
 
     // Validações básicas
     if (registerData.password !== registerData.confirmPassword) {
-      setMessage('As senhas não coincidem');
+      setMessage("As senhas não coincidem");
       setLoading(false);
       return;
     }
 
     if (registerData.password.length < 6) {
-      setMessage(' A senha deve ter pelo menos 6 caracteres');
+      setMessage(" A senha deve ter pelo menos 6 caracteres");
       setLoading(false);
       return;
     }
 
     try {
       // MUDANÇA 4: URL consistente com proxy (remover localhost:8080)
-      const response = await fetch('/auth/register', {
-        method: 'POST',
+      const response = await fetch("/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: registerData.name,
           email: registerData.email,
-          password: registerData.password
+          password: registerData.password,
         }),
       });
 
       // MUDANÇA 5: Mesma verificação de JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
         throw new Error(`Resposta não é JSON. Status: ${response.status}`);
       }
 
       const data = await response.json();
 
       if (!response.ok) {
-        const errorMessage = data.message || `Erro ${response.status} - ${response.statusText}`;
+        const errorMessage =
+          data.message || `Erro ${response.status} - ${response.statusText}`;
         throw new Error(errorMessage);
       }
 
       // Cadastro bem-sucedido
-      console.log('Cadastro bem-sucedido:', data);
-      setMessage('✅ Cadastro realizado com sucesso! Faça login para continuar.');
+      console.log("Cadastro bem-sucedido:", data);
+      setMessage(
+        "✅ Cadastro realizado com sucesso! Faça login para continuar."
+      );
 
       // Limpa o formulário e volta para login
       setRegisterData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       });
 
       setTimeout(() => {
         setIsLogin(true);
-        setMessage('');
+        setMessage("");
       }, 2000);
-
     } catch (error) {
-      console.error('Erro no cadastro:', error.message);
+      console.error("Erro no cadastro:", error.message);
       setMessage(`Erro: ${error.message}`);
     } finally {
       setLoading(false);
@@ -139,9 +168,9 @@ const FormularioLogin = () => {
   // Função para alternar entre login e cadastro
   const toggleForm = () => {
     setIsLogin(!isLogin);
-    setMessage('');
-    setLoginData({ email: '', password: '' });
-    setRegisterData({ name: '', email: '', password: '', confirmPassword: '' });
+    setMessage("");
+    setLoginData({ email: "", password: "" });
+    setRegisterData({ name: "", email: "", password: "", confirmPassword: "" });
   };
 
   return (
@@ -254,12 +283,16 @@ const FormularioLogin = () => {
         }
       `}</style>
 
-      <h1 className="title">
-        {isLogin ? 'Fazer Login' : 'Criar Conta'}
-      </h1>
+      <h1 className="title">{isLogin ? "Fazer Login" : "Criar Conta"}</h1>
 
       {message && (
-        <div className={`message ${message.includes('❌') || message.includes('Erro') ? 'message-error' : 'message-success'}`}>
+        <div
+          className={`message ${
+            message.includes("❌") || message.includes("Erro")
+              ? "message-error"
+              : "message-success"
+          }`}
+        >
           {message}
         </div>
       )}
@@ -272,7 +305,9 @@ const FormularioLogin = () => {
             placeholder="Email"
             className="input"
             value={loginData.email}
-            onChange={(e) => setLoginData({...loginData, email: e.target.value})}
+            onChange={(e) =>
+              setLoginData({ ...loginData, email: e.target.value })
+            }
             required
             disabled={loading}
           />
@@ -282,7 +317,9 @@ const FormularioLogin = () => {
             placeholder="Senha"
             className="input"
             value={loginData.password}
-            onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+            onChange={(e) =>
+              setLoginData({ ...loginData, password: e.target.value })
+            }
             required
             minLength={6}
             disabled={loading}
@@ -291,9 +328,9 @@ const FormularioLogin = () => {
           <button
             className="button"
             onClick={handleLogin}
-            disabled={loading || !loginData.email || !loginData.password}
+            // disabled={loading || !loginData.email || !loginData.password}
           >
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? "Entrando..." : "Entrar"}
           </button>
         </div>
       ) : (
@@ -304,7 +341,9 @@ const FormularioLogin = () => {
             placeholder="Nome completo"
             className="input"
             value={registerData.name}
-            onChange={(e) => setRegisterData({...registerData, name: e.target.value})}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, name: e.target.value })
+            }
             required
             disabled={loading}
           />
@@ -314,7 +353,9 @@ const FormularioLogin = () => {
             placeholder="Email"
             className="input"
             value={registerData.email}
-            onChange={(e) => setRegisterData({...registerData, email: e.target.value})}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, email: e.target.value })
+            }
             required
             disabled={loading}
           />
@@ -324,7 +365,9 @@ const FormularioLogin = () => {
             placeholder="Senha (mínimo 6 caracteres)"
             className="input"
             value={registerData.password}
-            onChange={(e) => setRegisterData({...registerData, password: e.target.value})}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, password: e.target.value })
+            }
             required
             minLength={6}
             disabled={loading}
@@ -335,7 +378,12 @@ const FormularioLogin = () => {
             placeholder="Confirmar senha"
             className="input"
             value={registerData.confirmPassword}
-            onChange={(e) => setRegisterData({...registerData, confirmPassword: e.target.value})}
+            onChange={(e) =>
+              setRegisterData({
+                ...registerData,
+                confirmPassword: e.target.value,
+              })
+            }
             required
             minLength={6}
             disabled={loading}
@@ -344,21 +392,23 @@ const FormularioLogin = () => {
           <button
             className="button"
             onClick={handleRegister}
-            disabled={loading || !registerData.name || !registerData.email || !registerData.password || !registerData.confirmPassword}
+            disabled={
+              loading ||
+              !registerData.name ||
+              !registerData.email ||
+              !registerData.password ||
+              !registerData.confirmPassword
+            }
           >
-            {loading ? 'Cadastrando...' : 'Criar Conta'}
+            {loading ? "Cadastrando..." : "Criar Conta"}
           </button>
         </div>
       )}
 
-      <div
-        className="toggle-link"
-        onClick={toggleForm}
-      >
+      <div className="toggle-link" onClick={toggleForm}>
         {isLogin
-          ? 'Não tem uma conta? Cadastre-se aqui'
-          : 'Já tem uma conta? Faça login aqui'
-        }
+          ? "Não tem uma conta? Cadastre-se aqui"
+          : "Já tem uma conta? Faça login aqui"}
       </div>
     </div>
   );

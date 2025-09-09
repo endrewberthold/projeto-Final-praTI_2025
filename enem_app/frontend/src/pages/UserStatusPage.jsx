@@ -6,7 +6,7 @@ export default function UserStatusPage() {
   return (
     <div className="container-usersatus">
       {/* <NavBar /> */}
-      <h1>Pagina do user</h1>
+      <h1>USER STATUS PAGE</h1>
     </div>
   );
 }

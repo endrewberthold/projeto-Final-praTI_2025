@@ -64,7 +64,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Configuração CORS mais permissiva
-        configuration.setAllowedOrigins(List.of("http://localhost", "http://frontend", "http://frontend/80", "http://localhost:80"));
+        configuration.setAllowedOrigins(List.of("http://localhost", "http://frontend", "http://frontend/80", "http://localhost:80", "http://localhost:8080", "http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(false);

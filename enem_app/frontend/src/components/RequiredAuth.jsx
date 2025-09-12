@@ -1,23 +1,24 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import Dashboard from "../pages/Dashboard";
 import NavBar from "./NavBar";
 
-export default function RequireAuth() {
+const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
-  console.log("LOCATION REQUIRED: ", location);
-  console.log(auth.accessToken);
 
-  return auth?.accessToken ? (
+  //console.log("REQUIRED: ", location);
+  //console.log("AUTH: ", auth);
+  //return auth?.role?.find((role) => allowedRoles?.includes(role)) ? (
+  return auth?.role === "USER" ? (
     <>
       <NavBar />
-      {/* <Dashboard /> */}
       <Outlet />
     </>
+  ) : auth?.accessToken ? ( //changed from user to accessToken to persist login after refresh
+    <Navigate to="/dashboard" state={{ from: location }} replace />
   ) : (
-    //<Dashboard />
     <Navigate to="/" state={{ from: location }} replace />
-    // <Navigate to="/dashboard" replace />
   );
-}
+};
+
+export default RequireAuth;

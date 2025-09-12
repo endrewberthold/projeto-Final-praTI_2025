@@ -37,13 +37,7 @@ export default function Dashboard() {
 
       <div>
         <NavLink to="/SkillPage">
-          <CardSkillsDashboard
-            //icone={<BiMath />} erro ao passar assim ou com ''
-            titulo={"Titulo"}
-            porcentagem={30}
-            questoes={200}
-            conteudoVerso={true}
-          />
+          <CardSkillsDashboard />
         </NavLink>
       </div>
     </div>

@@ -1,72 +1,36 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
 import { Routes, Route } from "react-router-dom";
 
+import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
-import PraticarPage from "./pages/PraticarPage";
+
 import FlashCardPage from "./pages/FlashCardPage";
-import UserStatusPage from "./pages/UserStatusPage";
-import NotfountPage from "./pages/NotfountPage";
-import FormularioLogin from "./components/FormularioLogin";
 
-import Home from "./pages/Home";
+import RegisterForm from "./components/RegisterForm";
+import LoginForm from "./components/LoginForm";
 
-import TelaLogin from "./pages/TelaLogin";
-import Enter from "./pages/Enter";
 import RequireAuth from "./components/RequiredAuth";
-
-// IMPORTANTE: Mude a rota principal para o componente de login
-// const router = createBrowserRouter([
-//   {
-//     // A rota "/" agora vai para a TelaLogin
-//     path: "/",
-//     element: <TelaLogin />,
-//     errorElement: <NotfountPage />,
-//   },
-//   {
-//     path: "/praticar",
-//     element: <PraticarPage />,
-//   },
-//   {
-//     path: "/flashcards",
-//     element: <FlashCardPage />,
-//   },
-//   {
-//     path: "/userStatus",
-//     element: <UserStatusPage />,
-//   },
-//   {
-//     // A sua rota de login ainda pode existir para ser acessada diretamente
-//     path: "/login",
-//     element: <TelaLogin />,
-//   },
-//   {
-//     // Crie uma rota separada para o Dashboard
-//     path: "/dashboard",
-//     element: <Dashboard />,
-//   },
-// ]);
+import UserStatusPage from "./pages/UserStatusPage";
+import SkillPage from "./pages/SkillPage";
 
 function App() {
-  //return <RouterProvider router={router} />;
-
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Enter />}>
-          {/* Public Routes */}
-          <Route path="/" element={<FormularioLogin />} />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* Public Routes */}
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
 
-          {/* Protected Routes */}
-          <Route element={<RequireAuth />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/flashcardPage" element={<FlashCardPage />} />
-            <Route path="/userStatusPage" element={<UserStatusPage />} />
-            <Route path="/SkillPage" element={<PraticarPage />} />
-          </Route>
+        {/* Protected Routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/flashCardPage" element={<FlashCardPage />} />
+          <Route path="/userStatusPage" element={<UserStatusPage />} />
+          <Route path="/SkillPage" element={<SkillPage />} />
         </Route>
-      </Routes>
-    </>
+      </Route>
+    </Routes>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "../api/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const REGISTER_URL = "/api/auth/register";
 
@@ -10,6 +10,10 @@ export default function RegisterForm() {
   const [password, setPassword] = useState();
 
   const userRef = useRef();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -23,6 +27,7 @@ export default function RegisterForm() {
       );
 
       console.log(response);
+      navigate(from, { replace: true });
     } catch (err) {
       console.log("ERRO ON REGISTER: ", err);
     }

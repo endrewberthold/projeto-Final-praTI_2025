@@ -17,13 +17,7 @@ export default function Dashboard() {
           <FlashCardDashboard />
         </NavLink>
         <NavLink to="/userStatusPage">
-          <UserStatusDashboard
-            imagemPerfil="/"
-            porcentagem={50}
-            nivel={2}
-            tempoDeEstudo={120}
-            numeroDeRespostasCertas={20}
-          />
+          <UserStatusDashboard />
         </NavLink>
       </div>
 

@@ -88,7 +88,7 @@ public class PasswordResetService {
     }
 
     /**
-     * Valida se um token é válido
+     * Verifica se um token é válido
      */
     public ValidateTokenResponse validateResetToken(String token) {
         try {

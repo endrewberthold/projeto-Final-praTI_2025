@@ -19,7 +19,10 @@ public class FlashcardController {
 
     private final FlashcardService flashcardService;
 
-    @PostMapping
+    /** @author Endrew
+     *Endpoint para criar o flashcard
+     ***/
+    @PostMapping()
     public ResponseEntity<FlashcardResponseDTO> createFlashcard(
             @AuthenticationPrincipal User principal,
             @Valid @RequestBody FlashcardRequestDTO dto
@@ -29,7 +32,10 @@ public class FlashcardController {
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping
+    /** @author Endrew
+     *Endpoint para visualizar o flashcard
+     ***/
+    @GetMapping()
     public ResponseEntity<Page<FlashcardResponseDTO>> getUserFlashcards(
             @AuthenticationPrincipal User principal,
             @RequestParam(required = false) String areaId,
@@ -43,7 +49,10 @@ public class FlashcardController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/")
+    /** @author Endrew
+     *Endpoint para editar o flashcard
+     ***/
+    @PutMapping("/{id}")
     public ResponseEntity<FlashcardResponseDTO> updateFlashcard(
             @AuthenticationPrincipal User principal,
             @PathVariable Long id,
@@ -54,7 +63,10 @@ public class FlashcardController {
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/")
+    /** @author Endrew
+     *Endpoint para deletar o flashcard
+     ***/
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlashcard(
             @AuthenticationPrincipal User principal,
             @PathVariable Long id

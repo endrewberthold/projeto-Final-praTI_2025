@@ -1,10 +1,9 @@
 import React from "react";
 import Cardlvl from "../components/Cardlvl";
-
-export default function PraticarPage() {
+export default function SkillPage() {
   return (
     <div>
-      <h1>Praticar</h1>
+      <h1>SkillPage</h1>
 
       <Cardlvl
         titulo="lvl 001"

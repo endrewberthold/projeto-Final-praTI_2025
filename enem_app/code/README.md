@@ -2,8 +2,10 @@
 
 ## Autenticação
 
-### *Login*
+### _Login_
+
 Retorna toda a estrutura do json, coletando dados do usuário, token de acesso e token de sessão, que expira a cada 1h.
+
 ```javascript
 async function login(email, password) {
     let url = `http://localhost/api/auth/login`;
@@ -34,27 +36,32 @@ POST http://localhost:8080/api/auth/login
     "password": ""
 }
 ```
-*Retorno do login*
+
+_Retorno do login_
+
 ```json
 {
-    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6ImpvYW9AZW1haWwuY29tIiwiaWF0IjoxNzU3MTc2Mjc4LCJleHAiOjE3NTcyNjI2Nzh9.bfLq6OWJJKYBK3oFJGnH7UWyQA8Cjs-QG4ETMK5ewcY",
-    "refreshToken": "1e90ea40-6b1f-4729-bcdf-dcb25622c863",
-    "tokenType": "Bearer",
-    "expiresIn": 86400000,
-    "user": {
-        "name": "Joao",
-        "email": "joao@email.com",
-        "role": "USER",
-        "createAt": 1757176257.184510000,
-        "xpPoints": 0,
-        "level": 1,
-        "provider": "local",
-        "isOauthUser": false
-    }
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6ImpvYW9AZW1haWwuY29tIiwiaWF0IjoxNzU3MTc2Mjc4LCJleHAiOjE3NTcyNjI2Nzh9.bfLq6OWJJKYBK3oFJGnH7UWyQA8Cjs-QG4ETMK5ewcY",
+  "refreshToken": "1e90ea40-6b1f-4729-bcdf-dcb25622c863",
+  "tokenType": "Bearer",
+  "expiresIn": 86400000,
+  "user": {
+    "name": "Joao",
+    "email": "joao@email.com",
+    "role": "USER",
+    "createAt": 1757176257.18451,
+    "xpPoints": 0,
+    "level": 1,
+    "provider": "local",
+    "isOauthUser": false
+  }
 }
 ```
+
 ---
-### *Logout*
+
+### _Logout_
+
 ```javascript
 async function logout(refreshToken) {
     let url = `http://localhost/api/auth/logout`;
@@ -83,8 +90,11 @@ POST http://localhost:8080/api/auth/logout
     "refreshToken": ""
 }
 ```
+
 ---
-### *Register*
+
+### _Register_
+
 ```javascript
 async function registerUser(name, email, password) {
     let url = `http://localhost/api/auth/register`;
@@ -117,8 +127,11 @@ POST http://localhost:8080/api/auth/register
     "password": ""
 }
 ```
+
 ---
-### *Forgot Password*
+
+### _Forgot Password_
+
 ```javascript
 async function forgotPassword(email) {
     let url = `http://localhost/api/auth/forgot-password`;
@@ -147,8 +160,11 @@ POST http://localhost:8080/api/auth/forgot-password
     "email": ""
 }
 ```
+
 ---
-### *Validate Reset Token*
+
+### _Validate Reset Token_
+
 ```javascript
 async function validateResetToken(token) {
     let url = `http://localhost/api/auth/validate-reset-token/${token}`;
@@ -162,8 +178,11 @@ async function validateResetToken(token) {
 //Method
 GET http://localhost:8080/api/auth/validate-reset-token/{token}
 ```
+
 ---
-### *Reset Password*
+
+### _Reset Password_
+
 ```javascript
 async function resetPassword(token, newPassword, confirmPassword) {
     let url = `http://localhost/api/auth/reset-password`;
@@ -196,8 +215,11 @@ POST http://localhost:8080/api/auth/reset-password
     "confirmPassword": ""
 }
 ```
+
 ---
-### *Refresh Token*
+
+### _Refresh Token_
+
 ```javascript
 async function refreshToken(refreshToken) {
     let url = `http://localhost/api/auth/refresh`;
@@ -226,8 +248,11 @@ Content-Type: application/json
   "refreshToken": ""
 }
 ```
+
 ---
-### *User Profile*
+
+### _User Profile_
+
 ```javascript
 async function getProfile() {
     let url = `http://localhost/api/user/profile`;
@@ -241,12 +266,16 @@ async function getProfile() {
 //Method
 GET http://localhost:8080/api/user/profile
 ```
+
 ---
+
 ## Flashcards
+
 O usuário deve estar com o estado logado, a partir do AcessToken que é enviado como resposta no json de retorno do login.
 O Header precisa receber um Bearer {token} para que o usuário logado consiga manipular os recursos, isto vale para todos os métodos GET, PUT, POST and DELETE dos flashcards.
 
-### *Create Flashcard*
+### _Create Flashcard_
+
 ```javascript
 async function createFlashcard(term, areaId, description) {
     let url = `http://localhost/api/flashcards`;
@@ -280,7 +309,8 @@ Content-Type: application/json
 }
 ```
 
-### *Update Flashcard*
+### _Update Flashcard_
+
 ```javascript
 async function updateFlashcard(id, term, areaId, description) {
     let url = `http://localhost/api/flashcards/${id}`;
@@ -314,7 +344,8 @@ PUT http://localhost:8080/api/flashcards/{{id}}
 }
 ```
 
-### *Delete Flashcard*
+### _Delete Flashcard_
+
 ```javascript
 async function deleteFlashcard(id) {
     let url = `http://localhost/api/flashcards/${id}`;
@@ -329,8 +360,10 @@ async function deleteFlashcard(id) {
 DELETE http://localhost:8080/api/flashcards/{{id}}
 ```
 
-### *Read Flashcards*
+### _Read Flashcards_
+
 Este endpoint retorna todos os flashcards criados pelo usuário.
+
 ```javascript
 async function getUserFlashcards(areaId) {
     let url = `http://localhost/api/flashcards&areaId=${encodeURIComponent(areaId)}`;
@@ -343,5 +376,5 @@ async function getUserFlashcards(areaId) {
 
 //Method
 GET http://localhost:8080/api/flashcards?
-    areaId={{$random.alphanumeric(8)}}
+
 ```

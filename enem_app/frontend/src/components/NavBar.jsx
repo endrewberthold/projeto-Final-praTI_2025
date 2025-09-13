@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { MdBookmark, MdBookmarkBorder } from 'react-icons/md';
-import { GoHome, GoHomeFill } from 'react-icons/go';
-import { LuCrown } from 'react-icons/lu';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from "react";
+import { MdBookmark, MdBookmarkBorder } from "react-icons/md";
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { LuCrown } from "react-icons/lu";
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
-  const [selecionado, setSelecionado] = useState('home');
+  const [selecionado, setSelecionado] = useState("home");
 
   return (
     <div className="navbar-container">
@@ -13,44 +13,44 @@ export default function NavBar() {
         <div id="navbar-interno">
           <div id="botoes">
             <NavLink
-              to="/flashcards"
+              to="/flashcardPage"
               className="nav-botao"
               onClick={() => {
-                setSelecionado('bookmark');
+                setSelecionado("bookmark");
               }}
             >
-              {selecionado === 'bookmark' ? (
-                <MdBookmark size={'2rem'} />
+              {selecionado === "bookmark" ? (
+                <MdBookmark size={"2rem"} />
               ) : (
-                <MdBookmarkBorder size={'1.5rem'} />
+                <MdBookmarkBorder size={"1.5rem"} />
               )}
             </NavLink>
 
             <NavLink
-              to="/"
+              to="/dashboard"
               className="nav-botao"
               onClick={() => {
-                setSelecionado('home');
+                setSelecionado("home");
               }}
             >
-              {selecionado === 'home' ? (
-                <GoHomeFill size={'2rem'} />
+              {selecionado === "home" ? (
+                <GoHomeFill size={"2rem"} />
               ) : (
-                <GoHome size={'1.5rem'} />
+                <GoHome size={"1.5rem"} />
               )}
             </NavLink>
 
             <NavLink
-              to="/userStatus"
+              to="/userStatusPage"
               className="nav-botao"
               onClick={() => {
-                setSelecionado('crown');
+                setSelecionado("crown");
               }}
             >
-              {selecionado === 'crown' ? (
-                <LuCrown size={'2rem'} fill="black" />
+              {selecionado === "crown" ? (
+                <LuCrown size={"2rem"} fill="black" />
               ) : (
-                <LuCrown size={'1.5rem'} />
+                <LuCrown size={"1.5rem"} />
               )}
             </NavLink>
           </div>

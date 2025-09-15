@@ -166,3 +166,193 @@ CREATE INDEX ix_questions_difficulty ON questions (difficulty);
 CREATE INDEX ix_questions_area_competency_skill ON questions (area_id, competency_id, skill_id);
 CREATE INDEX ix_skills_competency ON skills (competency_id);
 
+--Inserção de dados
+
+INSERT INTO levels (name, min_difficulty, max_difficulty) VALUES
+                                                              ('Muito Fácil',  1, 10),
+                                                              ('Fácil', 11, 17),
+                                                              ('Médio', 18, 24),
+                                                              ('Difícil', 25, 29),
+                                                              ('Muito Difícil', 30, 99);
+
+-- Inserção de competências da área LC, conforme Matriz de Referência do ENEM
+
+INSERT INTO competencies (area_id, description) VALUES
+                                                    ('LC', 'Aplicar as tecnologias da comunicacao e da informacao na escola, no trabalho e em outros contextos relevantes para sua vida.'),
+                                                    ('LC', 'Conhecer e usar linguas estrangeiras modernas como instrumento de acesso a informacoes e a outras culturas e grupos sociais.'),
+                                                    ('LC', 'Compreender e usar a linguagem corporal como relevante para a propria vida, integradora social e formadora da identidade.'),
+                                                    ('LC', 'Compreender a arte como saber cultural e estetico gerador de significacao e integrador da organizacao do mundo e da propria identidade.'),
+                                                    ('LC', 'Analisar, interpretar e aplicar recursos expressivos das linguagens, relacionando textos com seus contextos, mediante a natureza, funcao, organizacao e estrutura das manifestacoes.'),
+                                                    ('LC', 'Compreender e usar os sistemas simbolicos das diferentes linguagens como meios de organizacao cognitiva da realidade pela constituicao de significados, expressao, comunicacao e informacao.');
+
+-- Inserção de habilidades (skills) para LC (cada competência associada sequencialmente às habilidades)
+INSERT INTO skills (competency_id, code, description) VALUES
+-- Competência 1 (LC) – habilidades H1 a H4
+
+(1, 'H1', 'Identificar as diferentes linguagens e seus recursos expressivos como elementos de caracterizacao dos sistemas de comunicacao.'),
+(1, 'H2', 'Recorrer aos conhecimentos sobre as linguagens dos sistemas de comunicacao e informacao para resolver problemas sociais.'),
+(1, 'H3', 'Relacionar informacoes geradas nos sistemas de comunicacao e informacao, considerando a funcao social desses sistemas.'),
+(1, 'H4', 'Reconhecer posicoes criticas aos usos sociais que sao feitos das linguagens e dos sistemas de comunicacao e informacao.'),
+-- Competência 2 (LC) – habilidades H5 a H8
+
+(2, 'H5', 'Associar vocabulos e expressoes de um texto em LEM ao seu tema.'),
+(2, 'H6', 'Utilizar os conhecimentos da LEM e de seus mecanismos como meio de ampliar as possibilidades de acesso a informacoes, tecnologias e culturas.'),
+(2, 'H7', 'Relacionar um texto em LEM, as estruturas linguisticas, sua funcao e seu uso social.'),
+(2, 'H8', 'Reconhecer a importancia da producao cultural em LEM como representacao da diversidade cultural e linguistica.'),
+-- Competência 3 (LC) – habilidades H9 a H11
+
+(3, 'H9', 'Reconhecer as manifestacoes corporais de movimento como originarias de necessidades cotidianas de um grupo social.'),
+(3, 'H10', 'Reconhecer a necessidade de transformacao de habitos corporais em funcao das necessidades cinestesicas.'),
+(3, 'H11', 'Reconhecer a linguagem corporal como meio de interacao social, considerando os limites de desempenho e as alternativas de adaptacao para diferentes individuos.'),
+-- Competência 4 (LC) – habilidades H12 a H14
+
+(4, 'H12', 'Reconhecer diferentes funcoes da arte, do trabalho da producao dos artistas em seus meios culturais.'),
+(4, 'H13', 'Analisar as diversas producoes artisticas como meio de explicar diferentes culturas, padroes de beleza e preconceitos.'),
+(4, 'H14', 'Reconhecer o valor da diversidade artistica e das inter-relacoes de elementos que se apresentam nas manifestacoes de varios grupos sociais e etnicos.'),
+-- Competência 5 (LC) – habilidades H15 a H17
+
+(5, 'H15', 'Estabelecer relacoes entre o texto literario e o momento de sua producao, situando aspectos do contexto historico, social e politico.'),
+(5, 'H16', 'Relacionar informacoes sobre concepcoes artisticas e procedimentos de construcao do texto literario.'),
+(5, 'H17', 'Reconhecer a presenca de valores sociais e humanos atualizaveis e permanentes no patrimonio literario nacional.'),
+-- Competência 6 (LC) – habilidades H18 a H20
+
+(6, 'H18', 'Identificar os elementos que concorrem para a progressao tematica e para a organizacao e estruturacao de textos de diferentes generos e tipos.'),
+(6, 'H19', 'Analisar a funcao da linguagem predominante nos textos em situacoes especificas de interlocucao.'),
+(6, 'H20', 'Reconhecer a importancia do patrimonio linguistico para a preservacao da memoria e da identidade nacional.');
+
+-- Inserção de competências da área CH, conforme Matriz de Referência do ENEM
+
+INSERT INTO competencies (area_id, description) VALUES
+                                                    ('CH', 'Compreender os elementos culturais que constituem as identidades.'),
+                                                    ('CH', 'Compreender as transformacoes dos espacos geograficos como produto das relacoes socioeconomicas e culturais de poder.'),
+                                                    ('CH', 'Compreender a producao e o papel historico das instituicoes sociais, politicas e economicas, associando-as aos diferentes grupos, conflitos e movimentos sociais.'),
+                                                    ('CH', 'Entender as transformacoes tecnicas e tecnologicas e seu impacto nos processos de producao, no desenvolvimento do conhecimento e na vida social.'),
+                                                    ('CH', 'Utilizar os conhecimentos historicos para compreender e valorizar os fundamentos da cidadania e da democracia, favorecendo uma atuacao consciente do individuo na sociedade.');
+
+-- Inserção de habilidades para CH (cada competência com 4 habilidades)
+INSERT INTO skills (competency_id, code, description) VALUES
+-- Competência 7 (CH) – habilidades H1 a H4
+
+(7, 'H1', 'Interpretar historicamente e/ou geograficamente fontes documentais acerca de aspectos da cultura.'),
+(7, 'H2', 'Analisar a producao da memoria pelas sociedades humanas.'),
+(7, 'H3', 'Associar as manifestacoes culturais do presente aos seus processos historicos.'),
+(7, 'H4', 'Comparar pontos de vista expressos em diferentes fontes sobre determinado aspecto da cultura.'),
+-- Competência 8 (CH) – habilidades H6 a H9
+
+(8, 'H6', 'Interpretar diferentes representacoes graficas e cartograficas dos espacos geograficos.'),
+(8, 'H7', 'Identificar os significados historico-geograficos das relacoes de poder entre as nacoes.'),
+(8, 'H8', 'Analisar a acao dos estados nacionais no que se refere a dinamica dos fluxos populacionais e no enfrentamento de problemas de ordem economico-social.'),
+(8, 'H9', 'Comparar o significado historico-geografico das organizacoes politicas e socioeconomicas em escala local, regional ou mundial.'),
+-- Competência 9 (CH) – habilidades H11 a H14
+
+(9, 'H11', 'Identificar registros de praticas de grupos sociais no tempo e no espaco.'),
+(9, 'H12', 'Analisar o papel da justica como instituicao na organizacao das sociedades.'),
+(9, 'H13', 'Analisar a atuacao dos movimentos sociais que contribuíram para mudancas ou rupturas em processos de disputa pelo poder.'),
+(9, 'H14', 'Comparar diferentes pontos de vista, presentes em textos analiticos e interpretativos, sobre situacoes ou fatos de natureza historico-geografica acerca das instituicoes sociais, politicas e economicas.'),
+-- Competência 10 (CH) – habilidades H16 a H19
+
+(10, 'H16', 'Identificar registros sobre o papel das tecnicas e tecnologias na organizacao do trabalho e/ou da vida social.'),
+(10, 'H17', 'Analisar fatores que explicam o impacto das novas tecnologias no processo de territorializacao da producao.'),
+(10, 'H18', 'Analisar diferentes processos de producao ou circulacao de riquezas e suas implicacoes socio-espaciais.'),
+(10, 'H19', 'Reconhecer as transformacoes tecnicas e tecnologicas que determinam as varias formas de uso e apropriacao dos espacos rural e urbano.'),
+-- Competência 11 (CH) – habilidades H21 a H24
+
+(11, 'H21', 'Identificar o papel dos meios de comunicacao na construcao da vida social.'),
+(11, 'H22', 'Analisar as lutas sociais e conquistas obtidas no que se refere as mudancas nas legislacoes ou nas politicas publicas.'),
+(11, 'H23', 'Analisar a importancia dos valores eticos na estruturacao politica das sociedades.'),
+(11, 'H24', 'Relacionar cidadania e democracia na organizacao das sociedades.');
+
+-- Inserção de competências da área CN, conforme Matriz de Referência do ENEM
+
+INSERT INTO competencies (area_id, description) VALUES
+                                                    ('CN', 'Compreender as ciencias naturais e as tecnologias a elas associadas como construcoes humanas, percebendo seus papeis nos processos de producao e no desenvolvimento economico e social da humanidade.'),
+                                                    ('CN', 'Identificar a presenca e aplicar as tecnologias associadas as ciencias naturais em diferentes contextos.'),
+                                                    ('CN', 'Associar intervencoes que resultam em degradacao ou conservacao ambiental a processos produtivos e sociais e a instrumentos ou acoes cientifico-tecnologicos.'),
+                                                    ('CN', 'Compreender interacoes entre organismos e ambiente, em particular aquelas relacionadas a saude humana, relacionando conhecimentos cientificos, aspectos culturais e caracteristicas individuais.'),
+                                                    ('CN', 'Entender metodos e procedimentos proprios das ciencias naturais e aplica-los em diferentes contextos.'),
+                                                    ('CN', 'Apropriar-se de conhecimentos da fisica para, em situacoes problema, interpretar, avaliar ou planejar intervencoes cientifico-tecnologicas.');
+
+-- Inserção de habilidades para CN
+INSERT INTO skills (competency_id, code, description) VALUES
+-- Competência 1 (CN) – habilidades H1 a H4
+
+(12, 'H1', 'Reconhecer caracteristicas ou propriedades de fenomenos ondulatorios ou oscilatorios, relacionando-os a seus usos em diferentes contextos.'),
+(12, 'H2', 'Associar a solucao de problemas de comunicacao, transporte, saude ou outro, com o correspondente desenvolvimento cientifico e tecnologico.'),
+(12, 'H3', 'Confrontar interpretacoes cientificas com interpretacoes baseadas no senso comum, ao longo do tempo ou em diferentes culturas.'),
+(12, 'H4', 'Avaliar propostas de intervencao no ambiente, considerando a qualidade da vida humana ou medidas de conservacao, recuperacao ou utilizacao sustentavel da biodiversidade.'),
+-- Competência 13 (CN) – habilidades H5 a H7
+
+(13, 'H5', 'Dimensionar circuitos ou dispositivos eletricos de uso cotidiano.'),
+(13, 'H6', 'Relacionar informacoes para compreender manuais de instalacao ou utilizacao de aparelhos, ou sistemas tecnologicos de uso comum.'),
+(13, 'H7', 'Selecionar testes de controle, parametros ou criterios para a comparacao de materiais e produtos, tendo em vista a defesa do consumidor, a saude do trabalhador ou a qualidade de vida.'),
+-- Competência 14 (CN) – habilidades H8 a H11
+
+(14, 'H8', 'Identificar etapas em processos de obtencao, transformacao, utilizacao ou reciclacao de recursos naturais, energeticos ou materias-primas, considerando processos biologicos, quimicos ou fisicos neles envolvidos.'),
+(14, 'H9', 'Compreender a importancia dos ciclos biogeoquimicos ou do fluxo de energia para a vida, ou da acao de agentes ou fenomenos que podem causar alteracoes nesses processos.'),
+(14, 'H10', 'Analisar perturbacoes ambientais, identificando fontes, transporte e (ou) destino dos poluentes ou prevendo efeitos em sistemas naturais, produtivos ou sociais.'),
+(14, 'H11', 'Reconhecer beneficios, limitacoes e aspectos eticos da biotecnologia, considerando estruturas e processos biologicos envolvidos em produtos biotecnologicos.'),
+-- Competência 15 (CN) – habilidades H13 a H16
+
+(15, 'H13', 'Reconhecer mecanismos de transmissao da vida, prevendo ou explicando a manifestacao de caracteristicas dos seres vivos.'),
+(15, 'H14', 'Identificar padroes em fenomenos e processos vitais dos organismos, como manutencao do equilibrio interno, defesa, relacoes com o ambiente, sexualidade, entre outros.'),
+(15, 'H15', 'Interpretar modelos e experimentos para explicar fenomenos ou processos biologicos em qualquer nivel de organizacao dos sistemas biologicos.'),
+(15, 'H16', 'Compreender o papel da evolucao na producao de padroes, processos biologicos ou na organizacao taxonomica dos seres vivos.'),
+-- Competência 16 (CN) – habilidades H17 a H19
+
+(16, 'H17', 'Relacionar informacoes apresentadas em diferentes formas de linguagem e representacao usadas nas ciencias fisicas, quimicas ou biologicas, como texto discursivo, graficos, tabelas, relacoes matematicas ou linguagem simbolica.'),
+(16, 'H18', 'Relacionar propriedades fisicas, quimicas ou biologicas de produtos, sistemas ou procedimentos tecnologicos as finalidades a que se destinam.'),
+(16, 'H19', 'Avaliar metodos, processos ou procedimentos das ciencias naturais que contribuam para diagnosticar ou solucionar problemas de ordem social, economica ou ambiental.'),
+-- Competência 17 (CN) – habilidades H20 e H21
+
+(17, 'H20', 'Caracterizar causas ou efeitos dos movimentos de particulas, substancias, objetos ou corpos celestes.'),
+(17, 'H21', 'Utilizar leis fisicas e (ou) quimicas para interpretar processos naturais.');
+
+-- Inserção de competências da área MT, conforme Matriz de Referência do ENEM
+
+INSERT INTO competencies (area_id, description) VALUES
+                                                    ('MT', 'Construir significados para os numeros naturais, inteiros, racionais e reais.'),
+                                                    ('MT', 'Utilizar o conhecimento geometrico para realizar a leitura e a representacao da realidade e agir sobre ela.'),
+                                                    ('MT', 'Construir nocoes de grandezas e medidas para a compreensao da realidade e a solucao de problemas do cotidiano.'),
+                                                    ('MT', 'Construir nocoes de variacao de grandezas para a compreensao da realidade e a solucao de problemas do cotidiano.'),
+                                                    ('MT', 'Modelar e resolver problemas que envolvem variaveis socioeconomicas ou tecnico-cientificas, usando representacoes algebraicas.'),
+                                                    ('MT', 'Interpretar informacoes de natureza cientifica e social obtidas da leitura de graficos e tabelas, realizando previsao de tendencia, extrapolacao, interpolacao e interpretacao.');
+
+-- Inserção de habilidades para MT
+INSERT INTO skills (competency_id, code, description) VALUES
+-- Competência 18 (MT) – habilidades H1 a H4
+
+(18, 'H1', 'Reconhecer, no contexto social, diferentes significados e representacoes dos numeros e operacoes - naturais, inteiros, racionais ou reais.'),
+(18, 'H2', 'Identificar padroes numericos ou principios de contagem.'),
+(18, 'H3', 'Resolver situacao-problema envolvendo conhecimentos numericos.'),
+(18, 'H4', 'Avaliar a razoabilidade de um resultado numerico na construcao de argumentos sobre afirmacoes quantitativas.'),
+-- Competência 19 (MT) – habilidades H6 a H9
+
+(19, 'H6', 'Interpretar a localizacao e a movimentacao de pessoas/objetos no espaco tridimensional e sua representacao no espaco bidimensional.'),
+(19, 'H7', 'Identificar caracteristicas de figuras planas ou espaciais.'),
+(19, 'H8', 'Resolver situacao-problema que envolva conhecimentos geometricos de espaco e forma.'),
+(19, 'H9', 'Utilizar conhecimentos geometricos de espaco e forma na selecao de argumentos propostos como solucao de problemas do cotidiano.'),
+-- Competência 20 (MT) – habilidades H10 a H13
+
+(20, 'H10', 'Identificar relacoes entre grandezas e unidades de medida.'),
+(20, 'H11', 'Utilizar a nocao de escalas na leitura de representacao de situacao do cotidiano.'),
+(20, 'H12', 'Resolver situacao-problema que envolva medidas de grandezas.'),
+(20, 'H13', 'Avaliar o resultado de uma medicao na construcao de um argumento consistente.'),
+-- Competência 21 (MT) – habilidades H15 a H18
+
+(21, 'H15', 'Identificar a relacao de dependencia entre grandezas.'),
+(21, 'H16', 'Resolver situacao-problema envolvendo a variacao de grandezas, direta ou inversamente proporcionais.'),
+(21, 'H17', 'Analisar informacoes envolvendo a variacao de grandezas como recurso para a construcao de argumentacao.'),
+(21, 'H18', 'Avaliar propostas de intervencao na realidade envolvendo variacao de grandezas.'),
+-- Competência 22 (MT) – habilidades H19 a H22
+
+
+(22, 'H19', 'Identificar representacoes algebraicas que expressem a relacao entre grandezas.'),
+(22, 'H20', 'Interpretar grafico cartesiano que represente relacoes entre grandezas.'),
+(22, 'H21', 'Resolver situacao-problema cuja modelagem envolva conhecimentos algebricos.'),
+(22, 'H22', 'Utilizar conhecimentos algebraicos/ geometricos como recurso para a construcao de argumentacao.'),
+-- Competência 23 (MT) – habilidades H24 a H26
+
+(23, 'H24', 'Utilizar informacoes expressas em graficos ou tabelas para fazer inferencias.'),
+(23, 'H25', 'Resolver problema com dados apresentados em tabelas ou graficos.'),
+(23, 'H26', 'Analisar informacoes expressas em graficos ou tabelas como recurso para a construcao de argumentos.');
+

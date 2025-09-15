@@ -168,6 +168,13 @@ CREATE INDEX ix_skills_competency ON skills (competency_id);
 
 --Inserção de dados
 
+INSERT INTO public.knowledge_areas (id, name) VALUES
+                                                  ('LC', 'Linguagens, Códigos e suas Tecnologias'),
+                                                  ('CH', 'Ciências Humanas e suas Tecnologias'),
+                                                  ('CN', 'Ciências da Natureza e suas Tecnologias'),
+                                                  ('MT', 'Matemática e suas Tecnologias');
+
+
 INSERT INTO levels (name, min_difficulty, max_difficulty) VALUES
                                                               ('Muito Fácil',  1, 10),
                                                               ('Fácil', 11, 17),

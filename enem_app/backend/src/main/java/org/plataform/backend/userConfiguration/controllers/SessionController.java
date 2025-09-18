@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SessionController {
     private final SessionService sessionService;
 
+    /**@author Endrew
+     * endpoint utilizado para iniciar uma sessão de perguntas
+     * todas as sessões contem um id, numero de questoes [5], e o horario de inicio da sessão
+     * **/
     @PostMapping({"/start"})
     public ResponseEntity<SessionStartResponse> startSession(@AuthenticationPrincipal User principal, @RequestBody SessionStartRequest request) {
         Long userId = principal.getId();
@@ -26,6 +30,12 @@ public class SessionController {
         return ResponseEntity.status(201).body(resp);
     }
 
+    /**@author Endrew
+     * endpoint para finalizar a sessão de perguntas
+     * retorna uma estrutura com feedback da sessão
+     * quais competencias estavam sendo avaliadas nesta sessão
+     * e quais habilidades
+     * **/
     @PostMapping({"/{sessionId}/finish"})
     public ResponseEntity<SessionFinishResponseDTO> finishSession(@AuthenticationPrincipal User principal, @PathVariable Long sessionId) {
         Long userId = principal.getId();

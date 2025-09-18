@@ -21,7 +21,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    //endpoint é usado para que um usuário autenticado obtenha suas próprias informações de perfil
+    /**@author Jakeline
+     * endpoint é usado para que um usuário autenticado obtenha suas próprias informações de perfil
+     * **/
     @GetMapping("/profile")
     public ResponseEntity<UserResponse> getProfile() {
         // Obtém o objeto de autenticação do contexto de segurança
@@ -31,7 +33,9 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    //endpoint é usado para obter uma lista de todos os usuários do sistema
+    /**@author Jakeline
+     * endpoint é usado para obter uma lista de todos os usuários do sistema
+     * **/
     @GetMapping("/all")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();

@@ -4,6 +4,11 @@ import lombok.*;
 
 import java.util.List;
 
+/**@author Endrew
+ * Este dto cria a resposta da questão da sessão, contendo
+ * id, texto, img, dificuldade e uma lista de alternativas
+ * **/
+
 @Getter
 @Setter
 @NoArgsConstructor

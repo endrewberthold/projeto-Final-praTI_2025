@@ -363,3 +363,279 @@ INSERT INTO skills (competency_id, code, description) VALUES
 (23, 'H25', 'Resolver problema com dados apresentados em tabelas ou graficos.'),
 (23, 'H26', 'Analisar informacoes expressas em graficos ou tabelas como recurso para a construcao de argumentos.');
 
+-- Questão 1 (Competência 19, Skill 66 - identificar características de figuras planas)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 66, 'Uma figura plana tem três lados iguais e três ângulos internos congruentes. Que figura é essa?', 4.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Trapézio', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Retângulo', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Triângulo equilátero', true),
+                                                                     ( currval('questions_id_seq'), 'D', 'Losango', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Pentágono regular', false);
+
+-- Questão 2 (Competência 19, Skill 65 - interpretar localização/movimentação no espaço)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 65, 'Um ponto A tem coordenadas (2,3) num plano cartesiano e o ponto B tem coordenadas (5,3). Se um objeto se move de A para B, a que direção (horizontal/vertical) ele se deslocou?', 3.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Vertical para cima', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Vertical para baixo', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Horizontal para a direita', true),
+                                                                     ( currval('questions_id_seq'), 'D', 'Diagonal superior direita', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Diagonal inferior esquerda', false);
+
+-- Questão 3 (Competência 20, Skill 69 - identificar relações entre grandezas/unidades)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 20, 69, 'Um terreno tem 2 hectares. Quantos metros quadrados tem esse terreno? (1 hectare = 10.000 m²)', 5.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '2.000 m²', false),
+                                                                     ( currval('questions_id_seq'), 'B', '20.000 m²', true),
+                                                                     ( currval('questions_id_seq'), 'C', '200.000 m²', false),
+                                                                     ( currval('questions_id_seq'), 'D', '10.000 m²', false),
+                                                                     ( currval('questions_id_seq'), 'E', '5.000 m²', false);
+
+-- Questão 4 (Competência 20, Skill 70 - utilizar noção de escalas)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 20, 70, 'Num mapa com escala 1:50.000, 1 cm no mapa representa 500 m na realidade. Qual a distância real representada por 3 cm no mapa?', 4.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '150 m', false),
+                                                                     ( currval('questions_id_seq'), 'B', '1500 m', false),
+                                                                     ( currval('questions_id_seq'), 'C', '15000 m', false),
+                                                                     ( currval('questions_id_seq'), 'D', '1500 km', false),
+                                                                     ( currval('questions_id_seq'), 'E', '1500 m (1,5 km)', true);
+
+-- Questão 5 (Competência 19, Skill 67 - resolver situação-problema com conhecimentos de espaço e forma)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 67, 'Para construir uma caixa retangular com base 2 m por 3 m e altura 1 m, qual é o volume da caixa em metros cúbicos?', 5.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '5 m³', false),
+                                                                     ( currval('questions_id_seq'), 'B', '6 m³', true),
+                                                                     ( currval('questions_id_seq'), 'C', '3 m³', false),
+                                                                     ( currval('questions_id_seq'), 'D', '2 m³', false),
+                                                                     ( currval('questions_id_seq'), 'E', '1 m³', false);
+
+-- Questão 1 (Competência 19, Skill 67 - resolver situação-problema com espaço e forma)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 67, 'Um triângulo retângulo tem catetos medindo 9 cm e 12 cm. Qual é o comprimento da hipotenusa (em cm)?', 12.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '15', true),
+                                                                     ( currval('questions_id_seq'), 'B', '13', false),
+                                                                     ( currval('questions_id_seq'), 'C', '√225', false),
+                                                                     ( currval('questions_id_seq'), 'D', '21', false),
+                                                                     ( currval('questions_id_seq'), 'E', '√(81+144)', false);
+
+-- Questão 2 (Competência 19, Skill 65 - interpretar localização/movimentação no espaço)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 65, 'No plano cartesiano, um ponto parte de P(-2,4) e vai até Q(3,-1). Qual é o vetor de deslocamento PQ?', 11.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '(5, -5)', true),
+                                                                     ( currval('questions_id_seq'), 'B', '(-5, 5)', false),
+                                                                     ( currval('questions_id_seq'), 'C', '(5, 5)', false),
+                                                                     ( currval('questions_id_seq'), 'D', '(-3, 5)', false),
+                                                                     ( currval('questions_id_seq'), 'E', '(3, -1)', false);
+
+-- Questão 3 (Competência 20, Skill 69 - identificar relações entre grandezas/unidades)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 20, 69, 'Um carro percorre 90 km em uma hora. Qual é sua velocidade média em metros por segundo (m/s)? (1 km = 1000 m)', 14.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '25 m/s', false),
+                                                                     ( currval('questions_id_seq'), 'B', '90/3600 m/s', false),
+                                                                     ( currval('questions_id_seq'), 'C', '25,0 m/s', true),
+                                                                     ( currval('questions_id_seq'), 'D', '15 m/s', false),
+                                                                     ( currval('questions_id_seq'), 'E', '2,5 m/s', false);
+
+-- Questão 4 (Competência 20, Skill 71 - utilizar noção de escalas/medidas)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 20, 70, 'Num mapa a escala é 1:100.000. Se a distância real entre duas cidades é 120 km, qual será a distância aproximada no mapa em centímetros?', 13.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', '12 cm', false),
+                                                                     ( currval('questions_id_seq'), 'B', '120 cm', false),
+                                                                     ( currval('questions_id_seq'), 'C', '1,2 cm', false),
+                                                                     ( currval('questions_id_seq'), 'D', '1200 cm', false),
+                                                                     ( currval('questions_id_seq'), 'E', '1,20 cm', true);
+
+-- Questão 5 (Competência 19, Skill 68 - utilizar conhecimentos geométricos na seleção de argumentos)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('MT', 19, 68, 'Dois triângulos são semelhantes se seus ângulos correspondentes são congruentes. Se um triângulo tem lados 3, 4, 5 e outro triângulo tem um lado correspondente medindo 9, qual é a razão de semelhança e o comprimento do lado correspondente ao 4 (no primeiro)?', 16.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Razão 3; lado correspondente = 12', true),
+                                                                     ( currval('questions_id_seq'), 'B', 'Razão 2; lado correspondente = 8', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Razão 3; lado correspondente = 9', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Razão 1/3; lado correspondente = 4/3', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Razão 3; lado correspondente = 15', false);
+
+-- Q1 (Competência 1, Skill 1 H1: identificar linguagens e recursos expressivos)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 1, 'Em um anúncio publicitário, qual recurso linguístico mais contribui para chamar a atenção do leitor imediatamente?', 3.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Uso de imagens de baixa resolução', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Texto em parágrafos longos e densos', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Uso de um título curto e chamativo', true),
+                                                                     ( currval('questions_id_seq'), 'D', 'Ausência de contraste entre fundo e fonte', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Uso de linguagem excessivamente técnica', false);
+
+-- Q2 (Competência 1, Skill 2 H2: recorrer aos conhecimentos para resolver problemas sociais)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 2, 'Como a linguagem jornalística pode contribuir para resolver um problema social local?', 4.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Ignorando opiniões da comunidade', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Divulgando informações verificadas e promovendo debate público', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Publicando apenas informações técnicas sem contexto', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Privando a população de acesso à informação', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Usando linguagem incompreensível para o público', false);
+
+-- Q3 (Competência 2, Skill 5 H5: associar vocábulos de LEM ao tema)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 2, 5, 'Em um texto em língua estrangeira moderna sobre clima, o termo "precipitation" se refere a:', 4.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Temperatura', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Precipitação (chuva/queda de água)', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Vento forte', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Nível de poluição', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Nuvem baixa', false);
+
+-- Q4 (Competência 3, Skill 9 H9: reconhecer manifestações corporais de movimento)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 3, 9, 'Num espetáculo de teatro, um gesto repetido pelo personagem pode indicar principalmente:', 3.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Uma falha técnica', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Uma característica de personalidade ou emoção', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'O horário do espetáculo', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'O preço do ingresso', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'A iluminação de cena', false);
+
+-- Q5 (Competência 1, Skill 3 H3: relacionar informações geradas nos sistemas de comunicação)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 3, 'Ao comparar dois posts sobre o mesmo assunto em plataformas distintas, qual verificação é essencial para avaliar a credibilidade da informação?', 5.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Verificar se ambos têm o mesmo número de curtidas', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Checar a fonte original e referências citadas', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Considerar apenas o texto mais curto', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Desconsiderar comentários de leitores', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Confiar automaticamente em imagens compartilhadas', false);
+
+
+-- Q6 (Competência 2, Skill 6 H6: utilizar conhecimentos da LEM para ampliar acesso)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 2, 6, 'Leia trecho de um artigo em inglês: "The rapid dissemination of misinformation poses significant challenges to public health." Qual expressão melhor traduz a ideia central do trecho?', 22.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'A lenta difusão de informação melhora a saúde pública', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'A disseminação rápida de desinformação cria desafios à saúde pública', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'A informação não tem impacto na saúde pública', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Aumento da confiança em informações médicas', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'A diminuição de notícias online', false);
+
+
+-- Questão 1 – Interpretação de Texto
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 1, 'Qual é a principal ideia defendida pelo autor no texto?', 13.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'A importância da leitura crítica.', true),
+                                                                     ( currval('questions_id_seq'), 'B', 'A necessidade de mais tempo para leitura.', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'A crítica ao sistema educacional.', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'A defesa da leitura digital.', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'A valorização da literatura clássica.', false);
+
+-- Questão 2 – Literatura Brasileira
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 2, 'Quem é o autor da obra "Dom Casmurro"?', 12.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Machado de Assis', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'José de Alencar', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Aluísio Azevedo', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Clarice Lispector', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Machado de Assis', true);
+
+-- Questão 3 – Gramática
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 2, 6, 'Assinale a alternativa em que há erro de concordância verbal.', 14.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Ele vai ao mercado.', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Nós fomos à escola.', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'Eles cantam no coral.', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Eu vi o filme ontem.', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Tu vai ao cinema.', true);
+
+-- Questão 4 – Literatura Portuguesa
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 3, 9, 'Qual é o principal tema abordado na obra "Os Maias"?', 15.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'A crítica à sociedade portuguesa.', true),
+                                                                     ( currval('questions_id_seq'), 'B', 'A história de amor proibido.', false),
+                                                                     ( currval('questions_id_seq'), 'C', 'A luta pela independência.', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'A busca pela felicidade.', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'A imigração para o Brasil.', false);
+
+-- Questão 5 – Interpretação de Texto
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 4, 13, 'O que o autor pretende transmitir com a expressão "caminho das pedras"?', 16.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Facilidade e sucesso.', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Dificuldades e desafios.', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Caminho sem obstáculos.', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Rumo certo e sem erros.', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Caminho curto e rápido.', false);
+
+-- Q7 (Competência 1, Skill 4 H4: reconhecer posições críticas aos usos sociais das linguagens)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 4, 'Uma campanha publicitária que estereotipa um grupo social pode ser criticada porque:', 24.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Aumenta o acesso à informação', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Fortalece preconceitos e reproduz desigualdades', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Sempre promove inclusão social', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Melhora a comunicação intercultural', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Não tem relação com normas sociais', false);
+
+-- Q8 (Competência 3, Skill 11 H11: reconhecer linguagem corporal como meio de interação social)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 3, 11, 'Num contexto escolar, um professor que mantém postura corporal fechada e evita contato visual tende a transmitir:', 28.5);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Abertura e acolhimento', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Desinteresse ou distância', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Entusiasmo excessivo', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Alegria contagiante', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Clareza absoluta na comunicação', false);
+
+-- Q9 (Competência 2, Skill 7 H7: relacionar texto em LEM às estruturas linguísticas)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 2, 7, 'Num texto em inglês, a estrutura "Although he studied hard, he failed the exam." apresenta qual função sintática do "Although"?', 23.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Conexão causal (porque)', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Conjunção adversativa (embora)', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Partícula modal de dúvida', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Indicador de tempo futuro', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Conjunção de coordenação conclusiva', false);
+
+-- Q10 (Competência 1, Skill 1 H1: identificar diferentes linguagens e recursos expressivos)
+INSERT INTO questions (area_id, competency_id, skill_id, text, difficulty) VALUES
+    ('LC', 1, 1, 'Uma notícia multimodal combina texto, imagem e elementos gráficos. Qual é a vantagem principal desse formato para o leitor?', 21.0);
+
+INSERT INTO alternatives (question_id, letter, text, is_correct) VALUES
+                                                                     ( currval('questions_id_seq'), 'A', 'Reduzir a quantidade de informação disponível', false),
+                                                                     ( currval('questions_id_seq'), 'B', 'Facilitar a compreensão por múltiplos canais sensoriais', true),
+                                                                     ( currval('questions_id_seq'), 'C', 'Impedir leitura crítica', false),
+                                                                     ( currval('questions_id_seq'), 'D', 'Garantir que somente especialistas entendam', false),
+                                                                     ( currval('questions_id_seq'), 'E', 'Substituir completamente o texto por imagens', false);

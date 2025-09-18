@@ -49,7 +49,7 @@ public class SessionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Level não encontrado"));
 
         int numQuestions = Optional.ofNullable(request.getNumQuestions()).orElse(5);
-        Random rnd = new Random(); // não determinístico conforme solicitado
+        Random rnd = new Random();
 
         // buscar questões com query nativa randomizada
         List<Question> questions = questionRepository.selectByAreaAndDifficultyRangeRandom(
@@ -75,11 +75,13 @@ public class SessionService {
         // mapping: questionId -> List<{presentedId, alternativeId, text, isCorrect}>
         Map<Long, List<Map<String, Object>>> sessionMapping = new LinkedHashMap<>();
 
+        //itera sobre todas as alternativas relacionadas a questão que será entregue ao usuário
         for (Question q : questions) {
             List<Alternative> alts = alternativeRepository.findByQuestionId(q.getId());
             if (alts == null) alts = Collections.emptyList();
             Collections.shuffle(alts, rnd);
 
+            //Configura o presentedId com pid: a e constroi a resposta do dto
             List<PresentedAlternativeDTO> presented = new ArrayList<>();
             List<Map<String, Object>> mapAlts = new ArrayList<>();
             int i = 0;
@@ -101,6 +103,7 @@ public class SessionService {
                 mapAlts.add(m);
             }
 
+            //construtor da questão
             SessionQuestionDTO sq = SessionQuestionDTO.builder()
                     .questionId(q.getId())
                     .text(q.getText())
@@ -113,6 +116,7 @@ public class SessionService {
             sessionMapping.put(q.getId(), mapAlts);
         }
 
+        //Tratamento de erros de serialização do mapping
         try {
             String mappingJson = objectMapper.writeValueAsString(sessionMapping);
             session.setPresentedMapping(mappingJson);
@@ -148,9 +152,6 @@ public class SessionService {
         return (int) Math.round(xp);
     }
 
-    /**
-     * Recupera um mapping já salvo (objeto em memória).
-     */
     public Object getMappingForQuestion(Session session, Long questionId) {
         if (session == null || session.getPresentedMapping() == null) return null;
         try {
@@ -218,7 +219,7 @@ public class SessionService {
         int currentXp = Optional.ofNullable(user.getXpPoints()).orElse(0);
         user.setXpPoints(currentXp + xpSum);
 
-        // --- Atualiza o level do usuário com base no XP acumulado ---
+        // Atualiza o level do usuário com base no XP acumulado
         int newLevel = (user.getXpPoints() / 100) + 1; // Level 1: 0-99 XP
         if (user.getLevel() == null || user.getLevel() < newLevel) {
             user.setLevel(newLevel);
@@ -246,7 +247,7 @@ public class SessionService {
             userLevelRepository.save(ulNew);
         }
 
-        // criar próximo nível desbloqueado (menor id > current)
+        // criar próximo nível desbloqueado
         Optional<Level> nextLevelOpt = levelRepository.findAll().stream()
                 .filter(l -> l.getId() != null && levelId != null && l.getId() > levelId)
                 .min(Comparator.comparing(Level::getId));
@@ -319,7 +320,7 @@ public class SessionService {
             }
         }
 
-        // ==== Busca em batch para preencher nomes/códigos ====
+        //Busca em batch para preencher nomes/códigos
         Map<Long, String> competencyNames;
         if (!compMap.isEmpty()) {
             Set<Long> compIds = compMap.keySet();

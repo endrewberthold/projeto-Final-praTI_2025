@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**@author Endrew
+ * Service para construção da lógica das tentativas de resposta do usuário
+ * **/
+
 @Service
 @RequiredArgsConstructor
 public class AttemptService {
@@ -81,7 +85,7 @@ public class AttemptService {
                 .findFirst();
 
         if (correct.isEmpty()) {
-            // fallback: buscar no DB (corrigido: pegar lista e fazer stream sobre ela)
+            // fallback: pega lista no db e faz stream sobre ela
             Optional<Alternative> altCorrectDb = alternativeRepository.findByQuestionId(question.getId())
                     .stream()
                     .filter(a -> Boolean.TRUE.equals(a.getIsCorrect()))
@@ -101,7 +105,7 @@ public class AttemptService {
                 .orElseThrow(() -> new ResourceNotFoundException("Level não encontrado"));
         int xpEarned = isCorrect ? sessionService.calculateXp(question.getDifficulty().doubleValue(), level) : 0;
 
-        // persistir attempt (sem usar nome de package completo)
+        // persistir attempt
         Attempt attempt = new Attempt();
         attempt.setUserId(userId);
         attempt.setQuestionId(question.getId());

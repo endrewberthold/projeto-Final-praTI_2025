@@ -2,6 +2,11 @@ package org.plataform.backend.userConfiguration.dtos.question;
 
 import lombok.*;
 
+/**@author Endrew
+ * Este dto cria uma lista com todas as alternativas respondidas pelo usuário
+ * e seus status True - False
+ * **/
+
 @Getter
 @Setter
 @NoArgsConstructor

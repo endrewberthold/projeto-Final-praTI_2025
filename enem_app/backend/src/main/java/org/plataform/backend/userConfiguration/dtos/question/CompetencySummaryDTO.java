@@ -2,6 +2,10 @@ package org.plataform.backend.userConfiguration.dtos.question;
 
 import lombok.*;
 
+/**@author Endrew
+ * Este dto cria um sumário das competencias contidas na sessão iniciada pelo usuário
+ * **/
+
 @Getter
 @Setter
 @NoArgsConstructor

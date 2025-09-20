@@ -18,6 +18,7 @@ export default function FlashcardPage() {
   const [term, setTerm] = useState();
   const [areaId, setAreaId] = useState();
   const [description, setDescription] = useState();
+  const [id, setId] = useState();
 
   const [newFlashcard, setNewFlascard] = useState();
 
@@ -34,7 +35,6 @@ export default function FlashcardPage() {
 
       //console.log("PAGES: ", pages);
       console.log("FLASHCARDS DATA: ", flashcardsData);
-      //console.log(JSON.stringify(response));
     } catch (err) {
       if (!err?.response) {
         setMessage("No Server Response");
@@ -52,11 +52,7 @@ export default function FlashcardPage() {
     handleFetchFlashcards();
   }, [newFlashcard]);
 
-  //   useEffect(() => {
-  //     handleFetchFlashcards();
-  //   }, [newFlashcard]);
-
-  // FOR NEW FLASHCARD
+  // FOR NEW FLASHCARD --------------------------------------------------------------------------------------------------
   async function handleNewFlashcard(e) {
     e.preventDefault();
     console.log(term);
@@ -78,10 +74,11 @@ export default function FlashcardPage() {
     } catch (err) {
       console.log("ERRO: ", err);
     }
+    handleClear();
   }
 
-  async function handleDelete(item) {
-    //e.preventDefault();
+  // DELETE FLASHCARD ----------------------------------------------------------------------------------------------
+  async function handleDeleteFlashcard(item) {
     console.log("DELETE: ", item);
 
     const id = item;
@@ -100,16 +97,60 @@ export default function FlashcardPage() {
     }
   }
 
-  async function handleUpdate(item) {
-    console.log("UPDATE: ", item);
+  // REQUEST UPDATE FLASHCARD ------------------------------------------------------------------------------------------------
+  // Will fill the input values with the select card
+  async function handleRequestUpdateFlashcard(item) {
+    //console.log("UPDATE: ", item);
+    //console.log("REQUEST UPDATE: ", updateFlashcard);
+
+    setTerm(item.term);
+    setAreaId(item.areaId);
+    setDescription(item.description);
+    setId(item.id);
+
+    //console.log(term, areaId, description, id);
   }
+
+  // UPDATE FLASHCARD --------------------------------------------------------------------------------------------
+  // Will update the flashcard having it's id.
+
+  async function handleUpdateFlashcard(e) {
+    e.preventDefault();
+    //console.log("ID: ", id);
+
+    const UPDATECARD_URL = `/api/flashcards/${id}`;
+
+    try {
+      const response = await axios.put(
+        UPDATECARD_URL,
+        JSON.stringify({ term, areaId, description }),
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setNewFlascard(response?.data);
+    } catch (err) {
+      console.log("ERRO: ", err);
+    }
+
+    handleClear();
+  }
+
+  const handleClear = () => {
+    setTerm("");
+    setDescription("");
+  };
 
   return (
     <div>
       <h1>FlashcardPage</h1>
-      {/* FORM FOR NEW FLASHCARD */}
+      {/* FORM FOR FLASHCARD */}
       <div>
-        <form onSubmit={handleNewFlashcard}>
+        <form>
           <label>Termo</label>
           <input
             type="text"
@@ -127,6 +168,7 @@ export default function FlashcardPage() {
             <option>Selecione uma opção</option>
             <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
             {/* These option are not working with the DB yet */}
+            {/* $ MUST IMPLEMENT - const of options and map over it*/}
             <option value="CH">Ciências Humanas e suas Tecnologias</option>
             <option value="CN">Ciências da Natureza e suas Tecnologias</option>
             <option value="MT">Matemáticas e suas Tecnologias</option>
@@ -140,11 +182,14 @@ export default function FlashcardPage() {
             value={description}
           />
 
-          <button>New Flashcard</button>
+          <button onClick={handleClear}>Limpar</button>
+          <button onClick={handleUpdateFlashcard}>Atualizar</button>
+          <button onClick={handleNewFlashcard}>New Flashcard</button>
         </form>
       </div>
+
       {/* SECTION TO DISPLAY THE CARDS 20 PER PAGE */}
-      {/* $ MUST IMPLEMENT PAGINATION $ */}
+      {/* $ MUST IMPLEMENT PAGINATION - will update the 'page' api request above 'handleFetchFlashcards' and 'pages' state */}
       <div>
         <section>
           {flashcardsData ? (
@@ -153,11 +198,11 @@ export default function FlashcardPage() {
                 <FlashCard
                   key={item.id}
                   id={item.id}
-                  title={item.term}
+                  term={item.term}
                   description={item.description}
                   area={item.areaId}
-                  handleDelete={handleDelete}
-                  handleUpdate={handleUpdate}
+                  handleDelete={handleDeleteFlashcard}
+                  handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />
               ))}
             </div>

@@ -28,7 +28,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/flashCardPage" element={<FlashCardPage />} />
           <Route path="/userStatusPage" element={<UserStatusPage />} />
-          <Route path="/SkillPage" element={<SkillPage />} />
+          <Route path="/skillPage" element={<SkillPage />} />
         </Route>
       </Route>
     </Routes>

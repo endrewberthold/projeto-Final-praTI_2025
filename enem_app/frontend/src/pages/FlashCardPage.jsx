@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 
 import FlashCard from "../components/FlashCard";
 
-const FLASHCARD_URL = "/api/flashcards";
-const NEWFLASHCARD_URL = "/api/flashcards";
+// API calls from services
+import {
+  fetchFlashcardsAPI,
+  newFlashcardAPI,
+  deleteFlashcardAPI,
+  updateFlashcardAPI,
+} from "../services/flashcardsServices";
 
 export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
   const [pages, setPages] = useState(1);
-  //console.log("ACCESSTOKEN: ", accessToken);
 
   // For new Flashcard
   const [term, setTerm] = useState();
   const [areaId, setAreaId] = useState();
   const [description, setDescription] = useState();
   const [id, setId] = useState();
-
   const [newFlashcard, setNewFlascard] = useState();
 
+  // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
-      const response = await axios.get(FLASHCARD_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
       setPages(response?.data.totalPages);
 
-      //console.log("PAGES: ", pages);
-      console.log("FLASHCARDS DATA: ", flashcardsData);
+      //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
       if (!err?.response) {
         setMessage("No Server Response");
@@ -48,6 +45,7 @@ export default function FlashcardPage() {
     }
   }
 
+  // For the first time the page loads
   useEffect(() => {
     handleFetchFlashcards();
   }, [newFlashcard]);
@@ -60,16 +58,13 @@ export default function FlashcardPage() {
     console.log(description);
 
     try {
-      const response = await axios.post(
-        NEWFLASHCARD_URL,
-        JSON.stringify({ term, areaId, description }),
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await newFlashcardAPI(
+        accessToken,
+        term,
+        areaId,
+        description
       );
+
       setNewFlascard(response?.data);
     } catch (err) {
       console.log("ERRO: ", err);
@@ -78,18 +73,14 @@ export default function FlashcardPage() {
   }
 
   // DELETE FLASHCARD ----------------------------------------------------------------------------------------------
+  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
   async function handleDeleteFlashcard(item) {
-    console.log("DELETE: ", item);
-
+    //console.log("DELETE: ", item);
     const id = item;
     const DELETECARD_URL = `/api/flashcards/${id}`;
 
     try {
-      const response = await axios.delete(DELETECARD_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await deleteFlashcardAPI(accessToken, item);
       console.log("DELETADO: ", response);
       handleFetchFlashcards();
     } catch (err) {
@@ -98,48 +89,37 @@ export default function FlashcardPage() {
   }
 
   // REQUEST UPDATE FLASHCARD ------------------------------------------------------------------------------------------------
-  // Will fill the input values with the select card
+  // Will fill the input values with the select card and the id state
   async function handleRequestUpdateFlashcard(item) {
-    //console.log("UPDATE: ", item);
+    console.log("UPDATE: ", item);
     //console.log("REQUEST UPDATE: ", updateFlashcard);
 
     setTerm(item.term);
     setAreaId(item.areaId);
     setDescription(item.description);
     setId(item.id);
-
-    //console.log(term, areaId, description, id);
   }
 
   // UPDATE FLASHCARD --------------------------------------------------------------------------------------------
   // Will update the flashcard having it's id.
-
   async function handleUpdateFlashcard(e) {
     e.preventDefault();
-    //console.log("ID: ", id);
-
-    const UPDATECARD_URL = `/api/flashcards/${id}`;
-
     try {
-      const response = await axios.put(
-        UPDATECARD_URL,
-        JSON.stringify({ term, areaId, description }),
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await updateFlashcardAPI(
+        accessToken,
+        id,
+        term,
+        areaId,
+        description
       );
-
       setNewFlascard(response?.data);
     } catch (err) {
       console.log("ERRO: ", err);
     }
-
     handleClear();
   }
 
+  // Will clear the input values
   const handleClear = () => {
     setTerm("");
     setDescription("");

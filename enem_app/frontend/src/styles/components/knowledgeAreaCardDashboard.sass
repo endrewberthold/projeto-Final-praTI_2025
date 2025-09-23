@@ -1,0 +1,133 @@
+// @use '../variables.sass' 
+  
+.component-concepts
+  display: flex
+  flex-direction: column
+  margin-top: 27rem
+  margin-left: 7rem
+
+.share-title
+  font-size: 1.5rem
+  font-weight: 600
+  color: #668fccff
+
+  p
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  
+
+.card-components
+  width: 80rem
+  height: 20rem
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 1rem
+
+.flash
+  display: flex
+  flex-direction: column
+  padding: 1rem
+  border-radius: 1rem
+  border: 1px solid #e2e8f0
+  background-color: #ffffff
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06)
+  transition: box-shadow 0.25s ease, transform 0.25s ease
+  will-change: transform, box-shadow
+  position: relative
+  cursor: pointer
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.10)
+    transform: translateY(-4px) scale(1.02)
+
+  &:active
+    z-index: 20
+    transform: translateY(1px) scale(0.995)
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.8)
+    transition: transform 0.05s ease, box-shadow 0.05s ease
+
+.flash.card
+  width: 20rem
+  height: 15rem
+
+  &:hover
+    cursor: pointer
+    .flash-title
+      color: #ffffff   // cor que você quer quando passar o mouse
+    .flash-description
+      color: #ffffff   
+
+.flash-content
+  display: flex
+  align-items: flex-start
+  gap: 1rem
+  height: 100%
+  flex-direction: column
+
+.flash-text
+  display: flex
+  flex-direction: column
+
+.flash-title
+  font-size: 1.125rem
+  font-weight: 600
+  color: #111827
+
+.flash-description
+  font-size: 0.875rem
+  color: #6b7280
+  margin-top: 0.5rem
+
+.flash.card
+  position: relative
+  overflow: hidden
+  background: #ffffff
+  border-radius: 1rem
+  padding: 1rem
+  transition: all 0.6s ease-in-out
+  transform: scale(1)
+  backface-visibility: hidden
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  .flash-icon
+    position: relative
+    width: 3rem
+    height: 3rem
+    border-radius: 50%
+    background-color: #668fccff
+    display: flex
+    align-items: center
+    justify-content: center
+    color: #fff
+    z-index: 5
+    transition: all 0.3s ease
+
+    &::after
+      content: ""
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 0
+      height: 0
+      background-color: #668fccff
+      border-radius: 50%
+      transform: translate(-50%, -50%)
+      transition: all 0.5s ease
+      z-index: -1
+
+  .flash-title,
+  .flash-description
+    position: relative
+    z-index: 5
+    transition: color 0.3s ease
+
+  &:hover
+    .flash-icon::after
+      width: 1000px       // aumenta pra cobrir todo o card
+      height: 1000px
+
+    .flash-title,
+    .flash-description
+      color: #ffffff       // muda a cor do texto para contraste

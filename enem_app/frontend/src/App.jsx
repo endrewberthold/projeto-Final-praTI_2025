@@ -13,6 +13,7 @@ import LoginForm from "./components/LoginForm";
 import RequireAuth from "./components/RequiredAuth";
 import UserStatusPage from "./pages/UserStatusPage";
 import SkillPage from "./pages/SkillPage";
+import './styles/components/app.sass';
 
 function App() {
   return (

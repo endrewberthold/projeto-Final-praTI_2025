@@ -9,6 +9,8 @@ import CardSkillsDashboard from "../components/CardSkillsDashboard";
 //import { BiMath } from "react-icons/bi";
 
 export default function Dashboard() {
+  const id = "LC";
+
   return (
     <div className="container-dashboard">
       <h1>DASHBOARD</h1>
@@ -30,7 +32,19 @@ export default function Dashboard() {
       </div>
 
       <div>
-        <NavLink to="/SkillPage">
+        <NavLink to={`/SkillPage/LC`}>
+          <CardSkillsDashboard />
+        </NavLink>
+
+        <NavLink to="/SkillPage/CH">
+          <CardSkillsDashboard />
+        </NavLink>
+
+        <NavLink to="/SkillPage/CN">
+          <CardSkillsDashboard />
+        </NavLink>
+
+        <NavLink to="/SkillPage/MT">
           <CardSkillsDashboard />
         </NavLink>
       </div>

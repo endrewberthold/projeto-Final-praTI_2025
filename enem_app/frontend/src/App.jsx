@@ -1,22 +1,36 @@
-import Dashboard from "./components/Dashboard";
-import NavBar from "./components/NavBar";
-import TelaLogin from "./pages/TelaLogin"
+import { RouterProvider } from "react-router-dom";
 
-import "./styles/components/app.sass";
+import { Routes, Route } from "react-router-dom";
+
+import Layout from "./pages/Layout";
+import Dashboard from "./pages/Dashboard";
+
+import FlashCardPage from "./pages/FlashCardPage";
+
+import RegisterForm from "./components/RegisterForm";
+import LoginForm from "./components/LoginForm";
+
+import RequireAuth from "./components/RequiredAuth";
+import UserStatusPage from "./pages/UserStatusPage";
+import SkillPage from "./pages/SkillPage";
 
 function App() {
   return (
-    <>
-      {/* <h1>Aplicativo rodando :D</h1>
-      <br />
-      <p>Adicione aqui seus componentes</p>
-      <p>Você pode deletar esses elementos!</p>
-      <NavBar />
-      <Dashboard /> */}
-      <TelaLogin />
-      {/* <Praticar />  precisa re importar caso for usar esta pagina*/}
-      {/* <FlashCards /> precisa re importar caso for usar esta pagina*/}
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* Public Routes */}
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+
+        {/* Protected Routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/flashCardPage" element={<FlashCardPage />} />
+          <Route path="/userStatusPage" element={<UserStatusPage />} />
+          <Route path="/skillPage" element={<SkillPage />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

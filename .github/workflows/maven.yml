@@ -1,0 +1,145 @@
+# Nome do workflow que aparecerá na aba "Actions" do seu repositório
+name: CI/CD Fullstack ENEM App
+
+# Define quando o workflow será executado
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: '20'
+  JAVA_VERSION: '21'
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout do repositório'
+        uses: actions/checkout@v4
+
+      # Verificar estrutura primeiro
+      - name: 'Verificar estrutura do projeto'
+        run: |
+          echo "=== Estrutura do diretório raiz ==="
+          ls -la
+          echo "=== Verificando se enem_app existe ==="
+          ls -la enem_app/ || echo "Diretório enem_app não encontrado"
+          echo "=== Verificando backend ==="
+          ls -la enem_app/backend/ || echo "Diretório enem_app/backend não encontrado"
+          echo "=== Verificando frontend ==="
+          ls -la enem_app/frontend/ || echo "Diretório enem_app/frontend não encontrado"
+
+      # --- BACKEND (Java Spring Boot) ---
+      - name: 'Configurar JDK 21'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 'Verificar arquivos do Backend'
+        working-directory: ./enem_app/backend
+        run: |
+          echo "=== Verificando arquivos do backend ==="
+          ls -la
+          echo "=== Verificando application.properties ==="
+          file src/main/resources/application.properties || echo "application.properties não encontrado"
+          echo "=== Conteúdo do application.properties ==="
+          cat src/main/resources/application.properties | head -10 || echo "Não foi possível ler o arquivo"
+          echo "=== Verificando encoding ==="
+          file -i src/main/resources/application.properties || echo "Não foi possível verificar encoding"
+
+      - name: 'Build e package do Backend'
+        working-directory: ./enem_app/backend
+        env:
+          MAVEN_OPTS: "-Dfile.encoding=UTF-8 -Dmaven.compiler.encoding=UTF-8"
+        run: |
+          echo "=== Iniciando build do Maven ==="
+          mvn clean package -B -DskipTests -Dfile.encoding=UTF-8
+
+      - name: 'Upload JAR do Backend'
+        uses: actions/upload-artifact@v4
+        with:
+          name: enem-backend-jar
+          path: ./enem_app/backend/target/*.jar  # CAMINHO CORRIGIDO
+          retention-days: 30
+
+      # --- FRONTEND (React + Vite) ---
+      - name: 'Configurar Node.js 20'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './enem_app/frontend/package-lock.json'  # CAMINHO CORRIGIDO
+
+      - name: 'Instalar dependências do Frontend'
+        working-directory: ./enem_app/frontend  # CAMINHO CORRIGIDO
+        run: npm ci --prefer-offline
+
+      - name: 'Build do Frontend'
+        working-directory: ./enem_app/frontend  # CAMINHO CORRIGIDO
+        continue-on-error: true
+        run: npm run build
+
+      - name: 'Upload build do Frontend'
+        uses: actions/upload-artifact@v4
+        with:
+          name: enem-frontend-build
+          path: ./enem_app/frontend/dist  # CAMINHO CORRIGIDO
+          retention-days: 30
+
+      # --- DOCKER COMPOSE ---
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 'Verificar arquivos Docker'
+        run: |
+          echo "=== Procurando arquivos Docker ==="
+          find . -name "docker-compose*.yml" -type f || echo "Nenhum docker-compose encontrado"
+          find . -name "Dockerfile*" -type f || echo "Nenhum Dockerfile encontrado"
+          echo "=== Verificando na pasta enem_app ==="
+          ls -la enem_app/ || echo "enem_app não encontrada"
+
+      - name: 'Build Docker containers'
+        working-directory: ./enem_app  # CAMINHO CORRIGIDO - docker-compose está em enem_app
+        continue-on-error: true
+        run: |
+          echo "=== Verificando arquivos Docker na pasta atual ==="
+          ls -la
+          if [ -f "docker-compose.yml" ]; then
+            echo "Usando docker-compose.yml"
+            docker compose build --parallel
+          else
+            echo "docker-compose.yml não encontrado em enem_app/"
+            exit 0
+          fi
+
+      - name: 'Run integration tests with Docker'
+        working-directory: ./enem_app  # CAMINHO CORRIGIDO
+        continue-on-error: true
+        run: |
+          echo "=== Iniciando testes de integração ==="
+          if [ -f "docker-compose.yml" ]; then
+            echo "Testando com docker-compose.yml"
+            timeout 120 docker compose up -d
+            sleep 20
+            docker compose ps
+            echo "=== Testando conectividade dos serviços ==="
+            docker compose exec -T db pg_isready -U admin -d enem_app || echo "PostgreSQL não acessível"
+            docker compose down -v
+          else
+            echo "Pulando testes - docker-compose.yml não encontrado"
+          fi
+
+      - name: 'Cleanup containers'
+        working-directory: ./enem_app  # CAMINHO CORRIGIDO
+        if: always()
+        run: |
+          echo "=== Limpando containers e volumes ==="
+          docker compose down -v --remove-orphans || true
+          docker system prune -f

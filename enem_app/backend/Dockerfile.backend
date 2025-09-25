@@ -1,0 +1,24 @@
+# Stage 1: build
+FROM maven:3.9.6-amazoncorretto-21 AS build-stage
+
+WORKDIR /app
+
+# Copia o backend (pom.xml e src) para dentro do container
+# O Docker já está no diretório 'backend', então não precisa referenciá-lo novamente
+COPY pom.xml .
+COPY src ./src
+
+# Executa o build (gera o .jar em /app/target)
+RUN mvn clean package -DskipTests
+
+# Stage 2: runtime
+FROM openjdk:21-slim
+
+WORKDIR /app
+
+# Copia o jar do build stage
+COPY --from=build-stage /app/target/*.jar ./app.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]

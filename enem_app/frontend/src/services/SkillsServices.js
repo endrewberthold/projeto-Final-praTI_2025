@@ -25,12 +25,14 @@ export async function startSessionAPI(
 // FOR SUBMITING ANSWER ------------------------------------------------------
 export async function sendAnswerAPI(
   accessToken,
+  sessionId,
   questionId,
   levelId,
   presentedId,
   answerTimeMs
 ) {
-  const SEND_ANSWER_URL = `/api/sessions/${levelId}/attempts`;
+  //const SEND_ANSWER_URL = `/api/sessions/${levelId}/attempts`;
+  const SEND_ANSWER_URL = `/api/sessions/${sessionId}/attempts`;
 
   const response = await axios.post(
     SEND_ANSWER_URL,
@@ -46,3 +48,19 @@ export async function sendAnswerAPI(
 }
 
 // FOR FINISH SESSION ---------------------------------------------------------
+
+export async function finishSessionAPI(accessToken, sessionId) {
+  const FINISH_SESSION_URL = `/api/sessions/${sessionId}/finish`;
+
+  const response = await axios.post(
+    FINISH_SESSION_URL,
+    JSON.stringify({ accessToken }),
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+}

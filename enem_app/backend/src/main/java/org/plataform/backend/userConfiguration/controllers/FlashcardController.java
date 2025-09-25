@@ -1,5 +1,10 @@
 package org.plataform.backend.userConfiguration.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.plataform.backend.userConfiguration.dtos.flashcards.FlashcardRequestDTO;
@@ -22,7 +27,12 @@ public class FlashcardController {
     /** @author Endrew
      *Endpoint para criar o flashcard
      ***/
+
     @PostMapping()
+    @Operation(summary = "Criar flashcard", description = "Cria um novo flashcard para o usuário logado")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Flashcard criado com sucesso")
+    })
     public ResponseEntity<FlashcardResponseDTO> createFlashcard(
             @AuthenticationPrincipal User principal,
             @Valid @RequestBody FlashcardRequestDTO dto

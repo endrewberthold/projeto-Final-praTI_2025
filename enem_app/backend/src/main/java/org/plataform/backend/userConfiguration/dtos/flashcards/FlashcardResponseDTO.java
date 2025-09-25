@@ -1,5 +1,6 @@
 package org.plataform.backend.userConfiguration.dtos.flashcards;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -24,11 +25,24 @@ import java.time.OffsetDateTime;
 @Builder
 public class FlashcardResponseDTO {
 
+    @Schema(description = "ID único do flashcard", example = "3")
     private Long id;
+
+    @Schema(description = "Termo ou conceito principal do flashcard", example = "Média ponderada")
     private String term;
+
+    @Schema(description = "Descrição ou explicação do conceito", example = "Método de estatística usado quando alguns elementos são mais importantes que outros")
     private String description;
+
+    @Schema(description = "ID único da área de conhecimento", example = "1")
     private String areaId;
+
+    @Schema(description = "Área de conhecimento do flashcard", example = "Matemática e Suas Tecnologias")
     private String areaName;
+
+    @Schema(description = "Data de criação do flashcard", example = "2025-09-24T23:07:08.757Z")
     private OffsetDateTime createdAt;
+
+    @Schema(description = "Data de atualização do flashcard", example = "2025-09-25T23:07:08.757Z")
     private OffsetDateTime updatedAt;
 }

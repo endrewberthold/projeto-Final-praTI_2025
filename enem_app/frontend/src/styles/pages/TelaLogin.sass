@@ -1,20 +1,34 @@
 @use '../variables'
 @use '../mixins'
 
-#root
-    height: 100%
+// #root
+//     height: 100vh
+//     width: 100vw
+//     display: flex
+
+.login-page
+    height: 100vh
     width: 100%
     display: flex
+    background-color: #668fccff
 
-#lado-banner 
+.lado-banner 
     height: 100%
     width: 50%
     background-color: #668fccff
 
-#lado-formulario-login 
+.lado-formulario-login 
     display: flex
     justify-content: center
     align-items: center
     height: 100%
     width: 50%
-    background-color: #F2F2F2
+    background-color: variables.$clr-primary
+    border-bottom-left-radius: 2rem
+    border-top-left-radius: 2rem
+
+.button
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column

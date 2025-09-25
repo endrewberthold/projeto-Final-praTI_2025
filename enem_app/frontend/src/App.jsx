@@ -8,18 +8,19 @@ import Dashboard from "./pages/Dashboard";
 import FlashCardPage from "./pages/FlashCardPage";
 
 import RegisterForm from "./components/RegisterForm";
-import LoginForm from "./components/LoginForm";
+import Login from "./pages/Login";
 
 import RequireAuth from "./components/RequiredAuth";
 import UserStatusPage from "./pages/UserStatusPage";
 import SkillPage from "./pages/SkillPage";
+import './styles/components/app.sass'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}
-        <Route path="/" element={<LoginForm />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<RegisterForm />} />
 
         {/* Protected Routes */}

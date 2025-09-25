@@ -13,6 +13,7 @@ import LoginForm from "./components/LoginForm";
 import RequireAuth from "./components/RequiredAuth";
 import UserStatusPage from "./pages/UserStatusPage";
 import SkillPage from "./pages/SkillPage";
+import Answers from "./pages/Answers";
 import './styles/components/app.sass';
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/flashCardPage" element={<FlashCardPage />} />
           <Route path="/userStatusPage" element={<UserStatusPage />} />
-          <Route path="/skillPage" element={<SkillPage />} />
+          <Route path="/skillPage/:id" element={<SkillPage />} />
+          <Route path="/answer/:levelId" element={<Answers />} />
+          <Route path="/skillPage/:id/answer/:levelId" element={<Answers />} />
         </Route>
       </Route>
     </Routes>

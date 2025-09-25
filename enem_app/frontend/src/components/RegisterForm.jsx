@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
-import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-const REGISTER_URL = "/api/auth/register";
+import { registerAPI } from "../services/userServices";
 
 export default function RegisterForm() {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const userRef = useRef();
 
@@ -18,13 +17,7 @@ export default function RegisterForm() {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        REGISTER_URL,
-        JSON.stringify({ name, email, password }),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await registerAPI(name, email, password);
 
       console.log(response);
       navigate(from, { replace: true });
@@ -43,6 +36,7 @@ export default function RegisterForm() {
           type="text"
           id="name"
           autoComplete="off"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
 
@@ -52,8 +46,8 @@ export default function RegisterForm() {
           id="email"
           ref={userRef}
           autoComplete="off"
-          onChange={(e) => setEmail(e.target.value)}
           value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -61,8 +55,8 @@ export default function RegisterForm() {
         <input
           type="password"
           id="password"
-          onChange={(e) => setPassword(e.target.value)}
           value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <button>Register</button>

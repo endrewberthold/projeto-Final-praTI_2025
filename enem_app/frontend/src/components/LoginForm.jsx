@@ -4,9 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
-import axios from "../api/axios";
+import { loginAPI } from "../services/userServices";
 
-const LOGIN_URL = "/api/auth/login";
 export default function LoginForm() {
   const { setAuth, persist, setPersist, setAccessToken } = useAuth();
 
@@ -21,15 +20,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  // ! It's genaratin a erro when implemented this way !
-  // const [loginForm, setLoginForm] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-  //   useEffect(() => {
-  //     userRef.current.focus();
-  //   }, []);
-
   useEffect(() => {
     setMessage("");
   }, [email, password]);
@@ -39,19 +29,11 @@ export default function LoginForm() {
     //console.log("USER: ", email);
 
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({
-          email,
-          password,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(JSON.stringify(response?.data));
-      console.log("DATA: :", response?.data);
-      console.log("RESPONSE: :", response?.data.user.role);
+      const response = await loginAPI(email, password);
+
+      //console.log(JSON.stringify(response?.data));
+      //console.log("DATA: :", response?.data);
+      //console.log("RESPONSE: :", response?.data.user.role);
 
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.user.role;

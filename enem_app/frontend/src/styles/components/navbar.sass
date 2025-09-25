@@ -1,3 +1,5 @@
+@use '../variables'
+  
 .menu
     --duration: 0.7s
     margin: 0
@@ -8,7 +10,7 @@
     position: relative
     align-items: center
     justify-content: center
-    background-color: #4e6dc2ff
+    background-color: variables.$clr-accent
     gap: 4rem
     
 
@@ -164,7 +166,6 @@
   justify-content: center
   border-radius: 50%
   cursor: pointer
-  transition-duration: .3s
   border: none
   background: none
 
@@ -173,9 +174,6 @@
 
     .bell
       animation: bellRing 0.9s both
-
-  &:active
-    transform: scale(0.8)
 
 .bell
   width: 18px
@@ -234,7 +232,55 @@
 //     transform: rotate(360deg)
 
 #img-perfil
-    background-color: #ffffffcc
+    background-color: variables.$clr-accent-background
 
-#img-perfil:hover
-    background-color: #ccc
+/* trecho básico — ajuste cores e espaçamentos conforme seu tema */
+.profile-wrapper
+  position: relative
+  
+  .profile-button
+    background: transparent
+    border: none
+    padding: 0.4rem
+    cursor: pointer
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    border-radius: variables.$border-radius-card
+
+
+.profile-dropdown
+  position: absolute
+  top: calc(100% + 1rem)
+  right: 0
+  background: #fff
+  border-radius: 8px
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+  min-width: 160px
+  z-index: 1000
+  padding: 0.5rem
+
+  .profile-dropdown__item
+    display: block
+    width: 100%
+    padding: 0.6rem 1rem
+    background: transparent
+    border: none
+    text-align: left
+    cursor: pointer
+    font-size: 0.95rem
+    display: flex
+    padding: 0.5rem
+
+  .profile-dropdown__item:hover
+    background: variables.$clr-accent-background
+    color: variables.$clr-card
+    border-radius: 8px
+
+
+/* exemplo para .button e .iconesLateral já existirem no seu arquivo */
+/* ajuste conforme suas classes já criadas */
+.iconesLateral
+  display: flex
+  align-items: center
+  gap: 0.6rem

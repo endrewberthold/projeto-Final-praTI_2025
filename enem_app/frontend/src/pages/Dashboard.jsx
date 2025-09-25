@@ -50,23 +50,9 @@ export default function Dashboard() {
 
       </div>
 
-      {/* <div className="heroCall">
-        <h1>Pratique Habilidades</h1>
-        <p>
-          Selecione uma habilidade e comece a responder questões ganhando
-          <strong>XP</strong>
-        </p>
-      </div> */}
-
-      {/* <div>
-        <NavLink to="/SkillPage">
-          <CardSkillsDashboard />
-        </NavLink>
-      </div> */}
-
       <div className="upperCards">
       
-        <UserStatusDashboard />
+        <UserStatusDashboard imageProfile={"../../public/imagemdeperfil.png"} StudyTime={20} numberofcorrectanswers={9} percentage={10}/>
       
       </div>
     </div>

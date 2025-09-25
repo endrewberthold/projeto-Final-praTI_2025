@@ -3,8 +3,8 @@ import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { PiCards } from "react-icons/pi";
 import { BsPerson } from "react-icons/bs";
 import "../styles/components/userStatusDashboard.sass";
-import FlashCards from "./FlashCardDashboard";
 import { NavLink } from "react-router-dom";
+import { useNavbar } from "../context/NavbarContext";
 
 export default function StatusUsuario({
   imageProfile,
@@ -12,6 +12,8 @@ export default function StatusUsuario({
   StudyTime,
   numberofcorrectanswers,
 }) {
+  const { updateActiveIndex } = useNavbar();
+  
   const radius = 90;
   const circunferency = 2 * Math.PI * radius;
   const dashArray = circunferency * 0.83;
@@ -29,7 +31,7 @@ export default function StatusUsuario({
               cx="100"
               cy="100"
               r={radius}
-              stroke="#c6d8fcff"
+              stroke="#c0d5f3ff"
               strokeWidth="8"
               fill="none"
               strokeDasharray={`${dashArray} ${circunferency}`}
@@ -40,7 +42,7 @@ export default function StatusUsuario({
               cx="100"
               cy="100"
               r={radius}
-              stroke="#668fccff"
+              stroke="#4e6dc2ff"
               strokeWidth="8"
               fill="none"
               strokeDasharray={`${progressLength} ${circunferency}`}
@@ -55,7 +57,7 @@ export default function StatusUsuario({
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
           <div className="information" id="info-answers">
-            <FaBook size={25} fill="#668fccff" />
+            <FaBook size={25} fill="#4e6dc2ff" />
             {numberofcorrectanswers > 1 ? (
               <div className="information-container">
                 <p>{numberofcorrectanswers}</p>
@@ -72,7 +74,7 @@ export default function StatusUsuario({
           </div>
 
           <div className="information" id="info-time">
-            <MdOutlineAccessTimeFilled size={25} fill="#668fccff" />
+            <MdOutlineAccessTimeFilled size={25} fill="#4e6dc2ff" />
             {StudyTime > 1 ? (
               <div className="information-container">
                 <p>{StudyTime}</p>
@@ -89,15 +91,24 @@ export default function StatusUsuario({
           </div>
         </div>
         <NavLink to={"/userStatusPage"}>
-          <button className="button-profile">
+          <button 
+            className="button-user-status"
+            onClick={() => updateActiveIndex(0)}
+          >
             <BsPerson color="#fff" size={"2rem"}            
             />
             <h1>Ver perfil</h1>
           </button>
         </NavLink>
 
-        <NavLink to="/flashcardPage">
-          <FlashCards />
+        <NavLink to="/flashCardPage">
+          <button 
+            className="button-user-status"
+            onClick={() => updateActiveIndex(2)}
+          >
+            < PiCards color="#fff" size={"2rem"}/>           
+            <h1>FlashCards</h1>
+          </button>
         </NavLink>
 
       </div>

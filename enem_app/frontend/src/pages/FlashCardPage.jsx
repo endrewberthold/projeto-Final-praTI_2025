@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 
-import FlashCard from "../components/FlashCard";
+// import FlashCard from "../components/FlashCard";
 
 const FLASHCARD_URL = "/api/flashcards";
 const NEWFLASHCARD_URL = "/api/flashcards";

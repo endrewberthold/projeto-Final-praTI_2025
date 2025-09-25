@@ -1,6 +1,7 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import NavBar from "./NavBar";
+import { NavbarProvider } from "../context/NavbarContext";
 
 const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
@@ -10,10 +11,10 @@ const RequireAuth = ({ allowedRoles }) => {
   //console.log("AUTH: ", auth);
   //return auth?.role?.find((role) => allowedRoles?.includes(role)) ? (
   return auth?.role === "USER" ? (
-    <>
+    <NavbarProvider>
       <NavBar />
       <Outlet />
-    </>
+    </NavbarProvider>
   ) : auth?.accessToken ? ( //changed from user to accessToken to persist login after refresh
     <Navigate to="/dashboard" state={{ from: location }} replace />
   ) : (

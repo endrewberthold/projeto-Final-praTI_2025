@@ -14,6 +14,7 @@ import RequireAuth from "./components/RequiredAuth";
 import UserStatusPage from "./pages/UserStatusPage";
 import SkillPage from "./pages/SkillPage";
 import Answers from "./pages/Answers";
+import './styles/components/app.sass';
 
 function App() {
   return (

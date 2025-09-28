@@ -12,6 +12,10 @@
     justify-content: center
     background-color: variables.$clr-accent
     gap: 4rem
+
+    // Esconder navbar no mobile
+    @media (max-width: 768px)
+        display: none
     
 
 
@@ -169,37 +173,8 @@
   border: none
   background: none
 
-  &:hover
-    background-color: #ffffffcc
-
-    .bell
-      animation: bellRing 0.9s both
-
-.bell
-  width: 18px
-
   path
     fill: #ffffff
-
-@keyframes bellRing
-  0%, 100%
-    transform-origin: top
-
-  15%
-    transform: rotateZ(10deg)
-
-  30%
-    transform: rotateZ(-10deg)
-
-  45%
-    transform: rotateZ(5deg)
-
-  60%
-    transform: rotateZ(-5deg)
-
-  75%
-    transform: rotateZ(2deg)
-
 
 
 .icon
@@ -230,9 +205,6 @@
 //     transform: rotate(0deg)
 //   100%
 //     transform: rotate(360deg)
-
-#img-perfil
-    background-color: variables.$clr-accent-background
 
 /* trecho básico — ajuste cores e espaçamentos conforme seu tema */
 .profile-wrapper
@@ -273,8 +245,7 @@
     padding: 0.5rem
 
   .profile-dropdown__item:hover
-    background: variables.$clr-accent-background
-    color: variables.$clr-card
+    background-color: rgba(78, 109, 194, 0.08)
     border-radius: 8px
 
 

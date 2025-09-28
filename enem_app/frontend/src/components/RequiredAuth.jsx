@@ -1,6 +1,7 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import NavBar from "./NavBar";
+import MobileNavbar from "./MobileNavbar";
 import { NavbarProvider } from "../context/NavbarContext";
 
 const RequireAuth = () => {
@@ -21,6 +22,7 @@ const RequireAuth = () => {
     return (
       <NavbarProvider>
         <NavBar />
+        <MobileNavbar />
         <Outlet />
       </NavbarProvider>
     );

@@ -26,7 +26,7 @@ export default function StatusUsuario({
           <div className="photo-profile">
             <img src={imageProfile} alt="Perfil do usuário" />
           </div>
-          <svg className="progress-svg" width="200" height="200">
+          <svg className="progress-svg" viewBox="0 0 200 200">
             <circle
               cx="100"
               cy="100"

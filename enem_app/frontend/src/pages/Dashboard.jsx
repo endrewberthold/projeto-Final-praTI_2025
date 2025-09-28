@@ -6,11 +6,8 @@ import { TbMathFunction } from "react-icons/tb";
 import { GiAtom } from "react-icons/gi";
 import { FaGlobeAmericas } from "react-icons/fa";
 
-//import NavBar from "../components/NavBar";
-import FlashCardDashboard from "../components/FlashCardDashboard";
 import UserStatusDashboard from "../components/UserStatusDashboard";
 import CardSkillsDashboard from "../components/CardSkillsDashboard";
-//import { BiMath } from "react-icons/bi";
 
 export default function Dashboard() {
   const id = "LC";
@@ -19,8 +16,15 @@ export default function Dashboard() {
     <div className="container-dashboard">
       {/* <h1>DASHBOARD</h1> */}
       
+      <div className="left-column">
+        <div className="banner-section">
+          <div className="banner-placeholder">
+            <h2>Banner Promocional</h2>
+            <p>Este espaço será destinado para banners e promoções especiais do ENEM</p>
+          </div>
+        </div>
 
-      <div className="knowledAreCard-component">
+        <div className="knowledAreCard-component">
         <h1>Comece sua jornada rumo ao ENEM!</h1>
         <div>
           <NavLink to={`/SkillPage/LC`}>
@@ -56,6 +60,8 @@ export default function Dashboard() {
         </NavLink>
         </div>
       </div>
+      </div>
+      
       <div className="upperCards">
         <UserStatusDashboard imageProfile={"../../public/imagemdeperfil.png"} StudyTime={20} numberofcorrectanswers={9} percentage={10}/>
       </div>

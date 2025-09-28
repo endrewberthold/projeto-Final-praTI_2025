@@ -7,8 +7,8 @@ import Dashboard from "./pages/Dashboard";
 
 import FlashCardPage from "./pages/FlashCardPage";
 
-import RegisterForm from "./components/RegisterForm";
-import Login from "./pages/Login";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 
 import RequireAuth from "./components/RequiredAuth";
 import UserStatusPage from "./pages/UserStatusPage";
@@ -16,13 +16,14 @@ import SkillPage from "./pages/SkillPage";
 import Answers from "./pages/Answers";
 import './styles/components/app.sass';
 
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>

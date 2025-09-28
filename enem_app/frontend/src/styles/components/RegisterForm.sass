@@ -1,24 +1,25 @@
 @use '../variables'
 @use '../mixins'
 
-.formulario-registreSe
+.register-form
     background-color: variables.$clr-card
     display: flex
     flex-direction: column
     align-items: center
+    justify-content: center
     gap: 1.5rem
     height: 35rem
     width: 30rem
-    padding-top: 4rem
     font-size: large
     border-radius: 16px
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1)
+    
 
 span
     cursor: pointer
     color: #668fccff
 
-.registrar-conteiner
+.register-container
     font-size: 0.9rem
 
 form 
@@ -33,7 +34,7 @@ form input
     width: 80%
     outline: none
 
-.email-senha-conteiner
+.email-password-container
     border: 1px solid
     display: flex
     align-items: center
@@ -41,24 +42,12 @@ form input
     border: 1px solid #ededef
     background-color: white
     border-radius: 8px
-    display: flex
-
-    div
-        display: flex
-        align-items: center
-        width: 100%
-
-        input
-            width: 19.4301rem
-    
-    #mostrar-senha-olho
-        margin-right: 0.5rem
 
 
-.email-senha-conteiner:hover
+.email-password-container:hover
   border: 1px solid #668fccff
 
-#senha-conteiner
+#password-container
     justify-content: space-between
 
 form input::placeholder 
@@ -75,22 +64,25 @@ form button
     cursor: pointer
     border: none
     color: white
+    font-weight: 600
+    font-size: 1rem
 
 
 form button:active 
     transform: translateY(1px)
 
 
-.auxiliares 
+.helpers
     display: flex
     justify-content: space-between
     font-size: 0.9rem
     margin-bottom: 1.5rem
 
 
-.auxiliares a 
+a 
     cursor: pointer
     color: #668fccff
+    font-weight: 600
 
 .checkbox 
     display: flex
@@ -133,3 +125,5 @@ form p
     font-weight: 700
     font-family: Arial, sans-serif
 
+
+    

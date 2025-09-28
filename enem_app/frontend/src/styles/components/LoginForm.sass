@@ -1,7 +1,7 @@
 @use '../variables'
 @use '../mixins'
 
-.formulario-login 
+.login-form
     background-color: variables.$clr-card
     display: flex
     flex-direction: column
@@ -19,7 +19,7 @@ span
     cursor: pointer
     color: #668fccff
 
-.registrar-conteiner
+.register-container
     font-size: 0.9rem
 
 form 
@@ -34,7 +34,7 @@ form input
     width: 80%
     outline: none
 
-.email-senha-conteiner
+.email-password-container
     border: 1px solid
     display: flex
     align-items: center
@@ -44,10 +44,10 @@ form input
     border-radius: 8px
 
 
-.email-senha-conteiner:hover
+.email-password-container:hover
   border: 1px solid #668fccff
 
-#senha-conteiner
+#password-container
     justify-content: space-between
 
 form input::placeholder 
@@ -72,7 +72,7 @@ form button:active
     transform: translateY(1px)
 
 
-.auxiliares 
+.helpers
     display: flex
     justify-content: space-between
     font-size: 0.9rem
@@ -125,13 +125,5 @@ form p
     font-weight: 700
     font-family: Arial, sans-serif
 
-.button-login
-    border: none
-    background: none
-    display: flex
 
-.button
-    height: 10rem
-    width: 25vw
-    display: flex
     

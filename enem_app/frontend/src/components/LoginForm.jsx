@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/components/FormularioLogin.sass";
+import "../styles/components/LoginForm.sass";
 import { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
@@ -9,7 +9,7 @@ import { loginAPI } from "../services/userServices";
 
 export default function LoginForm() {
   const { setAuth, persist, setPersist, setAccessToken } = useAuth();
-  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,7 +70,7 @@ export default function LoginForm() {
   }, [persist]);
 
   return (
-    <div className="formulario-login">
+    <div className="login-form">
       <p
         ref={errRef}
         className={message ? "errmsg" : "offscreen"}
@@ -78,15 +78,12 @@ export default function LoginForm() {
       >
         {message}
       </p>
-      <div className="button">
-        <button className="button-login">Login</button>
-        <button className="button-login">Resgistre-se</button>
-      </div>
+     
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
-        <div className="email-senha-conteiner">
+        <div className="email-password-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -109,7 +106,7 @@ export default function LoginForm() {
         </div>
 
         <label htmlFor="password">Password</label>
-        <div className="email-senha-conteiner" id="senha-conteiner">
+        <div className="email-password-container" id="password-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -121,7 +118,7 @@ export default function LoginForm() {
           </svg>
 
           <input
-            type={mostrarSenha ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             placeholder="Digite sua senha"
             id="password"
             name="senha"
@@ -132,10 +129,10 @@ export default function LoginForm() {
             required
           />
 
-          {mostrarSenha ? (
+          {showPassword ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => setMostrarSenha(!mostrarSenha)}
+              onClick={() => setShowPassword(!showPassword)}
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
@@ -146,7 +143,7 @@ export default function LoginForm() {
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => setMostrarSenha(!mostrarSenha)}
+              onClick={() => setShowPassword(!showPassword)}
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
@@ -157,7 +154,7 @@ export default function LoginForm() {
           )}
         </div>
 
-        <div className="auxiliares">
+        <div className="helpers">
           <div className="checkbox">
             <input
               type="checkbox"
@@ -174,7 +171,7 @@ export default function LoginForm() {
         <button type="submit">Entrar</button>
       </form>
 
-      <p className="registrar-conteiner">
+      <p className="register-container">
         Não tem uma conta? <Link to="/register">Registre-se</Link>
       </p>
     </div>

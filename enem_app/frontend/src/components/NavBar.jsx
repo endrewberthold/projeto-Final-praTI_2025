@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import "../styles/components/navbar.sass";
 import { PiCards } from "react-icons/pi";
 import { BsPerson, BsGrid } from "react-icons/bs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
 import { TbSettings } from "react-icons/tb";
 import { LuLogOut } from "react-icons/lu";
+import useAuth from "../hooks/useAuth";
 
 
 export default function Navbar() {
@@ -13,6 +14,8 @@ export default function Navbar() {
   const menuBorderRef = useRef(null);
   const profileMenuRef = useRef(null);
   const { activeIndex, updateActiveIndex } = useNavbar();
+  const { clearAuth } = useAuth();
+  const navigate = useNavigate();
 
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -91,6 +94,12 @@ export default function Navbar() {
   const handleClick = (index) => {
     if (menuRef.current) menuRef.current.style.removeProperty("--timeOut");
     updateActiveIndex(index);
+  };
+
+  const handleLogout = () => {
+    clearAuth();
+    setProfileOpen(false);
+    navigate("/", { replace: true });
   };
 
   return (
@@ -241,6 +250,7 @@ export default function Navbar() {
                       className="profile-dropdown__item"
                       type="button"
                       role="menuitem"
+                      onClick={handleLogout}
                       style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                     >
                       <LuLogOut size={18} />

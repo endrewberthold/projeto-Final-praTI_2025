@@ -28,30 +28,41 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log("USER: ", email);
 
     try {
       const response = await loginAPI(email, password);
 
-      //console.log(JSON.stringify(response?.data));
-      //console.log("DATA: :", response?.data);
-      //console.log("RESPONSE: :", response?.data.user.role);
-
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.user.role;
+      const userId = response?.data?.user.id;
+      const userName = response?.data?.user.name;
+
+      // Cria o objeto de autenticação completo
+      const authData = { 
+        email, 
+        role, 
+        accessToken,
+        userId,
+        userName,
+        loginTime: new Date().toISOString() // Para controle de sessão
+      };
 
       setAccessToken(accessToken);
-      setAuth({ email, password, role, accessToken });
+      setAuth(authData);
+      
+      // Limpa os campos do formulário
       setEmail("");
       setPassword("");
+      
+      console.log("Login successful. Persist:", persist);
+      console.log("Auth data:", authData);
+      
       navigate(from, { replace: true });
-
-      console.log("FROM: ", from);
     } catch (err) {
       if (!err?.response) {
         setMessage("No Server Response");
       } else if (err.response?.status === 400) {
-        setMessage("Missing emailname or Password");
+        setMessage("Missing email or Password");
       } else if (err.response?.status === 401) {
         setMessage("Unauthorized");
       } else {

@@ -47,17 +47,6 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.8)
     transition: transform 0.05s ease, box-shadow 0.05s ease
 
-.cardSkills.card
-  width: 20rem
-  height: 15rem
-
-  &:hover
-    cursor: pointer
-    .cardSkills-title
-      color: #ffffff   // cor que você quer quando passar o mouse
-    .cardSkills-description
-      color: #ffffff   
-
 .cardSkills-content
   display: flex
   align-items: flex-start
@@ -73,23 +62,47 @@
   font-size: 1.125rem
   font-weight: 600
   color: #111827
+  position: relative
+  z-index: 5
+  transition: color 0.3s ease
 
 .cardSkills-description
   font-size: 0.875rem
   color: #6b7280
   margin-top: 0.5rem
+  position: relative
+  z-index: 5
+  transition: color 0.3s ease
 
+// Card com animação
 .cardSkills.card
   position: relative
   overflow: hidden
   background: #ffffff
   border-radius: 1rem
   padding: 1rem
-  transition: all 0.6s ease-in-out
+  width: 20rem
+  height: 15rem
+  transition: all 0.3s ease-in-out
   transform: scale(1)
   backface-visibility: hidden
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
+
+  // Pseudo-elemento para animação de fundo
+  &::before
+    content: ""
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 0
+    height: 0
+    background-color: #4e6dc2ff
+    border-radius: 50%
+    transform: translate(-50%, -50%)
+    transition: all 0.4s ease-out
+    z-index: 1
+    opacity: 0
 
   .cardSkills-icon
     position: relative
@@ -101,33 +114,116 @@
     align-items: center
     justify-content: center
     color: #fff
-    z-index: 5
+    z-index: 10
     transition: all 0.3s ease
+    box-shadow: 0 4px 15px rgba(78, 109, 194, 0.3)
 
-    &::after
-      content: ""
-      position: absolute
-      top: 50%
-      left: 50%
-      width: 0
-      height: 0
-      background-color: #4e6dc2ff
-      border-radius: 50%
-      transform: translate(-50%, -50%)
-      transition: all 0.5s ease
-      z-index: -1
-
-  .cardSkills-title,
-  .cardSkills-description
+  .cardSkills-content
     position: relative
     z-index: 5
-    transition: color 0.3s ease
 
+  // Estados de hover
   &:hover
-    .cardSkills-icon::after
-      width: 1000px       // aumenta pra cobrir todo o card
-      height: 1000px
+    cursor: pointer
+    
+    &::before
+      width: 600px
+      height: 600px
+      opacity: 1
+      border-radius: 1rem
 
     .cardSkills-title,
     .cardSkills-description
-      color: #ffffff       // muda a cor do texto para contraste
+      color: #ffffff
+
+    .cardSkills-icon
+      transform: scale(1.1)
+      box-shadow: 0 6px 20px rgba(78, 109, 194, 0.4)
+
+// Responsividade para cards
+@media (max-width: 1200px)
+  .card-components
+    width: 100%
+    flex-wrap: wrap
+    justify-content: center
+    
+  .cardSkills.card
+    width: 18rem
+    height: 14rem
+
+@media (max-width: 768px)
+  .component-concepts
+    margin-top: 8rem
+    margin-left: 1rem
+    margin-right: 1rem
+    
+  .card-components
+    height: auto
+    gap: 1.5rem
+    padding: 0 1rem
+    
+  .cardSkills.card
+    width: min(18rem, 85vw)
+    height: min(16rem, 25vh)
+    min-height: 14rem
+    aspect-ratio: 1.125
+    
+    &::before
+      width: 500px
+      height: 500px
+
+@media (max-width: 480px)
+  .component-concepts
+    margin-top: 5rem
+    margin-left: 0.5rem
+    margin-right: 0.5rem
+    
+  .share-title
+    font-size: 1.3rem
+    text-align: center
+    margin-bottom: 2rem
+    padding: 0 1rem
+    
+  .card-components
+    flex-direction: column
+    align-items: center
+    gap: 2rem
+    padding: 0 0.5rem
+    
+  .cardSkills.card
+    width: min(16rem, 90vw)
+    height: auto
+    min-height: 15rem
+    aspect-ratio: 1
+    padding: 1.5rem
+    
+    .cardSkills-content
+      gap: 1.5rem
+      height: 100%
+      justify-content: space-between
+    
+    .cardSkills-icon
+      width: 3rem
+      height: 3rem
+      margin-bottom: 0.5rem
+      
+    .cardSkills-title
+      font-size: 1.1rem
+      line-height: 1.3
+      
+    .cardSkills-description
+      font-size: 0.9rem
+      line-height: 1.4
+      margin-top: 0.8rem
+
+@media (max-width: 360px)
+  .cardSkills.card
+    width: min(15rem, 95vw)
+    min-height: 14rem
+    padding: 1.2rem
+    
+    .cardSkills-title
+      font-size: 1rem
+      
+    .cardSkills-description
+      font-size: 0.85rem

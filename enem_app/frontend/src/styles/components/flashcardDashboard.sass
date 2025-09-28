@@ -5,26 +5,54 @@
 @use '../mixins.sass'
 
 #flash-principal
-    +mixins.estilo-flashcards
-    //position: absolute
-    //z-index: 4
+  
+    background-color: #668fcc
+    height: 4rem
+    width: 15rem
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 1rem
+    border-radius: 0.7rem
+    box-shadow: rgba(0, 0, 0, 0.1)
     cursor: pointer
-    transition: 0.3s ease
-    transform: rotate(0deg)
-    //top: 3rem
 
-    p
-        width: 17rem
-        text-align: center
+    &:hover
+        z-index: 20
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.10)
+        transform: translateY(-4px) scale(1.02)
+
+    &:active
+        z-index: 20
+        transform: translateY(1px) scale(0.995)
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.8)
+        transition: transform 0.05s ease, box-shadow 0.05s ease
+    
     
     h1
-        color: variables.$clr-secondary
+        color: #ffffff
+        font-size: 1.3rem
+
+
+.icon-estrela
+    display: flex
+    margin-bottom: 11rem
+    margin-left: 9.5rem
 
 .icon
-    color: #FFF
-    
+    color: #000000
 
-#descricao-quantidade-cards
-    color: variables.$clr-secondary
-    padding: 1rem
+// #flash-principal:hover
+
+//     border-radius: variables.$border-radius-card-secondary
+//     box-shadow: 20px 20px 25px -5px rgba(48, 77, 129, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.144)     
+
+.flash-principal:hover 
+  scale: 1.02
+  box-shadow: 0 5px 20px #444e
+
+
+.flash-principal:hover .number::after
+  width: 900px
+  height: 900px
 

@@ -1,0 +1,286 @@
+@use '../variables'
+  
+.menu
+    --duration: 0.7s
+    margin: 0
+    display: flex
+    /* Works well with 100% width  */
+    width: 100%
+    padding: 0 2.85em
+    position: relative
+    align-items: center
+    justify-content: center
+    background-color: variables.$clr-accent
+    gap: 4rem
+    
+
+
+.menu__item
+    all: unset
+    /* flex-grow: 1 */
+    z-index: 100
+    display: flex
+    cursor: pointer
+    position: relative
+    border-radius: 50%
+    align-items: center
+    will-change: transform
+    justify-content: center
+    padding: 0.5rem
+    transition: transform var(--duration, 0.7s)
+
+
+.menu__item::before
+    content: ""
+    z-index: -1
+    width: 3rem
+    height: 3rem
+    border-radius: 50%
+    position: absolute
+    transform: scale(0)
+    transition: background-color var(--duration), transform var(--duration)
+
+
+
+.menu__item.active 
+    transform: translate3d(0, 0.8em , 0)
+
+
+.menu__item.active::before
+    transform: scale(1)
+    background-color: var(--bgColorItem)
+
+
+.menu__border 
+    left: 0
+    top: 99%
+    width: 10rem
+    height: 1.5rem
+    position: absolute
+    clip-path: url(#menu)
+    will-change: transform
+    background-color: #4e6dc2ff
+    transition: transform var(--timeOut , var(--duration))
+    transform: translate3d(var(--initial-left, 0), 0, 0) /* valor inicial */
+
+
+.svg-container 
+    width: 0
+    height: 0
+
+
+@media screen and (max-width: 50em) 
+    .menu
+        font-size: .8em
+
+
+// Icones Lateral
+.iconesLateral
+  display: flex
+  gap: 2rem
+  justify-content: end
+  display: flex
+  position: absolute
+  width: 100%
+  align-items: center
+ 
+
+  .icone-conteiner
+    display: flex
+    gap: 1rem
+
+// Toggle
+.themeToggle
+  color: #ffffff
+  width: 1.5rem
+
+
+.st-sunMoonThemeToggleBtn
+  position: relative
+  cursor: pointer
+
+  .themeToggleInput
+    opacity: 0
+    width: 100%
+    aspect-ratio: 1
+
+  svg
+    position: absolute
+    left: 0
+    width: 100%
+    height: 100%
+    transition: transform 0.4s ease
+    transform: rotate(40deg)
+
+    .sunMoon
+      transform-origin: center center
+      transition: inherit
+      transform: scale(1)
+
+    .sunRay
+      transform-origin: center center
+      transform: scale(0)
+
+    mask > circle
+      transition: transform 0.64s cubic-bezier(0.41, 0.64, 0.32, 1.575)
+      transform: translate(0px, 0px)
+
+    .sunRay2
+      animation-delay: 0.05s !important
+    .sunRay3
+      animation-delay: 0.1s !important
+    .sunRay4
+      animation-delay: 0.17s !important
+    .sunRay5
+      animation-delay: 0.25s !important
+    .sunRay5
+      animation-delay: 0.29s !important
+
+  .themeToggleInput
+    &:checked + svg
+      transform: rotate(90deg)
+
+      mask > circle
+        transform: translate(16px, -3px)
+
+      .sunMoon
+        transform: scale(0.55)
+
+      .sunRay
+        animation: showRay1832 0.4s ease 0s 1 forwards
+
+@keyframes showRay1832
+  0%
+    transform: scale(0)
+  100%
+    transform: scale(1)
+
+// Notificação
+
+.button
+  width: 2.6rem
+  height: 2.5rem
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 50%
+  cursor: pointer
+  border: none
+  background: none
+
+  &:hover
+    background-color: #ffffffcc
+
+    .bell
+      animation: bellRing 0.9s both
+
+.bell
+  width: 18px
+
+  path
+    fill: #ffffff
+
+@keyframes bellRing
+  0%, 100%
+    transform-origin: top
+
+  15%
+    transform: rotateZ(10deg)
+
+  30%
+    transform: rotateZ(-10deg)
+
+  45%
+    transform: rotateZ(5deg)
+
+  60%
+    transform: rotateZ(-5deg)
+
+  75%
+    transform: rotateZ(2deg)
+
+
+
+.icon
+    width: 2rem
+    height: 2.6rem
+    stroke: white
+    stroke-width: 1pt
+    stroke-miterlimit: 10
+    stroke-linecap: round
+    stroke-linejoin: round
+    stroke-dasharray: 400
+    cursor: pointer
+
+
+@keyframes strok 
+    100% 
+        stroke-dashoffset: 400
+
+
+// #icone-configuracao
+
+//   &:hover
+//     .svg-icon
+//       animation: spin 2s linear infinite
+
+// @keyframes spin
+//   0%
+//     transform: rotate(0deg)
+//   100%
+//     transform: rotate(360deg)
+
+#img-perfil
+    background-color: variables.$clr-accent-background
+
+/* trecho básico — ajuste cores e espaçamentos conforme seu tema */
+.profile-wrapper
+  position: relative
+  
+  .profile-button
+    background: transparent
+    border: none
+    padding: 0.4rem
+    cursor: pointer
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    border-radius: variables.$border-radius-card
+
+
+.profile-dropdown
+  position: absolute
+  top: calc(100% + 1rem)
+  right: 0
+  background: #fff
+  border-radius: 8px
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+  min-width: 160px
+  z-index: 1000
+  padding: 0.5rem
+
+  .profile-dropdown__item
+    display: block
+    width: 100%
+    padding: 0.6rem 1rem
+    background: transparent
+    border: none
+    text-align: left
+    cursor: pointer
+    font-size: 0.95rem
+    display: flex
+    padding: 0.5rem
+
+  .profile-dropdown__item:hover
+    background: variables.$clr-accent-background
+    color: variables.$clr-card
+    border-radius: 8px
+
+
+/* exemplo para .button e .iconesLateral já existirem no seu arquivo */
+/* ajuste conforme suas classes já criadas */
+.iconesLateral
+  display: flex
+  align-items: center
+  gap: 0.6rem

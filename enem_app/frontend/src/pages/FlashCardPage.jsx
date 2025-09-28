@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 
-import FlashCard from "../components/FlashCard";
+// import FlashCard from "../components/FlashCard";
 
 // API calls from services
 import {

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../styles/pages/dashboard.sass";
 import { FaBookOpen } from "react-icons/fa";
 import { TbMathFunction } from "react-icons/tb";
-import { GiAtom } from "react-icons/gi";
+import { GiMicroscope } from "react-icons/gi";
 import { FaGlobeAmericas } from "react-icons/fa";
 
 import UserStatusDashboard from "../components/UserStatusDashboard";
@@ -47,7 +47,7 @@ export default function Dashboard() {
           <CardSkillsDashboard 
             title={"Ciências da Natureza e suas Tecnologias"}
             description={"Inclui física, química e biologia, com foco em fenômenos naturais, experimentos e aplicações do conhecimento científico."}
-            icon={<GiAtom />}
+            icon={<GiMicroscope />}
           />
         </NavLink>
 

@@ -1,0 +1,174 @@
+@use '../variables'
+
+.mobile-navbar
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  z-index: 1000
+  background: variables.$clr-accent
+  display: none
+
+  @media (max-width: 768px)
+    display: block
+
+.mobile-navbar__header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 1rem 1.5rem
+  background: variables.$clr-accent
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1)
+
+.mobile-navbar__logo
+  color: variables.$clr-secondary
+  font-size: 1.2rem
+  font-weight: 600
+  margin: 0
+
+.mobile-navbar__toggle
+  background: none
+  border: none
+  color: variables.$clr-secondary
+  cursor: pointer
+  padding: 0.5rem
+  border-radius: 0.5rem
+  transition: background-color 0.2s ease
+
+  &:hover
+    background: rgba(255, 255, 255, 0.1)
+
+.mobile-navbar__overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.5)
+  z-index: 999
+  animation: fadeIn 0.3s ease
+
+.mobile-navbar__menu
+  position: fixed
+  top: 0
+  right: -100%
+  width: 280px
+  height: 100vh
+  background: variables.$clr-secondary
+  z-index: 1001
+  transition: right 0.3s ease-in-out
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1)
+
+  &--open
+    right: 0
+
+.mobile-navbar__menu-content
+  height: 100%
+  display: flex
+  flex-direction: column
+
+.mobile-navbar__menu-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 1.5rem
+  border-bottom: 1px solid #e5e7eb
+  background: variables.$clr-accent
+  color: variables.$clr-secondary
+
+  h3
+    margin: 0
+    font-size: 1.1rem
+    font-weight: 600
+
+.mobile-navbar__close
+  background: none
+  border: none
+  color: variables.$clr-secondary
+  cursor: pointer
+  padding: 0.5rem
+  border-radius: 0.5rem
+  transition: background-color 0.2s ease
+
+  &:hover
+    background: rgba(255, 255, 255, 0.1)
+
+.mobile-navbar__links
+  flex: 1
+  padding: 1rem 0
+
+.mobile-navbar__link
+  display: flex
+  align-items: center
+  gap: 1rem
+  padding: 1rem 1.5rem
+  color: #374151
+  text-decoration: none
+  font-weight: 500
+  transition: all 0.2s ease
+  border-left: 3px solid transparent
+
+  &:hover
+    background: #f9fafb
+    color: variables.$clr-accent
+
+  &.active
+    background: #f0f4ff
+    color: variables.$clr-accent
+    border-left-color: variables.$clr-accent
+
+    svg
+      color: variables.$clr-accent
+
+.mobile-navbar__divider
+  height: 1px
+  background: #e5e7eb
+  margin: 0.5rem 1.5rem
+
+.mobile-navbar__settings
+  padding: 1rem 0
+
+.mobile-navbar__setting-item
+  display: flex
+  align-items: center
+  gap: 1rem
+  padding: 1rem 1.5rem
+  background: none
+  border: none
+  width: 100%
+  color: #374151
+  font-weight: 500
+  cursor: pointer
+  transition: all 0.2s ease
+  text-align: left
+
+  &:hover
+    background: #f9fafb
+    color: variables.$clr-accent
+
+.mobile-navbar__logout
+  color: #dc2626 !important
+
+  &:hover
+    background: #fef2f2 !important
+    color: #dc2626 !important
+
+// Animação do overlay
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+// Ajustes no body quando o menu está aberto
+body.mobile-menu-open
+  overflow: hidden
+
+// Espaçamento para o conteúdo quando a navbar mobile está presente
+@media (max-width: 768px)
+  .container-dashboard,
+  .main-content
+    padding-top: 70px !important
+    
+  .knowledAreCard-component
+    margin-top: 2rem !important

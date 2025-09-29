@@ -1,0 +1,61 @@
+// Tema Claro (padrão)
+:root, body.light
+  --bg-primary: #f8fafc
+  --bg-secondary: #ffffff
+  --text-primary: #1e293b
+  --text-secondary: #64748b
+  --border-primary: rgba(100, 116, 139, 0.1)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05)
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08)
+  --accent-primary: #6366f1
+  --accent-secondary: #8b5cf6
+
+  // Cores específicas do dashboard
+  --dashboard-banner-bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)
+  
+  // Cores para períodos do dia (tema claro)
+  --morning-bg: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%)
+  --morning-text: #92400e
+  --morning-title: #92400e
+  
+  --afternoon-bg: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%)
+  --afternoon-text: #1e40af
+  --afternoon-title: #1e40af
+  
+  --night-bg: linear-gradient(135deg, #f5f3ff 0%, #ddd6fe 100%)
+  --night-text: #5b21b6
+  --night-title: #5b21b6
+
+// Tema Escuro
+body.dark
+  --bg-primary: #0f172a
+  --bg-secondary: #1e293b
+  --text-primary: #f1f5f9
+  --text-secondary: #94a3b8
+  --border-primary: rgba(148, 163, 184, 0.2)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3)
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4)
+  --accent-primary: #818cf8
+  --accent-secondary: #a78bfa
+
+  // Cores específicas do dashboard (tema escuro)
+  --dashboard-banner-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%)
+  
+  // Cores para períodos do dia (tema escuro)
+  --morning-bg: linear-gradient(135deg, #451a03 0%, #7c2d12 100%)
+  --morning-text: #fed7aa
+  --morning-title: #fbbf24
+  
+  --afternoon-bg: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)
+  --afternoon-text: #bfdbfe
+  --afternoon-title: #60a5fa
+  
+  --night-bg: linear-gradient(135deg, #4c1d95 0%, #6b21a8 100%)
+  --night-text: #ddd6fe
+  --night-title: #c4b5fd
+
+// Aplicação global dos temas
+body
+  background-color: var(--bg-primary)
+  color: var(--text-primary)
+  transition: background-color 0.3s ease, color 0.3s ease

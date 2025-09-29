@@ -1,5 +1,5 @@
 @use '../variables'
-    
+
 .upperCards
     display: flex
     gap: min(40px, 4vw)
@@ -13,40 +13,126 @@
     justify-content: center
     align-items: center
     width: 100%
+    margin-bottom: min(2rem, 3vh) // Mantendo a margem para separar do conteúdo
 
+// NOVO BANNER EDUCACIONAL DINÂMICO (CORRIGIDO PARA .banner-placeholder)
 .banner-placeholder
-    background: linear-gradient(135deg, variables.$clr-primary, variables.$clr-accent)
-    border-radius: 16px
-    padding: min(3rem, 5vh) min(4rem, 6vw)
-    text-align: center
-    color: white
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15)
+    // Estilos base (Nível 1 - 4 espaços)
+    background: var(--dashboard-banner-bg)
+    border-radius: 20px
+    padding: min(2.5rem, 4vh) min(3rem, 5vw)
     max-width: 1200px
     width: 95%
-    min-height: 300px
+    min-height: 200px
     display: flex
-    flex-direction: column
-    justify-content: center
-    
-    h2
-        font-size: min(2.4rem, 5vw)
-        margin-bottom: min(1.5rem, 3vh)
-        font-weight: 700
-    
-    p
-        font-size: min(1.2rem, 3vw)
-        opacity: 0.95
-        line-height: 1.5
-        max-width: 90%
-        margin: 0 auto
+    justify-content: space-between
+    align-items: center
+    gap: min(2rem, 3vw)
+    box-shadow: var(--shadow-lg)
+    border: 1px solid var(--border-primary)
+    position: relative
+    overflow: hidden
+
+    // Cores para período da manhã (Nível 1 - 4 espaços)
+    &.morning
+        // Nível 2 - 8 espaços
+        background: var(--morning-bg)
+
+        .banner-text
+            // Nível 3 - 12 espaços
+            color: var(--morning-text)
+
+            h2
+                color: var(--morning-title)
+
+            p
+                color: var(--morning-text)
+
+    // Cores para período da tarde (Nível 1 - 4 espaços)
+    &.afternoon
+        // Nível 2 - 8 espaços
+        background: var(--afternoon-bg)
+
+        .banner-text
+            color: var(--afternoon-text)
+
+            h2
+                color: var(--afternoon-title)
+
+            p
+                color: var(--afternoon-text)
+
+    // Cores para período da noite (Adicionada para completar o tema)
+    &.night
+        background: var(--night-bg)
+
+        .banner-text
+            color: var(--night-text)
+
+            h2
+                color: var(--night-title)
+
+            p
+                color: var(--night-text)
+
+    // --- LAYOUT E CONTEÚDO (Nível 1 - 4 espaços) ---
+    .banner-text
+        // Nível 2 - 8 espaços
+        flex: 1
+        max-width: 55% // Texto ocupando 55% da largura
+
+        h2
+            // Nível 3 - 12 espaços
+            margin: 0 0 min(0.8rem, 2vh) 0
+            font-size: min(2.2rem, 4.5vw)
+            font-weight: 700
+            line-height: 1.2
+
+        p
+            margin: 0 0 min(0.6rem, 1.5vh) 0
+            font-size: min(1.1rem, 2.8vw)
+            opacity: 0.85
+            font-weight: 500
+            line-height: 1.5
+
+        .banner-description
+            font-size: min(0.95rem, 2.3vw)
+            opacity: 0.7
+            font-weight: 400
+            line-height: 1.6
+            margin-bottom: 0
+
+    .banner-image
+        flex-shrink: 0
+        max-width: 45% // Imagem ocupando 45% da largura
+        display: flex
+        align-items: center
+        justify-content: center
+
+        img
+            width: 100%
+            max-width: min(320px, 35vw)
+            height: auto
+            display: block
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))
+            animation: float 6s ease-in-out infinite
+
+// Animação de flutuação (Nível 0)
+@keyframes float
+    // Nível 1 - 4 espaços
+    0%, 100%
+        // Nível 2 - 8 espaços
+        transform: translateY(0px)
+    50%
+        // Nível 2 - 8 espaços
+        transform: translateY(-15px)
 
 .heroCall
-    color: variables.$clr-primary
     display: flex
     flex-direction: column
     align-items: center
-
     margin: 40px auto
+    color: variables.$clr-primary
 
 .container-dashboard
     display: flex
@@ -97,35 +183,41 @@
         align-items: center
         gap: min(2.5rem, 3vh)
         padding: min(2.5rem, 3vh) min(2rem, 2.5vw)
-        
+
     .left-column
         width: 100%
         order: 2
         margin-top: 0
         gap: min(1.5rem, 2vh)
-        
+
     .upperCards
         order: 1
         padding-right: 0
         width: 100%
         justify-content: center
-        
+
     .banner-placeholder
-        max-width: 700px
-        width: 90%
-        padding: min(2.5rem, 4vh) min(3rem, 5vw)
-        
-        h2
-            font-size: min(2rem, 4.5vw)
-        
-        p
-            font-size: min(1.1rem, 2.8vw)
-        
+        max-width: 900px
+        width: 92%
+        padding: min(2.2rem, 3.5vh) min(2.8rem, 4.5vw)
+
+        .banner-text
+            max-width: 60%
+
+            h2
+                font-size: min(1.9rem, 4vw)
+
+            p, .banner-description
+                font-size: min(1rem, 2.5vw)
+
+        .banner-image img
+            max-width: min(260px, 30vw)
+
     .knowledAreCard-component
         margin-left: 0
         margin-right: 0
         max-width: 95%
-        
+
         >div
             justify-content: center
 
@@ -133,37 +225,52 @@
     .container-dashboard
         padding: min(1.5rem, 2vh) min(1.5rem, 2vw)
         gap: min(1.8rem, 2.5vh)
-        
+
     .left-column
         gap: min(1.2rem, 2vh)
-        
+
     .banner-section
-        margin: 0
-        
+        margin: 0 0 min(1.5rem, 2vh) 0
+
     .banner-placeholder
-        padding: min(2rem, 3vh) min(2.5rem, 4vw)
+        padding: min(2rem, 3vh) min(2.2rem, 3.5vw)
         width: 98%
-        max-width: 600px
-        min-height: 150px
-        border-radius: 12px
-        
-        h2
-            font-size: min(1.6rem, 4vw)
-            margin-bottom: min(1rem, 2vh)
-        
-        p
-            font-size: min(1rem, 2.5vw)
-        
+        max-width: 650px
+        min-height: 180px
+        border-radius: 16px
+        flex-direction: column
+        text-align: center
+        gap: min(1.5rem, 2.5vh)
+
+        .banner-text
+            max-width: 100%
+
+            h2
+                font-size: min(1.6rem, 4vw)
+                margin-bottom: min(0.6rem, 1.2vh)
+
+            p
+                font-size: min(0.95rem, 2.5vw)
+
+            .banner-description
+                font-size: min(0.85rem, 2.2vw)
+
+        .banner-image
+            max-width: 80%
+
+            img
+                max-width: min(200px, 45vw)
+
     .knowledAreCard-component
         margin-left: 0
         margin-right: 0
         max-width: 100%
-        
+
         h1
             font-size: min(1.6rem, 4.5vw)
             text-align: center
             margin-bottom: min(1.5rem, 2vh)
-        
+
         >div
             flex-direction: column
             align-items: center
@@ -173,25 +280,33 @@
     .container-dashboard
         padding: min(1rem, 2vh) min(1rem, 2vw)
         gap: min(1.2rem, 2vh)
-        
+
     .banner-placeholder
-        padding: min(1.5rem, 2.5vh) min(2rem, 3vw)
+        padding: min(1.5rem, 2.5vh) min(1.8rem, 3vw)
         width: 100%
-        min-height: 120px
-        border-radius: 10px
-        
-        h2
-            font-size: 1.3rem
-            margin-bottom: min(0.8rem, 1.5vh)
-        
-        p
-            font-size: 0.9rem
-            line-height: 1.4
-        
+        min-height: 140px
+        border-radius: 12px
+        gap: min(1rem, 2vh)
+
+        .banner-text
+            h2
+                font-size: 1.3rem
+                margin-bottom: min(0.5rem, 1vh)
+
+            p
+                font-size: 0.85rem
+                line-height: 1.4
+
+            .banner-description
+                font-size: 0.75rem
+
+        .banner-image img
+            max-width: 150px
+
     .knowledAreCard-component
         margin-left: 0
         margin-right: 0
-        
+
         h1
             font-size: 1.3rem
             margin-bottom: min(1rem, 1.5vh)
@@ -200,19 +315,29 @@
     .container-dashboard
         padding: 0.8rem 0.8rem
         gap: 1rem
-        
+
     .banner-placeholder
         padding: 1.2rem 1.5rem
-        min-height: 100px
-        border-radius: 8px
-        
-        h2
-            font-size: 1.1rem
-            margin-bottom: 0.6rem
-        
-        p
-            font-size: 0.8rem
-        
+        min-height: 120px
+        border-radius: 10px
+
+        .banner-text
+            h2
+                font-size: 1.1rem
+                margin-bottom: 0.4rem
+
+            p
+                font-size: 0.75rem
+
+            .banner-description
+                font-size: 0.7rem
+
+        .banner-image
+            max-width: 100%
+
+            img
+                max-width: 120px
+
     .knowledAreCard-component
         h1
             font-size: 1.2rem
@@ -221,10 +346,10 @@
 @media (max-width: 768px)
     body
         padding-top: 0 !important
-        
+
     .container-dashboard
         padding-top: min(5rem, 6vh) !important
         min-height: calc(100vh - 80px)
-        
+
     .knowledAreCard-component
-        margin-top: 0 !important 
+        margin-top: 0 !important

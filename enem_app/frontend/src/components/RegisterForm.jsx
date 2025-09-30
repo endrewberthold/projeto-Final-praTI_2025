@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import ProfileImageSelector from "./ProfileImageSelector";
 
 import { registerAPI } from "../services/userServices";
 import "../styles/components/RegisterForm.sass"
 
 export default function RegisterForm() {
+  const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +20,12 @@ export default function RegisterForm() {
 
   async function handleRegister(e) {
     e.preventDefault();
+    if(profileImage === null){
+      console.log("Selecione uma imagem de perfil");
+      return 
+    }
     try {
-      const response = await registerAPI(name, email, password);
+      const response = await registerAPI(profileImage, name, email, password);
 
       console.log(response);
       navigate(from, { replace: true });
@@ -32,16 +38,9 @@ export default function RegisterForm() {
     <div className="register-form">
       <h1>Registre-se</h1>
 
-      <form onSubmit={handleRegister}>
-        {/* <label htmlFor="name">User Name: </label>
-        <input
-          type="text"
-          id="name"
-          autoComplete="off"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        /> */}
+      < ProfileImageSelector onChange={(selected) => setProfileImage(selected)}/>
 
+      <form onSubmit={handleRegister}>
         <label htmlFor="name">Usuario </label>
         <div className="email-password-container">
           <svg
@@ -143,7 +142,7 @@ export default function RegisterForm() {
             </button>
         </div>
 
-        <button type="submit">Entrar</button>
+        <button type="submit">Registrar</button>
       </form>
 
       <p className="register-container">

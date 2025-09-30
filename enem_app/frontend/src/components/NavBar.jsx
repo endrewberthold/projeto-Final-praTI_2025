@@ -4,6 +4,7 @@ import { PiCards } from "react-icons/pi";
 import { BsPerson, BsGrid } from "react-icons/bs";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
+import { useTheme } from "../context/ThemeContext";
 import { TbSettings } from "react-icons/tb";
 import { LuLogOut } from "react-icons/lu";
 import useAuth from "../hooks/useAuth";
@@ -14,6 +15,7 @@ export default function Navbar() {
   const menuBorderRef = useRef(null);
   const profileMenuRef = useRef(null);
   const { activeIndex, updateActiveIndex } = useNavbar();
+  const { theme, toggleTheme, isDark } = useTheme();
   const { clearAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -163,6 +165,8 @@ export default function Navbar() {
                     id="themeToggle"
                     className="themeToggleInput"
                     aria-label="Alternar tema"
+                    checked={isDark}
+                    onChange={toggleTheme}
                   />
                   <svg
                     width="18"

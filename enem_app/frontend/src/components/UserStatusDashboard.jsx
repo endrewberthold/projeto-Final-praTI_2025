@@ -5,6 +5,7 @@ import { BsPerson } from "react-icons/bs";
 import "../styles/components/userStatusDashboard.sass";
 import { NavLink } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
+import useAuth from "../hooks/useAuth";
 
 export default function StatusUsuario({
   imageProfile,
@@ -13,6 +14,7 @@ export default function StatusUsuario({
   numberofcorrectanswers,
 }) {
   const { updateActiveIndex } = useNavbar();
+  const { auth } = useAuth();
   
   const radius = 90;
   const circunferency = 2 * Math.PI * radius;
@@ -53,7 +55,7 @@ export default function StatusUsuario({
           <div className="percentage-in-circle">{percentage}xp</div>
         </div>
         <div
-          className="name-user"> Fulana </div>
+          className="name-user">{auth?.userName || "Usuário"}</div>
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
           <div className="information" id="info-answers">

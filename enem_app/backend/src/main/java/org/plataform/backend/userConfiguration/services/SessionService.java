@@ -68,6 +68,8 @@ public class SessionService {
         session.setUserId(userId);
         session.setAreaId(request.getAreaId());
         session.setLevelId(request.getLevelId());
+        session.setNumQuestions(numQuestions);
+        session.setAbandoned(false);
         session.setStartedAt(OffsetDateTime.now());
         session = sessionRepository.save(session); // gera id
 
@@ -186,6 +188,10 @@ public class SessionService {
                 .count();
         final int wrong = total - correct;
 
+        //Verifica se a sessão foi totalmente respondida
+        Integer expected = session.getNumQuestions();
+        boolean wasFullyAnswered = (expected != null) && (attempts.size() >= expected);
+
         // soma xp
         int xpSum = 0;
         for (Attempt at : attempts) {
@@ -210,7 +216,11 @@ public class SessionService {
 
         //decide se nível foi completado (threshold configurável)
         final double completionThreshold = 0.7;
-        boolean levelCompleted = ((double) correct / total) >= completionThreshold;
+        boolean meetsAccuracy = ((double) correct / (double) total) >= completionThreshold;
+        boolean levelCompleted = wasFullyAnswered && meetsAccuracy;
+
+        //caso a sessão não foi totalmente respondida, marca como abandonado
+        session.setAbandoned(!wasFullyAnswered);
 
         // Atualizar XP acumulado do usuário
         User user = userRepository.findById(userId)
@@ -231,39 +241,40 @@ public class SessionService {
         String areaId = session.getAreaId();
         Long levelId = session.getLevelId();
 
-        Optional<UserLevel> maybeUl = userLevelRepository.findByUserIdAndAreaIdAndLevelId(userId, areaId, levelId);
-        if (maybeUl.isPresent()) {
-            UserLevel ul = maybeUl.get();
-            ul.setCompleted(true);
-            ul.setCompletedAt(OffsetDateTime.now());
-            userLevelRepository.save(ul);
-        } else {
-            UserLevel ulNew = new UserLevel();
-            ulNew.setUserId(userId);
-            ulNew.setAreaId(areaId);
-            ulNew.setLevelId(levelId);
-            ulNew.setCompleted(true);
-            ulNew.setCompletedAt(OffsetDateTime.now());
-            userLevelRepository.save(ulNew);
-        }
+        if (levelCompleted){
+            Optional<UserLevel> maybeUl = userLevelRepository.findByUserIdAndAreaIdAndLevelId(userId, areaId, levelId);
+            if (maybeUl.isPresent()) {
+                UserLevel ul = maybeUl.get();
+                ul.setCompleted(true);
+                ul.setCompletedAt(OffsetDateTime.now());
+                userLevelRepository.save(ul);
+            } else {
+                UserLevel ulNew = new UserLevel();
+                ulNew.setUserId(userId);
+                ulNew.setAreaId(areaId);
+                ulNew.setLevelId(levelId);
+                ulNew.setCompleted(true);
+                ulNew.setCompletedAt(OffsetDateTime.now());
+                userLevelRepository.save(ulNew);
+            }
 
-        // criar próximo nível desbloqueado
-        Optional<Level> nextLevelOpt = levelRepository.findAll().stream()
-                .filter(l -> l.getId() != null && levelId != null && l.getId() > levelId)
-                .min(Comparator.comparing(Level::getId));
-        if (nextLevelOpt.isPresent()) {
-            Long nextLevelId = nextLevelOpt.get().getId();
-            Optional<UserLevel> maybeNext = userLevelRepository.findByUserIdAndAreaIdAndLevelId(userId, areaId, nextLevelId);
-            if (maybeNext.isEmpty()) {
-                UserLevel next = new UserLevel();
-                next.setUserId(userId);
-                next.setAreaId(areaId);
-                next.setLevelId(nextLevelId);
-                next.setCompleted(false);
-                userLevelRepository.save(next);
+            // criar próximo nível desbloqueado
+            Optional<Level> nextLevelOpt = levelRepository.findAll().stream()
+                    .filter(l -> l.getId() != null && levelId != null && l.getId() > levelId)
+                    .min(Comparator.comparing(Level::getId));
+            if (nextLevelOpt.isPresent()) {
+                Long nextLevelId = nextLevelOpt.get().getId();
+                Optional<UserLevel> maybeNext = userLevelRepository.findByUserIdAndAreaIdAndLevelId(userId, areaId, nextLevelId);
+                if (maybeNext.isEmpty()) {
+                    UserLevel next = new UserLevel();
+                    next.setUserId(userId);
+                    next.setAreaId(areaId);
+                    next.setLevelId(nextLevelId);
+                    next.setCompleted(false);
+                    userLevelRepository.save(next);
+                }
             }
         }
-
         // finalizar sessão
         session.setFinishedAt(OffsetDateTime.now());
         sessionRepository.save(session);
@@ -399,6 +410,7 @@ public class SessionService {
                 .perCompetency(perCompetency)
                 .perSkill(perSkill)
                 .perQuestion(perQuestion)
+                .abandoned(!wasFullyAnswered)
                 .build();
     }
 }

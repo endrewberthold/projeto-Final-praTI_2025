@@ -80,6 +80,8 @@ CREATE TABLE public.sessions (
     user_id BIGINT NOT NULL REFERENCES users(id_user),
     area_id VARCHAR(2) NOT NULL REFERENCES knowledge_areas(id),
     level_id BIGINT NOT NULL REFERENCES levels(id),
+    num_questions INT,
+    abandoned BOOLEAN DEFAULT FALSE,
     started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     finished_at TIMESTAMPTZ
 );

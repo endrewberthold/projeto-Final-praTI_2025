@@ -44,8 +44,8 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    @JsonIgnore                    // JSON ignora na serialização
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // Só aceita escrita
+    @JsonIgnore // JSON ignora na serialização
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Só aceita escrita
     private String password_hash;
 
     @NotNull

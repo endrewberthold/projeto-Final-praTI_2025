@@ -25,7 +25,7 @@ public class SessionFinishResponseDTO {
     @Schema(description = "Id da sessão", example = "int")
     private Long sessionId;
 
-    @Schema(description = "Total de Questões", example = "int")
+    @Schema(description = "Total de Questões respondidas", example = "int")
     private int totalQuestions;
 
     @Schema(description = "Alternativa correta", example = "true")
@@ -51,4 +51,7 @@ public class SessionFinishResponseDTO {
 
     @Schema(description = "Resposta das questões", example = "List")
     private List<PerQuestionResultDTO> perQuestion;
+
+    @Schema(description = "Resposta caso a sessão seja abandonada", example = "List")
+    private boolean abandoned;
 }

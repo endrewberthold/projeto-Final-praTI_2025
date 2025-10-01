@@ -21,15 +21,12 @@ import jakarta.validation.constraints.Size;
 public class FlashcardRequestDTO {
 
     @NotBlank
-    @Schema(description = "Termo ou conceito principal do flashcard", example = "Média ponderada")
     private String term;
 
-    @Schema(description = "Área de conhecimento do flashcard", example = "Matemática e Suas Tecnologias")
     @NotNull
     private String areaId;
 
     @NotBlank
-    @Schema(description = "Descrição ou explicação do conceito", example = "Método de estatística usado quando alguns elementos são mais importantes que outros")
     @Size(max = 400, message = "Description must not exceed 400 characters")
     private String description;
 }

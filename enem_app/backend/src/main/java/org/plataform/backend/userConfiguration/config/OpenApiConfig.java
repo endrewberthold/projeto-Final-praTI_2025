@@ -1,4 +1,4 @@
-package org.plataform.backend.userConfiguration.docs;
+package org.plataform.backend.userConfiguration.config;
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;

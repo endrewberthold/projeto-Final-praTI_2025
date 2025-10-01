@@ -1,0 +1,359 @@
+@use '../variables'
+
+.status-user
+    height: min(43rem, 85vh)
+    width: 100%
+    max-width: min(431.42px, 90vw)
+    min-width: 280px
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: min(1rem, 1.5vh)
+    border-radius: variables.$border-radius-card-secondary
+    box-shadow: var(--shadow-lg)
+    margin-bottom: min(8rem, 6vh)
+    box-sizing: border-box
+    position: relative
+    overflow: hidden
+    
+
+.container-progress
+    padding: min(3rem, 4vh) min(1rem, 2vw)
+    display: flex
+    flex-direction: column
+    justify-content: baseline
+    align-items: center
+    gap: min(1rem, 2vh)
+    height: 100%
+    width: 100%
+    max-width: 100%
+    background: var(--bg-secondary)
+    border-radius: variables.$border-radius-card-secondary
+    box-sizing: border-box
+
+
+.progress-circle
+    position: relative
+    width: min(200px, 35vw)
+    height: min(200px, 35vw)
+    min-width: 150px
+    min-height: 150px
+    display: block
+    flex-shrink: 0
+    --circle-size: min(200px, 35vw)
+
+.progress-svg
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    transform: rotate(121deg)
+    transition: all 0.3s ease
+    pointer-events: none
+
+.progress-circle
+    stroke-linecap: round
+    transition: stroke-dashoffset 0.3s ease
+
+.photo-profile
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    z-index: 2
+    width: 75%
+    height: 75%
+    border-radius: 50%
+    overflow: hidden
+    display: flex
+    align-items: center
+    justify-content: center
+    background-color: #dbe8ff
+    border: 3px solid variables.$clr-secondary
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+    transition: transform 0.2s ease
+
+    img
+        width: 100%
+        height: 100%
+        object-fit: cover
+        object-position: center
+        transition: transform 0.2s ease
+        
+    &:hover
+        transform: translate(-50%, -50%) scale(1.02)
+        
+        img
+            transform: scale(1.05)
+
+.percentage-in-circle
+    position: absolute
+    bottom: -2px
+    left: 50%
+    transform: translateX(-50%)
+    color: variables.$clr-accent
+    font-size: min(1.2rem, 3.5vw)
+    font-weight: bold
+    z-index: 3
+    background: variables.$clr-secondary
+    padding: 0.2rem 0.5rem
+    border-radius: 1rem
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+
+.name-user
+    color: #333
+    font-size: 1.2rem
+    font-weight: 700
+    text-align: center
+    margin: 0.5rem 0
+    transition: color 0.2s ease
+
+.information-progress
+    display: flex
+    width: 100%
+    max-width: 100%
+    font-size: smaller
+    gap: min(0.13rem, 0.2vw)
+    justify-content: center
+    padding: min(1rem, 2vw)
+    flex-wrap: wrap
+
+.information
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: min(1rem, 2vw)
+    font-size: min(1rem, 3vw)
+    font-weight: 700
+    background: variables.$clr-secondary
+    width: min(9rem, 35vw)
+    min-width: 120px
+    padding: min(0.6rem, 1.5vw)
+    color: #000911
+    flex: 1
+    transition: all 0.2s ease
+    border: 1px solid transparent
+
+
+#info-time
+    border-top-right-radius: 0.5rem
+    border-bottom-right-radius: 0.5rem
+
+#info-answers
+    border-top-left-radius: 0.5rem
+    border-bottom-left-radius: 0.5rem
+
+
+    .icone
+        width: 1rem
+        height: 4rem
+        display: flex
+        justify-content: center
+        align-items: center
+        
+.information-container
+    display: flex
+    flex-direction: column
+    text-align: center
+
+    .time-responses
+        color: rgba(62, 83, 112, 0.726)
+    
+.button-user-status
+    background-color: variables.$clr-accent
+    height: min(4rem, 8vh)
+    min-height: 44px
+    width: min(15rem, 80%)
+    max-width: 300px
+    min-width: 200px
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: min(1rem, 2vw)
+    border-radius: 0.7rem
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+    cursor: pointer
+    border: none
+    box-sizing: border-box
+    touch-action: manipulation
+    -webkit-tap-highlight-color: transparent
+    transition: all 0.2s ease
+
+
+    &:hover
+        z-index: 20
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+        transform: translateY(-2px) scale(1.01)
+
+    &:active
+        z-index: 20
+        transform: translateY(0px) scale(0.98)
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+        transition: transform 0.1s ease, box-shadow 0.1s ease
+        
+    // Melhoria específica para mobile touch
+    @media (max-width: 768px)
+        &:hover
+            transform: none
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+            
+        &:active
+            transform: scale(0.96)
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+    
+    h1
+        color: variables.$clr-secondary
+        font-size: min(1.3rem, 4vw)
+        white-space: nowrap
+
+// Media queries específicas para UserStatusDashboard
+@media (max-width: 1200px)
+    .status-user
+        max-width: min(400px, 85vw)
+        
+@media (max-width: 768px)
+    .status-user
+        max-width: min(360px, 95vw)
+        height: auto
+        min-height: 400px
+        margin-bottom: 4vh
+        
+    .container-progress
+        padding: 1.8rem 1rem
+        gap: 0.9rem
+        
+    .progress-circle
+        width: min(170px, 38vw)
+        height: min(170px, 38vw)
+        --circle-size: min(170px, 38vw)
+        
+    .percentage-in-circle
+        font-size: min(1.1rem, 3.2vw)
+        bottom: -5px
+        
+    .name-user
+        font-size: min(1.1rem, 3.5vw)
+        margin: 0.3rem 0
+        
+    .information-progress
+        flex-direction: row
+        flex-wrap: wrap
+        gap: 0.3rem
+        padding: 0.6rem
+        justify-content: space-around
+        
+    .information
+        width: 48%
+        min-width: 140px
+        font-size: 0.85rem
+        padding: 0.7rem 0.4rem
+        border-radius: 0.4rem
+        
+    #info-answers,
+    #info-time
+        border-radius: 0.4rem
+        
+    .button-user-status
+        width: 88%
+        min-width: 170px
+        height: 3.4rem
+        margin-top: 0.5rem
+        
+        h1
+            font-size: min(1.1rem, 3.2vw)
+
+@media (max-width: 480px)
+    .status-user
+        max-width: 96vw
+        min-width: 280px
+        margin-bottom: 3vh
+        
+    .container-progress
+        padding: 1.4rem 0.8rem
+        gap: 0.7rem
+        
+    .progress-circle
+        width: min(145px, 42vw)
+        height: min(145px, 42vw)
+        --circle-size: min(145px, 42vw)
+        
+    .percentage-in-circle
+        font-size: min(1rem, 3vw)
+        bottom: -8px
+        padding: 0.15rem 0.4rem
+        
+    .name-user
+        font-size: min(1rem, 3.8vw)
+        margin: 0.2rem 0
+        
+    .information-progress
+        flex-direction: column
+        gap: 0.4rem
+        padding: 0.5rem
+        
+    .information
+        width: 100%
+        min-width: auto
+        font-size: 0.8rem
+        padding: 0.6rem 0.5rem
+        margin: 0.1rem 0
+        
+    .button-user-status
+        width: 92%
+        min-width: 150px
+        height: 3.2rem
+        margin-top: 0.3rem
+        
+        h1
+            font-size: min(1rem, 3.5vw)
+
+@media (max-width: 360px)
+    .status-user
+        max-width: 98vw
+        min-width: 300px
+        
+    .container-progress
+        padding: 1.2rem 0.6rem
+        
+    .progress-circle
+        width: min(130px, 38vw)
+        height: min(130px, 38vw)
+        --circle-size: min(130px, 38vw)
+        
+    .percentage-in-circle
+        font-size: 0.9rem
+        
+    .name-user
+        font-size: 0.95rem
+        
+    .button-user-status
+        width: 90%
+        min-width: 130px
+        height: 3rem
+        gap: 0.7rem
+        
+        h1
+            font-size: 0.9rem
+
+@media (max-width: 320px)
+    .status-user
+        min-width: 290px
+        max-width: 100vw
+        
+    .container-progress
+        padding: 1rem 0.4rem
+        
+    .progress-circle
+        width: 120px
+        height: 120px
+        --circle-size: 120px
+        
+    .button-user-status
+        min-width: 120px
+        gap: 0.5rem
+        height: 2.8rem
+        
+        h1
+            font-size: 0.85rem

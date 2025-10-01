@@ -1,60 +1,61 @@
-import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
-import useAuth from "../hooks/useAuth";
+import { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 
-import FlashCard from "../components/FlashCard";
+import FlashCard from '../components/FlashCard';
 
-const FLASHCARD_URL = "/api/flashcards";
-const NEWFLASHCARD_URL = "/api/flashcards";
+import { FaBookOpen } from 'react-icons/fa';
+import { TbMathFunction } from 'react-icons/tb';
+import { GiMicroscope } from 'react-icons/gi';
+import { FaGlobeAmericas } from 'react-icons/fa';
+import { BsFillMortarboardFill } from 'react-icons/bs';
+import '../styles/pages/flashCardPage.sass';
+
+// API calls from services
+import {
+  fetchFlashcardsAPI,
+  newFlashcardAPI,
+  deleteFlashcardAPI,
+  // updateFlashcardAPI,
+} from '../services/flashcardsServices';
 
 export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
   const [pages, setPages] = useState(1);
-  //console.log("ACCESSTOKEN: ", accessToken);
 
   // For new Flashcard
   const [term, setTerm] = useState();
   const [areaId, setAreaId] = useState();
   const [description, setDescription] = useState();
-
+  const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState();
 
+  // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
-      const response = await axios.get(FLASHCARD_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
       setPages(response?.data.totalPages);
 
-      //console.log("PAGES: ", pages);
-      console.log("FLASHCARDS DATA: ", flashcardsData);
-      //console.log(JSON.stringify(response));
+      //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
       if (!err?.response) {
-        setMessage("No Server Response");
+        setMessage('No Server Response');
       } else if (err.response?.status === 400) {
-        setMessage("Missing");
+        setMessage('Missing');
       } else if (err.response?.status === 401) {
-        setMessage("Unauthorized");
+        setMessage('Unauthorized');
       } else {
-        setMessage("New Flash card creation failed");
+        setMessage('New Flash card creation failed');
       }
     }
   }
 
+  // For the first time the page loads
   useEffect(() => {
     handleFetchFlashcards();
   }, [newFlashcard]);
-
-  //   useEffect(() => {
-  //     handleFetchFlashcards();
-  //   }, [newFlashcard]);
 
   // FOR NEW FLASHCARD
   async function handleNewFlashcard(e) {
@@ -64,108 +65,146 @@ export default function FlashcardPage() {
     console.log(description);
 
     try {
-      const response = await axios.post(
-        NEWFLASHCARD_URL,
-        JSON.stringify({ term, areaId, description }),
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await newFlashcardAPI(
+        accessToken,
+        term,
+        areaId,
+        description,
       );
+
       setNewFlascard(response?.data);
     } catch (err) {
-      console.log("ERRO: ", err);
+      console.log('ERRO: ', err);
     }
+    handleClear();
   }
 
-  async function handleDelete(item) {
-    //e.preventDefault();
-    console.log("DELETE: ", item);
-
+  // DELETE FLASHCARD
+  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
+  async function handleDeleteFlashcard(item) {
+    //console.log("DELETE: ", item);
     const id = item;
     const DELETECARD_URL = `/api/flashcards/${id}`;
 
     try {
-      const response = await axios.delete(DELETECARD_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("DELETADO: ", response);
+      const response = await deleteFlashcardAPI(accessToken, item);
+      console.log('DELETADO: ', response);
       handleFetchFlashcards();
     } catch (err) {
-      console.log("ERRO ON DELETE CARD: ", err);
+      console.log('ERRO ON DELETE CARD: ', err);
     }
   }
 
-  async function handleUpdate(item) {
-    console.log("UPDATE: ", item);
+  // REQUEST UPDATE FLASHCARD
+  // Will fill the input values with the select card and the id state
+  async function handleRequestUpdateFlashcard(item) {
+    console.log('UPDATE: ', item);
+    //console.log("REQUEST UPDATE: ", updateFlashcard);
+
+    setTerm(item.term);
+    setAreaId(item.areaId);
+    setDescription(item.description);
+    setId(item.id);
   }
 
+  // UPDATE FLASHCARD
+  // Will update the flashcard having it's id.
+  // async function handleUpdateFlashcard(e) {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await updateFlashcardAPI(
+  //       accessToken,
+  //       id,
+  //       term,
+  //       areaId,
+  //       description,
+  //     );
+  //     setNewFlascard(response?.data);
+  //   } catch (err) {
+  //     console.log('ERRO: ', err);
+  //   }
+  //   handleClear();
+  // }
+
+  const handleClear = () => {
+    setTerm('');
+    setDescription('');
+  };
+
   return (
-    <div>
-      <h1>FlashcardPage</h1>
-      {/* FORM FOR NEW FLASHCARD */}
-      <div>
-        <form onSubmit={handleNewFlashcard}>
-          <label>Termo</label>
+    <section className="flashcard-container">
+      <form className="form-flashcard-container">
+        <nav className="nav-flashcard-container">
+          <h1>Criar Flashcard</h1>
+          <div className="nav-flashcard-options">
+            <label htmlFor="">Área de Conhecimento:</label>
+            <select
+              name="selectArea"
+              id="areaId"
+              onChange={(e) => setAreaId(e.target.value)}
+            >
+              <option>Selecione uma opção</option>
+              <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
+              {/* These option are not working with the DB yet */}
+              {/* $ MUST IMPLEMENT - const of options and map over it*/}
+              <option value="CH">Ciências Humanas e suas Tecnologias</option>
+              <option value="CN">
+                Ciências da Natureza e suas Tecnologias
+              </option>
+              <option value="MT">Matemáticas e suas Tecnologias</option>
+            </select>
+          </div>
+        </nav>
+        <div className="user-data-flashcard-container">
+          <label>Título:</label>
           <input
             type="text"
             onChange={(e) => setTerm(e.target.value)}
             value={term}
-            placeholder="Termo"
+            placeholder="Título"
           />
-
-          <label htmlFor="">Area:</label>
-          <select
-            name="selectArea"
-            id="areaId"
-            onChange={(e) => setAreaId(e.target.value)}
-          >
-            <option>Selecione uma opção</option>
-            <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
-            {/* These option are not working with the DB yet */}
-            <option value="CH">Ciências Humanas e suas Tecnologias</option>
-            <option value="CN">Ciências da Natureza e suas Tecnologias</option>
-            <option value="MT">Matemáticas e suas Tecnologias</option>
-          </select>
-
-          <label htmlFor="">Descrição</label>
-          <input
-            type="text"
-            placeholder="Descrição"
+          <label htmlFor="">Descrição:</label>
+          <textarea
+            placeholder="Dados do Flashcard"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
+            rows="6"
           />
-
-          <button>New Flashcard</button>
-        </form>
-      </div>
-      {/* SECTION TO DISPLAY THE CARDS 20 PER PAGE */}
-      {/* $ MUST IMPLEMENT PAGINATION $ */}
-      <div>
-        <section>
-          {flashcardsData ? (
-            <div>
-              {flashcardsData.map((item) => (
-                <FlashCard
-                  key={item.id}
-                  id={item.id}
-                  title={item.term}
-                  description={item.description}
-                  area={item.areaId}
-                  handleDelete={handleDelete}
-                  handleUpdate={handleUpdate}
-                />
-              ))}
-            </div>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </section>
-      </div>
-    </div>
+          <div className="buttons-flashcard-container">
+            <button onClick={handleNewFlashcard}>Criar Flashcard</button>
+            <button onClick={handleClear}>Limpar</button>
+          </div>
+        </div>
+      </form>
+      {/* $ MUST IMPLEMENT PAGINATION - will update the 'page' api request above 'handleFetchFlashcards' and 'pages' state */}
+      <section className="icons-flashcard-container">
+        <div>
+          <BsFillMortarboardFill className="icon-flashcard" />
+          <FaBookOpen className="icon-flashcard" />
+          <TbMathFunction className="icon-flashcard" />
+          <GiMicroscope className="icon-flashcard" />
+          <FaGlobeAmericas className="icon-flashcard" />
+        </div>
+      </section>
+      <section className="flashcard-dashboard-container">
+        {flashcardsData && flashcardsData.length > 0 ? (
+          <>
+            {flashcardsData.map((item) => (
+              <FlashCard
+                key={item.id}
+                id={item.id}
+                term={item.term}
+                description={item.description}
+                area={item.areaId}
+                handleDelete={handleDeleteFlashcard}
+                handleUpdate={() => handleRequestUpdateFlashcard(item)}
+              />
+            ))}
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </section>
+    </section>
   );
 }

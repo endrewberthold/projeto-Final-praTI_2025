@@ -35,4 +35,11 @@ public class Session {
 
     @Column(name = "presented_mapping", columnDefinition = "text")
     private String presentedMapping;
+
+    @Column(name = "num_questions")
+    private Integer numQuestions;
+
+    @Column(name = "abandoned", nullable = false)
+    private Boolean abandoned;
+
 }

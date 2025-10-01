@@ -1,0 +1,162 @@
+@use '../variables'
+
+.profile-image-selector
+  display: flex
+  flex-direction:  column
+  gap: 1rem
+
+  .pis-open-btn
+    padding: 0.6rem 1rem
+    border: none
+    border-radius: 6px
+    background: variables.$clr-accent-background
+    cursor: pointer
+    font-weight: 600
+    color: variables.$clr-font-white
+  
+
+  .pis-preview
+    margin-top: 0.5rem
+    display: flex
+    justify-content: center
+
+
+    img
+      width: 8rem
+      height: 8rem
+      border-radius: 50%
+
+    
+    .pis-placeholder
+      width: 8rem
+      height: 8rem
+      border-radius: 50%
+      background: #eee
+      display: flex
+      align-items: center
+      justify-content: center
+      font-size: 0.8rem
+      color: #777
+    
+  
+
+  .pis-modal
+    position: fixed
+    inset: 0
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 1000
+
+    .pis-overlay
+      position: absolute
+      inset: 0
+      background: rgba(0,0,0,0.6)
+    
+
+    .pis-panel
+      position: relative
+      background: variables.$clr-primary
+      color: variables.$clr-accent-background
+      border-radius: 10px
+      padding: 1rem
+      width: 400px
+      z-index: 1001
+      display: flex
+      flex-direction: column
+    
+
+    .pis-header
+      display: flex
+      justify-content: space-between
+      align-items: center
+      margin-bottom: 1rem
+
+      h3
+        margin: 0
+        font-size: 1.2rem
+      
+
+      .pis-close
+        background: transparent
+        border: none
+        color: variables.$clr-accent-background
+        font-size: 1.2rem
+        cursor: pointer
+      
+    
+
+    .pis-tabs
+      display: flex
+      gap: 0.5rem
+      margin-bottom: 1rem
+
+      button
+        flex: 1
+        padding: 0.5rem
+        border: none
+        border-radius: 6px
+        background: variables.$clr-primary
+        color: variables.$clr-accent-background
+        cursor: pointer
+        border: 1px solid variables.$clr-accent-background
+
+        &.active
+          background: variables.$clr-accent-background
+          color: variables.$clr-font-white
+        
+      
+    
+
+    .pis-grid
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr))
+      gap: 0.75rem
+      margin-bottom: 1rem
+
+      .pis-avatar
+        border: 2px solid transparent
+        border-radius: 8px
+        padding: 0
+        background: transparent
+        cursor: pointer
+
+        &.selected
+          border-color: variables.$clr-accent-background
+
+        img
+          width: 100%
+          border-radius: 50%
+        
+      
+    
+
+    .pis-footer
+      display: flex
+      justify-content: flex-end
+      gap: 0.5rem
+
+      .pis-btn
+        padding: 0.5rem 1rem
+        border: none
+        border-radius: 6px
+        cursor: pointer
+        font-weight: 600
+
+        &.pis-cancel
+          background: variables.$clr-primary
+          color: variables.$clr-accent-background
+          border: 1px solid variables.$clr-accent-background
+        
+        &.pis-confirm
+          background: variables.$clr-accent-background
+          color: variables.$clr-font-white
+        
+        &:disabled
+          opacity: 0.6
+          cursor: not-allowed
+        
+      
+    
+  
+

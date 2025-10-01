@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import "../styles/pages/userStatusPage.sass";
-import axios from "../api/axios";
 
 import useAuth from "../hooks/useAuth";
-
-const USERDATA_URL = "/api/user/profile";
+import { userStatusAPI } from "../services/userStatusServices";
 
 export default function UserStatusPage() {
   const { accessToken } = useAuth();
@@ -12,14 +10,10 @@ export default function UserStatusPage() {
 
   async function getUserData() {
     try {
-      const response = await axios.get(USERDATA_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await userStatusAPI(accessToken);
       setUserdata(response.data);
-      console.log("RESPONSE USERDATA: ", response.data);
+
+      //console.log("RESPONSE USER DATA: ", response.data);
     } catch (err) {
       console.log("ERRO: ", err);
     }
@@ -28,6 +22,7 @@ export default function UserStatusPage() {
   useState(() => {
     getUserData();
   }, []);
+
   return (
     <div className="container-usersatus">
       <h1>USER STATUS PAGE</h1>

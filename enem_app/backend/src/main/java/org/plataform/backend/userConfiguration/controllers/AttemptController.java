@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttemptController {
     private final AttemptService attemptService;
 
+
     @PostMapping
     public ResponseEntity<AttemptResponseDTO> submitAttempt(@AuthenticationPrincipal User principal, @PathVariable Long sessionId, @RequestBody AttemptRequestDTO req) {
         Long userId = principal.getId();

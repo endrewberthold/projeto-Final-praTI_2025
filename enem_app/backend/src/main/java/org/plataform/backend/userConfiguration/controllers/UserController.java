@@ -1,12 +1,20 @@
 package org.plataform.backend.userConfiguration.controllers;
 
 
+import org.plataform.backend.userConfiguration.dtos.metrics.ProfileDTO;
+import org.plataform.backend.userConfiguration.dtos.users.ProfileResponse;
 import org.plataform.backend.userConfiguration.dtos.users.UserResponse;
+import org.plataform.backend.userConfiguration.entity.User;
+import org.plataform.backend.userConfiguration.services.ProfileService;
 import org.plataform.backend.userConfiguration.services.UserServiceRep;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,9 +24,11 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceRep userService;
+    private final ProfileService profileService;
 
-    public UserController(UserServiceRep userService) {
+    public UserController(UserServiceRep userService,  ProfileService profileService) {
         this.userService = userService;
+        this.profileService = profileService;
     }
 
     /**@author Jakeline
@@ -31,6 +41,21 @@ public class UserController {
         String email = authentication.getName();
         UserResponse user = userService.getUserProfile(email);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/profile/full")
+    public ResponseEntity<ProfileResponse> getFullProfile(@AuthenticationPrincipal User principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        UserResponse userResp = new UserResponse(principal);
+
+        // busca métricas pelo id do usuário
+        ProfileDTO metrics = profileService.getProfileForUser(principal.getId());
+
+        ProfileResponse resp = new ProfileResponse(userResp, metrics);
+        return ResponseEntity.ok(resp);
     }
 
     /**@author Jakeline

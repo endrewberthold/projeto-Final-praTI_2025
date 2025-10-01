@@ -93,7 +93,7 @@ public class FlashcardService {
 
     /**@author Endrew
      * Serviço de delete do flashcards
-     * Fazas mesmas verificações do update
+     * Faz as mesmas verificações do update
      * **/
     @Transactional
     public void deleteFlashcard(Long userId, Long flashcardId) {

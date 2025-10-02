@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
+import { useTheme } from '../context/ThemeContext';
 
 import FlashCard from '../components/FlashCard';
 
@@ -23,6 +24,7 @@ export default function FlashcardPage() {
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
   const [pages, setPages] = useState(1);
+  const { theme } = useTheme();
 
   // For new Flashcard
   const [term, setTerm] = useState();
@@ -109,22 +111,22 @@ export default function FlashcardPage() {
 
   // UPDATE FLASHCARD
   // Will update the flashcard having it's id.
-  // async function handleUpdateFlashcard(e) {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await updateFlashcardAPI(
-  //       accessToken,
-  //       id,
-  //       term,
-  //       areaId,
-  //       description,
-  //     );
-  //     setNewFlascard(response?.data);
-  //   } catch (err) {
-  //     console.log('ERRO: ', err);
-  //   }
-  //   handleClear();
-  // }
+  async function handleUpdateFlashcard(e) {
+    e.preventDefault();
+    try {
+      const response = await updateFlashcardAPI(
+        accessToken,
+        id,
+        term,
+        areaId,
+        description,
+      );
+      setNewFlascard(response?.data);
+    } catch (err) {
+      console.log('ERRO: ', err);
+    }
+    handleClear();
+  }
 
   const handleClear = () => {
     setTerm('');
@@ -145,8 +147,6 @@ export default function FlashcardPage() {
             >
               <option>Selecione uma opção</option>
               <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
-              {/* These option are not working with the DB yet */}
-              {/* $ MUST IMPLEMENT - const of options and map over it*/}
               <option value="CH">Ciências Humanas e suas Tecnologias</option>
               <option value="CN">
                 Ciências da Natureza e suas Tecnologias
@@ -176,17 +176,16 @@ export default function FlashcardPage() {
           </div>
         </div>
       </form>
-      {/* $ MUST IMPLEMENT PAGINATION - will update the 'page' api request above 'handleFetchFlashcards' and 'pages' state */}
       <section className="icons-flashcard-container">
         <div>
-          <BsFillMortarboardFill className="icon-flashcard" />
-          <FaBookOpen className="icon-flashcard" />
-          <TbMathFunction className="icon-flashcard" />
-          <GiMicroscope className="icon-flashcard" />
-          <FaGlobeAmericas className="icon-flashcard" />
+          <BsFillMortarboardFill className={`icon-flashcard ${theme}`} />
+          <FaBookOpen className={`icon-flashcard ${theme}`} />
+          <TbMathFunction className={`icon-flashcard ${theme}`} />
+          <GiMicroscope className={`icon-flashcard ${theme}`} />
+          <FaGlobeAmericas className={`icon-flashcard ${theme}`} />
         </div>
       </section>
-      <section className="flashcard-dashboard-container">
+      <section className={`flashcard-dashboard-container ${theme}`}>
         {flashcardsData && flashcardsData.length > 0 ? (
           <>
             {flashcardsData.map((item) => (

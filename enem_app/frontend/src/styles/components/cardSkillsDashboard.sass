@@ -9,7 +9,7 @@
 .share-title
   font-size: 1.5rem
   font-weight: 600
-  color: #4e6dc2ff
+  color: var(--accent-primary)
 
   p
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
@@ -35,10 +35,10 @@
   will-change: transform, box-shadow
   position: relative
   cursor: pointer
+  box-shadow: var(--shadow-lg)
 
   &:hover
     z-index: 20
-    box-shadow: var(--shadow-lg)
     transform: translateY(-4px) scale(1.02)
 
   &:active
@@ -78,7 +78,7 @@
 .cardSkills.card
   position: relative
   overflow: hidden
-  background: #ffffff
+  background: var(--bg-secondary)
   border-radius: 1rem
   padding: 1rem
   width: 20rem
@@ -88,6 +88,7 @@
   backface-visibility: hidden
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
+  border: 1px solid var(--border-primary)
 
   // Pseudo-elemento para animação de fundo
   &::before
@@ -97,7 +98,7 @@
     left: 50%
     width: 0
     height: 0
-    background-color: #4e6dc2ff
+    background-color: var(--accent-primary)
     border-radius: 50%
     transform: translate(-50%, -50%)
     transition: all 0.4s ease-out
@@ -109,14 +110,14 @@
     width: 3rem
     height: 3rem
     border-radius: 50%
-    background-color: #4e6dc2ff
+    background-color: var(--accent-primary)
     display: flex
     align-items: center
     justify-content: center
     color: #fff
     z-index: 10
     transition: all 0.3s ease
-    box-shadow: 0 4px 15px rgba(78, 109, 194, 0.3)
+    box-shadow: 0 4px 15px rgba(var(--accent-primary-rgb, 99, 102, 241), 0.3)
 
   .cardSkills-content
     position: relative
@@ -138,7 +139,7 @@
 
     .cardSkills-icon
       transform: scale(1.1)
-      box-shadow: 0 6px 20px rgba(78, 109, 194, 0.4)
+      box-shadow: 0 6px 20px rgba(var(--accent-primary-rgb, 99, 102, 241), 0.4)
 
 // Responsividade para cards
 @media (max-width: 1200px)
@@ -227,3 +228,34 @@
       
     .cardSkills-description
       font-size: 0.85rem
+
+// Tema Dark - Estilos específicos
+body.dark
+  .cardSkills
+    background-color: var(--bg-secondary)
+    border-color: var(--border-primary)
+    box-shadow: var(--shadow-lg)
+    
+    &:hover
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4)
+    
+  .cardSkills.card
+    background: var(--bg-secondary)
+    // border: 1px solid var(--border-primary)
+    
+    .cardSkills-icon
+      background-color: var(--accent-primary)
+      box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+      
+    &::before
+      background-color: var(--accent-primary)
+      
+    &:hover
+      .cardSkills-icon
+        box-shadow: 0 6px 20px rgba(129, 140, 248, 0.6)
+        
+  .share-title
+    color: var(--accent-primary)
+    
+    p
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3)

@@ -48,6 +48,15 @@ export const AuthProvider = ({ children }) => {
     if (!persist) {
       localStorage.removeItem("persist");
     }
+    
+    // Resetar tema para claro ao fazer logout
+    localStorage.setItem("theme", "light");
+    document.body.className = "light";
+    
+    // Dispara evento customizado para notificar o ThemeContext
+    window.dispatchEvent(new CustomEvent('themeChanged', {
+      detail: { theme: 'light' }
+    }));
   };
 
   return (

@@ -11,7 +11,8 @@ import CardSkillsDashboard from "../components/CardSkillsDashboard";
 import useAuth from "../hooks/useAuth";
 
 // Importe sua imagem local aqui (ajuste o caminho conforme sua estrutura)
-import educationImg from "../assets/Education-rafiki.png";
+import educationImg from "../assets/undraw_blogging_38kl.svg";
+// import educationImg2 from "../assets/undraw_books_wxzz.svg"
 
 export default function Dashboard() {
   const { auth } = useAuth();
@@ -59,7 +60,8 @@ export default function Dashboard() {
             </div>
             <div className="banner-image">
               {/* OPÇÃO 1: Usando a imagem local importada */}
-              <img src={educationImg} alt="Ilustração de educação" />
+              {/* <img src={educationImg2} alt="Ilustração de educação"/> */}
+              <img id="book" src={educationImg} alt="Ilustração de educação"/>
 
               {/* OPÇÃO 2: URL externa temporária (comentada) */}
               {/* <img

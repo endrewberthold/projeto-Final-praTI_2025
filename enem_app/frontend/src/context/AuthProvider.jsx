@@ -1,54 +1,13 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  // Recupera dados salvos do localStorage ao inicializar
-  const [auth, setAuth] = useState(() => {
-    const savedAuth = localStorage.getItem("auth");
-    return savedAuth ? JSON.parse(savedAuth) : {};
-  });
-  
-  const [accessToken, setAccessToken] = useState(() => {
-    return localStorage.getItem("accessToken") || null;
-  });
-  
-  const [persist, setPersist] = useState(() => {
-    const savedPersist = localStorage.getItem("persist");
-    return savedPersist ? JSON.parse(savedPersist) : false;
-  });
-
-  // Salva dados no localStorage sempre que mudarem
-  useEffect(() => {
-    if (persist) {
-      if (auth && Object.keys(auth).length > 0) {
-        localStorage.setItem("auth", JSON.stringify(auth));
-      }
-      if (accessToken) {
-        localStorage.setItem("accessToken", accessToken);
-      }
-    } else {
-      // Remove dados do localStorage se persist for false
-      localStorage.removeItem("auth");
-      localStorage.removeItem("accessToken");
-    }
-  }, [auth, accessToken, persist]);
-
-  // Salva configuração de persist
-  useEffect(() => {
-    localStorage.setItem("persist", JSON.stringify(persist));
-  }, [persist]);
-
-  // Função customizada para limpar autenticação
-  const clearAuth = () => {
-    setAuth({});
-    setAccessToken(null);
-    localStorage.removeItem("auth");
-    localStorage.removeItem("accessToken");
-    if (!persist) {
-      localStorage.removeItem("persist");
-    }
-  };
+  const [auth, setAuth] = useState({});
+  const [accessToken, setAccessToken] = useState();
+  const [persist, setPersist] = useState(
+    JSON.parse(localStorage.getItem("persist")) || false
+  );
 
   return (
     <AuthContext.Provider
@@ -59,7 +18,6 @@ export const AuthProvider = ({ children }) => {
         setPersist,
         accessToken,
         setAccessToken,
-        clearAuth,
       }}
     >
       {children}

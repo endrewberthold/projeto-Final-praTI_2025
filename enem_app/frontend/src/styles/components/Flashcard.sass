@@ -3,45 +3,47 @@
 .flashcards-dashboard
     display: flex
     flex-direction: column
-    min-height: 240px
+    height: 200px
     width: 100%
     padding: 15px
     background-color: variables.$clr-accent-background
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
     border: 1px solid
     border-radius: .5rem
     transition: all 0.2s ease-in-out;
 
     &.dark
-        box-shadow: 2px 3px 3px rgba(223, 223, 223, 0.5);
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 
     &:hover
         transform: translateY(-2px);
-        box-shadow:4px 8px 12px rgba(0, 0, 0, 0.9);
+        box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.4);
 
         &.dark
-            box-shadow: 4px 6px 4px rgb(223, 223, 223, 0.9);
+            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8);
 
-
-
-    .title-container
+    .flashcard-inner-container
         display: flex
+        flex-direction: column
         justify-content: center
-        align-items: center
-        // width: 6.2rem
-        background-color: variables.$clr-accent
-        border-radius: .3rem
-        font-size: 15px
+        flex: 1
 
-    .flashcards-dash-title
-        width: fit-content
+        .title-container
+            display: flex
+            justify-content: center
+            align-items: center
+            background-color: variables.$clr-accent
+            border-radius: .3rem
+            font-size: 15px
 
-    .flashcards-dash-description, .flashcards-dash-area
-        margin-top: 15px
-        font-size: .9rem
- 
+        .flashcards-dash-title
+            width: fit-content
+
+        .flashcards-dash-area
+            margin-top: 15px
+            font-size: .9rem
+
     .flashcards-dash-buttons
-        margin-top: auto
         align-self: flex-end
         color: #131f4c
 

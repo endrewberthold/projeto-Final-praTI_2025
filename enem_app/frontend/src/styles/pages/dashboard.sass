@@ -21,9 +21,9 @@
     background: var(--dashboard-banner-bg)
     border-radius: 20px
     padding: min(2.5rem, 4vh) min(3rem, 5vw)
-    max-width: 1200px
+    max-width: 85rem
     width: 95%
-    min-height: 200px
+    height: 20rem
     display: flex
     justify-content: space-between
     align-items: center
@@ -34,46 +34,48 @@
     overflow: hidden
 
     // Cores para período da manhã (Nível 1 - 4 espaços)
-    &.morning
-        // Nível 2 - 8 espaços
-        background: var(--morning-bg)
+    // &.morning
+    //     // Nível 2 - 8 espaços
+    //     background: var(--morning-bg)
 
-        .banner-text
-            // Nível 3 - 12 espaços
-            color: var(--morning-text)
+    //     .banner-text
+    //         // Nível 3 - 12 espaços
+    //         color: var(--morning-text)
 
-            h2
-                color: var(--morning-title)
+    //         h2
+    //             color: var(--morning-title)
 
-            p
-                color: var(--morning-text)
+    //         p
+    //             color: var(--morning-text)
 
-    // Cores para período da tarde (Nível 1 - 4 espaços)
-    &.afternoon
-        // Nível 2 - 8 espaços
-        background: var(--afternoon-bg)
+    // // Cores para período da tarde (Nível 1 - 4 espaços)
+    // &.afternoon
+    //     // Nível 2 - 8 espaços
+    //     background: var(--afternoon-bg)
 
-        .banner-text
-            color: var(--afternoon-text)
+    //     .banner-text
+    //         color: var(--afternoon-text)
 
-            h2
-                color: var(--afternoon-title)
+    //         h2
+    //             color: var(--afternoon-title)
 
-            p
-                color: var(--afternoon-text)
+    //         p
+    //             color: var(--afternoon-text)
 
-    // Cores para período da noite (Adicionada para completar o tema)
-    &.night
-        background: var(--night-bg)
+    // // Cores para período da noite (Adicionada para completar o tema)
+    // &.night
+    //     background: var( --dashboard-banner-bg)
 
-        .banner-text
-            color: var(--night-text)
+    //     .banner-text
+    //         color: var(--night-text)
 
-            h2
-                color: var(--night-title)
+    //         h2
+    //             color: var(--night-title)
+    //             line-height: 1.2
 
-            p
-                color: var(--night-text)
+
+    //         p
+    //             color: var(--night-text)
 
     // --- LAYOUT E CONTEÚDO (Nível 1 - 4 espaços) ---
     .banner-text
@@ -87,13 +89,14 @@
             font-size: min(2.2rem, 4.5vw)
             font-weight: 700
             line-height: 1.2
+            color: white // Branco no tema claro
 
         p
-            margin: 0 0 min(0.6rem, 1.5vh) 0
             font-size: min(1.1rem, 2.8vw)
             opacity: 0.85
             font-weight: 500
             line-height: 1.5
+            color: white // Branco no tema claro
 
         .banner-description
             font-size: min(0.95rem, 2.3vw)
@@ -101,10 +104,11 @@
             font-weight: 400
             line-height: 1.6
             margin-bottom: 0
+            color: white // Branco no tema claro
 
     .banner-image
         flex-shrink: 0
-        max-width: 45% // Imagem ocupando 45% da largura
+        max-width: 30% // Imagem ocupando 45% da largura
         display: flex
         align-items: center
         justify-content: center
@@ -116,6 +120,9 @@
             display: block
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))
             animation: float 6s ease-in-out infinite
+
+            #book
+                width: 3rem
 
 // Animação de flutuação (Nível 0)
 @keyframes float
@@ -153,14 +160,13 @@
     display: flex
     flex-direction: column
     flex: 1
-    gap: min(2rem, 3vh)
     margin-top: min(2rem, 3vh)
 
 .knowledAreCard-component
     display: flex
     flex-direction: column
     gap: min(2rem, 2vh)
-    color: #4e6dc2ff
+    color: var(--text-primary)
     width: 100%
 
     h1
@@ -169,7 +175,9 @@
         text-align: left
         font-weight: 600
         line-height: 1.2
-
+        color: #4e6dc2ff
+        text-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+        transition: color 0.3s ease
     >div
         display: flex
         flex-wrap: wrap
@@ -352,3 +360,14 @@
 
     .knowledAreCard-component
         margin-top: 0 !important
+
+// Dark theme support
+body.dark
+    .banner-placeholder
+        .banner-text
+            h2, p, .banner-description
+                color: white // Branco também no tema escuro
+                
+    .knowledAreCard-component
+        h1
+            color: white // Branco no tema escuro

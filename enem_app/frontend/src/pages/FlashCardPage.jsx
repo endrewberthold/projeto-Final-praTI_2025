@@ -34,7 +34,7 @@ export default function FlashcardPage() {
   const [description, setDescription] = useState();
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
-  const [modalForm, setModalForm] = useState(true);
+  const [modalForm, setModalForm] = useState(false);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
@@ -148,10 +148,10 @@ export default function FlashcardPage() {
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
-      <section className="flashcard-container">
-        <form
-          className={`form-flashcard-container ${modalForm ? 'modal' : ''}`}
-        >
+      <section
+        className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
+      >
+        <form className={`form-flashcard-container `}>
           <h1>Criar Flashcard</h1>
           <nav className="nav-flashcard-container">
             <div className="nav-flashcard-title">

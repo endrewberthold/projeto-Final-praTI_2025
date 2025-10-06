@@ -7,15 +7,17 @@
     min-width: 100%
     padding: min(3rem, 4vh) min(2.5rem, 3vw)
     overflow-x: hidden
-    position: realtive
+    position: relative
     z-index: 1
 
+    &.modal-active
+        filter: blur(3px)
+        pointer-events: none
         
 
     .form-flashcard-container
         width: 100%
 
-        // &.modal
             
 
         .nav-flashcard-container

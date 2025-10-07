@@ -18,11 +18,12 @@ export default function Flashcard({
 
   return (
     <div className={`flashcards-dashboard ${theme}`}>
-      <div className="title-container">
-        <h3 className="flashcards-dash-title">{term}</h3>
-      </div>
-      <p className="flashcards-dash-description">{description}</p>
       <p className="flashcards-dash-area">{area}</p>
+      <div className="flashcard-inner-container">
+        <div className="title-container">
+          <h3 className="flashcards-dash-title">{term}</h3>
+        </div>
+      </div>
       <div className={`flashcards-dash-buttons ${theme}`}>
         <RxUpdate
           onClick={() => handleUpdate(id)}

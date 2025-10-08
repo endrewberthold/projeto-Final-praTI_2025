@@ -12,7 +12,7 @@ export default function Flashcard({
   term,
   id,
   description,
-  area,
+  areaId,
   handleDelete,
   handleUpdate,
 }) {
@@ -20,14 +20,14 @@ export default function Flashcard({
 
   const navigate = useNavigate();
 
-  const handleNavigate = (e, term, description, area) => {
+  const handleNavigate = (e) => {
     e.preventDefault();
-    navigate(`/viewFlashPage/${id}`, { state: { term, description, area } });
+    navigate(`/viewFlashPage/${id}`, { state: { term, description, areaId } });
   };
 
   return (
     <div className={`flashcards-dashboard ${theme}`}>
-      <p className="flashcards-dash-area">{area}</p>
+      <p className="flashcards-dash-area">{areaId}</p>
       <div className="flashcard-inner-container">
         <div className="title-container">
           <h3 className="flashcards-dash-title">{term}</h3>
@@ -43,9 +43,7 @@ export default function Flashcard({
           className="flashdash-icons"
         />
       </div>
-      <button onClick={(e) => handleNavigate(e, term, description, area)}>
-        abrir
-      </button>
+      <button onClick={handleNavigate}>abrir</button>
     </div>
   );
 }

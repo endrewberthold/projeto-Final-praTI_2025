@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 // import { LuFileQuestion } from 'react-icons/lu';
 // import { TiPencil } from 'react-icons/ti';
@@ -7,17 +7,26 @@ import { useParams } from 'react-router-dom';
 
 // import '../styles/components/ViewFlashCard.sass';
 
-const ViewFlashCard = ({ term, description, area }) => {
+const ViewFlashCard = () => {
   const params = useParams();
+  const location = useLocation();
+  const { term, description, areaId } = location.state || {};
 
-  const termo = params.term;
-
-  useEffect(() => console.log(term), []);
+  useEffect(() => {
+    console.log('ID do Flashcard (via URL):', params.id);
+    console.log('Dados do Flashcard (via state):', {
+      term,
+      description,
+      areaId,
+    });
+  }, [params.id, term, description, areaId]);
 
   return (
     <div>
       ViewFlashCard
-      <p>{term}</p>
+      <p>ID do card: {params.id}</p>
+      <p>Habilidade: {areaId}</p>
+      <p>Anotações user:{description}</p>
     </div>
   );
 };

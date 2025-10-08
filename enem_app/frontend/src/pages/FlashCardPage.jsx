@@ -45,10 +45,6 @@ export default function FlashcardPage() {
     handleFetchFlashcards();
   }, [newFlashcard]);
 
-  useEffect(() => {
-    console.log(flashcardsData);
-  }, [flashcardsData]);
-
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {

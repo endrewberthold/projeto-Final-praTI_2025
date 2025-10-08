@@ -10,12 +10,13 @@ const RequireAuth = () => {
 
   // Verifica se há token válido (seja do estado ou do localStorage)
   const hasValidToken = auth?.accessToken || accessToken;
-  const hasValidRole = auth?.role && (auth.role === "USER" || auth.role === "ADMIN");
-  
-  console.log("RequireAuth - Auth:", auth);
-  console.log("RequireAuth - AccessToken:", accessToken);
-  console.log("RequireAuth - HasValidToken:", hasValidToken);
-  console.log("RequireAuth - HasValidRole:", hasValidRole);
+  const hasValidRole =
+    auth?.role && (auth.role === "USER" || auth.role === "ADMIN");
+
+  //console.log("RequireAuth - Auth:", auth);
+  //console.log("RequireAuth - AccessToken:", accessToken);
+  //console.log("RequireAuth - HasValidToken:", hasValidToken);
+  //console.log("RequireAuth - HasValidRole:", hasValidRole);
 
   // Se tem token e role válidos, permite acesso
   if (hasValidToken && hasValidRole) {

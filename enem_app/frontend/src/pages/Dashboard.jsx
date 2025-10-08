@@ -10,6 +10,9 @@ import UserStatusDashboard from "../components/UserStatusDashboard";
 import CardSkillsDashboard from "../components/CardSkillsDashboard";
 import useAuth from "../hooks/useAuth";
 
+import { userStatusFullAPI } from "../services/userStatusServices";
+import { useEffect, useState } from "react";
+
 // Importe sua imagem local aqui (ajuste o caminho conforme sua estrutura)
 import educationImg from "../assets/undraw_blogging_38kl.svg";
 // import educationImg2 from "../assets/undraw_books_wxzz.svg"
@@ -17,6 +20,24 @@ import educationImg from "../assets/undraw_blogging_38kl.svg";
 export default function Dashboard() {
   const { auth } = useAuth();
   const id = "LC";
+
+  const { accessToken } = useAuth();
+  const [userData, setUserdata] = useState([]);
+
+  // API FOR THE USER INFORMATION IN THE DASHBOARD
+  async function getUserData() {
+    try {
+      const response = await userStatusFullAPI(accessToken);
+      setUserdata(response.data);
+      console.log("RESPONSE USER DATA: ", response.data);
+    } catch (err) {
+      console.log("ERRO: ", err);
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   // Função para obter saudação baseada no horário e nome do usuário
   const getGreeting = (userName) => {
@@ -27,19 +48,19 @@ export default function Dashboard() {
       return {
         greeting: `Bom dia, ${name}!`,
         message: "Que tal começar o dia estudando para o ENEM?",
-        period: "morning"
+        period: "morning",
       };
     } else if (currentHour >= 12 && currentHour < 18) {
       return {
         greeting: `Boa tarde, ${name}!`,
         message: "Continue firme nos estudos para o ENEM!",
-        period: "afternoon"
+        period: "afternoon",
       };
     } else {
       return {
         greeting: `Boa noite, ${name}!`,
         message: "Dedique um tempo aos estudos antes de descansar!",
-        period: "night"
+        period: "night",
       };
     }
   };
@@ -55,13 +76,14 @@ export default function Dashboard() {
               <h2>{greetingData.greeting}</h2>
               <p>{greetingData.message}</p>
               <p className="banner-subtitle">
-                Acelere seus estudos com nosso método exclusivo preparatório para o ENEM.
+                Acelere seus estudos com nosso método exclusivo preparatório
+                para o ENEM.
               </p>
             </div>
             <div className="banner-image">
               {/* OPÇÃO 1: Usando a imagem local importada */}
               {/* <img src={educationImg2} alt="Ilustração de educação"/> */}
-              <img id="book" src={educationImg} alt="Ilustração de educação"/>
+              <img id="book" src={educationImg} alt="Ilustração de educação" />
 
               {/* OPÇÃO 2: URL externa temporária (comentada) */}
               {/* <img
@@ -81,7 +103,9 @@ export default function Dashboard() {
             <NavLink to={`/SkillPage/LC`}>
               <CardSkillsDashboard
                 title={"Linguagens, Códigos e suas Tecnologias"}
-                description={"Envolve interpretação de textos, gramática, literatura, artes, educação física e língua estrangeira (inglês ou espanhol)."}
+                description={
+                  "Envolve interpretação de textos, gramática, literatura, artes, educação física e língua estrangeira (inglês ou espanhol)."
+                }
                 icon={<FaBookOpen />}
               />
             </NavLink>
@@ -89,15 +113,19 @@ export default function Dashboard() {
             <NavLink to="/SkillPage/MT">
               <CardSkillsDashboard
                 title={"Matemática e suas Tecnologias"}
-                description={"Abrange resolução de problemas, álgebra, geometria, estatística, raciocínio lógico e funções."}
+                description={
+                  "Abrange resolução de problemas, álgebra, geometria, estatística, raciocínio lógico e funções."
+                }
                 icon={<TbMathFunction />}
               />
             </NavLink>
 
             <NavLink to="/SkillPage/CN">
-              <CardSkillsDashboard 
+              <CardSkillsDashboard
                 title={"Ciências da Natureza e suas Tecnologias"}
-                description={"Inclui física, química e biologia, com foco em fenômenos naturais, experimentos e aplicações do conhecimento científico."}
+                description={
+                  "Inclui física, química e biologia, com foco em fenômenos naturais, experimentos e aplicações do conhecimento científico."
+                }
                 icon={<GiMicroscope />}
               />
             </NavLink>
@@ -105,7 +133,9 @@ export default function Dashboard() {
             <NavLink to="/SkillPage/CH">
               <CardSkillsDashboard
                 title={"Ciências Humanas e suas Tecnologias"}
-                description={"Trata de história, geografia, filosofia e sociologia, analisando fatos históricos, culturais, sociais e políticos."}
+                description={
+                  "Trata de história, geografia, filosofia e sociologia, analisando fatos históricos, culturais, sociais e políticos."
+                }
                 icon={<FaGlobeAmericas />}
               />
             </NavLink>
@@ -114,7 +144,13 @@ export default function Dashboard() {
       </div>
 
       <div className="upperCards">
-              <UserStatusDashboard imageProfile={"/imagemdeperfil.png"} StudyTime={20} numberofcorrectanswers={9} percentage={10}/>
+        <UserStatusDashboard
+          userData={userData}
+          imageProfile={"/imagemdeperfil.png"}
+          StudyTime={20}
+          numberofcorrectanswers={9}
+          percentage={10}
+        />
       </div>
     </div>
   );

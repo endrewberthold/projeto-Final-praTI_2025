@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 
@@ -18,14 +19,14 @@ import {
   fetchFlashcardsAPI,
   newFlashcardAPI,
   deleteFlashcardAPI,
-  // updateFlashcardAPI,
+  updateFlashcardAPI,
 } from '../services/flashcardsServices';
 
 export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
-  const [pages, setPages] = useState(1);
+  // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
   // For new Flashcard
@@ -36,12 +37,20 @@ export default function FlashcardPage() {
   const [newFlashcard, setNewFlascard] = useState(null);
   const [modalForm, setModalForm] = useState(false);
 
+  // For update existent FlashCard
+  const [updateRequest, setUpdateRequest] = useState(false);
+
+  // For the first time the page loads
+  useEffect(() => {
+    handleFetchFlashcards();
+  }, [newFlashcard]);
+
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
       const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
-      setPages(response?.data.totalPages);
+      // setPages(response?.data.totalPages);
 
       //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
@@ -56,11 +65,6 @@ export default function FlashcardPage() {
       }
     }
   }
-
-  // For the first time the page loads
-  useEffect(() => {
-    handleFetchFlashcards();
-  }, [newFlashcard]);
 
   // FOR NEW FLASHCARD
   async function handleNewFlashcard(e) {
@@ -113,6 +117,7 @@ export default function FlashcardPage() {
     setAreaId(item.areaId);
     setDescription(item.description);
     setId(item.id);
+    setUpdateRequest(true);
   }
 
   // UPDATE FLASHCARD
@@ -131,18 +136,17 @@ export default function FlashcardPage() {
     } catch (err) {
       console.log('ERRO: ', err);
     }
-    handleClear();
+    handleClear(e);
   }
 
-  // useEffect(() => console.log(dataForm), [dataForm]);
-
-  const handleClear = () => {
+  const handleClear = (e) => {
+    e.preventDefault();
     setTerm('');
     setDescription('');
   };
 
   const handleCloseModal = () => {
-    setModalForm(false);
+    setModalForm((prev) => !prev);
   };
 
   return (
@@ -191,7 +195,12 @@ export default function FlashcardPage() {
               rows="6"
             />
             <div className="buttons-flashcard-container">
-              <button onClick={handleNewFlashcard}>Criar Flashcard</button>
+              {/* <button onClick={handleNewFlashcard}>Criar Flashcard</button> */}
+              {updateRequest ? (
+                <button onClick={handleUpdateFlashcard}>Atualizar</button>
+              ) : (
+                <button onClick={handleNewFlashcard}>Criar</button>
+              )}
               <button onClick={handleClear}>Limpar</button>
             </div>
           </div>

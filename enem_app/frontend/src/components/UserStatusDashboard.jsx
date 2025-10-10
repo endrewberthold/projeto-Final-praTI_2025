@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth";
 import StatCard from "./StatCard";
 
 export default function StatusUsuario({
+  userData,
   imageProfile,
   percentage,
   StudyTime,
@@ -16,7 +17,6 @@ export default function StatusUsuario({
 }) {
   const { updateActiveIndex } = useNavbar();
   const { auth } = useAuth();
-  
   const radius = 90;
   const circunferency = 2 * Math.PI * radius;
   const dashArray = circunferency * 0.83;
@@ -53,10 +53,12 @@ export default function StatusUsuario({
               className="progress-foreground"
             />
           </svg>
-          <div className="percentage-in-circle">{percentage}xp</div>
+          <div className="percentage-in-circle">
+            {userData?.user?.xpPoints}xp
+          </div>
         </div>
-        <div
-          className="name-user">{auth?.userName || "Usuário"}</div>
+        {/* <div className="name-user">{auth?.userName || "Usuário"}</div> */}
+        <div className="name-user">{userData?.user?.name || "Usuário"}</div>
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
           <StatCard 
@@ -71,28 +73,25 @@ export default function StatusUsuario({
           />
         </div>
         <NavLink to={"/userStatusPage"}>
-          <button 
+          <button
             className="button-user-status"
             onClick={() => updateActiveIndex(0)}
           >
-            <BsPerson color="#fff" size={"2rem"}            
-            />
+            <BsPerson color="#fff" size={"2rem"} />
             <h1>Ver perfil</h1>
           </button>
         </NavLink>
 
         <NavLink to="/flashCardPage">
-          <button 
+          <button
             className="button-user-status"
             onClick={() => updateActiveIndex(2)}
           >
-            < PiCards color="#fff" size={"2rem"}/>           
+            <PiCards color="#fff" size={"2rem"} />
             <h1>FlashCards</h1>
           </button>
         </NavLink>
-
       </div>
-      
     </div>
   );
 }

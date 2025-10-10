@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/pages/userStatusPage.sass";
 import { MdEdit } from "react-icons/md";
 import { HiLightningBolt } from "react-icons/hi";
@@ -7,28 +7,35 @@ import { FaBook, FaTrophy, FaClock, FaChartLine } from "react-icons/fa";
 import StatCard from "../components/StatCard";
 
 import useAuth from "../hooks/useAuth";
-import { userStatusAPI } from "../services/userStatusServices";
+import { userStatusFullAPI } from "../services/userStatusServices";
 
 export default function UserStatusPage() {
   const { accessToken } = useAuth();
-  const [userData, setUserdata] = useState(null);
+  const [userData, setUserdata] = useState([]);
+  const [userMetrics, setUserMetrics] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  async function getUserData() {
+    try {
+      const response = await userStatusFullAPI(accessToken);
+      setUserdata(response.data.user);
+      setUserMetrics(response.data.metrics);
+      setLoading(false);
+      //console.log("RESPONSE USER DATA: ", response.data);
+      console.log("METRICS: ", response.data.metrics);
+      console.log("USER DATA: ", response.data.user);
+    } catch (err) {
+      console.log("ERRO: ", err);
+    }
+  }
 
   useEffect(() => {
-    async function getUserData() {
-      try {
-        const response = await userStatusAPI(accessToken);
-        setUserdata(response.data);
+    getUserData();
+  }, []);
 
-        //console.log("RESPONSE USER DATA: ", response.data);
-      } catch (err) {
-        console.log("ERRO: ", err);
-      }
-    }
-
-    if (accessToken) {
-      getUserData();
-    }
-  }, [accessToken]);
+  if (loading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div className="user-status-page">

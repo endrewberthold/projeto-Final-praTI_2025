@@ -1,6 +1,109 @@
 @use '../variables'
 @use '../mixins.sass'
 
+.user-status-page
+    display: flex
+    width: 100%
+    height: 100vh
+    position: relative // Contexto para posicionamento dos filhos
+
 .container-usersatus
     +mixins.estilo-Base
-    
+    display: flex
+    flex-direction: column
+    position: relative
+    width: 100%
+    height: 100vh
+    gap: 1rem // Espaçamento natural entre elementos
+
+.profile-banner 
+    background: var(--dashboard-banner-bg)
+    border-radius: 1rem
+    width: 37rem
+    height: 14rem
+    display: flex
+    position: relative
+    margin-top: -13.5rem // Margem natural ao invés de position negativo
+    margin-bottom: 1rem
+
+.button-icon
+    position: absolute
+    padding: 0.7rem
+    background: var(--dashboard-banner-bg)
+    border-radius: 1rem
+    box-shadow: 0 2px 0
+    top: 6px
+    right: 6px
+    cursor: pointer
+    transition: all 0.3s ease
+    transform: scale(1)
+
+    &:hover
+        background-color: rgba(87, 42, 42, 0.8)
+        transform: scale(1.05)
+
+    &:active
+        transform: scale(0.95)
+        background-color: rgba(87, 42, 42, 1)
+        box-shadow: 0 1px 0
+
+.user-name
+    margin-bottom: 1rem // Espaçamento natural
+
+#name
+    line-height: 34px
+    word-break: break-word
+    font-family: din-round, sans-serif
+    font-weight: 600
+    font-size: 25px
+    color: var(--text-primary)
+
+.statistics
+    margin-top: 1rem // Espaçamento natural
+
+    h2
+        color: #4e6dc2
+        margin-bottom: 1rem // Sem transform, apenas margin natural
+
+// Cor do h2 no tema escuro
+body.dark .statistics h2
+    color: white
+
+.userDate
+    color: var(--text-secondary)
+    font-size: 18px
+    font-weight: 500
+    line-height: 20px
+
+.user-name
+    font-family: din-round, sans-serif
+    font-weight: 400
+    font-size: 20px
+    color: var(--text-primary)
+    display: flex
+    flex-direction: column
+    gap: 0.2rem
+    // Removido transform - agora usa fluxo natural
+
+hr 
+  border: none
+  border-top: 2.5px solid #cccccc8f
+  margin: 2rem 0
+  // Removido transform - agora usa margin natural
+
+.container-statistics 
+  display: grid
+  grid-template-columns: repeat(2, 1fr) // 2 colunas
+  gap: 1rem // espaçamento entre os cards
+  justify-content: center
+  align-items: center
+  margin-top: 1rem // Espaçamento natural do topo
+
+.card-statistics 
+  display: flex
+  border: 2px solid #ccc
+  height: 5rem
+  width: 18rem
+  border-radius: 1rem
+  
+

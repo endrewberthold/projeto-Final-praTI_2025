@@ -14,7 +14,11 @@
     position: relative
     width: 100%
     height: 100vh
-    gap: 1rem // Espaçamento natural entre elementos
+    gap: 1rem
+    align-items: center
+    justify-content: flex-start
+    padding: 2rem
+    padding-top: 4rem
 
 .profile-banner 
     background: var(--dashboard-banner-bg)
@@ -23,7 +27,6 @@
     height: 14rem
     display: flex
     position: relative
-    margin-top: -13.5rem // Margem natural ao invés de position negativo
     margin-bottom: 1rem
 
 .button-icon
@@ -49,6 +52,23 @@
 
 .user-name
     margin-bottom: 1rem // Espaçamento natural
+
+.user-level-info
+    display: flex
+    gap: 1rem
+    justify-content: flex-start
+    align-items: center
+    margin-top: 0.5rem
+
+.level-text, .xp-text
+    font-size: 0.9rem
+    font-weight: 500
+    color: var(--accent-primary)
+    margin: 0
+    padding: 0.5rem 1rem
+    border: 1px solid var(--accent-primary)
+    border-radius: 1rem
+    background: transparent
 
 #name
     line-height: 34px
@@ -78,13 +98,8 @@
 
 // Cor do h2 no tema escuro
 body.dark .statistics h2
-    color: var(--accent-primary)
+    color: white
 
-.userDate
-    color: var(--text-secondary)
-    font-size: 18px
-    font-weight: 500
-    line-height: 20px
 
 .user-name
     font-family: din-round, sans-serif
@@ -94,7 +109,29 @@ body.dark .statistics h2
     display: flex
     flex-direction: column
     gap: 0.2rem
-    // Removido transform - agora usa fluxo natural
+    text-align: left
+    align-items: flex-start
+    margin-bottom: 1rem
+
+    .name
+        font-size: 1.8rem
+        font-weight: 600
+        color: var(--text-primary)
+        margin: 0
+        line-height: 1.2
+
+    .user-email
+        font-size: 1rem
+        color: var(--text-secondary)
+        margin: 0
+        font-weight: 500
+
+    .userDate
+        font-size: 0.9rem
+        color: var(--text-secondary)
+        margin: 0
+        font-weight: 400
+        font-style: italic
 
 hr 
   border: none
@@ -106,11 +143,11 @@ hr
   display: grid
   grid-template-columns: repeat(2, 1fr) // 2 colunas
   gap: 1rem // espaçamento entre os cards
-  justify-content: start
-  align-items: start
+  justify-content: center
+  align-items: center
   margin-top: 1.5rem // Espaçamento natural do topo
   max-width: 500px // Largura máxima para manter proporções
-  margin-left: 0
+  margin-left: auto
   margin-right: auto
 
   // Media queries para responsividade

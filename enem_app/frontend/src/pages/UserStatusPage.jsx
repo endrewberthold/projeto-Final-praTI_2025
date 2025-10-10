@@ -11,30 +11,106 @@ import { userStatusFullAPI } from "../services/userStatusServices";
 
 export default function UserStatusPage() {
   const { accessToken } = useAuth();
-  const [userData, setUserdata] = useState([]);
-  const [userMetrics, setUserMetrics] = useState([]);
+  const [userData, setUserdata] = useState(null);
+  const [userMetrics, setUserMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   async function getUserData() {
     try {
+      console.log("🔍 Iniciando busca de dados do usuário...");
+      console.log("🔑 AccessToken disponível:", !!accessToken);
+      
+      if (!accessToken) {
+        console.log("❌ AccessToken não disponível");
+        setError("Token de acesso não disponível");
+        setLoading(false);
+        return;
+      }
+
+      setError(null); // Limpar erros anteriores
       const response = await userStatusFullAPI(accessToken);
+      console.log("✅ Resposta da API recebida:", response.data);
+      
       setUserdata(response.data.user);
       setUserMetrics(response.data.metrics);
       setLoading(false);
-      //console.log("RESPONSE USER DATA: ", response.data);
-      console.log("METRICS: ", response.data.metrics);
-      console.log("USER DATA: ", response.data.user);
+      
+      console.log("📊 METRICS: ", response.data.metrics);
+      console.log("👤 USER DATA: ", response.data.user);
     } catch (err) {
-      console.log("ERRO: ", err);
+      console.error("❌ ERRO ao buscar dados do usuário:", err);
+      console.error("📝 Detalhes do erro:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Erro ao carregar dados do usuário");
+      setLoading(false); // Importante: definir loading como false mesmo em caso de erro
     }
   }
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (accessToken) {
+      getUserData();
+    }
+  }, [accessToken]);
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="user-status-page">
+        <div className="container-usersatus">
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '100vh',
+            fontSize: '1.2rem',
+            color: 'var(--text-primary)'
+          }}>
+            Carregando...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="user-status-page">
+        <div className="container-usersatus">
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '100vh',
+            fontSize: '1.2rem',
+            color: 'var(--text-primary)',
+            textAlign: 'center',
+            gap: '1rem'
+          }}>
+            <div style={{ color: 'var(--accent-primary)', fontSize: '3rem' }}>⚠️</div>
+            <div>Erro ao carregar dados</div>
+            <div style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>{error}</div>
+            <button 
+              onClick={() => {
+                setError(null);
+                setLoading(true);
+                getUserData();
+              }}
+              style={{
+                padding: '0.75rem 1.5rem',
+                backgroundColor: 'var(--accent-primary)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontSize: '1rem'
+              }}
+            >
+              Tentar novamente
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -48,9 +124,17 @@ export default function UserStatusPage() {
             </div>
 
           <div className="user-name">
-            <p id="name">Alexia Sacerdote de Oliveira</p>
-            {userData ? <p className="userDate">{userData.name}</p> : <p>Loading....</p>}
-            <p className="userDate">Por aqui desde março de 2024</p>
+            {userData ? <h1 className="name">{userData.name}</h1> : <p>Loading....</p>}
+            {userData?.email && <p className="user-email">{userData.email}</p>}
+            <p className="userDate">
+              Por aqui desde {userData?.createAt ? new Date(userData.createAt).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : 'março de 2024'}
+            </p>
+            {userData && (
+              <div className="user-level-info">
+                <p className="level-text">Nível {userData.level || 1}</p>
+                <p className="xp-text">{userData.xpPoints || 0} XP</p>
+              </div>
+            )}
           </div>
           <hr />
 
@@ -58,57 +142,26 @@ export default function UserStatusPage() {
             <h2 className="name">Estatísticas</h2>
 
             <div className="container-statistics">
-              {userData ? (
-                <>
-                  <StatCard 
-                    icon={<FaBook size={20} />} 
-                    value={userData.correctAnswers || 0} 
-                    label="Respostas" 
-                  />
-                  <StatCard 
-                    icon={<FaClock size={20} />} 
-                    value={userData.studyTime || 0} 
-                    label="Minutos" 
-                  />
-                  <StatCard 
-                    icon={<FaTrophy size={20} />} 
-                    value={userData.achievements || 0} 
-                    label="Conquistas" 
-                  />
-                  <StatCard 
-                    icon={<FaChartLine size={20} />} 
-                    value={userData.accuracy || 0} 
-                    label="Precisão" 
-                  />
-                </>
-              ) : (
-                <>
-                  <StatCard 
-                    icon={<FaBook size={20} />} 
-                    value={0} 
-                    label="Respostas" 
-                    className="stat-card--loading"
-                  />
-                  <StatCard 
-                    icon={<FaClock size={20} />} 
-                    value={0} 
-                    label="Minutos" 
-                    className="stat-card--loading"
-                  />
-                  <StatCard 
-                    icon={<FaTrophy size={20} />} 
-                    value={0} 
-                    label="Conquistas" 
-                    className="stat-card--loading"
-                  />
-                  <StatCard 
-                    icon={<FaChartLine size={20} />} 
-                    value={0} 
-                    label="Precisão" 
-                    className="stat-card--loading"
-                  />
-                </>
-              )}
+              <StatCard 
+                icon={<FaBook size={20} />} 
+                value={userMetrics?.totalSessions || 0} 
+                label="Sessões" 
+              />
+              <StatCard 
+                icon={<FaClock size={20} />} 
+                value={userMetrics?.avgAnswerTimeMs ? Math.round(userMetrics.avgAnswerTimeMs / 1000 / 60) : 0} 
+                label="Minutos Médios" 
+              />
+              <StatCard 
+                icon={<FaTrophy size={20} />} 
+                value={userMetrics?.flashcardsCount || 0} 
+                label="Flashcards" 
+              />
+              <StatCard 
+                icon={<FaChartLine size={20} />} 
+                value={userMetrics?.overallAccuracyPct ? Math.round(userMetrics.overallAccuracyPct) : 0} 
+                label="Precisão %" 
+              />
             </div>
             
           </div>

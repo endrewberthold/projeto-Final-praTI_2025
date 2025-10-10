@@ -58,16 +58,27 @@
     font-size: 25px
     color: var(--text-primary)
 
+// .statistics
+//     margin-top: 1rem // Espaçamento natural
+
+//     h2
+//         color: #4e6dc2
+//         margin-bottom: 1rem // Sem transform, apenas margin natural
+
+// Estilos para a seção de estatísticas
 .statistics
-    margin-top: 1rem // Espaçamento natural
+    margin-top: 1rem
 
     h2
-        color: #4e6dc2
-        margin-bottom: 1rem // Sem transform, apenas margin natural
+        color: var(--accent-primary)
+        margin-bottom: 1rem
+        font-size: 1.5rem
+        font-weight: 600
+        text-align: left
 
 // Cor do h2 no tema escuro
 body.dark .statistics h2
-    color: white
+    color: var(--accent-primary)
 
 .userDate
     color: var(--text-secondary)
@@ -95,15 +106,22 @@ hr
   display: grid
   grid-template-columns: repeat(2, 1fr) // 2 colunas
   gap: 1rem // espaçamento entre os cards
-  justify-content: center
-  align-items: center
-  margin-top: 1rem // Espaçamento natural do topo
+  justify-content: start
+  align-items: start
+  margin-top: 1.5rem // Espaçamento natural do topo
+  max-width: 500px // Largura máxima para manter proporções
+  margin-left: 0
+  margin-right: auto
 
-.card-statistics 
-  display: flex
-  border: 2px solid #ccc
-  height: 5rem
-  width: 18rem
-  border-radius: 1rem
-  
+  // Media queries para responsividade
+  @media (max-width: 768px)
+    grid-template-columns: 1fr // 1 coluna em mobile
+    gap: 1rem
+    max-width: 100%
+    margin-top: 1rem
+
+  @media (max-width: 480px)
+    gap: 0.75rem
+    margin-top: 0.75rem
+
 

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../styles/pages/userStatusPage.sass";
 import { MdEdit } from "react-icons/md";
 import { HiLightningBolt } from "react-icons/hi";
+import { MdOutlineAccessTimeFilled } from "react-icons/md";
+import { FaBook, FaTrophy, FaClock, FaChartLine } from "react-icons/fa";
+import StatCard from "../components/StatCard";
 
 import useAuth from "../hooks/useAuth";
 import { userStatusAPI } from "../services/userStatusServices";
@@ -48,19 +51,57 @@ export default function UserStatusPage() {
             <h2 className="name">Estatísticas</h2>
 
             <div className="container-statistics">
-              <div className="card-statistics"></div>
-              <div className="card-statistics">
-                <div>
-                  < HiLightningBolt size={45} fill= "#f0b921ff"/>
-                </div>
-                <div>
-                  <p>50</p>
-                  <p>xp</p>
-                </div>
-              </div>
-              <div className="card-statistics"></div>
-              <div className="card-statistics"></div>
-
+              {userData ? (
+                <>
+                  <StatCard 
+                    icon={<FaBook size={20} />} 
+                    value={userData.correctAnswers || 0} 
+                    label="Respostas" 
+                  />
+                  <StatCard 
+                    icon={<FaClock size={20} />} 
+                    value={userData.studyTime || 0} 
+                    label="Minutos" 
+                  />
+                  <StatCard 
+                    icon={<FaTrophy size={20} />} 
+                    value={userData.achievements || 0} 
+                    label="Conquistas" 
+                  />
+                  <StatCard 
+                    icon={<FaChartLine size={20} />} 
+                    value={userData.accuracy || 0} 
+                    label="Precisão" 
+                  />
+                </>
+              ) : (
+                <>
+                  <StatCard 
+                    icon={<FaBook size={20} />} 
+                    value={0} 
+                    label="Respostas" 
+                    className="stat-card--loading"
+                  />
+                  <StatCard 
+                    icon={<FaClock size={20} />} 
+                    value={0} 
+                    label="Minutos" 
+                    className="stat-card--loading"
+                  />
+                  <StatCard 
+                    icon={<FaTrophy size={20} />} 
+                    value={0} 
+                    label="Conquistas" 
+                    className="stat-card--loading"
+                  />
+                  <StatCard 
+                    icon={<FaChartLine size={20} />} 
+                    value={0} 
+                    label="Precisão" 
+                    className="stat-card--loading"
+                  />
+                </>
+              )}
             </div>
             
           </div>

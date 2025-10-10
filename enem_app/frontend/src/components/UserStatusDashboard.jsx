@@ -6,6 +6,7 @@ import "../styles/components/userStatusDashboard.sass";
 import { NavLink } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
 import useAuth from "../hooks/useAuth";
+import StatCard from "./StatCard";
 
 export default function StatusUsuario({
   imageProfile,
@@ -58,39 +59,16 @@ export default function StatusUsuario({
           className="name-user">{auth?.userName || "Usuário"}</div>
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
-          <div className="information" id="info-answers">
-            <FaBook size={25} fill="#4e6dc2ff" />
-            {numberofcorrectanswers > 1 ? (
-              <div className="information-container">
-                <p>{numberofcorrectanswers}</p>
-                <p className="time-responses">Respostas</p>
-              </div>
-            ) : numberofcorrectanswers === 1 ? (
-              <div className="information-container">
-                <p>{numberofcorrectanswers}</p>
-                <p className="time-responses">Resposta</p>
-              </div>
-            ) : (
-              <div className="information-container">Nenhum</div>
-            )}
-          </div>
-
-          <div className="information" id="info-time">
-            <MdOutlineAccessTimeFilled size={25} fill="#4e6dc2ff" />
-            {StudyTime > 1 ? (
-              <div className="information-container">
-                <p>{StudyTime}</p>
-                <p className="time-responses">Minutos </p>
-              </div>
-            ) : StudyTime === 1 ? (
-              <div className="information-container">
-                <p>{StudyTime}</p>
-                <p className="time-responses">Minuto</p>
-              </div>
-            ) : (
-              <div className="information-container">Nenhum</div>
-            )}
-          </div>
+          <StatCard 
+            icon={<FaBook size={20} />} 
+            value={numberofcorrectanswers} 
+            label={numberofcorrectanswers === 1 ? "Resposta" : "Respostas"} 
+          />
+          <StatCard 
+            icon={<MdOutlineAccessTimeFilled size={20} />} 
+            value={StudyTime} 
+            label={StudyTime === 1 ? "Minuto" : "Minutos"} 
+          />
         </div>
         <NavLink to={"/userStatusPage"}>
           <button 

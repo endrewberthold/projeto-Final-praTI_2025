@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Cardlvl from "../components/Cardlvl";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { FaTrophy } from "react-icons/fa";
+import "../styles/pages/skillPage.sass";
 
 //import { startSessionAPI } from "../services/SkillsServices";
 
@@ -22,35 +24,63 @@ export default function SkillPage() {
   }
 
   return (
-    <div>
-      <h1>SkillPage</h1>
+    <div className="skill-page">
 
-      <Cardlvl
-        titulo="lvl 001"
-        totalQuestoes={5}
-        respondidas={0}
-        textoBotao="Começar"
-        onClick={(e) => handleNavigate(e, 1)}
-        //onClick={() => alert("Iniciando nível 1")} //esse botão pode ser alterado
-      />
+      <div className="skill-page-content">
+        <h1>SkillPage</h1>
 
-      <Cardlvl
-        titulo="lvl 002"
-        totalQuestoes={5}
-        respondidas={0}
-        textoBotao="Começar"
-        onClick={(e) => handleNavigate(e, 2)}
-        //onClick={() => alert("Iniciando nível 1")} //esse botão pode ser alterado
-      />
+        <div className="pyramid-container">
+          {/* Primeira linha - 3 cards */}
+          <div className="pyramid-row first-row">
+            <Cardlvl
+              titulo="lvl 001"
+              totalQuestoes={5}
+              respondidas={0}
+              textoBotao="Começar"
+              onClick={(e) => handleNavigate(e, 1)}
+            />
+            <Cardlvl
+              titulo="lvl 002"
+              totalQuestoes={5}
+              respondidas={0}
+              textoBotao="Começar"
+              onClick={(e) => handleNavigate(e, 2)}
+            />
+            <Cardlvl
+              titulo="lvl 003"
+              totalQuestoes={5}
+              respondidas={0}
+              textoBotao="Começar"
+              onClick={(e) => handleNavigate(e, 3)}
+            />
+          </div>
 
-      <Cardlvl
-        titulo="lvl 002"
-        totalQuestoes={5}
-        respondidas={0}
-        textoBotao="Começar"
-        onClick={(e) => handleNavigate(e, 3)}
-        //onClick={() => alert("Iniciando nível 1")} //esse botão pode ser alterado
-      />
+          {/* Segunda linha - 2 cards */}
+          <div className="pyramid-row second-row">
+            <Cardlvl
+              titulo="lvl 004"
+              totalQuestoes={5}
+              respondidas={0}
+              textoBotao="Começar"
+              onClick={(e) => handleNavigate(e, 4)}
+            />
+            <Cardlvl
+              titulo="lvl 005"
+              totalQuestoes={5}
+              respondidas={0}
+              textoBotao="Começar"
+              onClick={(e) => handleNavigate(e, 5)}
+            />
+          </div>
+
+          {/* Troféu no final da pirâmide */}
+          <div className="trophy-container">
+            <FaTrophy className="trophy-icon" />
+          </div>
+        </div>
+
+      </div>
+
     </div>
   );
 }

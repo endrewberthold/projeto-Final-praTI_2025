@@ -1,0 +1,119 @@
+.skill-page
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 2rem
+  background: var(--bg-primary)
+  
+  h1
+    color: var(--text-primary)
+    font-size: 2.5rem
+    font-weight: bold
+    margin-bottom: 3rem
+    text-align: center
+
+.pyramid-container
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 2rem
+  width: 100%
+  max-width: 1200px
+
+.pyramid-row
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 2rem
+  flex-wrap: wrap
+
+.first-row
+  // 3 cards na primeira linha
+  .level-card
+    margin: 0 1rem
+
+.second-row
+  // 2 cards na segunda linha
+  .level-card
+    margin: 0 1rem
+
+.trophy-container
+  display: flex
+  justify-content: center
+  align-items: center
+  margin-top: 2rem
+  
+  .trophy-icon
+    font-size: 4rem
+    color: #ffd700
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3))
+    transition: all 0.3s ease
+    
+    &:hover
+      transform: scale(1.1)
+      filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.5))
+
+// Responsividade
+@media (max-width: 768px)
+  .skill-page
+    padding: 1rem
+    
+    h1
+      font-size: 2rem
+      margin-bottom: 2rem
+  
+  .pyramid-container
+    gap: 1.5rem
+  
+  .pyramid-row
+    gap: 1rem
+    
+    .level-card
+      margin: 0 0.5rem
+  
+  .trophy-container
+    margin-top: 1.5rem
+    
+    .trophy-icon
+      font-size: 3rem
+
+@media (max-width: 480px)
+  .skill-page
+    padding: 0.5rem
+    
+    h1
+      font-size: 1.5rem
+      margin-bottom: 1.5rem
+  
+  .pyramid-container
+    gap: 1rem
+  
+  .pyramid-row
+    gap: 0.5rem
+    
+    .level-card
+      margin: 0 0.25rem
+  
+  .trophy-container
+    margin-top: 1rem
+    
+    .trophy-icon
+      font-size: 2.5rem
+
+// Tema dark
+body.dark
+  .skill-page
+    background: var(--bg-primary)
+    
+    h1
+      color: var(--text-primary)
+      
+  .trophy-container
+    .trophy-icon
+      color: #ffd700
+      filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4))
+      
+      &:hover
+        filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.6))

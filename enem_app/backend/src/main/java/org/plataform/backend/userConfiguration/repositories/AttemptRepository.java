@@ -12,52 +12,72 @@ import java.util.List;
 public interface AttemptRepository extends JpaRepository<Attempt, Long> {
     List<Attempt> findBySessionId(Long sessionId);
 
-    long countByUserId(Long userId);
 
     @Query("SELECT COUNT(a) FROM Attempt a WHERE a.userId = :userId AND a.isCorrect = true")
-    long countCorrectByUserId(@Param("userId") Long userID);
+    long countCorrectByUserId(@Param("userId") Long userId);
 
     @Query("SELECT AVG(a.answerTimeMs) FROM Attempt a WHERE a.userId = :userId AND a.answerTimeMs IS NOT NULL")
     Double averageAnswerTimeMsByUserId(@Param("userId") Long userId);
 
-    //Top areas por accuracy
+    /* ========== TOP AREAS (rank por correct_count) - retorna também area name ==========
+       Columns returned: area_id, area_name, correct_count, total_count, accuracy
+    */
     @Query(value = """
-        SELECT q.area_id AS area_id,
-            SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END) AS correct_count,
-            COUNT(*)AS total_count,
-            SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::double precision / COUNT(*) AS accuracy
+        SELECT q.area_id::text AS area_id,
+               ka.name::text   AS area_name,
+               SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::bigint AS correct_count,
+               COUNT(*)::bigint AS total_count,
+               CASE WHEN COUNT(*) = 0 THEN 0.0
+                    ELSE (SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::double precision / COUNT(*)) * 100.0
+               END AS accuracy_pct
         FROM attempts a
-                JOIN questions q ON q.id = a.question_id
-        WHERE a.user_id = :userID
-        GROUP BY q.area_id
-        ORDER BY accuracy DESC
+        JOIN questions q ON q.id = a.question_id
+        LEFT JOIN knowledge_areas ka ON ka.id = q.area_id
+        WHERE a.user_id = :userId
+        GROUP BY q.area_id, ka.name
+        ORDER BY correct_count DESC
         LIMIT :limit
         """, nativeQuery = true)
-    List<Object[]> findTopAreasByAccuracy(@Param("userID") Long userID, @Param("limit") int limit);
+    List<Object[]> findTopAreasByCorrectCount(@Param("userId") Long userId, @Param("limit") int limit);
 
-    // Top habilidades, conta somente respostas corretas
+    /* ========== TOP SKILLS (rank por correct_count) - retorna skill id + code/description ==========
+       Columns returned: skill_id, skill_code, skill_description, correct_count, total_count, accuracy_pct
+    */
     @Query(value = """
-        SELECT q.skill_id AS skill_id,
-               SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END) AS correct_count,
-               COUNT(*) AS total_count
+        SELECT q.skill_id::bigint AS skill_id,
+               s.code::text        AS skill_code,
+               s.description::text AS skill_description,
+               SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::bigint AS correct_count,
+               COUNT(*)::bigint AS total_count,
+               CASE WHEN COUNT(*) = 0 THEN 0.0
+                    ELSE (SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::double precision / COUNT(*)) * 100.0
+               END AS accuracy_pct
         FROM attempts a
-                 JOIN questions q ON q.id = a.question_id
+        JOIN questions q ON q.id = a.question_id
+        LEFT JOIN skills s ON s.id = q.skill_id
         WHERE a.user_id = :userId
-        GROUP BY q.skill_id
+        GROUP BY q.skill_id, s.code, s.description
         ORDER BY correct_count DESC
         LIMIT :limit
         """, nativeQuery = true)
     List<Object[]> findTopSkillsByCorrectCount(@Param("userId") Long userId, @Param("limit") int limit);
 
-    // Top competencias, conta somente respostas corretas
+    /* ========== TOP COMPETENCIES (rank por correct_count) - retorna competency id + description ==========
+       Columns returned: competency_id, competency_description, correct_count, total_count, accuracy_pct
+    */
     @Query(value = """
-        SELECT q.competency_id AS competency_id,
-               SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END) AS correct_count,
-               COUNT(*) AS total_count
+        SELECT q.competency_id::bigint AS competency_id,
+               c.description::text AS competency_description,
+               SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::bigint AS correct_count,
+               COUNT(*)::bigint AS total_count,
+               CASE WHEN COUNT(*) = 0 THEN 0.0
+                    ELSE (SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::double precision / COUNT(*)) * 100.0
+               END AS accuracy_pct
         FROM attempts a
-                 JOIN questions q ON q.id = a.question_id
+        JOIN questions q ON q.id = a.question_id
+        LEFT JOIN competencies c ON c.id = q.competency_id
         WHERE a.user_id = :userId
-        GROUP BY q.competency_id
+        GROUP BY q.competency_id, c.description
         ORDER BY correct_count DESC
         LIMIT :limit
         """, nativeQuery = true)

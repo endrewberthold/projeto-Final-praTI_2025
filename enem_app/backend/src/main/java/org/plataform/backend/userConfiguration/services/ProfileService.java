@@ -28,7 +28,6 @@ public class ProfileService {
 
     public ProfileDTO getProfileForUser(Long userId) {
         long totalSessions = sessionRepository.countByUserId(userId);
-        long totalAttempts = attemptRepository.countByUserId(userId);
         long totalCorrect = attemptRepository.countCorrectByUserId(userId);
 
         double overallAccuracyPct = 0.0;
@@ -46,18 +45,20 @@ public class ProfileService {
 
         // top area by accuracy
         AreaStatDTO topAreaDto = null;
-        List<Object[]> topAreas = attemptRepository.findTopAreasByAccuracy(userId, 1);
+        List<Object[]> topAreas = attemptRepository.findTopAreasByCorrectCount(userId, 1);
         if (topAreas != null && !topAreas.isEmpty()) {
             Object[] row = topAreas.getFirst();
             String areaId = row[0] != null ? row[0].toString() : null;
-            long correct = row[1] != null ? ((Number) row[1]).longValue() : 0L;
-            long total = row[2] != null ? ((Number) row[2]).longValue() : 0L;
-            double accuracy = row[3] != null ? ((Number) row[3]).doubleValue() * 100.0 : 0.0;
+            String areaName = row[1] != null ? row[1].toString() : null;
+            long correct = row[2] != null ? ((Number) row[2]).longValue() : 0L;
+            long total = row[3] != null ? ((Number) row[3]).longValue() : 0L;
+            double accuracy = row[4] != null ? ((Number) row[4]).doubleValue() : 0.0;
             topAreaDto = AreaStatDTO.builder()
                     .areaId(areaId)
+                    .areaName(areaName)
                     .correctCount(correct)
                     .totalCount(total)
-                    .accuracyPct(accuracy)
+                    .accuracyPct(round(accuracy, 2))
                     .build();
         }
         // top 3 skills by correct count
@@ -66,14 +67,18 @@ public class ProfileService {
         if (topSkillsRows != null) {
             for (Object[] row : topSkillsRows) {
                 Long skillId = row[0] != null ? ((Number) row[0]).longValue() : null;
-                long correct = row[1] != null ? ((Number) row[1]).longValue() : 0L;
-                long total = row[2] != null ? ((Number) row[2]).longValue() : 0L;
-                double accuracy = (total > 0) ? ((double) correct / total) * 100.0 : 0.0;
+                String skillCode = row[1] != null ? row[1].toString() : null;
+                String skillDesc = row[2] != null ? row[2].toString() : null;
+                long correct = row[3] != null ? ((Number) row[3]).longValue() : 0L;
+                long total = row[4] != null ? ((Number) row[4]).longValue() : 0L;
+                double accuracy = row[5] != null ? ((Number) row[5]).doubleValue() : 0.0;
                 topSkills.add(SkillStatDTO.builder()
                         .skillId(skillId)
+                        .skillCode(skillCode)
+                        .skillDescription(skillDesc)
                         .correctCount(correct)
                         .totalCount(total)
-                        .accuracyPct(accuracy)
+                        .accuracyPct(round(accuracy, 2))
                         .build());
             }
         }
@@ -83,14 +88,16 @@ public class ProfileService {
         if (topCompRows != null) {
             for (Object[] row : topCompRows) {
                 Long compId = row[0] != null ? ((Number) row[0]).longValue() : null;
-                long correct = row[1] != null ? ((Number) row[1]).longValue() : 0L;
-                long total = row[2] != null ? ((Number) row[2]).longValue() : 0L;
-                double accuracy = (total > 0) ? ((double) correct / total) * 100.0 : 0.0;
+                String compDesc = row[1] != null ? row[1].toString() : null;
+                long correct = row[2] != null ? ((Number) row[2]).longValue() : 0L;
+                long total = row[3] != null ? ((Number) row[3]).longValue() : 0L;
+                double accuracy = row[4] != null ? ((Number) row[4]).doubleValue() : 0.0;
                 topCompetencies.add(CompetencyStatDTO.builder()
                         .competencyId(compId)
+                        .competencyDescription(compDesc)
                         .correctCount(correct)
                         .totalCount(total)
-                        .accuracyPct(accuracy)
+                        .accuracyPct(round(accuracy, 2))
                         .build());
             }
         }

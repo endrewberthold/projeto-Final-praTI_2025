@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class AreaStatDTO {
     private String areaId;
+    private String areaName;
     private long correctCount;
     private long totalCount;
     private double accuracyPct;

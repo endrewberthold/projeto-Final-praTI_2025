@@ -27,6 +27,7 @@ export default function FlashcardPage() {
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
   // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
@@ -43,6 +44,17 @@ export default function FlashcardPage() {
   
   // For selected icon
   const [selectedIcon, setSelectedIcon] = useState('mortarboard');
+
+  // Function to start delete loading
+  const handleDeleteStart = () => {
+    setIsDeleting(true);
+    
+    // Reset loading state after 1 second (apenas efeito visual)
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, 1000);
+  };
+
 
   // For the first time the page loads
   useEffect(() => {
@@ -240,21 +252,25 @@ export default function FlashcardPage() {
             />
           </div>
         </section>
-        <section className={`flashcard-dashboard-container ${theme}`}>
-          {isLoading ? (
+        <section className={`flashcard-dashboard-container ${theme} ${flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'}`}>
+          {isLoading || isDeleting ? (
             <div className="loading-container">
               <FaSpinner className="loading-spinner" />
-              <p className="loading-text">Carregando flashcards...</p>
+              <p className="loading-text">
+                {isDeleting ? "Excluindo flashcard..." : "Carregando flashcards..."}
+              </p>
             </div>
           ) : flashcardsData && flashcardsData.length > 0 ? (
             <>
-              {flashcardsData.map((item) => (
+              {flashcardsData.map((item, index) => (
                 <FlashCard
                   key={item.id}
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  area={item.areaId}
+                  areaId={item.areaId}
+                  index={index}
+                  onDeleteStart={handleDeleteStart}
                   handleDelete={handleDeleteFlashcard}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />

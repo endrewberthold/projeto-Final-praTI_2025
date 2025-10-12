@@ -212,10 +212,10 @@
         display: grid
         min-height: 100%
         min-width: 100%
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+        grid-template-columns: repeat(auto-fit, max(280px))
         padding: 15px 0
         flex: 1
-        gap: 1.5rem
+        gap: 1rem
 
         .loading-container
             display: flex
@@ -223,6 +223,7 @@
             align-items: center
             justify-content: center
             grid-column: 1 / -1
+            width: 100%
             padding: 3rem 1rem
             text-align: center
             gap: 1rem
@@ -244,6 +245,7 @@
             align-items: center
             justify-content: center
             grid-column: 1 / -1
+            width: 100%
             padding: 4rem 2rem
             text-align: center
             gap: 1.5rem
@@ -337,7 +339,7 @@
                 padding: 10px
 
         .flashcard-dashboard-container
-            grid-template-columns: 1fr
+            grid-template-columns: repeat(auto-fit, max(280px))
             gap: 1rem
 
         .empty-flashcards-container

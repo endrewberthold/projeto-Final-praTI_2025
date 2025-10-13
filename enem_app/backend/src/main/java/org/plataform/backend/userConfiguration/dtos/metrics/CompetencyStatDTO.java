@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class CompetencyStatDTO {
     private Long competencyId;
+    private String competencyDescription;
     private long correctCount;
     private long totalCount;
     private double accuracyPct;

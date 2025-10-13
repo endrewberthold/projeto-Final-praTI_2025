@@ -1,3 +1,5 @@
+@use '../variables.sass'
+  
 .card-container
   width: 100%;
   min-height: 100vh;
@@ -32,8 +34,9 @@
         position: absolute;
         inset: 0;
         display: flex;
+        flex-direction: column
         align-items: center;
-        justify-content: center;
+        justify-content: center
         border-radius: 1rem;
         overflow: hidden;
         -webkit-backface-visibility: hidden;
@@ -43,21 +46,55 @@
         &.frontside
           & span
             color: black
-
+        
         &.backside
+          justify-content: space-between;
           transform: rotateX(180deg);
           & span
             color: black
 
-
         .question-text
-          font-size: 32px;
+          font-size: 1.8rem;
           text-align: center;
           margin: 0;
           font-weight: 600;
 
         .answer-text
-          font-size: 24px;
+          font-size: 1.4rem;
           text-align: center;
           margin: 0;
           font-weight: 400;
+
+      .card-id
+        position: absolute
+        z-index: 2
+        top:20px
+        right: 30px
+        padding: 7px 15px
+        background-color: #6366f1
+        color: black
+        border-radius: variables.$border-radius-flashcard-page
+
+  .flashview-icons
+    color: black
+    width: 1.8rem
+    height: 2rem
+    transition: all 0.3s
+
+  .pencil
+    position: absolute
+    z-index: 2
+    bottom:30px
+    right: 100px
+
+    &:hover
+      transform: translateY(-2px)
+
+  .trash
+    position: absolute
+    z-index: 2
+    bottom: 30px
+    right: 50px
+
+    &:hover
+        transform: translateY(-2px)

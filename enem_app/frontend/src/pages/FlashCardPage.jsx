@@ -225,7 +225,7 @@ export default function FlashcardPage() {
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  area={item.areaId}
+                  area={item.areaName}
                   handleDelete={handleDeleteFlashcard}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />

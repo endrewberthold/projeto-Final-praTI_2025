@@ -162,7 +162,7 @@ export default function FlashcardPage() {
               <label>Título:</label>
               <input
                 type="text"
-                onChange={(e) => setTerm(e.target.value)}
+                onChange={({ target }) => setTerm(target.value)}
                 value={term}
                 placeholder="Título"
               />
@@ -172,9 +172,11 @@ export default function FlashcardPage() {
               <select
                 name="selectArea"
                 id="areaId"
-                onChange={(e) => setAreaId(e.target.value)}
+                onChange={({ target }) => setAreaId(target.value)}
               >
-                <option>Selecione uma opção</option>
+                <option value="" disabled>
+                  Selecione uma opção
+                </option>
                 <option value="LC">
                   Linguagens, Códigos e suas Tecnologias
                 </option>
@@ -190,7 +192,7 @@ export default function FlashcardPage() {
             <label htmlFor="">Descrição:</label>
             <textarea
               placeholder="Dados do Flashcard"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={({ target }) => setDescription(target.value)}
               value={description}
               rows="6"
             />

@@ -92,7 +92,7 @@ export default function FlashcardPage() {
   }
 
   // DELETE FLASHCARD
-  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
+  // $ Will be refactored in the future, it does not need a response, only if it display something in the screen
   async function handleDeleteFlashcard(item) {
     //console.log("DELETE: ", item);
     const id = item;
@@ -149,6 +149,21 @@ export default function FlashcardPage() {
     setModalForm((prev) => !prev);
   };
 
+  const handleSelectArea = () => {
+    return flashcardsData.map((item) => item.areaName);
+  };
+
+  const pageButtons = [
+    {
+      icon: BsFillMortarboardFill,
+      area: 'Linguagens, Códigos e suas Tecnologias',
+    },
+    { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
+    { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
+    { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
+    { icon: TbMathFunction, area: 'Ciências da Natureza e suas Tecnologias' },
+  ];
+
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
@@ -162,7 +177,7 @@ export default function FlashcardPage() {
               <label>Título:</label>
               <input
                 type="text"
-                onChange={(e) => setTerm(e.target.value)}
+                onChange={({ target }) => setTerm(target.value)}
                 value={term}
                 placeholder="Título"
               />
@@ -172,9 +187,11 @@ export default function FlashcardPage() {
               <select
                 name="selectArea"
                 id="areaId"
-                onChange={(e) => setAreaId(e.target.value)}
+                onChange={({ target }) => setAreaId(target.value)}
               >
-                <option>Selecione uma opção</option>
+                <option value="" disabled>
+                  Selecione uma opção
+                </option>
                 <option value="LC">
                   Linguagens, Códigos e suas Tecnologias
                 </option>
@@ -190,7 +207,7 @@ export default function FlashcardPage() {
             <label htmlFor="">Descrição:</label>
             <textarea
               placeholder="Dados do Flashcard"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={({ target }) => setDescription(target.value)}
               value={description}
               rows="6"
             />
@@ -207,11 +224,17 @@ export default function FlashcardPage() {
         </form>
         <section className="icons-flashcard-container">
           <div>
-            <BsFillMortarboardFill className={`icon-flashcard ${theme}`} />
-            <FaBookOpen className={`icon-flashcard ${theme}`} />
-            <TbMathFunction className={`icon-flashcard ${theme}`} />
-            <GiMicroscope className={`icon-flashcard ${theme}`} />
-            <FaGlobeAmericas className={`icon-flashcard ${theme}`} />
+            {pageButtons.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <IconComponent
+                  key={i}
+                  className={`icon-flashcard ${theme}`}
+                  name={`${item.area}`}
+                  onClick={handleSelectArea}
+                />
+              );
+            })}
           </div>
         </section>
         <section className={`flashcard-dashboard-container ${theme}`}>
@@ -223,8 +246,9 @@ export default function FlashcardPage() {
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  area={item.areaId}
-                  handleDelete={handleDeleteFlashcard}
+                  areaName={item.areaName}
+                  areaId={item.areaId}
+                  handleDelete={() => handleDeleteFlashcard(item.id)}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />
               ))}

@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +7,9 @@ import { TiPencil } from 'react-icons/ti';
 import '../styles/components/Flashcard.sass';
 
 export default function Flashcard({
-  term,
   id,
+  term,
   description,
-  areaId,
   areaName,
   handleDelete,
   handleUpdate,
@@ -24,15 +21,20 @@ export default function Flashcard({
   // const [tooltipUpdate, setTooltipUpdate] = useState(true);
   // const [tooltipDelete, setTooltipDelete] = useState(false);
 
-  // PATY: OLHAR AQUI
-  // useEffect(() => console.log(areaName), [areaName]);
-  // useEffect(() => console.log(areaId), [areaId]);
-
   const handleNavigate = (e) => {
-    e.preventDefault();
     navigate(`/viewFlashPage/${id}`, {
       state: { term, description, areaName },
     });
+  };
+
+  const handleClickUpdate = (e) => {
+    e.stopPropagation();
+    handleUpdate();
+  };
+
+  const handleClickDelete = (e) => {
+    e.stopPropagation();
+    handleDelete();
   };
 
   return (
@@ -42,22 +44,20 @@ export default function Flashcard({
         onClick={handleNavigate}
         title="Abrir Flashcard"
       >
-        <p className="flashcards-dash-area">{areaName}</p>
-        <div className="flashcard-inner-container">
-          <div className="title-container">
-            <h3 className="flashcards-dash-title">{term}</h3>
-          </div>
+        <span className="flashcards-dash-area">{areaName}</span>
+        <div className="title-container">
+          <h3 className="flashcards-dash-title">{term}</h3>
         </div>
         <div className={`flashcards-dash-buttons ${theme}`}>
           <TiPencil
             className="flashdash-icons"
-            onClick={() => handleUpdate(id)}
+            onClick={handleClickUpdate}
             title="atualizar"
             // onMouseOver={() => setTooltipUpdate((prev) => !prev)}
           />
           <AiFillDelete
             className="flashdash-icons"
-            onClick={() => handleDelete(id)}
+            onClick={handleClickDelete}
             title="deletar"
             // onMouseOver={() => setTooltipDelete((prev) => !prev)}
           />

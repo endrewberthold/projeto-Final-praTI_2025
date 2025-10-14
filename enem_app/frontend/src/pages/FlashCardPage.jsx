@@ -92,7 +92,7 @@ export default function FlashcardPage() {
   }
 
   // DELETE FLASHCARD
-  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
+  // $ Will be refactored in the future, it does not need a response, only if it display something in the screen
   async function handleDeleteFlashcard(item) {
     //console.log("DELETE: ", item);
     const id = item;
@@ -148,6 +148,21 @@ export default function FlashcardPage() {
   const handleCloseModal = () => {
     setModalForm((prev) => !prev);
   };
+
+  const handleSelectArea = () => {
+    return flashcardsData.map((item) => item.areaName);
+  };
+
+  const pageButtons = [
+    {
+      icon: BsFillMortarboardFill,
+      area: 'Linguagens, Códigos e suas Tecnologias',
+    },
+    { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
+    { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
+    { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
+    { icon: TbMathFunction, area: 'Ciências da Natureza e suas Tecnologias' },
+  ];
 
   return (
     <>
@@ -209,11 +224,17 @@ export default function FlashcardPage() {
         </form>
         <section className="icons-flashcard-container">
           <div>
-            <BsFillMortarboardFill className={`icon-flashcard ${theme}`} />
-            <FaBookOpen className={`icon-flashcard ${theme}`} />
-            <TbMathFunction className={`icon-flashcard ${theme}`} />
-            <GiMicroscope className={`icon-flashcard ${theme}`} />
-            <FaGlobeAmericas className={`icon-flashcard ${theme}`} />
+            {pageButtons.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <IconComponent
+                  key={i}
+                  className={`icon-flashcard ${theme}`}
+                  name={`${item.area}`}
+                  onClick={handleSelectArea}
+                />
+              );
+            })}
           </div>
         </section>
         <section className={`flashcard-dashboard-container ${theme}`}>
@@ -225,8 +246,9 @@ export default function FlashcardPage() {
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  area={item.areaName}
-                  handleDelete={handleDeleteFlashcard}
+                  areaName={item.areaName}
+                  areaId={item.areaId}
+                  handleDelete={() => handleDeleteFlashcard(item.id)}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />
               ))}

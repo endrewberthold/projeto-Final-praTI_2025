@@ -3,6 +3,7 @@
 .flashcards-dashboard
     display: flex
     flex-direction: column
+    justify-content: space-between
     height: 200px
     width: 100%
     padding: 15px
@@ -25,30 +26,26 @@
         &.dark
             box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8);
 
-    .flashcard-inner-container
+    .flashcards-dash-area
+        margin: 8px auto
+        font-size: .85rem
+        color: black
+
+
+    .title-container
         display: flex
-        flex-direction: column
         justify-content: center
-        flex: 1
-
-        .title-container
-            display: flex
-            justify-content: center
-            align-items: center
-            background-color: variables.$clr-accent
-            border-radius: .3rem
-            font-size: 15px
-
-        .flashcards-dash-title
-            width: fit-content
-
-        .flashcards-dash-area
-            margin-top: 15px
-            font-size: .9rem
+        align-items: center
+        padding: 5px
+        background-color: variables.$clr-accent
+        border-radius: .3rem
+        font-size: 1rem
+        min-width: fit-content
 
     .flashcards-dash-buttons
         align-self: flex-end
         color: #131f4c
+        padding: 8px
 
         &.dark
             color: variables.$clr-body

@@ -1,72 +1,54 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-
-import { TiPencil } from 'react-icons/ti';
-import { AiFillDelete } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 import '../styles/components/ViewFlashCard.sass';
 
 const ViewFlashCard = () => {
   const params = useParams();
   const location = useLocation();
-  const { term, description, areaName, handleUpdate, handleDelete } =
-    location.state || {};
+  const { term, description, areaName } = location.state || {};
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardContent, setCardContent] = useState(false);
 
-  // inicialização do cartão com um conteúdo do back ou vazio
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (term && description) {
       setCardContent((prev) => !prev);
     }
   }, [term, description]);
 
-  useEffect(() => console.log(cardContent), [cardContent]);
-
-  //Deletar ?
-  const deleteFlashCard = () => {
-    if (window.confirm('Tem certeza que deseja excluir este card?')) {
-      // Logic to handle delete functionality
-      console.log(`Card ${term} excluído!`);
-    }
+  const handleFlip = (e) => {
+    e.stopPropagation();
+    setIsFlipped((prev) => !prev);
   };
 
   return (
-    <section className="card-container">
-      {cardContent && (
-        <div
-          className={`card ${isFlipped ? 'flipped' : ''}`}
-          onClick={() => setIsFlipped((prev) => !prev)}
-        >
-          <div className="innerCard">
-            <div className="face frontside">
-              <div className="card-id">Card n॰{params.id}</div>
-              <span>{areaName}</span>
-              <span className="question-text">{term}</span>
-            </div>
-            <div className="face backside">
-              <span>{areaName}</span>
-              <span className="answer-text">{description}</span>
-              <div>
-                <TiPencil
-                  className="flashview-icons pencil"
-                  title="editar"
-                  onClick={() => handleUpdate(params.id)}
-                />
-                <AiFillDelete
-                  className="flashview-icons trash"
-                  title="deletar"
-                />
+    <div onClick={() => navigate('/flashCardPage')}>
+      <section className="card-container">
+        {cardContent && (
+          <div
+            className={`innercard-container ${isFlipped ? 'flipped' : ''}`}
+            onClick={handleFlip}
+          >
+            <div className="innercard">
+              <div className="face frontside">
+                <span>{areaName}</span>
+                <div className="card-id">Card n॰{params.id}</div>
+                <span className="question-text">{term}</span>
+              </div>
+              <div className="face backside">
+                <span>{areaName}</span>
+                <span className="answer-text">{description}</span>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </section>
+        )}
+      </section>
+    </div>
   );
 };
 
 export default ViewFlashCard;
-
-// e.stopPropagation();

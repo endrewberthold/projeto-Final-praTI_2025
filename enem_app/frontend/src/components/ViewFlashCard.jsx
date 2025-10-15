@@ -56,11 +56,9 @@ const ViewFlashCard = ({ onClose }) => {
         <div>{params.id}</div>
         <div className="innerCard">
           <div className="face frontside">
-            <span>{areaId}</span>
             <span className="question-text">{term}</span>
           </div>
           <div className="face backside">
-            <span>{areaId}</span>
             <span className="answer-text">{description}</span>
           </div>
         </div>

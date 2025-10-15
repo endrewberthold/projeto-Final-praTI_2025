@@ -2,7 +2,7 @@
 CREATE TABLE public.users (
     id_user BIGSERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    nickname VARCHAR(50),
+    profile_image VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(30) NOT NULL,
     level INT NOT NULL DEFAULT 1,

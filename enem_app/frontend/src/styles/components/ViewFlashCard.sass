@@ -1,104 +1,106 @@
 @use '../variables.sass'
-  
+
 .card-container
-  width: 100%;
-  min-height: 100vh;
   display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-  overflow: hidden;
-  
-  .innercard-container
-    position: relative;
-    display: flex;
-    flex-direction: columns
-    width: 55rem;
-    height: 35rem;
-    border-radius: 16px;
-    perspective: 1000px;
-    cursor: pointer;
 
-    &.flipped .innercard
-      transform: rotateX(180deg);
-
-    .innercard
+  .section-card-container
+    width: 100%;
+    min-height: 100vh;
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    overflow: hidden;
+    
+    .innercard-container
       position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.4s ease;
-      will-change: transform;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: columns
+      width: 55rem;
+      height: 35rem;
       border-radius: 16px;
+      perspective: 1000px;
+      cursor: pointer;
 
-      .face
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column
-        align-items: center;
-        border-radius: 1rem;
-        overflow: hidden;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        background-color: white;
+      &.flipped .innercard
+        transform: rotateX(180deg);
 
-        &.frontside
-          justify-content: center
-          & span
-            margin-bottom: 12rem
-            color: black
-        
-        &.backside
-          justify-content: center
-          transform: rotateX(180deg);
-          & span
-            margin-bottom: 12rem
-            color: black
+      .innercard
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 2.4s ease;
+        will-change: transform;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        border-radius: 16px;
 
-        .question-text
-          font-size: 2rem;
-          text-align: center;
-          margin: 0;
-          font-weight: 600;
+        .face
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column
+          align-items: center;
+          border-radius: 1rem;
+          overflow: hidden;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          background-color: white;
 
-        .answer-text
-          font-size: 1.6rem;
-          text-align: center;
-          margin: 0;
-          font-weight: 400;
+          &.frontside
+            justify-content: center
+            
+            & span
+              margin-bottom: 12rem
+              color: black
+          
+          &.backside
+            justify-content: center
+            transform: rotateX(180deg);
+            & span
+              margin-bottom: 12rem
+              color: black
 
-      .card-id
-        position: absolute
-        z-index: 2
-        top:20px
-        right: 30px
-        padding: 7px 15px
-        background-color: #6366f1
-        color: black
-        border-radius: variables.$border-radius-flashcard-page
+          .question-text
+            font-size: 2rem;
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
 
-  .flashview-icons
-    color: black
-    width: 1.8rem
-    height: 2rem
-    transition: all 0.3s
+          .answer-text
+            font-size: 1.6rem;
+            text-align: center;
+            margin: 0;
+            font-weight: 400;
 
-  .pencil
+        .card-id
+          position: absolute
+          z-index: 2
+          top:20px
+          right: 30px
+          padding: 7px 15px
+          background-color: #6366f1
+          color: black
+          border-radius: variables.$border-radius-flashcard-page
+
+  .card-close-icon
     position: absolute
     z-index: 2
-    bottom:30px
-    right: 100px
+    bottom: 20px
+    right: 255px
+    width: 1.8rem
+    height: 2rem
+    color: black
+    transition: all 0.3s
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    &.flipped .card-close-icon
+      transform: rotateX(180deg);
+
+
 
     &:hover
       transform: translateY(-2px)
-
-  .trash
-    position: absolute
-    z-index: 2
-    bottom: 30px
-    right: 50px
-
-    &:hover
-        transform: translateY(-2px)

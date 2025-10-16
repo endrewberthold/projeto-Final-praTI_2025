@@ -5,7 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 import useForm from '../hooks/useForm';
 
 import Input from '../components/Form/Input';
-// import Select from '../components/Form/Select';
+import Select from '../components/Form/Select';
 import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
 
@@ -148,19 +148,18 @@ export default function FlashcardPage() {
     setDescription('');
   };
 
-  const handleSelectArea = () => {
-    return flashcardsData.map((item) => item.areaName);
-  };
+  // const handleSelectArea = () => {
+  // };
 
   const pageButtons = [
     {
       icon: BsFillMortarboardFill,
-      area: 'Linguagens, Códigos e suas Tecnologias',
+      area: '',
     },
     { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
     { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
     { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
-    { icon: TbMathFunction, area: 'Ciências da Natureza e suas Tecnologias' },
+    { icon: TbMathFunction, area: 'Matemáticas e suas Tecnologias' },
   ];
 
   return (
@@ -173,44 +172,21 @@ export default function FlashcardPage() {
             type="text"
             value={term}
             onChange={({ target }) => setTerm(target.value)}
+            // onBlur={handleBlur}
             placeholder="Título"
             maxLength={40}
             required
           />
         </div>
         <div className="form-options">
-          <label htmlFor="">Área de Conhecimento:</label>
-          <select
-            name="selectArea"
-            id="areaId"
-            onChange={({ target }) => setAreaId(target.value)}
-          >
-            <option value="" disabled>
-              Selecione uma opção
-            </option>
-            <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
-            <option value="CH">Ciências Humanas e suas Tecnologias</option>
-            <option value="CN">Ciências da Natureza e suas Tecnologias</option>
-            <option value="MT">Matemáticas e suas Tecnologias</option>
-          </select>
-        </div>
-        {/* <div className="form-options">
           <Select
             label="Área de Conhecimento:"
             id="areaId"
             name="selectArea"
+            value={term}
             onChange={({ target }) => setAreaId(target.value)}
-            value1={'LC'}
-            value2={'CH'}
-            value3={'CN'}
-            value4={'MT'}
-            area1={'Linguagens, Códigos e suas Tecnologias'}
-            area2={'Ciências Humanas e suas Tecnologias'}
-            area3={'Ciências da Natureza e suas Tecnologias'}
-            area4={'Matemáticas e suas Tecnologias'}
-            required
           />
-        </div> */}
+        </div>
         <div className="form-description">
           <Textarea
             label="Descrição:"
@@ -240,7 +216,7 @@ export default function FlashcardPage() {
                 key={i}
                 className={`icon-flashcard ${theme}`}
                 name={`${item.area}`}
-                onClick={handleSelectArea}
+                // onClick={handleSelectArea}
               />
             );
           })}

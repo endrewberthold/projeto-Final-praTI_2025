@@ -5,8 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/auth': {
-        target: 'http://backend:8080', // backend
+      '/api': {
+        target: 'http://localhost:8080', // backend
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path, // mantém o mesmo path

@@ -29,13 +29,18 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Tentando fazer login com:", { email, password: "***" });
+
     try {
       const response = await loginAPI(email, password);
+      console.log("Resposta do login:", response);
 
       const accessToken = response?.data?.accessToken;
-      const role = response?.data?.user.role;
-      const userId = response?.data?.user.id;
-      const userName = response?.data?.user.name;
+      const role = response?.data?.user?.role;
+      const userId = response?.data?.user?.id;
+      const userName = response?.data?.user?.name;
+
+      console.log("Dados extraídos:", { accessToken, role, userId, userName });
 
       // Cria o objeto de autenticação completo
       const authData = { 
@@ -46,6 +51,8 @@ export default function LoginForm() {
         userName,
         loginTime: new Date().toISOString() // Para controle de sessão
       };
+
+      console.log("AuthData criado:", authData);
 
       setAccessToken(accessToken);
       setAuth(authData);
@@ -59,6 +66,11 @@ export default function LoginForm() {
       
       navigate(from, { replace: true });
     } catch (err) {
+      console.error("Erro completo no login:", err);
+      console.error("Erro response:", err?.response);
+      console.error("Erro status:", err?.response?.status);
+      console.error("Erro data:", err?.response?.data);
+      
       if (!err?.response) {
         setMessage("No Server Response");
       } else if (err.response?.status === 400) {

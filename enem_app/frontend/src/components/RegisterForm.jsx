@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import ProfileImageSelector from "./ProfileImageSelector";
 
@@ -11,31 +11,98 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const userRef = useRef();
+  const errRef = useRef();
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  useEffect(() => {
+    setMessage("");
+  }, [name, email, password, profileImage]);
+
   async function handleRegister(e) {
     e.preventDefault();
+    
     if(profileImage === null){
-      console.log("Selecione uma imagem de perfil");
-      return 
+      setMessage("Selecione uma imagem de perfil");
+      return;
     }
+
+    if(!name.trim()) {
+      setMessage("Nome é obrigatório");
+      return;
+    }
+
+    if(!email.trim()) {
+      setMessage("Email é obrigatório");
+      return;
+    }
+
+    if(!password.trim()) {
+      setMessage("Senha é obrigatória");
+      return;
+    }
+
+    if(password.length < 6) {
+      setMessage("Senha deve ter pelo menos 6 caracteres");
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage("");
+
     try {
       const response = await registerAPI(profileImage, name, email, password);
-
-      console.log(response);
-      navigate(from, { replace: true });
+      
+      console.log("Registro bem-sucedido:", response);
+      setMessage("Conta criada com sucesso! Redirecionando para login...");
+      
+      // Aguarda um pouco para mostrar a mensagem de sucesso
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 2000);
+      
     } catch (err) {
       console.log("ERRO ON REGISTER: ", err);
+      
+      if (!err?.response) {
+        setMessage("Erro de conexão com o servidor");
+      } else if (err.response?.status === 400) {
+        setMessage("Dados inválidos. Verifique as informações fornecidas.");
+      } else if (err.response?.status === 409) {
+        setMessage("Email já está em uso. Tente outro email.");
+      } else if (err.response?.status === 500) {
+        setMessage("Erro interno do servidor. Tente novamente mais tarde.");
+      } else {
+        setMessage("Erro no registro. Tente novamente.");
+      }
+      
+      errRef.current?.focus();
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <div className="register-form">
+      <p
+        ref={errRef}
+        className={message ? "errmsg" : "offscreen"}
+        aria-live="assertive"
+        style={{
+          color: message.includes("sucesso") ? "green" : "red",
+          marginBottom: "10px",
+          textAlign: "center"
+        }}
+      >
+        {message}
+      </p>
+      
       <h1>Registre-se</h1>
 
       < ProfileImageSelector onChange={(selected) => setProfileImage(selected)}/>
@@ -144,7 +211,9 @@ export default function RegisterForm() {
             </button>
         </div>
 
-        <button type="submit">Registrar</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Registrando..." : "Registrar"}
+        </button>
       </form>
 
       <p className="register-container-register">

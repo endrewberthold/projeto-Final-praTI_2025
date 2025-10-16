@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
+import useForm from '../hooks/useForm';
 
+import Input from '../components/Form/Input';
+// import Select from '../components/Form/Select';
+import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
-import ModalForm from '../components/ModalForm';
 
 import { FaBookOpen } from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
@@ -35,10 +38,12 @@ export default function FlashcardPage() {
   const [description, setDescription] = useState();
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
-  const [modalForm, setModalForm] = useState(false);
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+
+  // For Forms
+  // const [] = useForm();
 
   // For the first time the page loads
   useEffect(() => {
@@ -82,8 +87,6 @@ export default function FlashcardPage() {
           description,
         );
         setNewFlascard(response?.data);
-      } else {
-        setModalForm((prev) => !prev);
       }
     } catch (err) {
       console.log('ERRO: ', err);
@@ -145,10 +148,6 @@ export default function FlashcardPage() {
     setDescription('');
   };
 
-  const handleCloseModal = () => {
-    setModalForm((prev) => !prev);
-  };
-
   const handleSelectArea = () => {
     return flashcardsData.map((item) => item.areaName);
   };
@@ -165,99 +164,108 @@ export default function FlashcardPage() {
   ];
 
   return (
-    <>
-      {modalForm && <ModalForm onClose={handleCloseModal} />}
-      <section
-        className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
-      >
-        <form className={`form-flashcard-container `}>
-          <h1>Criar Flashcard</h1>
-          <nav className="nav-flashcard-container">
-            <div className="nav-flashcard-title">
-              <label>Título:</label>
-              <input
-                type="text"
-                onChange={({ target }) => setTerm(target.value)}
-                value={term}
-                placeholder="Título"
+    <section className={`flashcard-container`}>
+      <form className={`form-flashcard-container`}>
+        <h1>Criar Flashcard</h1>
+        <div className="form-title">
+          <Input
+            label="Título:"
+            type="text"
+            value={term}
+            onChange={({ target }) => setTerm(target.value)}
+            placeholder="Título"
+            maxLength={40}
+            required
+          />
+        </div>
+        <div className="form-options">
+          <label htmlFor="">Área de Conhecimento:</label>
+          <select
+            name="selectArea"
+            id="areaId"
+            onChange={({ target }) => setAreaId(target.value)}
+          >
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="LC">Linguagens, Códigos e suas Tecnologias</option>
+            <option value="CH">Ciências Humanas e suas Tecnologias</option>
+            <option value="CN">Ciências da Natureza e suas Tecnologias</option>
+            <option value="MT">Matemáticas e suas Tecnologias</option>
+          </select>
+        </div>
+        {/* <div className="form-options">
+          <Select
+            label="Área de Conhecimento:"
+            id="areaId"
+            name="selectArea"
+            onChange={({ target }) => setAreaId(target.value)}
+            value1={'LC'}
+            value2={'CH'}
+            value3={'CN'}
+            value4={'MT'}
+            area1={'Linguagens, Códigos e suas Tecnologias'}
+            area2={'Ciências Humanas e suas Tecnologias'}
+            area3={'Ciências da Natureza e suas Tecnologias'}
+            area4={'Matemáticas e suas Tecnologias'}
+            required
+          />
+        </div> */}
+        <div className="form-description">
+          <Textarea
+            label="Descrição:"
+            value={description}
+            onChange={({ target }) => setDescription(target.value)}
+            placeholder="Dados do Flashcard"
+            rows="3"
+            maxLength={120}
+            required
+          />
+          <div className="buttons-flashcard-container">
+            {updateRequest ? (
+              <button onClick={handleUpdateFlashcard}>Atualizar</button>
+            ) : (
+              <button onClick={handleNewFlashcard}>Criar</button>
+            )}
+            <button onClick={handleClear}>Limpar</button>
+          </div>
+        </div>
+      </form>
+      <section className="icons-flashcard-container">
+        <div>
+          {pageButtons.map((item, i) => {
+            const IconComponent = item.icon;
+            return (
+              <IconComponent
+                key={i}
+                className={`icon-flashcard ${theme}`}
+                name={`${item.area}`}
+                onClick={handleSelectArea}
               />
-            </div>
-            <div className="nav-flashcard-options">
-              <label htmlFor="">Área de Conhecimento:</label>
-              <select
-                name="selectArea"
-                id="areaId"
-                onChange={({ target }) => setAreaId(target.value)}
-              >
-                <option value="" disabled>
-                  Selecione uma opção
-                </option>
-                <option value="LC">
-                  Linguagens, Códigos e suas Tecnologias
-                </option>
-                <option value="CH">Ciências Humanas e suas Tecnologias</option>
-                <option value="CN">
-                  Ciências da Natureza e suas Tecnologias
-                </option>
-                <option value="MT">Matemáticas e suas Tecnologias</option>
-              </select>
-            </div>
-          </nav>
-          <div className="description-flashcard-container">
-            <label htmlFor="">Descrição:</label>
-            <textarea
-              placeholder="Dados do Flashcard"
-              onChange={({ target }) => setDescription(target.value)}
-              value={description}
-              rows="6"
-            />
-            <div className="buttons-flashcard-container">
-              {/* <button onClick={handleNewFlashcard}>Criar Flashcard</button> */}
-              {updateRequest ? (
-                <button onClick={handleUpdateFlashcard}>Atualizar</button>
-              ) : (
-                <button onClick={handleNewFlashcard}>Criar</button>
-              )}
-              <button onClick={handleClear}>Limpar</button>
-            </div>
-          </div>
-        </form>
-        <section className="icons-flashcard-container">
-          <div>
-            {pageButtons.map((item, i) => {
-              const IconComponent = item.icon;
-              return (
-                <IconComponent
-                  key={i}
-                  className={`icon-flashcard ${theme}`}
-                  name={`${item.area}`}
-                  onClick={handleSelectArea}
-                />
-              );
-            })}
-          </div>
-        </section>
-        <section className={`flashcard-dashboard-container ${theme}`}>
-          {flashcardsData && flashcardsData.length > 0 ? (
-            <>
-              {flashcardsData.map((item) => (
-                <FlashCard
-                  key={item.id}
-                  id={item.id}
-                  term={item.term}
-                  description={item.description}
-                  areaName={item.areaName}
-                  areaId={item.areaId}
-                  handleDelete={() => handleDeleteFlashcard(item.id)}
-                  handleUpdate={() => handleRequestUpdateFlashcard(item)}
-                />
-              ))}
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </section>
+            );
+          })}
+        </div>
       </section>
-    </>
+      <section className={`flashcard-dashboard-container ${theme}`}>
+        {flashcardsData && flashcardsData.length > 0 ? (
+          <>
+            {flashcardsData.map((item) => (
+              <FlashCard
+                key={item.id}
+                id={item.id}
+                term={item.term}
+                description={item.description}
+                areaName={item.areaName}
+                areaId={item.areaId}
+                handleDelete={() => handleDeleteFlashcard(item.id)}
+                handleUpdate={() => handleRequestUpdateFlashcard(item)}
+              />
+            ))}
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </section>
+    </section>
   );
 }

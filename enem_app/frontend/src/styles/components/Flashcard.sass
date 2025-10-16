@@ -1,6 +1,6 @@
 @use '../variables.sass'
 
-.flashcards-dashboard
+.flashcards-container
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -15,7 +15,6 @@
     position: relative
     z-index: 1
 
-
     &.dark
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 
@@ -26,11 +25,10 @@
         &.dark
             box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8);
 
-    .flashcards-dash-area
+    .flashcards-area
         margin: 8px auto
         font-size: .85rem
         color: black
-
 
     .title-container
         display: flex
@@ -40,7 +38,7 @@
         background-color: variables.$clr-accent
         border-radius: .3rem
         font-size: 1rem
-        min-width: fit-content
+        text-align: center
 
     .flashcards-dash-buttons
         align-self: flex-end

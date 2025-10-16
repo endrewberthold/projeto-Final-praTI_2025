@@ -6,7 +6,6 @@
     min-height: 100vh
     min-width: 100%
     padding: min(3rem, 4vh) min(2.5rem, 3vw)
-    overflow-x: hidden
     position: relative
     z-index: 1
 
@@ -14,51 +13,58 @@
         filter: blur(3px)
         pointer-events: none
         
-
     .form-flashcard-container
+        display: flex
+        flex-direction: column
         width: 100%
-
-            
-
-        .nav-flashcard-container
-            display: flex
-            align-items: center
-            margin: 15px 0
-
-            .nav-flashcard-title
-                max-width: 400px
-                flex: 1
-
-                label
-                    margin-right: 10px
-
-                input
-                    padding: 5px 10px
-                    border: 1px solid
-                    
-                    &:focus
-                        padding: 4px 10px
-                        border: 2px solid
-
-            .nav-flashcard-options
-                flex: 1
-
-                label
-                    margin-right: 10px
-
-                select
-                    font-size: 0.9rem
-                    background-color: variables.$clr-secondary
-                    padding: 5px 10px
-                    border-radius: variables.$border-radius-flashcard-page
-
-                    &:focus
-                        border: 1px solid
-
-        .description-flashcard-container
+        margin: 15px 0
+        gap: .8rem
+    
+        .form-title
             display: flex
             flex-direction: column
-            gap: .8rem
+            width: 100%
+            gap: .5rem
+            margin-bottom: 5px
+
+            label
+
+            input
+                min-width: 100%
+                padding: 10px
+                border: 1px solid
+                border-radius: variables.$border-radius-flashcard-page
+
+                &::placeholder
+                    font-size: 0.9rem
+                    font-family: variables.$font-family
+                    color: rgba(0, 0, 0, 0.400)
+
+                &:focus
+                    border: 1px solid
+
+        .form-options
+            display: flex
+            flex-direction: column
+            width: 100%
+            gap: .5rem
+
+            label
+                margin-bottom: 5px
+
+            select
+                font-size: 0.9rem
+                background-color: variables.$clr-secondary
+                padding: 10px 5px
+                border-radius: variables.$border-radius-flashcard-page
+                
+                &:focus
+                    border: 1px solid
+
+        .form-description
+            display: flex
+            flex-direction: column
+            gap: .5rem
 
             label:nth-of-type(2)
                 margin-top: 10px
@@ -72,11 +78,6 @@
                 &:focus
                     border: 2px solid
                     padding: 8px
-
-                &::placeholder
-                    font-size: 0.9rem
-                    font-family: variables.$font-family
-                    color: rgba(0, 0, 0, 0.400)
 
             textarea
                 padding: 10px

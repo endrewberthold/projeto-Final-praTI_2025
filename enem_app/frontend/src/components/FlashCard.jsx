@@ -40,13 +40,13 @@ export default function Flashcard({
   return (
     <>
       <div
-        className={`flashcards-dashboard ${theme}`}
+        className={`flashcards-container ${theme}`}
         onClick={handleNavigate}
         title="Abrir Flashcard"
       >
-        <span className="flashcards-dash-area">{areaName}</span>
+        <span className="flashcards-area">{areaName}</span>
         <div className="title-container">
-          <h3 className="flashcards-dash-title">{term}</h3>
+          <h3 className="flashcards-title">{term}</h3>
         </div>
         <div className={`flashcards-dash-buttons ${theme}`}>
           <TiPencil

@@ -6,7 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import FlashCard from '../components/FlashCard';
 import ModalForm from '../components/ModalForm';
 
-import { FaBookOpen } from 'react-icons/fa';
+import { FaBookOpen, FaSpinner, FaPlus, FaLightbulb } from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
 import { GiMicroscope } from 'react-icons/gi';
 import { FaGlobeAmericas } from 'react-icons/fa';
@@ -26,6 +26,8 @@ export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
   // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
@@ -39,6 +41,20 @@ export default function FlashcardPage() {
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+  
+  // For selected icon
+  const [selectedIcon, setSelectedIcon] = useState('mortarboard');
+
+  // Function to start delete loading
+  const handleDeleteStart = () => {
+    setIsDeleting(true);
+    
+    // Reset loading state after 1 second (apenas efeito visual)
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, 1000);
+  };
+
 
   // For the first time the page loads
   useEffect(() => {
@@ -48,12 +64,15 @@ export default function FlashcardPage() {
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
+      setIsLoading(true);
       const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
+      setIsLoading(false);
       // setPages(response?.data.totalPages);
 
       //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
+      setIsLoading(false);
       if (!err?.response) {
         setMessage('No Server Response');
       } else if (err.response?.status === 400) {
@@ -149,6 +168,10 @@ export default function FlashcardPage() {
     setModalForm((prev) => !prev);
   };
 
+  const handleIconClick = (iconName) => {
+    setSelectedIcon(iconName);
+  };
+
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
@@ -207,30 +230,64 @@ export default function FlashcardPage() {
         </form>
         <section className="icons-flashcard-container">
           <div>
-            <BsFillMortarboardFill className={`icon-flashcard ${theme}`} />
-            <FaBookOpen className={`icon-flashcard ${theme}`} />
-            <TbMathFunction className={`icon-flashcard ${theme}`} />
-            <GiMicroscope className={`icon-flashcard ${theme}`} />
-            <FaGlobeAmericas className={`icon-flashcard ${theme}`} />
+            <BsFillMortarboardFill 
+              className={`icon-flashcard ${theme} ${selectedIcon === 'mortarboard' ? 'selected' : ''}`}
+              onClick={() => handleIconClick('mortarboard')}
+            />
+            <FaBookOpen 
+              className={`icon-flashcard ${theme} ${selectedIcon === 'book' ? 'selected' : ''}`}
+              onClick={() => handleIconClick('book')}
+            />
+            <TbMathFunction 
+              className={`icon-flashcard ${theme} ${selectedIcon === 'math' ? 'selected' : ''}`}
+              onClick={() => handleIconClick('math')}
+            />
+            <GiMicroscope 
+              className={`icon-flashcard ${theme} ${selectedIcon === 'microscope' ? 'selected' : ''}`}
+              onClick={() => handleIconClick('microscope')}
+            />
+            <FaGlobeAmericas 
+              className={`icon-flashcard ${theme} ${selectedIcon === 'globe' ? 'selected' : ''}`}
+              onClick={() => handleIconClick('globe')}
+            />
           </div>
         </section>
-        <section className={`flashcard-dashboard-container ${theme}`}>
-          {flashcardsData && flashcardsData.length > 0 ? (
+        <section className={`flashcard-dashboard-container ${theme} ${flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'}`}>
+          {isLoading || isDeleting ? (
+            <div className="loading-container">
+              <FaSpinner className="loading-spinner" />
+              <p className="loading-text">
+                {isDeleting ? "Excluindo flashcard..." : "Carregando flashcards..."}
+              </p>
+            </div>
+          ) : flashcardsData && flashcardsData.length > 0 ? (
             <>
-              {flashcardsData.map((item) => (
+              {flashcardsData.map((item, index) => (
                 <FlashCard
                   key={item.id}
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  area={item.areaId}
+                  areaId={item.areaId}
+                  index={index}
+                  onDeleteStart={handleDeleteStart}
                   handleDelete={handleDeleteFlashcard}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                 />
               ))}
             </>
           ) : (
-            <p>Loading...</p>
+            <div className="empty-flashcards-container">
+              <FaLightbulb className="empty-icon" />
+              <h3 className="empty-title">Nenhum flashcard encontrado</h3>
+              <p className="empty-description">
+                Que tal criar seu primeiro flashcard? É uma ótima forma de estudar e memorizar conteúdo!
+              </p>
+              <div className="empty-actions" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                <FaPlus className="action-icon" />
+                <span className="action-text">Use o formulário acima para começar</span>
+              </div>
+            </div>
           )}
         </section>
       </section>

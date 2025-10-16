@@ -14,8 +14,8 @@
   top: 0px
 
   .modal-content
-    background-color: white
-    color: #333
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
     padding: 2.5rem 3.5rem
     border-radius: 8px
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5)
@@ -24,11 +24,12 @@
     font-size: 1.1rem
     font-weight: bold
     line-height: 1.5
+    border: 1px solid var(--border-primary)
     
     .close-modal
         margin-top: 1.5rem
         padding: 0.5rem 1.5rem
-        background-color: variables.$clr-accent
+        background-color: var(--accent-primary)
         color: white
         border: none
         border-radius: 5px
@@ -36,4 +37,19 @@
         transition: background-color 0.2s
         
         &:hover
-            background-color: (variables.$clr-accent, 10%)
+            background-color: var(--accent-secondary)
+
+// Dark mode specific styles
+body.dark
+  .modal-form-container
+    .modal-content
+      background-color: var(--bg-secondary)
+      color: var(--text-primary)
+      border-color: var(--border-primary)
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7)
+      
+      .close-modal
+        background-color: var(--accent-primary)
+        
+        &:hover
+          background-color: var(--accent-secondary)

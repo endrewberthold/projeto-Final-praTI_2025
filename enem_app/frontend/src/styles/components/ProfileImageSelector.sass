@@ -9,10 +9,15 @@
     padding: 0.6rem 1rem
     border: none
     border-radius: 6px
-    background: variables.$clr-accent-background
+    background: var(--accent-primary)
     cursor: pointer
     font-weight: 600
-    color: variables.$clr-font-white
+    color: white
+    transition: all 0.2s ease
+    
+    &:hover
+      background: var(--accent-secondary)
+      transform: translateY(-1px)
   
 
   .pis-preview
@@ -31,12 +36,13 @@
       width: 8rem
       height: 8rem
       border-radius: 50%
-      background: #eee
+      background: var(--bg-secondary)
+      border: 2px solid var(--border-primary)
       display: flex
       align-items: center
       justify-content: center
       font-size: 0.8rem
-      color: #777
+      color: var(--text-secondary)
     
   
 
@@ -56,14 +62,16 @@
 
     .pis-panel
       position: relative
-      background: variables.$clr-primary
-      color: variables.$clr-accent-background
+      background: var(--bg-secondary)
+      color: var(--text-primary)
       border-radius: 10px
       padding: 1rem
       width: 400px
       z-index: 1001
       display: flex
       flex-direction: column
+      border: 1px solid var(--border-primary)
+      box-shadow: var(--shadow-lg)
     
 
     .pis-header
@@ -80,9 +88,13 @@
       .pis-close
         background: transparent
         border: none
-        color: variables.$clr-accent-background
+        color: var(--text-primary)
         font-size: 1.2rem
         cursor: pointer
+        transition: color 0.2s ease
+        
+        &:hover
+          color: var(--accent-primary)
       
     
 
@@ -96,14 +108,15 @@
         padding: 0.5rem
         border: none
         border-radius: 6px
-        background: variables.$clr-primary
-        color: variables.$clr-accent-background
+        background: var(--bg-primary)
+        color: var(--text-primary)
         cursor: pointer
-        border: 1px solid variables.$clr-accent-background
+        border: 1px solid var(--border-primary)
+        transition: all 0.2s ease
 
         &.active
-          background: variables.$clr-accent-background
-          color: variables.$clr-font-white
+          background: var(--accent-primary)
+          color: white
         
       
     
@@ -122,7 +135,7 @@
         cursor: pointer
 
         &.selected
-          border-color: variables.$clr-accent-background
+          border-color: var(--accent-primary)
 
         img
           width: 100%
@@ -144,13 +157,22 @@
         font-weight: 600
 
         &.pis-cancel
-          background: variables.$clr-primary
-          color: variables.$clr-accent-background
-          border: 1px solid variables.$clr-accent-background
+          background: var(--bg-primary)
+          color: var(--text-primary)
+          border: 1px solid var(--border-primary)
+          transition: all 0.2s ease
+          
+          &:hover
+            background: var(--bg-secondary)
+            border-color: var(--accent-primary)
         
         &.pis-confirm
-          background: variables.$clr-accent-background
-          color: variables.$clr-font-white
+          background: var(--accent-primary)
+          color: white
+          transition: all 0.2s ease
+          
+          &:hover
+            background: var(--accent-secondary)
         
         &:disabled
           opacity: 0.6

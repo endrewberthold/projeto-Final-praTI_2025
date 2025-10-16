@@ -111,59 +111,19 @@
     margin: 0.5rem 0
     transition: color 0.2s ease
 
+// Container para os StatCards
 .information-progress
     display: flex
     width: 100%
     max-width: 100%
-    font-size: smaller
-    gap: min(0.13rem, 0.2vw)
+    gap: 1rem
     justify-content: center
     padding: min(1rem, 2vw)
-    flex-wrap: wrap
+    flex-direction: row
+    flex-wrap: nowrap
 
-.information
-    display: flex
-    align-items: center
-    justify-content: center
-    gap: min(1rem, 2vw)
-    font-size: min(1rem, 3vw)
-    font-weight: 700
-    width: min(9rem, 35vw)
-    min-width: 120px
-    padding: min(0.6rem, 1.5vw)
-    color: var(--text-primary)
-    flex: 1
-    transition: all 0.2s ease
-    border: 1px solid var(--border-primary)
-    background-color: var(--bg-secondary)
-    border-radius: 0.4rem
-
-        
-
-
-#info-time
-    border-top-right-radius: 0.5rem
-    border-bottom-right-radius: 0.5rem
-
-#info-answers
-    border-top-left-radius: 0.5rem
-    border-bottom-left-radius: 0.5rem
-
-
-    .icone
-        width: 1rem
-        height: 4rem
-        display: flex
-        justify-content: center
-        align-items: center
-        
-.information-container
-    display: flex
-    flex-direction: column
-    text-align: center
-
-    .time-responses
-        color: var(--text-secondary)
+// Estilos movidos para StatCard.sass
+// Os estilos antigos foram substituídos pelo componente reutilizável StatCard
     
 .button-user-status
     background-color: var(--accent-primary)
@@ -186,9 +146,7 @@
     transition: all 0.2s ease
 
     &:hover
-        z-index: 20
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-        transform: translateY(-2px) scale(1.01)
+        background-color: #4e6dc2ff
 
     &:active
         z-index: 20
@@ -241,22 +199,10 @@
         margin: 0.3rem 0
         
     .information-progress
-        flex-direction: row
-        flex-wrap: wrap
-        gap: 0.3rem
+        gap: 0.75rem
         padding: 0.6rem
-        justify-content: space-around
-        
-    .information
-        width: 48%
-        min-width: 140px
-        font-size: 0.85rem
-        padding: 0.7rem 0.4rem
-        border-radius: 0.4rem
-        
-    #info-answers,
-    #info-time
-        border-radius: 0.4rem
+        flex-direction: row
+        flex-wrap: nowrap
         
     .button-user-status
         width: 88%
@@ -292,16 +238,10 @@
         margin: 0.2rem 0
         
     .information-progress
-        flex-direction: column
-        gap: 0.4rem
+        flex-direction: row
+        gap: 0.5rem
         padding: 0.5rem
-        
-    .information
-        width: 100%
-        min-width: auto
-        font-size: 0.8rem
-        padding: 0.6rem 0.5rem
-        margin: 0.1rem 0
+        flex-wrap: nowrap
         
     .button-user-status
         width: 92%
@@ -339,6 +279,13 @@
         
         h1
             font-size: 0.9rem
+
+// Media query para telas muito pequenas (empilhar os cards)
+@media (max-width: 320px)
+    .information-progress
+        flex-direction: column
+        gap: 0.5rem
+        align-items: center
 
 @media (max-width: 320px)
     .status-user
@@ -385,21 +332,7 @@ body.dark
     .name-user
         color: var(--text-primary)
         
-    .information
-        background-color: var(--bg-primary)
-        color: var(--text-primary)
-        border-color: var(--border-primary)
-        
-        // &:hover
-        //     background-color: var(--accent-primary)
-        //     color: #ffffff
-        //     border-color: var(--accent-primary)
-        //     transform: translateY(-1px)
-        //     box-shadow: var(--shadow-sm)
-            
-    .information-container
-        .time-responses
-            color: var(--text-secondary)
+    // Estilos de information e information-container movidos para StatCard.sass
             
     .button-user-status
         background-color: var(--accent-primary)

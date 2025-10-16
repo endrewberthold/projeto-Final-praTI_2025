@@ -27,7 +27,6 @@ export default function Flashcard({
 
   return (
     <div className={`flashcards-dashboard ${theme}`}>
-      <p className="flashcards-dash-area">{areaId}</p>
       <div className="flashcard-inner-container">
         <div className="title-container">
           <h3 className="flashcards-dash-title">{term}</h3>

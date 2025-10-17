@@ -15,7 +15,7 @@ export default function Navbar() {
   const menuBorderRef = useRef(null);
   const profileMenuRef = useRef(null);
   const { activeIndex, updateActiveIndex } = useNavbar();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
   const { clearAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -229,25 +229,13 @@ export default function Navbar() {
                     className="profile-dropdown"
                     role="menu"
                     aria-label="Menu do perfil"
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      marginTop: "0.5rem",
-                      background: "var(--bg-dropdown, #fff)",
-                      boxShadow: "0 6px 16px rgba(0,0,0,0.12)",
-                      borderRadius: "8px",
-                      minWidth: "160px",
-                      zIndex: 50,
-                      overflow: "hidden",
-                    }}
                   >
                     <button
                       className="profile-dropdown__item"
                       type="button"
                       role="menuitem"
-                      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                     >
-                      <TbSettings size={18} />
+                      <TbSettings size={20} />
                       <span>Configurações</span>
                     </button>
                     <button
@@ -255,9 +243,8 @@ export default function Navbar() {
                       type="button"
                       role="menuitem"
                       onClick={handleLogout}
-                      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                     >
-                      <LuLogOut size={18} />
+                      <LuLogOut size={20} />
                       <span>Sair</span>
                     </button>
                   </div>

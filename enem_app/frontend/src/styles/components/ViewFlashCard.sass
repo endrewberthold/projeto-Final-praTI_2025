@@ -1,0 +1,63 @@
+.card-container
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  
+  .card
+    position: relative;
+    display: flex;
+    width: 60rem;
+    height: 38rem;
+    border-radius: 16px;
+    perspective: 1000px;
+    cursor: pointer;
+
+    &.flipped .innerCard
+      transform: rotateX(180deg);
+
+    .innerCard
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+      will-change: transform;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
+
+      .face
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1rem;
+        overflow: hidden;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        background-color: white;
+
+        &.frontside
+          & span
+            color: black
+
+        &.backside
+          transform: rotateX(180deg);
+          & span
+            color: black
+
+
+        .question-text
+          font-size: 32px;
+          text-align: center;
+          margin: 0;
+          font-weight: 600;
+
+        .answer-text
+          font-size: 24px;
+          text-align: center;
+          margin: 0;
+          font-weight: 400;

@@ -1,0 +1,39 @@
+@use '../variables'
+  
+.modal-form-container
+  position: fixed
+  z-index: 2
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: 100%
+  padding: 2rem 2rem
+  background-color: rgba(0, 0, 0, .8) 
+  overflow: hidden
+  top: 0px
+
+  .modal-content
+    background-color: white
+    color: #333
+    padding: 2.5rem 3.5rem
+    border-radius: 8px
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5)
+    max-width: 80%
+    text-align: center
+    font-size: 1.1rem
+    font-weight: bold
+    line-height: 1.5
+    
+    .close-modal
+        margin-top: 1.5rem
+        padding: 0.5rem 1.5rem
+        background-color: variables.$clr-accent
+        color: white
+        border: none
+        border-radius: 5px
+        cursor: pointer
+        transition: background-color 0.2s
+        
+        &:hover
+            background-color: (variables.$clr-accent, 10%)

@@ -4,11 +4,10 @@ body
     margin: 0
     background: var(--bg-primary)
     color: var(--text-primary)
-    border: 1px solid var(--border-primary)
+    // border: 1px solid var(--border-primary)
     display: flex
     justify-content: center
     -webkit-tap-highlight-color: transparent
-    overflow: hidden
     box-sizing: border-box
     transition: background-color 0.3s ease, color 0.3s ease
 
@@ -16,10 +15,9 @@ body
 // Linha 13 ate 35 é importante para a transição animada do Navbar
 
 body, html, #root
-    height: 100vh
+    max-height: 100%
     width: 100%
     max-width: 100%
-    max-height: 100vh
 
 
 html 
@@ -53,7 +51,7 @@ img, video, iframe, object, embed
 
 // Prevenção para containers flexbox e grid
 .flex-container, .grid-container
-    overflow: hidden
+    // overflow: hidden
 
 // Prevenção para elementos posicionados
 [style*="position: absolute"], [style*="position: fixed"]

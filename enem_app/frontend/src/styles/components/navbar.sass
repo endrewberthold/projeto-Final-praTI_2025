@@ -10,8 +10,10 @@
     position: relative
     align-items: center
     justify-content: center
-    background-color: variables.$clr-accent
+    background-color: var(--accent-primary)
     gap: 4rem
+    // border-bottom: 1px solid var(--border-primary)
+    // transition: background-color 0.3s ease
 
     // Esconder navbar no mobile
     @media (max-width: 768px)
@@ -63,9 +65,12 @@
     position: absolute
     clip-path: url(#menu)
     will-change: transform
-    background-color: #4e6dc2ff
-    transition: transform var(--timeOut , var(--duration))
+    background-color: var(--accent-primary)
+    transition: transform var(--timeOut , var(--duration)), background-color 0.3s ease
     transform: translate3d(var(--initial-left, 0), 0, 0) /* valor inicial */
+
+    .menu__border.active 
+      transform: translate3d(0, 0.8em , 0)
 
 
 .svg-container 
@@ -97,6 +102,7 @@
 .themeToggle
   color: #ffffff
   width: 1.5rem
+  transition: color 0.3s ease
 
 
 .st-sunMoonThemeToggleBtn
@@ -172,9 +178,15 @@
   cursor: pointer
   border: none
   background: none
+  transition: all 0.3s ease
 
   path
     fill: #ffffff
+    transition: fill 0.3s ease
+    
+  &:hover
+    background-color: rgba(255, 255, 255, 0.1)
+    transform: scale(1.05)
 
 
 .icon
@@ -187,6 +199,7 @@
     stroke-linejoin: round
     stroke-dasharray: 400
     cursor: pointer
+    transition: stroke 0.3s ease
 
 
 @keyframes strok 
@@ -209,6 +222,7 @@
 /* trecho básico — ajuste cores e espaçamentos conforme seu tema */
 .profile-wrapper
   position: relative
+  z-index: 9998
   
   .profile-button
     background: transparent
@@ -219,34 +233,55 @@
     align-items: center
     justify-content: center
     border-radius: variables.$border-radius-card
+    transition: all 0.3s ease
 
 
 .profile-dropdown
   position: absolute
   top: calc(100% + 1rem)
   right: 0
-  background: #fff
+  background: #ffffff
   border-radius: 8px
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
-  min-width: 160px
-  z-index: 1000
-  padding: 0.5rem
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1)
+  min-width: 180px
+  z-index: 9999
+  padding: 0.75rem
+  border: 1px solid rgba(0, 0, 0, 0.08)
+  transform: translateZ(0)
+  will-change: transform, opacity
+  backdrop-filter: blur(8px)
 
   .profile-dropdown__item
-    display: block
+    display: flex
+    align-items: center
+    gap: 0.75rem
     width: 100%
-    padding: 0.6rem 1rem
+    padding: 0.75rem 1rem
     background: transparent
     border: none
     text-align: left
     cursor: pointer
     font-size: 0.95rem
-    display: flex
-    padding: 0.5rem
+    font-weight: 500
+    color: #1e293b
+    transition: all 0.2s ease
+    border-radius: 6px
+    
+    svg
+      flex-shrink: 0
+      width: 18px
+      height: 18px
+      opacity: 0.8
+      transition: opacity 0.2s ease
 
   .profile-dropdown__item:hover
-    background-color: rgba(78, 109, 194, 0.08)
-    border-radius: 8px
+    background-color: rgba(148, 163, 184, 0.1)
+    color: #0f172a
+    transform: translateX(2px)
+    
+    svg
+      opacity: 1
+      color: #475569
 
 
 /* exemplo para .button e .iconesLateral já existirem no seu arquivo */
@@ -255,3 +290,112 @@
   display: flex
   align-items: center
   gap: 0.6rem
+
+// Tema Dark - Estilos específicos
+body.dark
+  .menu
+    background-color: var(--bg-secondary)
+    border-bottom-color: var(--border-primary)
+    box-shadow: var(--shadow-lg)
+    
+  .menu__item
+    &.active::before
+      background-color: var(--accent-primary)
+      
+  .menu__border
+    background-color: var(--bg-secondary)
+    
+  .themeToggle
+    color: var(--text-primary)
+    
+    &:hover
+      color: var(--accent-primary)
+      
+  .button
+    &:hover
+      background-color: rgba(129, 140, 248, 0.2)
+      
+    path
+      fill: var(--text-primary)
+      
+      &:hover
+        fill: var(--accent-primary)
+        
+  .icon
+    stroke: var(--text-primary)
+    
+    &:hover
+      stroke: var(--accent-primary)
+        
+  .profile-wrapper
+    z-index: 9998
+    
+    .profile-button
+      &:hover
+        background-color: rgba(129, 140, 248, 0.2)
+        
+  .st-sunMoonThemeToggleBtn
+    svg
+      .sunMoon,
+      .sunRay
+        fill: var(--text-primary)
+        
+      &:hover
+        .sunMoon,
+        .sunRay
+          fill: var(--accent-primary)
+          
+  // Ícones laterais no tema dark
+  .iconesLateral
+    .icone-conteiner
+      .themeToggle,
+      .button,
+      .icon
+        color: var(--text-primary)
+        
+        &:hover
+          color: var(--accent-primary)
+          transform: scale(1.05)
+          
+  // Profile dropdown estilos específicos para dark mode
+  .profile-dropdown
+    background-color: #1e293b
+    border-color: rgba(148, 163, 184, 0.3)
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3)
+    backdrop-filter: blur(8px)
+    
+    .profile-dropdown__item
+      color: #f1f5f9
+      
+      svg
+        opacity: 0.9
+        color: #94a3b8
+      
+      &:hover
+        background-color: rgba(148, 163, 184, 0.15)
+        color: #ffffff
+        transform: translateX(2px)
+        
+        svg
+          opacity: 1
+          color: #cbd5e1
+  
+  // SVG container e elementos restantes
+  .svg-container
+    filter: brightness(0.9)
+    
+  // Menu items adicionais no tema dark
+  // .menu__item
+  //   color: var(--text-primary)
+    
+  //   &:hover
+  //     transform: translateY(-2px)
+  //     background-color: rgba(129, 140, 248, 0.1)
+      
+  //   &.active
+  //     color: var(--accent-primary)
+      
+  //     &::before
+  //       background-color: var(--accent-primary)
+  //       box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+        

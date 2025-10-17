@@ -146,7 +146,7 @@ export default function Dashboard() {
       <div className="upperCards">
         <UserStatusDashboard
           userData={userData}
-          imageProfile={"/imagemdeperfil.png"}
+          imageProfile={userData?.user?.profileImage || "/imagemdeperfil.png"}
           StudyTime={20}
           numberofcorrectanswers={9}
           percentage={10}
@@ -155,3 +155,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

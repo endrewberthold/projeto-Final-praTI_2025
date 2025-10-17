@@ -77,6 +77,7 @@ public class User implements UserDetails {
     public User(UserRequest userRequest) {
         this.name = userRequest.name();
         this.email = userRequest.email();
+        this.profileImage = userRequest.profileImage();
         this.password_hash = userRequest.password();
         this.provider = "local";
         this.isOauthUser = false;
@@ -178,3 +179,4 @@ public class User implements UserDetails {
         this.password_hash = password_hash;
     }
 }
+

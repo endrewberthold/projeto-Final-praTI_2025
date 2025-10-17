@@ -16,7 +16,9 @@ import PersistLogin from './components/PersistLogin';
 import UserStatusPage from './pages/UserStatusPage';
 import SkillPage from './pages/SkillPage';
 import Answers from './pages/Answers';
+import FeedbackPage from "./pages/FeedbackPage.jsx";
 import './styles/components/app.sass';
+
 
 function App() {
   return (
@@ -36,10 +38,8 @@ function App() {
             <Route path="/userStatusPage" element={<UserStatusPage />} />
             <Route path="/skillPage/:id" element={<SkillPage />} />
             <Route path="/answer/:levelId" element={<Answers />} />
-            <Route
-              path="/skillPage/:id/answer/:levelId"
-              element={<Answers />}
-            />
+            <Route path="/skillPage/:id/answer/:levelId" element={<Answers />} /> //rota para o quiz
+              <Route path="/skillPage/:id/feedback/:sessionId" element={<FeedbackPage />}></Route>
           </Route>
         </Route>
       </Route>

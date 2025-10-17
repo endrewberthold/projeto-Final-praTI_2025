@@ -1,0 +1,87 @@
+.positive-feedback-screen, .negative-feedback-screen
+  margin: 4rem auto
+  padding: 40px
+  text-align: center
+  justify-content: center
+  display: flex
+  flex-direction: column
+  background-color: var(--bg-primary)
+  width: 80%
+  max-width: 600px
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+
+.feedback-title
+  font-weight: bold
+  font-size: 25px
+  color: var(--accent-primary)
+
+.buttons-container
+  display: flex
+  justify-content: space-between
+
+.return-btn
+  background-color: var(--accent-primary)
+  color: var(--bg-primary)
+  font-weight: bold
+  height: min(3rem, 8vh)
+  min-height: 44px
+  width: min(15rem, 80%)
+  max-width: 300px
+  min-width: 200px
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: min(1rem, 2vw)
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  border: 1px solid var(--border-primary)
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+.try-again-btn
+  background-color: var(--accent-primary)
+  color: var(--bg-primary)
+  font-weight: bold
+  height: min(3rem, 8vh)
+  min-height: 44px
+  width: min(15rem, 80%)
+  max-width: 300px
+  min-width: 200px
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: min(1rem, 2vw)
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  border: 1px solid var(--border-primary)
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease

@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
+import React, {useState, useEffect, useRef} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import {
   startSessionAPI,
   sendAnswerAPI,
   finishSessionAPI,
 } from "../services/SkillsServices";
 import useAuth from "../hooks/useAuth";
+import QuestionPage from "./QuestionPage.jsx";
+import "../styles/pages/questionPage.sass";
 
 export default function Answers() {
   const { accessToken } = useAuth();
   const params = useParams();
+  const navigate = useNavigate();
 
   const levelId = params.levelId;
   const numQuestions = 5;
   const areaId = params.id;
 
   const [sessionId, setSessionId] = useState();
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+  const [started, setStarted] = useState(false);
 
-  const [questions, setQuestions] = useState({});
-  const [start, setStart] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const intervalRef = useRef(null); // guarda o intervalo ativo
+  const sessionStartRef = useRef(null); // guarda o tempo inicial
 
-  const [selectedAnswer, setSelectedAnswer] = useState("");
 
-  //console.log("ANSWERS: ", levelId);
-
-  // START the questions session, will take 5 questions and answers
+  // Inicia sessão
   async function handleStart(e) {
     e.preventDefault();
     try {
@@ -35,228 +39,119 @@ export default function Answers() {
         numQuestions,
         areaId
       );
-      console.log("SESSION START: ", response.data);
 
-      setQuestions(response.data.questions);
+      setQuestions(response.data.questions || []);
       setSessionId(response.data.sessionId);
-      console.log(response.data.sessionId);
+      setStarted(true);
+      setCurrentIndex(0)
+      setSelectedAnswer(null);
 
-      setStart(true);
-      console.log(questions);
+      sessionStartRef.current = Date.now();
+
+      intervalRef.current = setInterval(() => {
+          setElapsedTime(Date.now() - sessionStartRef.current);
+      });
+
     } catch (err) {
-      console.log("ERROR WHILE FETCHING START SESION API: ", err);
+      console.log("Erro ao iniciar a sessão: ", err);
     }
   }
 
-  // Will send the answar for each question
-  async function handleAnswer(e, questionId, answerTimeMs) {
-    e.preventDefault();
-    console.log("Trying to finish question");
-    console.log(questionId);
-    console.log(selectedAnswer);
-    console.log(answerTimeMs);
+  // Envia resposta e avança
+  async function handleAnswer() {
+   const question = questions[currentIndex];
+   if(!selectedAnswer) return alert("Selecione uma alternativa!") // precisa arrumar
 
     try {
-      const response = await sendAnswerAPI(
+      await sendAnswerAPI(
         accessToken,
         sessionId,
-        questionId,
+        question.questionId,
         levelId,
-        selectedAnswer,
-        1500
+        selectedAnswer
       );
-      console.log(response);
+
+      // =========== TESTE DE ENVIO RESPOSTAS ==============
+        console.log("Enviando resposta:", selectedAnswer);
+
+      const nextIndex = currentIndex + 1;
+
+      if (nextIndex < questions.length) {
+          setCurrentIndex(nextIndex);
+          setSelectedAnswer(null);
+      } else {
+          const finishResponse = await finishSessionAPI(accessToken, sessionId);
+
+          // =========== TESTE RECEBIMENTO RESPOSTA BACKEND ===============
+          console.log("Resposta do finishSessionAPI:", finishResponse.data);
+
+          clearInterval(intervalRef.current);
+          const totalSessionTime = Date.now() - sessionStartRef.current;
+
+          navigate(`/skillPage/${areaId}/feedback/${sessionId}`, {
+              state: {
+                  totalTime: totalSessionTime,
+                  levelCompleted: finishResponse.data.levelCompleted,
+                  correct: finishResponse.data.correct,
+                  wrong: finishResponse.data.wrong,
+                  xpEarned: finishResponse.data.xpEarned,
+                  totalQuestions: finishResponse.data.totalQuestions,
+                  levelId
+              },
+          });
+      }
+
     } catch (err) {
-      console.log("ERROR WHILE SENDING ANSWER: ", err);
+      console.log("Erro ao enviar as respostas: ", err);
     }
   }
 
-  // Will finish the hole session, when all questions are finish
-  async function handleFinish(e) {
-    e.preventDefault();
+  // Limpa o cronômetro
+    useEffect(() => {
+        return () => clearInterval(intervalRef.current);
+    }, []);
 
-    console.log("Trying to finish session");
-    console.log(sessionId);
+    const currentQuestion = questions[currentIndex];
 
-    try {
-      const response = await finishSessionAPI(accessToken, sessionId);
-      console.log("AQUI", sessionId);
-      setStart(false);
-      console.log(response);
-    } catch (err) {
-      console.log("ERROR WHILE FINISHING SESSION: ", err);
+    function formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
     }
-  }
 
-  useEffect(() => {
-    console.log("UPDATED");
-    console.log(questions);
-  }, [questions]);
-
-  function handleChange(e) {
-    setSelectedAnswer(e.target.value);
-  }
-  // Make a new component for each question?
-  // The 'Finalizar' button must be in the end not in every question!
+  if (!started)
   return (
-    <div>
-      Message before starting the session
-      <button onClick={handleStart}>Começar</button>
-      {start == true ? (
-        questions.map((item) => (
-          <div>
-            <form>
-              <h1>{item.text}</h1>
-              <ul>
-                <li>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="a1"
-                    checked={selectedAnswer === "a1"}
-                    onChange={handleChange}
-                  />
-                  <p>{item.alternatives[0].text}</p>
-                </li>
+      <div className="start-screen">
+          <h3>Bem-vindo!</h3>
+          <p>Clique abaixo para começar o quiz</p>
+          <button className="start-btn" onClick={handleStart}>
+              Começar
+          </button>
+      </div>
+      );
 
-                <li>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="a2"
-                    checked={selectedAnswer === "a2"}
-                    onChange={handleChange}
-                  />
-                  <p>{item.alternatives[1].text}</p>
-                </li>
 
-                <li>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="a3"
-                    checked={selectedAnswer === "a3"}
-                    onChange={handleChange}
-                  />
-                  <p>{item.alternatives[2].text}</p>
-                </li>
+  return (
+      <div className="question-screen">
 
-                <li>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="a4"
-                    checked={selectedAnswer === "a4"}
-                    onChange={handleChange}
-                  />
-                  <p>{item.alternatives[3].text}</p>
-                </li>
+           <QuestionPage
+           question={currentQuestion}
+           selected={selectedAnswer}
+           onSelect={(_, val) => setSelectedAnswer(val)}
+           onClick={handleAnswer}
+       >
+          <h3 className="question-title">
+              Pergunta {currentIndex + 1} de {questions.length}
+          </h3>
+       </QuestionPage>
 
-                <li>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="a5"
-                    checked={selectedAnswer === "a5"}
-                    onChange={handleChange}
-                  />
-                  <p>{item.alternatives[4].text}</p>
-                </li>
-              </ul>
-
-              <button //onClick={handleAnswer(item.alternatives.presentedId)}
-                onClick={(e) => handleAnswer(e, item.questionId, 1500)}
-              >
-                Responder
-              </button>
-            </form>
-            <button onClick={handleFinish}>Finalizar</button>
-          </div>
-        ))
-      ) : (
-        <p>começar</p>
-      )}
+    <div className="timer-container">
+        <p>Tempo da sessão</p>
+        <p>{formatTime(elapsedTime)}</p>
     </div>
+      </div>
   );
 }
-
-// #  COPY  #
-// return (
-//     <div>
-//       Message before starting the session
-//       <button onClick={handleStart}>Começar</button>
-//       {start == true ? (
-//         questions.map((item) => (
-//           <div>
-//             <form>
-//               <h1>{item.text}</h1>
-//               <ul>
-//                 <li>
-//                   <input
-//                     type="radio"
-//                     name="answer"
-//                     value="a1"
-//                     checked={selectedAnswer === "a1"}
-//                     onChange={handleChange}
-//                   />
-//                   <p>{item.alternatives[0].text}</p>
-//                 </li>
-
-//                 <li>
-//                   <input
-//                     type="radio"
-//                     name="answer"
-//                     value="a2"
-//                     checked={selectedAnswer === "a2"}
-//                     onChange={handleChange}
-//                   />
-//                   <p>{item.alternatives[1].text}</p>
-//                 </li>
-
-//                 <li>
-//                   <input
-//                     type="radio"
-//                     name="answer"
-//                     value="a3"
-//                     checked={selectedAnswer === "a3"}
-//                     onChange={handleChange}
-//                   />
-//                   <p>{item.alternatives[2].text}</p>
-//                 </li>
-
-//                 <li>
-//                   <input
-//                     type="radio"
-//                     name="answer"
-//                     value="a4"
-//                     checked={selectedAnswer === "a4"}
-//                     onChange={handleChange}
-//                   />
-//                   <p>{item.alternatives[3].text}</p>
-//                 </li>
-
-//                 <li>
-//                   <input
-//                     type="radio"
-//                     name="answer"
-//                     value="a5"
-//                     checked={selectedAnswer === "a5"}
-//                     onChange={handleChange}
-//                   />
-//                   <p>{item.alternatives[4].text}</p>
-//                 </li>
-//               </ul>
-
-//               <button //onClick={handleAnswer(item.alternatives.presentedId)}
-//                 onClick={(e) => handleAnswer(e, item.questionId, 1500)}
-//               >
-//                 Responder
-//               </button>
-//             </form>
-//           </div>
-//         ))
-//       ) : (
-//         <p>começar</p>
-//       )}
-//     </div>
-//   );

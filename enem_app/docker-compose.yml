@@ -19,9 +19,11 @@ services:
       retries: 5
 
   backend:
+    # Ajuste o caminho do Dockerfile se for necessário, o caminho original parece estranho:
+    # ../../../projeto-Final-praTI_2025/enem_app/backend/Dockerfile.backend
     build:
       context: ./backend
-      dockerfile: ../../../projeto-Final-praTI_2025/enem_app/backend/Dockerfile.backend
+      dockerfile: Dockerfile.backend # Ajustei o caminho do Dockerfile assumindo que ele está em ./backend
     container_name: enem_app_backend
     ports:
       - "8080:8080"
@@ -32,8 +34,12 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/enem_app
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password
-      # Variável opcional para frontend, caso queira backend URL dinamicamente
       - BACKEND_URL=http://backend:8080
+      # CORREÇÃO: Removemos a linha vazia e a variável agora usa a referência padrão do Docker Compose.
+      # O valor será puxado do arquivo .env.
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
 
   frontend:
     build:

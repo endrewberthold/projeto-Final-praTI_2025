@@ -6,18 +6,18 @@ export default function ProfileImageSelector({
   value = null,
   onChange = () => {},
   maleAvatars = [
-    "/public/Male/10.png",
-    "/public/Male/17.png",
-    "/public/Male/18.png",
-    "/public/Male/41.png",
-    "/public/Male/42.png",
+    "/Male/10.png",
+    "/Male/17.png",
+    "/Male/18.png",
+    "/Male/41.png",
+    "/Male/42.png",
   ],
   femaleAvatars = [
-    "/public/Female/56.png",
-    "/public/Female/57.png",
-    "/public/Female/64.png",
-    "/public/Female/73.png",
-    "/public/Female/91.png",
+    "/Female/56.png",
+    "/Female/57.png",
+    "/Female/64.png",
+    "/Female/73.png",
+    "/Female/91.png",
   ],
   buttonLabel = "Escolher imagem de perfil",
 }) {
@@ -40,7 +40,7 @@ export default function ProfileImageSelector({
   }
 
   function confirmSelection() {
-    onChange(selected.split("/").slice(-1)[0].split(".")[0]);
+    onChange(selected);
     closeModal();
   }
 
@@ -120,3 +120,4 @@ export default function ProfileImageSelector({
     </div>
   );
 }
+

@@ -109,15 +109,6 @@ export default function MobileNavbar() {
                 <PiCards size={20} />
                 <span>FlashCards</span>
               </NavLink>
-
-              <NavLink 
-                to="/ai"
-                className="mobile-navbar__link"
-                onClick={() => setIsOpen(false)}
-              >
-                <span style={{fontSize: '18px'}}>🤖</span>
-                <span>ENEM AI</span>
-              </NavLink>
             </div>
 
             {/* Divisor */}

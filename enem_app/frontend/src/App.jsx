@@ -17,7 +17,6 @@ import UserStatusPage from './pages/UserStatusPage';
 import SkillPage from './pages/SkillPage';
 import Answers from './pages/Answers';
 import './styles/components/app.sass';
-import AiAssistantPage from './pages/AiAssistantPage';
 
 function App() {
   return (
@@ -26,13 +25,11 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        
 
         {/* Persistent Authentication Wrapper */}
         <Route element={<PersistLogin />}>
           {/* Protected Routes */}
           <Route element={<RequireAuth />}>
-            <Route path="/ai" element={<AiAssistantPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/flashCardPage" element={<FlashCardPage />} />
             <Route path="/viewFlashPage/:id" element={<ViewFlashCard />} />

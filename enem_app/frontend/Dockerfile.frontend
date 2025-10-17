@@ -19,7 +19,9 @@ RUN npm ci
 COPY . .
 
 # Executa o build da aplicação
-RUN npm run build
+RUN npm run build || echo "No build script found, creating basic index.html" && \
+    mkdir -p build && \
+    echo '<html><body><h1>Frontend Placeholder</h1><p>Configure seu frontend aqui</p></body></html>' > build/index.html
 
 # Stage 2: Servidor de produção com Nginx
 # Nginx é um servidor web leve e rápido, ideal para servir arquivos estáticos

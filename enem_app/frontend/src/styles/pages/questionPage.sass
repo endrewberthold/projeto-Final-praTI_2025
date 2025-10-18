@@ -15,6 +15,18 @@
   margin: 4rem auto
   text-align: center
 
+.start-title
+  font-weight: bold
+  font-size: 25px
+  color: var(--accent-primary)
+  margin-bottom: 1rem
+
+#start-image
+  width: 50%
+  height: 50%
+  display: block
+  margin: 0 auto 2rem
+
 .start-btn
   background-color: var(--accent-primary)
   color: var(--bg-primary)
@@ -24,14 +36,12 @@
   width: min(15rem, 80%)
   max-width: 300px
   min-width: 200px
-  display: flex
-  align-items: center
-  justify-content: center
-  gap: min(1rem, 2vw)
+  text-align: center
+  font-size: 16px
+  margin-top: 2rem
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)
   cursor: pointer
-  border: 1px solid var(--border-primary)
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
@@ -49,55 +59,48 @@
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
 // === TELA QUESTÕES ===
+
 .question-screen
   background-color: var(--bg-primary)
   display: flex
   flex-direction: row
   justify-content: center
   align-items: flex-start
-  width: 100%
-  gap: 10%
-  margin: 2rem 4rem
+  width: 1000vh
+  height: 100vh
+  gap: 5%
+  margin: 1rem auto
+  overflow: hidden
+  box-sizing: border-box
+  padding: 2rem
 
 .question-container
   display: flex
-  flex: 1
+  flex: 0.75       // ocupa ~65% da tela
   flex-direction: column
   justify-content: center
   background-color: var(--bg-secondary)
-  padding: 40px
+  padding: 1.5rem
   border-radius: 2rem
   box-shadow: var(--shadow-lg)
-  width: 100%
-  max-width: 1000px
-  margin: 0
+  width: 60%
+  max-width: 700px
+  margin: 0 1rem
   text-align: center
-  gap: 20px
-
-.timer-container
-  display: flex
-  flex: 0 0 250px
-  flex-direction: column
-  background-color: var(--bg-secondary)
-  padding: 40px
-  border-radius: 2rem
-  box-shadow: var(--shadow-lg)
-  width: 80%
-  max-width: 250px
-  margin: 0
-  text-align: center
-
-.timer-container p
-  background-color: inherit
+  overflow-y: auto
 
 .question-title
+  font-size: 18px
+  margin-bottom: 1rem
   background-color: inherit
   color: var(--accent-primary)
 
 .question-text
+  font-size: 14px
   background-color: inherit
   text-align: center
   line-height: 1.5
+  margin-bottom: 2rem
 
 .answers-list
   display: flex
@@ -111,6 +114,7 @@
   font-weight: bold
 
 .answer-option
+  font-size: 14px
   padding: 5px 7px
   background-color: var(--bg-primary)
   border-radius: variables.$border-radius-card-secondary
@@ -135,14 +139,12 @@
   width: min(15rem, 80%)
   max-width: 300px
   min-width: 200px
-  display: flex
-  align-items: center
-  justify-content: center
-  gap: min(1rem, 2vw)
+  text-align: center
+  font-size: 14px
+  margin-top: 2rem
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)
   cursor: pointer
-  border: 1px solid var(--border-primary)
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
@@ -160,3 +162,75 @@
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
 
+// === BOX DE TEMPO ===
+.timer-container
+  font-size: 14px
+  display: flex
+  flex: 0.20
+  flex-direction: column
+  background-color: var(--bg-secondary)
+  padding: 1rem
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+  width: 80%
+  max-width: 250px
+  margin: 0
+  text-align: center
+
+.timer-container p
+  background-color: inherit
+
+.questions-map
+  padding: 0.5rem
+  display: flex
+  justify-content: space-around
+  height: 3rem
+
+.questions-map-title
+  margin-top: 1rem
+
+.question-btn
+  margin: 0 auto
+  width: 15%
+  background-color: var(--text-secondary)
+  color: var(--bg-primary)
+  text-align: center
+  border-radius: 0.5rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &.selected
+    background-color: var(--accent-primary)
+
+.abandon-btn
+  margin: 0.7rem auto 0
+  padding: 0 0.5rem
+  background-color: var(--accent-primary)
+  color: var(--bg-primary)
+  font-weight: bold
+  text-align: center
+  font-size: 13px
+  width: fit-content
+  height: 2.5rem
+  border-radius: 0.5rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease

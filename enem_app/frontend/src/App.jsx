@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Layout from './pages/Layout';
 import Dashboard from './pages/Dashboard';
@@ -21,7 +21,7 @@ import './styles/components/app.sass';
 
 
 function App() {
-  return (
+    return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}
@@ -38,8 +38,8 @@ function App() {
             <Route path="/userStatusPage" element={<UserStatusPage />} />
             <Route path="/skillPage/:id" element={<SkillPage />} />
             <Route path="/answer/:levelId" element={<Answers />} />
-            <Route path="/skillPage/:id/answer/:levelId" element={<Answers />} /> //rota para o quiz
-              <Route path="/skillPage/:id/feedback/:sessionId" element={<FeedbackPage />}></Route>
+            <Route path="/skillPage/:id/answer/:levelId" element={<Answers />} />
+            <Route path="/skillPage/:id/feedback/:sessionId" element={<FeedbackPage />} />
           </Route>
         </Route>
       </Route>

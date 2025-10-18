@@ -1,6 +1,9 @@
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/pages/feedbackPage.sass";
+import StatCard from "../components/StatCard.jsx";
+import {FaChartLine, FaClock, FaTrophy} from "react-icons/fa";
+
 
 export default function FeedbackPage() {
     const location = useLocation();
@@ -44,53 +47,69 @@ export default function FeedbackPage() {
 
     return levelCompleted ? (
         <div className="positive-feedback-screen">
-            <img/>
+            <img
+                id="positive-image"
+                src="/Questions/well-done-image.svg"
+                alt="Imagem feedback positivo"
+            />
             <h3 className="feedback-title">Mandou bem!</h3>
-            <p>Você está dominando esse assunto e já pode avançar para o próximo nível</p>
+            <p className="feedback-text">Você está dominando esse assunto e já pode avançar para o próximo nível.</p>
 
-            <div className="feedback-results">
-                <div>
-                    <p>Desempenho</p>
-                    <p>{percent}%</p>
-                </div>
-
-                <div>
-                    <p>XP Ganho</p>
-                    <p>{xpEarned}</p>
-                </div>
-
-                <div>
-                    <p>Tempo da sessão</p>
-                    <p>{formatTime(totalTime)}</p>
-                </div>
+            <div className="results-container">
+                <StatCard
+                    icon={<FaClock size={20} />}
+                    value={formatTime(totalTime)}
+                    label="Tempo da sessão"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaChartLine size={20} />}
+                    value={percent + "%"}
+                    label="Desempenho"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaTrophy size={20} />}
+                    value={xpEarned}
+                    label="XPs recebidos"
+                    className= "results-icon"
+                />
             </div>
-            <button className="return-btn" onClick={handleBack}>Sair</button>
+            <button className="positive-screen-btn" id="btn" onClick={handleBack}>Sair</button>
         </div>
                 ) : (
         <div className="negative-feedback-screen">
-            <img/>
+            <img
+                id="negative-image"
+                src="/Questions/try-again-image.svg"
+                alt="Imagem feedback negativo"
+            />
             <h3 className="feedback-title">Poxa, não foi dessa vez...</h3>
-            <p>Continue se esforçando para avançar para o próximo nível</p>
+            <p className="feedback-text">Continue se esforçando para avançar para o próximo nível.</p>
 
-            <div className="feedback-results">
-                <div>
-                    <p>Desempenho</p>
-                    <p>{percent}%</p>
-                </div>
-
-                <div>
-                    <p>XP Ganho</p>
-                    <p>{xpEarned}</p>
-                </div>
-
-                <div>
-                    <p>Tempo da sessão</p>
-                    <p>{formatTime(totalTime)}</p>
-                </div>
+            <div className="results-container">
+                <StatCard
+                    icon={<FaClock size={20} />}
+                    value={formatTime(totalTime)}
+                    label="Tempo da sessão"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaChartLine size={20} />}
+                    value={percent + "%"}
+                    label="Desempenho"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaTrophy size={20} />}
+                    value={xpEarned}
+                    label="XPs recebidos"
+                    className= "results-icon"
+                />
             </div>
             <div className="buttons-container">
-            <button className="try-again-btn" onClick={handleTryAgain}>Tentar novamente</button>
-            <button className="return-btn" onClick={handleBack}>Sair</button>
+            <button className="negative-screen-btn" onClick={handleTryAgain}>Tentar novamente</button>
+            <button className="negative-screen-btn" onClick={handleBack}>Sair</button>
             </div>
        </div>
     )};

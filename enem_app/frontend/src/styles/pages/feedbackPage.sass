@@ -1,5 +1,5 @@
 .positive-feedback-screen, .negative-feedback-screen
-  margin: 4rem auto
+  margin: 3rem auto
   padding: 40px
   text-align: center
   justify-content: center
@@ -11,27 +11,43 @@
   border-radius: 2rem
   box-shadow: var(--shadow-lg)
 
+#negative-image, #positive-image
+  width: 50%
+  height: 50%
+  display: block
+  margin: 0 auto 2rem
+
 .feedback-title
   font-weight: bold
   font-size: 25px
   color: var(--accent-primary)
 
+.feedback-text
+  margin: 5px 20px
+  font-size: 16px
+  text-align: center
+
+.results-container
+  display: grid
+  grid-template-columns: repeat(2, 1fr)
+  margin-top: 2rem
+
 .buttons-container
   display: flex
   justify-content: space-between
 
-.return-btn
+.negative-screen-btn
+  margin-top: 2rem
   background-color: var(--accent-primary)
   color: var(--bg-primary)
+  font-size: 16px
   font-weight: bold
   height: min(3rem, 8vh)
   min-height: 44px
   width: min(15rem, 80%)
   max-width: 300px
   min-width: 200px
-  display: flex
-  align-items: center
-  justify-content: center
+  text-align: center
   gap: min(1rem, 2vw)
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)
@@ -41,6 +57,7 @@
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
   transition: all 0.2s ease
+
 
   &:hover
     z-index: 20
@@ -53,7 +70,10 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
-.try-again-btn
+.positive-screen-btn
+  margin: 0 auto
+  margin-top: 2rem
+  font-size: 16px
   background-color: var(--accent-primary)
   color: var(--bg-primary)
   font-weight: bold
@@ -62,9 +82,7 @@
   width: min(15rem, 80%)
   max-width: 300px
   min-width: 200px
-  display: flex
-  align-items: center
-  justify-content: center
+  text-align: center
   gap: min(1rem, 2vw)
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)

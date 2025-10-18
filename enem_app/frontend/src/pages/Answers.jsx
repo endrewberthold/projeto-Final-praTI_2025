@@ -117,16 +117,26 @@ export default function Answers() {
         const totalSeconds = Math.floor(ms / 1000);
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
-        return `${minutes.toString().padStart(2, "0")}:${seconds
-            .toString()
-            .padStart(2, "0")}`;
+        return `${minutes.toString().padStart(2, "0")} m : ${seconds
+            .toString().padStart(2, "0")} s`;
+    }
+
+    //Navega de volta para a tela de níveis
+    function handleBack() {
+        navigate(`/skillPage/${areaId}`);
     }
 
   if (!started)
   return (
       <div className="start-screen">
-          <h3>Bem-vindo!</h3>
-          <p>Clique abaixo para começar o quiz</p>
+          <img
+              id="start-image"
+              src="/Questions/quiz-image.svg"
+              alt="Imagem feedback negativo"
+          />
+          <h3 className="start-title">Bem-vindo!</h3>
+          <p>Clique abaixo para começar o quiz.</p>
+
           <button className="start-btn" onClick={handleStart}>
               Começar
           </button>
@@ -149,9 +159,14 @@ export default function Answers() {
        </QuestionPage>
 
     <div className="timer-container">
-        <p>Tempo da sessão</p>
+        <p><strong>Tempo:</strong></p>
         <p>{formatTime(elapsedTime)}</p>
+        <p className="questions-map-title"><strong>Questões:</strong></p>
+        <div className="questions-map">
+            {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} onClick={() =>setCurrentIndex(index)}>{index + 1}</button>)}
+        </div>
+        <button className="abandon-btn" onClick={handleBack}>Abandonar sessão</button>
     </div>
-      </div>
+    </div>
   );
 }

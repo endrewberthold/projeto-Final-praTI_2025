@@ -17,10 +17,9 @@ export default function SkillPage() {
 
   //const [levelId, setLevelId] = useState(0);
 
-  function handleNavigate(e, number) {
+  function handleNavigate(e, levelId) {
     e.preventDefault();
-
-    navigate(`./answer/${number}`, { state: { levelId: number } });
+    navigate(`/skillPage/${areaId}/answer/${levelId}`);
   }
 
   return (

@@ -36,7 +36,7 @@ export async function sendAnswerAPI(
 
   const response = await axios.post(
     SEND_ANSWER_URL,
-    JSON.stringify({ accessToken, questionId, presentedId, answerTimeMs }),
+    JSON.stringify({ questionId, presentedId, answerTimeMs }),
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

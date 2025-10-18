@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
                 RequestMethod.DELETE, RequestMethod.OPTIONS},
                 allowCredentials = "true")
+
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

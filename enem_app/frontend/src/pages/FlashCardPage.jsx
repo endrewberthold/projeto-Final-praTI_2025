@@ -5,6 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 
 import FlashCard from '../components/FlashCard';
 import ModalForm from '../components/ModalForm';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 import { FaBookOpen, FaSpinner, FaPlus, FaLightbulb } from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
@@ -44,6 +45,13 @@ export default function FlashcardPage() {
   
   // For selected icon
   const [selectedIcon, setSelectedIcon] = useState('mortarboard');
+
+  // For delete confirmation modal
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    flashcardId: null,
+    flashcardTerm: ''
+  });
 
   // Function to start delete loading
   const handleDeleteStart = () => {
@@ -110,20 +118,31 @@ export default function FlashcardPage() {
     handleClear();
   }
 
-  // DELETE FLASHCARD
-  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
-  async function handleDeleteFlashcard(item) {
-    //console.log("DELETE: ", item);
-    const id = item;
-    const DELETECARD_URL = `/api/flashcards/${id}`;
+  // OPEN DELETE CONFIRMATION MODAL
+  function handleDeleteFlashcard(flashcardId) {
+    const flashcard = flashcardsData.find(item => item.id === flashcardId);
+    setDeleteModal({
+      isOpen: true,
+      flashcardId: flashcardId,
+      flashcardTerm: flashcard?.term || 'Flashcard'
+    });
+  }
 
+  // CONFIRM DELETE FLASHCARD
+  async function handleConfirmDelete() {
     try {
-      const response = await deleteFlashcardAPI(accessToken, item);
+      const response = await deleteFlashcardAPI(accessToken, deleteModal.flashcardId);
       console.log('DELETADO: ', response);
       handleFetchFlashcards();
+      setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
     } catch (err) {
       console.log('ERRO ON DELETE CARD: ', err);
     }
+  }
+
+  // CLOSE DELETE MODAL
+  function handleCloseDeleteModal() {
+    setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
   }
 
   // REQUEST UPDATE FLASHCARD
@@ -175,6 +194,14 @@ export default function FlashcardPage() {
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
+      <ConfirmDeleteModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        title="Confirmar Exclusão"
+        message="Tem certeza que deseja excluir este flashcard?"
+        itemName={deleteModal.flashcardTerm}
+      />
       <section
         className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
       >

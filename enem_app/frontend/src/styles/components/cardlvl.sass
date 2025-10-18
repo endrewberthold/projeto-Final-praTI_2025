@@ -1,81 +1,56 @@
 .level-card
   position: relative
-  width: 200px
-  height: 200px
+  width: 160px
+  height: 160px
   display: flex
+  flex-direction: column
   align-items: center
   justify-content: center
-
-  .progress-circle
-    position: relative
-    width: 100%
-    height: 100%
-    display: flex
-    align-items: center
-    justify-content: center
-
-  .progress-svg
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    transform: rotate(121deg)
-    transition: all 0.3s ease
-    pointer-events: none
-    z-index: 1
-
-  .progress-background
-    stroke: #c0d5f3ff
-    stroke-linecap: round
-    transition: stroke-dashoffset 0.3s ease
-
-  .progress-foreground
-    stroke: #4e6dc2ff
-    stroke-linecap: round
-    transition: stroke-dashoffset 0.3s ease
+  background: var(--bg-secondary)
+  border: 2px solid var(--area-color, #4A90E2)
+  border-radius: 20px
+  transition: all 0.3s ease
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+  
+  &:hover
+    transform: translateY(-4px)
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15)
+    border-color: var(--area-color, #4A90E2)
 
   .card-content
-    background-color: #f8f9fa
-    border: 1px solid #e9ecef
-    border-radius: 50%
-    padding: 20px
-    text-align: center
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
-    transition: transform 0.2s ease, box-shadow 0.2s ease
-    width: 160px
-    height: 160px
     display: flex
     flex-direction: column
     align-items: center
     justify-content: center
+    width: 100%
+    height: 100%
+    padding: 12px
     position: relative
-    z-index: 2
-    font-family: 'Segoe UI', sans-serif
 
+  .area-icon
+    color: var(--area-color, #4A90E2)
+    margin-bottom: 12px
+    transition: all 0.3s ease
+    font-size: 50px
+    
     &:hover
-      transform: translateY(-3px)
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15)
+      transform: scale(1.1)
 
-  .level-icon
-    font-size: 40px
-    color: #e63946
-    margin-bottom: 5px
+  .level-number
+    position: absolute
+    top: 12px
+    right: 12px
+    background: var(--area-color, #4A90E2)
+    color: white
+    width: 32px
+    height: 32px
+    border-radius: 50%
     display: flex
     align-items: center
     justify-content: center
-    width: 100%
-    height: 100%
-
-  .math-image
-    width: 300px
-    height: 300px
-    object-fit: contain
-    object-position: center
-    transition: transform 0.2s ease
-
-    &:hover
-      transform: scale(1.05)
+    font-size: 14px
+    font-weight: 700
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)
 
   .level-title
     font-size: 16px
@@ -100,7 +75,7 @@
     border: 1px solid var(--border-primary)
 
   .level-button
-    background-color: #e63946
+    background-color: var(--area-color, #4A90E2)
     border: none
     color: white
     padding: 8px 16px
@@ -109,29 +84,65 @@
     border-radius: 20px
     transition: all 0.2s ease
     font-weight: 600
+    margin-top: 8px
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)
 
     &:hover
-      background-color: #d62828
+      background-color: var(--area-color, #4A90E2)
       transform: scale(1.05)
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+
+  .dificuldade-label
+    position: absolute
+    bottom: -1.5rem
+    left: 50%
+    transform: translateX(-50%)
+    color: var(--text-secondary)
+    font-size: 0.7rem
+    font-weight: 500
+    text-align: center
+    white-space: nowrap
+    transition: all 0.2s ease
+    z-index: 10
+    background: var(--bg-primary)
+    padding: 2px 8px
+    border-radius: 8px
+    border: 1px solid var(--border-primary)
+    
+    &:hover
+      color: var(--accent-primary)
+      transform: translateX(-50%) translateY(-2px)
 
 // Dark mode
 body.dark
   .level-card
-    .card-content
-      background-color: var(--bg-secondary)
+    background: var(--bg-secondary)
+    border-color: #818cf8
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+    
+    &:hover
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4)
+      border-color: #818cf8
+    
+    .area-icon
+      color: #818cf8
+    
+    .level-number
+      background: #818cf8
+      color: white
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4)
+    
+    .level-button
+      background-color: #818cf8
+      
+      &:hover
+        background-color: #818cf8
+        box-shadow: 0 4px 12px rgba(129, 140, 248, 0.4)
+    
+    .dificuldade-label
+      color: var(--text-secondary)
+      background: var(--bg-primary)
       border-color: var(--border-primary)
       
-    .level-title
-      color: var(--text-primary)
-      
-    .progress-text
-      color: var(--accent-primary)
-      background: var(--bg-primary)
-      border-color: var(--accent-primary)
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3)
-      
-    .progress-background
-      stroke: #c0d5f3ff
-      
-    .progress-foreground
-      stroke: #4e6dc2ff
+      &:hover
+        color: #818cf8

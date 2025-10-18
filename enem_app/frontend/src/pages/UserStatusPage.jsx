@@ -5,6 +5,7 @@ import { HiLightningBolt } from "react-icons/hi";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { FaBook, FaTrophy, FaClock, FaChartLine, FaAward, FaBrain, FaStar } from "react-icons/fa";
 import StatCard from "../components/StatCard";
+import ProfileImageSelector from "../components/ProfileImageSelector";
 
 import useAuth from "../hooks/useAuth";
 import { userStatusFullAPI } from "../services/userStatusServices";
@@ -20,6 +21,10 @@ export default function UserStatusPage() {
   const [topCompetencies, setTopCompetencies] = useState([]);
   const [topArea, setTopArea] = useState([]);
   const [topSkills, setTopSkills] = useState([]);
+
+  // Profile image modal state
+  const [showImageSelector, setShowImageSelector] = useState(false);
+  const [currentProfileImage, setCurrentProfileImage] = useState(null);
 
   async function getUserData() {
     try {
@@ -62,6 +67,28 @@ export default function UserStatusPage() {
       getUserData();
     }
   }, [accessToken]);
+
+  // Função para abrir o modal de seleção de imagem
+  const handleOpenImageSelector = () => {
+    setShowImageSelector(true);
+  };
+
+  // Função para fechar o modal
+  const handleCloseImageSelector = () => {
+    setShowImageSelector(false);
+  };
+
+  // Função para atualizar a imagem de perfil
+  const handleProfileImageChange = (newImageId) => {
+    console.log("Nova imagem selecionada:", newImageId);
+    // Aqui você pode adicionar a lógica para salvar a nova imagem no backend
+    // Por enquanto, vamos apenas atualizar o estado local
+    setCurrentProfileImage(newImageId);
+    setShowImageSelector(false);
+    
+    // TODO: Implementar chamada para API para atualizar a imagem no backend
+    // updateProfileImageAPI(accessToken, newImageId);
+  };
 
   if (loading) {
     return (
@@ -130,7 +157,7 @@ export default function UserStatusPage() {
          <div>
            <div className="profile-section">
              <div className="profile-banner">
-               <button className="button-icon">
+               <button className="button-icon" onClick={handleOpenImageSelector}>
                  < MdEdit size={20} fill="#fff" />
                </button>
              </div>
@@ -254,6 +281,16 @@ export default function UserStatusPage() {
           </div>
         </div>
       </div>
+
+      {/* Modal de seleção de imagem de perfil */}
+      <ProfileImageSelector
+        value={currentProfileImage}
+        onChange={handleProfileImageChange}
+        buttonLabel="Alterar imagem de perfil"
+        isOpen={showImageSelector}
+        onClose={handleCloseImageSelector}
+        showButton={false}
+      />
     </div>
   );
 }

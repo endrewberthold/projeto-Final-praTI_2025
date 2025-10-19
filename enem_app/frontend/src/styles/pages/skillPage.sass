@@ -39,6 +39,26 @@
     &:active
       transform: translateY(0)
       box-shadow: var(--shadow-sm)
+
+  // Seletor de ícones de área (fora do container)
+  .area-icon-selector
+    display: flex
+    justify-content: center
+    margin-bottom: 1.5rem
+    width: 100%
+
+  // Container principal com background
+  .skill-content-container
+    background: var(--bg-secondary)
+    border: 1px solid var(--border-primary)
+    border-radius: 1rem
+    padding: 2rem
+    box-shadow: var(--shadow-lg)
+    width: 100%
+    max-width: 1200px
+    margin-top: 0
+    position: relative
+    z-index: 1
   
   h1
     color: var(--text-secondary)
@@ -71,11 +91,6 @@
         opacity: 1
         transition: opacity 0.3s ease
 
-.area-icon-selector
-  display: flex
-  justify-content: center
-  margin-bottom: 1rem
-  width: 100%
 
 .icon-grid
   display: flex
@@ -249,6 +264,11 @@ body.dark
         border-color: #818cf8
         box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
     
+    .skill-content-container
+      background: var(--bg-secondary)
+      border-color: var(--border-primary)
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3)
+    
     h1
       color: var(--text-secondary)
       
@@ -282,3 +302,40 @@ body.dark
           
     .icon-wrapper
       color: #818cf8
+
+// Estilos responsivos
+@media (max-width: 768px)
+  .skill-page
+    padding: 1rem
+    
+    .area-icon-selector
+      margin-bottom: 1rem
+    
+    .skill-content-container
+      padding: 1.5rem
+      margin-top: 0
+      border-radius: 0.75rem
+    
+    .back-button
+      top: 4rem
+      left: 1rem
+      padding: 0.5rem 1rem
+      font-size: 0.8rem
+
+@media (max-width: 480px)
+  .skill-page
+    padding: 0.5rem
+    
+    .area-icon-selector
+      margin-bottom: 0.75rem
+    
+    .skill-content-container
+      padding: 1rem
+      margin-top: 0
+      border-radius: 0.5rem
+    
+    .back-button
+      top: 3.5rem
+      left: 0.5rem
+      padding: 0.4rem 0.8rem
+      font-size: 0.75rem

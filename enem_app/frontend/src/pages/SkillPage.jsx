@@ -82,7 +82,7 @@ export default function SkillPage() {
           Voltar para Home
         </button>
 
-        {/* Seletor de ícones de área */}
+        {/* Seletor de ícones de área - fora do container */}
         <div className="area-icon-selector">
           <div className="icon-grid">
             {[
@@ -106,61 +106,64 @@ export default function SkillPage() {
           </div>
         </div>
 
-        <h1>{getPageTitle()}</h1>
+        {/* Container principal com background */}
+        <div className="skill-content-container">
+          <h1>{getPageTitle()}</h1>
 
-        <div className="pyramid-container">
-          {/* Todos os 5 cards na mesma linha */}
-          <div className="pyramid-row first-row">
-            <Cardlvl
-              titulo="lvl 001"
-              totalQuestoes={5}
-              respondidas={0}
-              textoBotao="Começar"
-              onClick={(e) => handleNavigate(e, 1)}
-              dificuldade="Fácil"
-              numeroNivel={1}
-              areaConhecimento={areaId}
-            />
-            <Cardlvl
-              titulo="lvl 002"
-              totalQuestoes={5}
-              respondidas={0}
-              textoBotao="Começar"
-              onClick={(e) => handleNavigate(e, 2)}
-              dificuldade="Médio"
-              numeroNivel={2}
-              areaConhecimento={areaId}
-            />
-            <Cardlvl
-              titulo="lvl 003"
-              totalQuestoes={5}
-              respondidas={0}
-              textoBotao="Começar"
-              onClick={(e) => handleNavigate(e, 3)}
-              dificuldade="Intermediário"
-              numeroNivel={3}
-              areaConhecimento={areaId}
-            />
-            <Cardlvl
-              titulo="lvl 004"
-              totalQuestoes={5}
-              respondidas={0}
-              textoBotao="Começar"
-              onClick={(e) => handleNavigate(e, 4)}
-              dificuldade="Difícil"
-              numeroNivel={4}
-              areaConhecimento={areaId}
-            />
-            <Cardlvl
-              titulo="lvl 005"
-              totalQuestoes={5}
-              respondidas={0}
-              textoBotao="Começar"
-              onClick={(e) => handleNavigate(e, 5)}
-              dificuldade="Expert"
-              numeroNivel={5}
-              areaConhecimento={areaId}
-            />
+          <div className="pyramid-container">
+            {/* Todos os 5 cards na mesma linha */}
+            <div className="pyramid-row first-row">
+              <Cardlvl
+                titulo="lvl 001"
+                totalQuestoes={5}
+                respondidas={0}
+                textoBotao="Começar"
+                onClick={(e) => handleNavigate(e, 1)}
+                dificuldade="Fácil"
+                numeroNivel={1}
+                areaConhecimento={areaId}
+              />
+              <Cardlvl
+                titulo="lvl 002"
+                totalQuestoes={5}
+                respondidas={0}
+                textoBotao="Começar"
+                onClick={(e) => handleNavigate(e, 2)}
+                dificuldade="Médio"
+                numeroNivel={2}
+                areaConhecimento={areaId}
+              />
+              <Cardlvl
+                titulo="lvl 003"
+                totalQuestoes={5}
+                respondidas={0}
+                textoBotao="Começar"
+                onClick={(e) => handleNavigate(e, 3)}
+                dificuldade="Intermediário"
+                numeroNivel={3}
+                areaConhecimento={areaId}
+              />
+              <Cardlvl
+                titulo="lvl 004"
+                totalQuestoes={5}
+                respondidas={0}
+                textoBotao="Começar"
+                onClick={(e) => handleNavigate(e, 4)}
+                dificuldade="Difícil"
+                numeroNivel={4}
+                areaConhecimento={areaId}
+              />
+              <Cardlvl
+                titulo="lvl 005"
+                totalQuestoes={5}
+                respondidas={0}
+                textoBotao="Começar"
+                onClick={(e) => handleNavigate(e, 5)}
+                dificuldade="Expert"
+                numeroNivel={5}
+                areaConhecimento={areaId}
+              />
+            </div>
           </div>
         </div>
 

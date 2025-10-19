@@ -7,7 +7,7 @@ import FlashCard from '../components/FlashCard';
 import ModalForm from '../components/ModalForm';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
-import { FaBookOpen, FaSpinner, FaPlus, FaLightbulb } from 'react-icons/fa';
+import { FaBookOpen, FaSpinner, FaPlus, FaLightbulb, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
 import { GiMicroscope } from 'react-icons/gi';
 import { FaGlobeAmericas } from 'react-icons/fa';
@@ -51,6 +51,15 @@ export default function FlashcardPage() {
     isOpen: false,
     flashcardId: null,
     flashcardTerm: ''
+  });
+
+  // For multiple selection
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedFlashcards, setSelectedFlashcards] = useState([]);
+  const [bulkDeleteModal, setBulkDeleteModal] = useState({
+    isOpen: false,
+    selectedIds: [],
+    selectedCount: 0
   });
 
   // Function to start delete loading
@@ -191,6 +200,74 @@ export default function FlashcardPage() {
     setSelectedIcon(iconName);
   };
 
+  // Funções para seleção múltipla
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      setSelectedFlashcards([]);
+    }
+  };
+
+  const toggleFlashcardSelection = (flashcardId) => {
+    setSelectedFlashcards(prev => {
+      if (prev.includes(flashcardId)) {
+        return prev.filter(id => id !== flashcardId);
+      } else {
+        return [...prev, flashcardId];
+      }
+    });
+  };
+
+  const selectAllFlashcards = () => {
+    if (selectedFlashcards.length === flashcardsData.length) {
+      setSelectedFlashcards([]);
+    } else {
+      setSelectedFlashcards(flashcardsData.map(card => card.id));
+    }
+  };
+
+  const openBulkDeleteModal = () => {
+    if (selectedFlashcards.length > 0) {
+      setBulkDeleteModal({
+        isOpen: true,
+        selectedIds: selectedFlashcards,
+        selectedCount: selectedFlashcards.length
+      });
+    }
+  };
+
+  const closeBulkDeleteModal = () => {
+    setBulkDeleteModal({
+      isOpen: false,
+      selectedIds: [],
+      selectedCount: 0
+    });
+  };
+
+  const confirmBulkDelete = async () => {
+    try {
+      setIsDeleting(true);
+      
+      // Deletar cada flashcard selecionado
+      for (const flashcardId of bulkDeleteModal.selectedIds) {
+        await deleteFlashcardAPI(accessToken, flashcardId);
+      }
+      
+      // Atualizar a lista
+      handleFetchFlashcards();
+      
+      // Limpar seleção
+      setSelectedFlashcards([]);
+      setIsSelectionMode(false);
+      closeBulkDeleteModal();
+      
+    } catch (err) {
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
@@ -201,6 +278,14 @@ export default function FlashcardPage() {
         title="Confirmar Exclusão"
         message="Tem certeza que deseja excluir este flashcard?"
         itemName={deleteModal.flashcardTerm}
+      />
+      <ConfirmDeleteModal
+        isOpen={bulkDeleteModal.isOpen}
+        onClose={closeBulkDeleteModal}
+        onConfirm={confirmBulkDelete}
+        title="Confirmar Exclusão Múltipla"
+        message={`Tem certeza que deseja excluir ${bulkDeleteModal.selectedCount} flashcard(s) selecionado(s)?`}
+        itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
       />
       <section
         className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
@@ -256,7 +341,7 @@ export default function FlashcardPage() {
           </div>
         </form>
         <section className="icons-flashcard-container">
-          <div>
+          <div className="icons-section">
             <BsFillMortarboardFill 
               className={`icon-flashcard ${theme} ${selectedIcon === 'mortarboard' ? 'selected' : ''}`}
               onClick={() => handleIconClick('mortarboard')}
@@ -278,7 +363,42 @@ export default function FlashcardPage() {
               onClick={() => handleIconClick('globe')}
             />
           </div>
+          
+          {/* Botões de seleção múltipla */}
+          {flashcardsData && flashcardsData.length > 0 && (
+            <div className="selection-buttons">
+              <button 
+                className={`selection-mode-btn ${isSelectionMode ? 'active' : ''}`}
+                onClick={toggleSelectionMode}
+              >
+                {isSelectionMode ? <FaTimes /> : <FaCheck />}
+                {isSelectionMode ? 'Cancelar' : 'Selecionar Múltiplos'}
+              </button>
+              
+              {isSelectionMode && (
+                <>
+                  <button 
+                    className="select-all-btn"
+                    onClick={selectAllFlashcards}
+                  >
+                    {selectedFlashcards.length === flashcardsData.length ? 'Desmarcar Todos' : 'Selecionar Todos'}
+                  </button>
+                  
+                  {selectedFlashcards.length > 0 && (
+                    <button 
+                      className="bulk-delete-btn"
+                      onClick={openBulkDeleteModal}
+                    >
+                      <FaTrash />
+                      Excluir ({selectedFlashcards.length})
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </section>
+        
         <section className={`flashcard-dashboard-container ${theme} ${flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'}`}>
           {isLoading || isDeleting ? (
             <div className="loading-container">
@@ -300,6 +420,9 @@ export default function FlashcardPage() {
                   onDeleteStart={handleDeleteStart}
                   handleDelete={handleDeleteFlashcard}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
+                  isSelectionMode={isSelectionMode}
+                  isSelected={selectedFlashcards.includes(item.id)}
+                  onToggleSelection={() => toggleFlashcardSelection(item.id)}
                 />
               ))}
             </>

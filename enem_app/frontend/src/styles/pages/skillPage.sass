@@ -5,22 +5,146 @@
   align-items: center
   justify-content: center
   padding: 2rem
-  background: var(--bg-primary)
+  background: var(--bg-primary, #ffffff)
+  color: var(--text-primary, #000000)
+  width: 100%
+  box-sizing: border-box
+  
+  .back-button
+    position: absolute
+    top: 5rem
+    left: 2rem
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.75rem 1.5rem
+    background: var(--bg-secondary)
+    border: 1px solid var(--border-primary)
+    border-radius: 0.5rem
+    color: var(--text-primary)
+    font-size: 0.9rem
+    font-weight: 500
+    cursor: pointer
+    transition: all 0.2s ease
+    box-shadow: var(--shadow-sm)
+    z-index: 10
+    
+    &:hover
+      background: var(--accent-primary)
+      color: white
+      border-color: var(--accent-primary)
+      transform: translateY(-1px)
+      box-shadow: var(--shadow-md)
+      
+    &:active
+      transform: translateY(0)
+      box-shadow: var(--shadow-sm)
+
+  // Seletor de ícones de área (fora do container)
+  .area-icon-selector
+    display: flex
+    justify-content: center
+    margin-bottom: 1.5rem
+    width: 100%
+
+  // Container principal com background
+  .skill-content-container
+    background: var(--bg-secondary)
+    border: 1px solid var(--border-primary)
+    border-radius: 1rem
+    padding: 2rem
+    box-shadow: var(--shadow-lg)
+    width: 100%
+    max-width: 1200px
+    margin-top: 0
+    position: relative
+    z-index: 1
   
   h1
-    color: var(--text-primary)
-    font-size: 2.5rem
-    font-weight: bold
+    color: var(--text-secondary)
+    font-size: 1.4rem
+    font-weight: 300
+    margin-top: 0.5rem
     margin-bottom: 3rem
     text-align: center
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 2rem
+    padding: 1rem 0
+    
+    &::before,
+    &::after
+      content: ''
+      flex: 1
+      height: 1px
+      background: var(--accent-primary)
+      opacity: 0.6
+      
+    &:hover
+      color: var(--accent-primary)
+      transition: color 0.3s ease
+      
+      &::before,
+      &::after
+        opacity: 1
+        transition: opacity 0.3s ease
+
+
+.icon-grid
+  display: flex
+  gap: 1rem
+  justify-content: center
+  align-items: center
+
+.icon-button
+  width: 60px
+  height: 60px
+  border-radius: 50%
+  border: 3px solid var(--area-color, #4A90E2)
+  background: var(--bg-primary, #ffffff)
+  cursor: pointer
+  transition: all 0.3s ease
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+  
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2)
+    border-width: 4px
+    
+  &.selected
+    background: var(--area-color, #4A90E2)
+    border-color: var(--area-color, #4A90E2)
+    transform: translateY(-2px)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+    
+    .icon-wrapper
+      color: white
+      
+  &:active
+    transform: translateY(0)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+
+.icon-wrapper
+  color: var(--area-color, #4A90E2)
+  transition: all 0.3s ease
+  display: flex
+  align-items: center
+  justify-content: center
 
 .pyramid-container
   display: flex
   flex-direction: column
   align-items: center
-  gap: 2rem
+  gap: 3rem
   width: 100%
   max-width: 1200px
+  padding-bottom: 2rem
 
 .pyramid-row
   display: flex
@@ -30,39 +154,48 @@
   flex-wrap: wrap
 
 .first-row
-  // 3 cards na primeira linha
-  .level-card
-    margin: 0 1rem
-
-.second-row
-  // 2 cards na segunda linha
-  .level-card
-    margin: 0 1rem
-
-.trophy-container
+  // Todos os 5 cards na mesma linha
   display: flex
   justify-content: center
   align-items: center
-  margin-top: 2rem
+  gap: 2rem
+  flex-wrap: wrap
+  width: 100%
   
-  .trophy-icon
-    font-size: 4rem
-    color: #ffd700
-    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3))
-    transition: all 0.3s ease
-    
-    &:hover
-      transform: scale(1.1)
-      filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.5))
+  .level-card
+    margin: 0 0.5rem
+
+.second-row
+  // Linha vazia - todos os cards estão na primeira linha
+  display: none
+
+
 
 // Responsividade
 @media (max-width: 768px)
   .skill-page
     padding: 1rem
     
+    .back-button
+      top: 4rem
+      left: 1rem
+      padding: 0.5rem 1rem
+      font-size: 0.8rem
+    
     h1
-      font-size: 2rem
+      font-size: 1.2rem
       margin-bottom: 2rem
+      gap: 1.5rem
+  
+  .area-icon-selector
+    margin-bottom: 0.8rem
+      
+    .icon-grid
+      gap: 0.8rem
+      
+    .icon-button
+      width: 50px
+      height: 50px
   
   .pyramid-container
     gap: 1.5rem
@@ -70,22 +203,37 @@
   .pyramid-row
     gap: 1rem
     
+  .first-row
+    gap: 1.5rem
+    
     .level-card
       margin: 0 0.5rem
   
-  .trophy-container
-    margin-top: 1.5rem
-    
-    .trophy-icon
-      font-size: 3rem
 
 @media (max-width: 480px)
   .skill-page
     padding: 0.5rem
     
+    .back-button
+      top: 3.5rem
+      left: 0.5rem
+      padding: 0.4rem 0.8rem
+      font-size: 0.75rem
+    
     h1
-      font-size: 1.5rem
+      font-size: 1rem
       margin-bottom: 1.5rem
+      gap: 1rem
+  
+  .area-icon-selector
+    margin-bottom: 0.6rem
+      
+    .icon-grid
+      gap: 0.6rem
+      
+    .icon-button
+      width: 45px
+      height: 45px
   
   .pyramid-container
     gap: 1rem
@@ -93,27 +241,101 @@
   .pyramid-row
     gap: 0.5rem
     
+  .first-row
+    gap: 1rem
+    
     .level-card
       margin: 0 0.25rem
   
-  .trophy-container
-    margin-top: 1rem
-    
-    .trophy-icon
-      font-size: 2.5rem
 
 // Tema dark
 body.dark
   .skill-page
     background: var(--bg-primary)
     
-    h1
+    .back-button
+      background: var(--bg-secondary)
+      border-color: var(--border-primary)
       color: var(--text-primary)
       
-  .trophy-container
-    .trophy-icon
-      color: #ffd700
-      filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4))
+      &:hover
+        background: #818cf8
+        color: white
+        border-color: #818cf8
+        box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+    
+    .skill-content-container
+      background: var(--bg-secondary)
+      border-color: var(--border-primary)
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3)
+    
+    h1
+      color: var(--text-secondary)
+      
+      &::before,
+      &::after
+        background: #818cf8
+        opacity: 0.6
+        
+      &:hover
+        color: #818cf8
+        
+        &::before,
+        &::after
+          opacity: 1
+      
+  .area-icon-selector
+    .icon-button
+      background: var(--bg-primary)
+      border-color: #818cf8
       
       &:hover
-        filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.6))
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+        
+      &.selected
+        background: #818cf8
+        border-color: #818cf8
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4)
+        
+        .icon-wrapper
+          color: white
+          
+    .icon-wrapper
+      color: #818cf8
+
+// Estilos responsivos
+@media (max-width: 768px)
+  .skill-page
+    padding: 1rem
+    
+    .area-icon-selector
+      margin-bottom: 1rem
+    
+    .skill-content-container
+      padding: 1.5rem
+      margin-top: 0
+      border-radius: 0.75rem
+    
+    .back-button
+      top: 4rem
+      left: 1rem
+      padding: 0.5rem 1rem
+      font-size: 0.8rem
+
+@media (max-width: 480px)
+  .skill-page
+    padding: 0.5rem
+    
+    .area-icon-selector
+      margin-bottom: 0.75rem
+    
+    .skill-content-container
+      padding: 1rem
+      margin-top: 0
+      border-radius: 0.5rem
+    
+    .back-button
+      top: 3.5rem
+      left: 0.5rem
+      padding: 0.4rem 0.8rem
+      font-size: 0.75rem

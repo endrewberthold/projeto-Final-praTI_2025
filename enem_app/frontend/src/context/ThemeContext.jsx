@@ -29,7 +29,7 @@ export const ThemeProvider = ({ children }) => {
     document.body.className = theme;
   }, [theme]);
 
-  // Escuta mudanças no localStorage (como quando o logout reseta o tema)
+  // Escuta mudanças no localStorage para sincronizar o tema entre abas
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === 'theme') {
@@ -40,16 +40,8 @@ export const ThemeProvider = ({ children }) => {
     // Adiciona listener para mudanças no localStorage
     window.addEventListener('storage', handleStorageChange);
 
-    // Também cria um listener customizado para mudanças na mesma aba
-    const handleLocalThemeChange = (event) => {
-      setTheme(event.detail.theme);
-    };
-
-    window.addEventListener('themeChanged', handleLocalThemeChange);
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('themeChanged', handleLocalThemeChange);
     };
   }, []);
 

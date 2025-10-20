@@ -32,15 +32,16 @@
         color: black
 
 
-    .title-container
-        display: flex
-        justify-content: center
-        align-items: center
-        padding: 5px
-        background-color: variables.$clr-accent
-        border-radius: .3rem
-        font-size: 1rem
-        min-width: fit-content
+        .title-container
+            display: flex
+            justify-content: center
+            align-items: center
+            background-color: variables.$clr-accent
+            border-radius: .3rem
+            font-size: 15px
+
+        .flashcards-dash-title
+            width: fit-content
 
     .flashcards-dash-buttons
         align-self: flex-end
@@ -61,13 +62,85 @@
             &:hover
                 transform: translateY(-2px)
 
+// Estilos para seleção múltipla
+.flashcards-dashboard
+    &.selection-mode
+        cursor: pointer
+        position: relative
+        
+        &:hover
+            transform: translateY(-2px)
+            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.4)
+            
+            &.dark
+                box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8)
+                
+        &.selected
+            border: 2px solid #4A90E2
+            background-color: rgba(74, 144, 226, 0.1)
+            
+            &.dark
+                border-color: #818cf8
+                background-color: rgba(129, 140, 248, 0.1)
+                
+    .selection-checkbox
+        position: absolute
+        top: 10px
+        left: 10px
+        z-index: 10
+        
+        .checkbox
+            width: 20px
+            height: 20px
+            border: 2px solid #4A90E2
+            border-radius: 4px
+            background: white
+            display: flex
+            align-items: center
+            justify-content: center
+            transition: all 0.2s ease
+            
+            &.checked
+                background: #4A90E2
+                color: white
+                
+            svg
+                font-size: 12px
 
-// Implementação futura - Tooltip
-// Tooltips
-// .tooltip-update
-//     position: absolute
-//     z-index: 2
-//     top: 800px
-//     left: 100px
+// Tema escuro para seleção múltipla
+body.dark
+    .flashcards-dashboard
+        &.selection-mode
+            &.selected
+                border-color: #818cf8
+                background-color: rgba(129, 140, 248, 0.1)
+                
+        .selection-checkbox
+            .checkbox
+                border-color: #818cf8
+                background: #2a2a2a
+                
+                &.checked
+                    background: #818cf8
+                    color: white
 
-// .tooltip-delete
+// Responsividade para seleção múltipla
+@media (max-width: 768px)
+    .flashcards-dashboard
+        .selection-checkbox
+            .checkbox
+                width: 18px
+                height: 18px
+                
+                svg
+                    font-size: 10px
+
+@media (max-width: 480px)
+    .flashcards-dashboard
+        .selection-checkbox
+            .checkbox
+                width: 16px
+                height: 16px
+                
+                svg
+                    font-size: 9px

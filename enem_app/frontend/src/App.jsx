@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Layout from './pages/Layout';
 import Dashboard from './pages/Dashboard';
@@ -16,10 +16,12 @@ import PersistLogin from './components/PersistLogin';
 import UserStatusPage from './pages/UserStatusPage';
 import SkillPage from './pages/SkillPage';
 import Answers from './pages/Answers';
+import FeedbackPage from "./pages/FeedbackPage.jsx";
 import './styles/components/app.sass';
 
+
 function App() {
-  return (
+    return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}
@@ -36,10 +38,8 @@ function App() {
             <Route path="/userStatusPage" element={<UserStatusPage />} />
             <Route path="/skillPage/:id" element={<SkillPage />} />
             <Route path="/answer/:levelId" element={<Answers />} />
-            <Route
-              path="/skillPage/:id/answer/:levelId"
-              element={<Answers />}
-            />
+            <Route path="/skillPage/:id/answer/:levelId" element={<Answers />} />
+            <Route path="/skillPage/:id/feedback/:sessionId" element={<FeedbackPage />} />
           </Route>
         </Route>
       </Route>

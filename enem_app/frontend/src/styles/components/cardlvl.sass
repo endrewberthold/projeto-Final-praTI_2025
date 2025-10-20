@@ -1,48 +1,148 @@
 .level-card
-  width: 150px
-  height: 200px
-  background-color: #ffffff
-  border-radius: 12px
+  position: relative
+  width: 160px
+  height: 160px
   display: flex
   flex-direction: column
   align-items: center
-  justify-content: space-around
-  padding: 15px
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
-  font-family: 'Segoe UI', sans-serif
-  border: 1px solid #e0e0e0
-  transition: transform 0.2s ease-in-out
-
+  justify-content: center
+  background: var(--bg-secondary)
+  border: 2px solid var(--area-color, #4A90E2)
+  border-radius: 20px
+  transition: all 0.3s ease
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+  
   &:hover
-    transform: translateY(-3px)
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15)
+    transform: translateY(-4px)
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15)
+    border-color: var(--area-color, #4A90E2)
 
-  .level-icon
+  .card-content
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    width: 100%
+    height: 100%
+    padding: 12px
+    position: relative
+
+  .area-icon
+    color: var(--area-color, #4A90E2)
+    margin-bottom: 12px
+    transition: all 0.3s ease
     font-size: 50px
-    color: #e63946 // vermelho moderno
-    margin-bottom: 8px
+    
+    &:hover
+      transform: scale(1.1)
+
+  .level-number
+    position: absolute
+    top: 12px
+    right: 12px
+    background: var(--area-color, #4A90E2)
+    color: white
+    width: 32px
+    height: 32px
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    font-size: 14px
+    font-weight: 700
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)
 
   .level-title
-    font-size: 18px
+    font-size: 16px
     font-weight: bold
     color: #111
     text-align: center
+    margin-bottom: 5px
 
-  .level-subtitle
-    font-size: 14px
-    color: #555
-    margin: 4px 0 10px
+  .progress-text
+    position: absolute
+    bottom: 15px
+    font-size: 10px
+    font-weight: 600
+    color: #4e6dc2ff
     text-align: center
+    line-height: 1
+    z-index: 3
+    background: var(--bg-primary)
+    padding: 4px 8px
+    border-radius: 12px
+    box-shadow: var(--shadow-sm)
+    border: 1px solid var(--border-primary)
 
   .level-button
-    background-color: #fff
-    border: 1px solid #ccc
-    color: #333
-    padding: 6px 12px
-    font-size: 14px
+    background-color: var(--area-color, #4A90E2)
+    border: none
+    color: white
+    padding: 8px 16px
+    font-size: 12px
     cursor: pointer
-    border-radius: 8px
-    transition: background-color 0.2s ease
+    border-radius: 20px
+    transition: all 0.2s ease
+    font-weight: 600
+    margin-top: 8px
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)
 
     &:hover
-      background-color: #f1f1f1
+      background-color: var(--area-color, #4A90E2)
+      transform: scale(1.05)
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+
+  .dificuldade-label
+    position: absolute
+    bottom: -1.5rem
+    left: 50%
+    transform: translateX(-50%)
+    color: var(--text-secondary)
+    font-size: 0.7rem
+    font-weight: 500
+    text-align: center
+    white-space: nowrap
+    transition: all 0.2s ease
+    z-index: 10
+    background: var(--bg-primary)
+    padding: 2px 8px
+    border-radius: 8px
+    border: 1px solid var(--border-primary)
+    
+    &:hover
+      color: var(--accent-primary)
+      transform: translateX(-50%) translateY(-2px)
+
+// Dark mode
+body.dark
+  .level-card
+    background: var(--bg-secondary)
+    border-color: #818cf8
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
+    
+    &:hover
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4)
+      border-color: #818cf8
+    
+    .area-icon
+      color: #818cf8
+    
+    .level-number
+      background: #818cf8
+      color: white
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4)
+    
+    .level-button
+      background-color: #818cf8
+      
+      &:hover
+        background-color: #818cf8
+        box-shadow: 0 4px 12px rgba(129, 140, 248, 0.4)
+    
+    .dificuldade-label
+      color: var(--text-secondary)
+      background: var(--bg-primary)
+      border-color: var(--border-primary)
+      
+      &:hover
+        color: #818cf8

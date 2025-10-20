@@ -5,8 +5,17 @@ import { useTheme } from '../context/ThemeContext';
 
 import FlashCard from '../components/FlashCard';
 import ModalForm from '../components/ModalForm';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
-import { FaBookOpen } from 'react-icons/fa';
+import {
+  FaBookOpen,
+  FaSpinner,
+  FaPlus,
+  FaLightbulb,
+  FaTrash,
+  FaCheck,
+  FaTimes,
+} from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
 import { GiMicroscope } from 'react-icons/gi';
 import { FaGlobeAmericas } from 'react-icons/fa';
@@ -26,6 +35,8 @@ export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
   // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
@@ -40,6 +51,35 @@ export default function FlashcardPage() {
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
 
+  // For selected icon
+  const [selectedIcon, setSelectedIcon] = useState('mortarboard');
+
+  // For delete confirmation modal
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    flashcardId: null,
+    flashcardTerm: '',
+  });
+
+  // For multiple selection
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedFlashcards, setSelectedFlashcards] = useState([]);
+  const [bulkDeleteModal, setBulkDeleteModal] = useState({
+    isOpen: false,
+    selectedIds: [],
+    selectedCount: 0,
+  });
+
+  // Function to start delete loading
+  const handleDeleteStart = () => {
+    setIsDeleting(true);
+
+    // Reset loading state after 1 second (apenas efeito visual)
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, 1000);
+  };
+
   // For the first time the page loads
   useEffect(() => {
     handleFetchFlashcards();
@@ -48,12 +88,15 @@ export default function FlashcardPage() {
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
+      setIsLoading(true);
       const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
+      setIsLoading(false);
       // setPages(response?.data.totalPages);
 
       //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
+      setIsLoading(false);
       if (!err?.response) {
         setMessage('No Server Response');
       } else if (err.response?.status === 400) {
@@ -91,20 +134,34 @@ export default function FlashcardPage() {
     handleClear();
   }
 
-  // DELETE FLASHCARD
-  // $ Will be refactored in the future, it does not need a response, only if it display something in the screen
-  async function handleDeleteFlashcard(item) {
-    //console.log("DELETE: ", item);
-    const id = item;
-    const DELETECARD_URL = `/api/flashcards/${id}`;
+  // OPEN DELETE CONFIRMATION MODAL
+  function handleDeleteFlashcard(flashcardId) {
+    const flashcard = flashcardsData.find((item) => item.id === flashcardId);
+    setDeleteModal({
+      isOpen: true,
+      flashcardId: flashcardId,
+      flashcardTerm: flashcard?.term || 'Flashcard',
+    });
+  }
 
+  // CONFIRM DELETE FLASHCARD
+  async function handleConfirmDelete() {
     try {
-      const response = await deleteFlashcardAPI(accessToken, item);
+      const response = await deleteFlashcardAPI(
+        accessToken,
+        deleteModal.flashcardId,
+      );
       console.log('DELETADO: ', response);
       handleFetchFlashcards();
+      setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
     } catch (err) {
       console.log('ERRO ON DELETE CARD: ', err);
     }
+  }
+
+  // CLOSE DELETE MODAL
+  function handleCloseDeleteModal() {
+    setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
   }
 
   // REQUEST UPDATE FLASHCARD
@@ -149,24 +206,96 @@ export default function FlashcardPage() {
     setModalForm((prev) => !prev);
   };
 
-  const handleSelectArea = () => {
-    return flashcardsData.map((item) => item.areaName);
+  const handleIconClick = (iconName) => {
+    setSelectedIcon(iconName);
   };
 
-  const pageButtons = [
-    {
-      icon: BsFillMortarboardFill,
-      area: 'Linguagens, Códigos e suas Tecnologias',
-    },
-    { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
-    { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
-    { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
-    { icon: TbMathFunction, area: 'Ciências da Natureza e suas Tecnologias' },
-  ];
+  // Funções para seleção múltipla
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      setSelectedFlashcards([]);
+    }
+  };
+
+  const toggleFlashcardSelection = (flashcardId) => {
+    setSelectedFlashcards((prev) => {
+      if (prev.includes(flashcardId)) {
+        return prev.filter((id) => id !== flashcardId);
+      } else {
+        return [...prev, flashcardId];
+      }
+    });
+  };
+
+  const selectAllFlashcards = () => {
+    if (selectedFlashcards.length === flashcardsData.length) {
+      setSelectedFlashcards([]);
+    } else {
+      setSelectedFlashcards(flashcardsData.map((card) => card.id));
+    }
+  };
+
+  const openBulkDeleteModal = () => {
+    if (selectedFlashcards.length > 0) {
+      setBulkDeleteModal({
+        isOpen: true,
+        selectedIds: selectedFlashcards,
+        selectedCount: selectedFlashcards.length,
+      });
+    }
+  };
+
+  const closeBulkDeleteModal = () => {
+    setBulkDeleteModal({
+      isOpen: false,
+      selectedIds: [],
+      selectedCount: 0,
+    });
+  };
+
+  const confirmBulkDelete = async () => {
+    try {
+      setIsDeleting(true);
+
+      // Deletar cada flashcard selecionado
+      for (const flashcardId of bulkDeleteModal.selectedIds) {
+        await deleteFlashcardAPI(accessToken, flashcardId);
+      }
+
+      // Atualizar a lista
+      handleFetchFlashcards();
+
+      // Limpar seleção
+      setSelectedFlashcards([]);
+      setIsSelectionMode(false);
+      closeBulkDeleteModal();
+    } catch (err) {
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <>
       {modalForm && <ModalForm onClose={handleCloseModal} />}
+      <ConfirmDeleteModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        title="Confirmar Exclusão"
+        message="Tem certeza que deseja excluir este flashcard?"
+        itemName={deleteModal.flashcardTerm}
+      />
+      <ConfirmDeleteModal
+        isOpen={bulkDeleteModal.isOpen}
+        onClose={closeBulkDeleteModal}
+        onConfirm={confirmBulkDelete}
+        title="Confirmar Exclusão Múltipla"
+        message={`Tem certeza que deseja excluir ${bulkDeleteModal.selectedCount} flashcard(s) selecionado(s)?`}
+        itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
+      />
       <section
         className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
       >
@@ -223,38 +352,129 @@ export default function FlashcardPage() {
           </div>
         </form>
         <section className="icons-flashcard-container">
-          <div>
-            {pageButtons.map((item, i) => {
-              const IconComponent = item.icon;
-              return (
-                <IconComponent
-                  key={i}
-                  className={`icon-flashcard ${theme}`}
-                  name={`${item.area}`}
-                  onClick={handleSelectArea}
-                />
-              );
-            })}
+          <div className="icons-section">
+            <BsFillMortarboardFill
+              className={`icon-flashcard ${theme} ${
+                selectedIcon === 'mortarboard' ? 'selected' : ''
+              }`}
+              onClick={() => handleIconClick('mortarboard')}
+            />
+            <FaBookOpen
+              className={`icon-flashcard ${theme} ${
+                selectedIcon === 'book' ? 'selected' : ''
+              }`}
+              onClick={() => handleIconClick('book')}
+            />
+            <TbMathFunction
+              className={`icon-flashcard ${theme} ${
+                selectedIcon === 'math' ? 'selected' : ''
+              }`}
+              onClick={() => handleIconClick('math')}
+            />
+            <GiMicroscope
+              className={`icon-flashcard ${theme} ${
+                selectedIcon === 'microscope' ? 'selected' : ''
+              }`}
+              onClick={() => handleIconClick('microscope')}
+            />
+            <FaGlobeAmericas
+              className={`icon-flashcard ${theme} ${
+                selectedIcon === 'globe' ? 'selected' : ''
+              }`}
+              onClick={() => handleIconClick('globe')}
+            />
           </div>
+
+          {/* Botões de seleção múltipla */}
+          {flashcardsData && flashcardsData.length > 0 && (
+            <div className="selection-buttons">
+              <button
+                className={`selection-mode-btn ${
+                  isSelectionMode ? 'active' : ''
+                }`}
+                onClick={toggleSelectionMode}
+              >
+                {isSelectionMode ? <FaTimes /> : <FaCheck />}
+                {isSelectionMode ? 'Cancelar' : 'Selecionar Múltiplos'}
+              </button>
+
+              {isSelectionMode && (
+                <>
+                  <button
+                    className="select-all-btn"
+                    onClick={selectAllFlashcards}
+                  >
+                    {selectedFlashcards.length === flashcardsData.length
+                      ? 'Desmarcar Todos'
+                      : 'Selecionar Todos'}
+                  </button>
+
+                  {selectedFlashcards.length > 0 && (
+                    <button
+                      className="bulk-delete-btn"
+                      onClick={openBulkDeleteModal}
+                    >
+                      <FaTrash />
+                      Excluir ({selectedFlashcards.length})
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </section>
-        <section className={`flashcard-dashboard-container ${theme}`}>
-          {flashcardsData && flashcardsData.length > 0 ? (
+
+        <section
+          className={`flashcard-dashboard-container ${theme} ${
+            flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
+          }`}
+        >
+          {isLoading || isDeleting ? (
+            <div className="loading-container">
+              <FaSpinner className="loading-spinner" />
+              <p className="loading-text">
+                {isDeleting
+                  ? 'Excluindo flashcard...'
+                  : 'Carregando flashcards...'}
+              </p>
+            </div>
+          ) : flashcardsData && flashcardsData.length > 0 ? (
             <>
-              {flashcardsData.map((item) => (
+              {flashcardsData.map((item, index) => (
                 <FlashCard
                   key={item.id}
                   id={item.id}
                   term={item.term}
                   description={item.description}
-                  areaName={item.areaName}
                   areaId={item.areaId}
-                  handleDelete={() => handleDeleteFlashcard(item.id)}
+                  index={index}
+                  onDeleteStart={handleDeleteStart}
+                  handleDelete={handleDeleteFlashcard}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
+                  isSelectionMode={isSelectionMode}
+                  isSelected={selectedFlashcards.includes(item.id)}
+                  onToggleSelection={() => toggleFlashcardSelection(item.id)}
                 />
               ))}
             </>
           ) : (
-            <p>Loading...</p>
+            <div className="empty-flashcards-container">
+              <FaLightbulb className="empty-icon" />
+              <h3 className="empty-title">Nenhum flashcard encontrado</h3>
+              <p className="empty-description">
+                Que tal criar seu primeiro flashcard? É uma ótima forma de
+                estudar e memorizar conteúdo!
+              </p>
+              <div
+                className="empty-actions"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                <FaPlus className="action-icon" />
+                <span className="action-text">
+                  Use o formulário acima para começar
+                </span>
+              </div>
+            </div>
           )}
         </section>
       </section>

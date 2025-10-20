@@ -1,0 +1,105 @@
+.positive-feedback-screen, .negative-feedback-screen
+  margin: 3rem auto
+  padding: 40px
+  text-align: center
+  justify-content: center
+  display: flex
+  flex-direction: column
+  background-color: var(--bg-primary)
+  width: 80%
+  max-width: 600px
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+
+#negative-image, #positive-image
+  width: 50%
+  height: 50%
+  display: block
+  margin: 0 auto 2rem
+
+.feedback-title
+  font-weight: bold
+  font-size: 25px
+  color: var(--accent-primary)
+
+.feedback-text
+  margin: 5px 20px
+  font-size: 16px
+  text-align: center
+
+.results-container
+  display: grid
+  grid-template-columns: repeat(2, 1fr)
+  margin-top: 2rem
+
+.buttons-container
+  display: flex
+  justify-content: space-between
+
+.negative-screen-btn
+  margin-top: 2rem
+  background-color: var(--accent-primary)
+  color: var(--bg-primary)
+  font-size: 16px
+  font-weight: bold
+  height: min(3rem, 8vh)
+  min-height: 44px
+  width: min(15rem, 80%)
+  max-width: 300px
+  min-width: 200px
+  text-align: center
+  gap: min(1rem, 2vw)
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  border: 1px solid var(--border-primary)
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+.positive-screen-btn
+  margin: 0 auto
+  margin-top: 2rem
+  font-size: 16px
+  background-color: var(--accent-primary)
+  color: var(--bg-primary)
+  font-weight: bold
+  height: min(3rem, 8vh)
+  min-height: 44px
+  width: min(15rem, 80%)
+  max-width: 300px
+  min-width: 200px
+  text-align: center
+  gap: min(1rem, 2vw)
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  border: 1px solid var(--border-primary)
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease

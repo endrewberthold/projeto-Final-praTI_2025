@@ -1,9 +1,17 @@
 import React from 'react';
 
-import { FaBookOpen } from 'react-icons/fa';
+import {
+  FaBookOpen,
+  FaGlobeAmericas,
+  FaTrash,
+  FaCheck,
+  FaTimes,
+  FaSpinner,
+  FaPlus,
+  FaLightbulb,
+} from 'react-icons/fa';
 import { TbMathFunction } from 'react-icons/tb';
 import { GiMicroscope } from 'react-icons/gi';
-import { FaGlobeAmericas } from 'react-icons/fa';
 import { BsFillMortarboardFill } from 'react-icons/bs';
 
 import '../styles/components/flashCardPageButtons.sass';

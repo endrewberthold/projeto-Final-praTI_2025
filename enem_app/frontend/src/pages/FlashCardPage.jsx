@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 
@@ -7,6 +8,7 @@ import Input from '../components/Form/Input';
 import Select from '../components/Form/Select';
 import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
+
 import FlashCardPageButtons from '../components/FlashCardPageButtons';
 
 import '../styles/pages/flashCardPage.sass';
@@ -37,13 +39,9 @@ export default function FlashcardPage() {
   const [updateRequest, setUpdateRequest] = useState(false);
 
   // For Forms
-  const [error, setError] = useState(null);
-
-  const types = {
-    input: { message: 'Preencha o campo "Título"' },
-    select: { message: 'Selecione uma área de conhecimento' },
-    textarea: { message: 'Preencha o campo "Descrição"' },
-  };
+  const input = useForm('input');
+  const select = useForm('select');
+  const textarea = useForm('textarea');
 
   // For the first time the page loads
   useEffect(() => {
@@ -79,19 +77,17 @@ export default function FlashcardPage() {
     console.log(description);
 
     try {
-      if (term != 'Selecione uma opção' && areaId && description) {
-        const response = await newFlashcardAPI(
-          accessToken,
-          term,
-          areaId,
-          description,
-        );
-        setNewFlascard(response?.data);
-      }
+      const response = await newFlashcardAPI(
+        accessToken,
+        term,
+        areaId,
+        description,
+      );
+      setNewFlascard(response?.data);
     } catch (err) {
       console.log('ERRO: ', err);
     }
-    handleClear();
+    handleClear(e);
   }
 
   // DELETE FLASHCARD
@@ -120,6 +116,11 @@ export default function FlashcardPage() {
     setAreaId(item.areaId);
     setDescription(item.description);
     setId(item.id);
+
+    input.setValue(item.term);
+    select.setValue(item.areaId);
+    textarea.setValue(item.description);
+
     setUpdateRequest(true);
   }
 
@@ -144,19 +145,9 @@ export default function FlashcardPage() {
 
   const handleClear = (e) => {
     e.preventDefault();
-    setTerm('');
-    setDescription('');
-  };
-
-  const validate = (value, type) => {
-    if (type === false) return true;
-    if (value.length === 0) {
-      setError(type[types].message);
-      return false;
-    } else {
-      setError(null);
-      return true;
-    }
+    input.setValue('');
+    select.setValue('');
+    textarea.setValue('');
   };
 
   return (
@@ -169,10 +160,13 @@ export default function FlashcardPage() {
             label="Título:"
             type="text"
             value={term}
-            onChange={({ target }) => setTerm(target)}
-            onBlur={validate(term, types.input)}
+            onChange={({ target }) => {
+              setTerm(target.value);
+              input.onChange({ target });
+            }}
+            onBlur={() => input.onBlur(term)}
             placeholder="Título"
-            error={error}
+            error={input.error}
             maxLength={40}
             required
           />
@@ -183,9 +177,12 @@ export default function FlashcardPage() {
             id="areaId"
             name="selectArea"
             value={areaId}
-            onChange={({ target }) => setAreaId(target.value)}
-            onBlur={validate(areaId, types.select)}
-            error={error}
+            onChange={({ target }) => {
+              setAreaId(target.value);
+              select.onChange({ target });
+            }}
+            onBlur={() => select.onBlur(areaId)}
+            error={select.error}
           />
         </div>
         <div className="form-description">
@@ -193,10 +190,13 @@ export default function FlashcardPage() {
             id="description"
             label="Descrição:"
             value={description}
-            onChange={({ target }) => setDescription(target.value)}
-            onBlur={validate(description, types.textarea)}
+            onChange={({ target }) => {
+              setDescription(target.value);
+              textarea.onChange({ target });
+            }}
+            onBlur={() => textarea.onBlur(description)}
             placeholder="Dados do Flashcard"
-            error={error}
+            error={textarea.error}
             rows="3"
             maxLength={120}
             required

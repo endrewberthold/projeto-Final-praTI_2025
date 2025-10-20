@@ -43,7 +43,9 @@ const Select = ({
           );
         })}
       </select>
-      {error && <span>{error}</span>}
+      {error && (
+        <span className="error">Selecione uma área de conhecimento</span>
+      )}
     </>
   );
 };

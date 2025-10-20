@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 const types = {
   input: { message: 'Preencha o campo "Título"' },
-  select: { mesage: 'Selecione uma área de conhecimento' },
-  textarea: { mesage: 'Preencha o campo "Descrição"' },
+  select: { message: 'Selecione uma área de conhecimento' },
+  textarea: { message: 'Preencha o campo "Descrição"' },
 };
 
 const useForm = (type) => {
@@ -12,8 +12,8 @@ const useForm = (type) => {
 
   function validate(value) {
     if (type === false) return true;
-    if (value.length === 0) {
-      setError(type[types].message);
+    if (!value || value.length === 0) {
+      setError(types[type].message);
       return false;
     } else {
       setError(null);

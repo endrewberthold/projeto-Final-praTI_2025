@@ -1,0 +1,27 @@
+@use '../variables'
+
+.icons-flashcard-container
+    display: flex
+    align-content: center
+    justify-content: center
+    padding: 2rem
+
+    .icon-flashcard
+        padding: 13px
+        height: 3rem
+        width: 3rem
+        margin: 0 10px
+        border-radius: 50%
+        background-color: variables.$clr-accent
+        color: #fff
+        transition: all 0.3s ease
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
+
+        &.dark
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        
+        &:hover
+            transform: translateY(-2px);
+            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.4);
+            &.dark
+                box-shadow: 2px 6px 15px rgba(0, 0, 0, 0.8);

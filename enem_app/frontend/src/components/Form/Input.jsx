@@ -15,6 +15,7 @@ const Input = ({
     <>
       <label htmlFor={id}>{label}</label>
       <input
+        id={id}
         type={type}
         value={value}
         onChange={onChange}

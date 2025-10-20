@@ -2,18 +2,12 @@ import { useEffect, useState } from 'react';
 
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
-import useForm from '../hooks/useForm';
 
 import Input from '../components/Form/Input';
 import Select from '../components/Form/Select';
 import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
-
-import { FaBookOpen } from 'react-icons/fa';
-import { TbMathFunction } from 'react-icons/tb';
-import { GiMicroscope } from 'react-icons/gi';
-import { FaGlobeAmericas } from 'react-icons/fa';
-import { BsFillMortarboardFill } from 'react-icons/bs';
+import FlashCardPageButtons from '../components/FlashCardPageButtons';
 
 import '../styles/pages/flashCardPage.sass';
 
@@ -33,9 +27,9 @@ export default function FlashcardPage() {
   const { theme } = useTheme();
 
   // For new Flashcard
-  const [term, setTerm] = useState();
-  const [areaId, setAreaId] = useState();
-  const [description, setDescription] = useState();
+  const [term, setTerm] = useState('');
+  const [areaId, setAreaId] = useState('');
+  const [description, setDescription] = useState('');
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
 
@@ -43,7 +37,13 @@ export default function FlashcardPage() {
   const [updateRequest, setUpdateRequest] = useState(false);
 
   // For Forms
-  // const [] = useForm();
+  const [error, setError] = useState(null);
+
+  const types = {
+    input: { message: 'Preencha o campo "Título"' },
+    select: { message: 'Selecione uma área de conhecimento' },
+    textarea: { message: 'Preencha o campo "Descrição"' },
+  };
 
   // For the first time the page loads
   useEffect(() => {
@@ -148,19 +148,16 @@ export default function FlashcardPage() {
     setDescription('');
   };
 
-  // const handleSelectArea = () => {
-  // };
-
-  const pageButtons = [
-    {
-      icon: BsFillMortarboardFill,
-      area: '',
-    },
-    { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
-    { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
-    { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
-    { icon: TbMathFunction, area: 'Matemáticas e suas Tecnologias' },
-  ];
+  const validate = (value, type) => {
+    if (type === false) return true;
+    if (value.length === 0) {
+      setError(type[types].message);
+      return false;
+    } else {
+      setError(null);
+      return true;
+    }
+  };
 
   return (
     <section className={`flashcard-container`}>
@@ -168,12 +165,14 @@ export default function FlashcardPage() {
         <h1>Criar Flashcard</h1>
         <div className="form-title">
           <Input
+            id="title"
             label="Título:"
             type="text"
             value={term}
-            onChange={({ target }) => setTerm(target.value)}
-            // onBlur={handleBlur}
+            onChange={({ target }) => setTerm(target)}
+            onBlur={validate(term, types.input)}
             placeholder="Título"
+            error={error}
             maxLength={40}
             required
           />
@@ -183,16 +182,21 @@ export default function FlashcardPage() {
             label="Área de Conhecimento:"
             id="areaId"
             name="selectArea"
-            value={term}
+            value={areaId}
             onChange={({ target }) => setAreaId(target.value)}
+            onBlur={validate(areaId, types.select)}
+            error={error}
           />
         </div>
         <div className="form-description">
           <Textarea
+            id="description"
             label="Descrição:"
             value={description}
             onChange={({ target }) => setDescription(target.value)}
+            onBlur={validate(description, types.textarea)}
             placeholder="Dados do Flashcard"
+            error={error}
             rows="3"
             maxLength={120}
             required
@@ -207,21 +211,7 @@ export default function FlashcardPage() {
           </div>
         </div>
       </form>
-      <section className="icons-flashcard-container">
-        <div>
-          {pageButtons.map((item, i) => {
-            const IconComponent = item.icon;
-            return (
-              <IconComponent
-                key={i}
-                className={`icon-flashcard ${theme}`}
-                name={`${item.area}`}
-                // onClick={handleSelectArea}
-              />
-            );
-          })}
-        </div>
-      </section>
+      <FlashCardPageButtons />
       <section className={`flashcard-dashboard-container ${theme}`}>
         {flashcardsData && flashcardsData.length > 0 ? (
           <>

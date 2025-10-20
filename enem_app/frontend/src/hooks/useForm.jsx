@@ -1,13 +1,19 @@
-import React from 'react';
+import { useState } from 'react';
 
-const useForm = (type, message) => {
-  const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(null);
+const types = {
+  input: { message: 'Preencha o campo "Título"' },
+  select: { mesage: 'Selecione uma área de conhecimento' },
+  textarea: { mesage: 'Preencha o campo "Descrição"' },
+};
+
+const useForm = (type) => {
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(null);
 
   function validate(value) {
     if (type === false) return true;
     if (value.length === 0) {
-      setError(message);
+      setError(type[types].message);
       return false;
     } else {
       setError(null);
@@ -31,10 +37,3 @@ const useForm = (type, message) => {
 };
 
 export default useForm;
-
-//implementaçõa futura
-// else if
-// (types[type] && !types[type].regex.test(value)) {
-//   setError(types[type].message);
-//   return false;
-//}

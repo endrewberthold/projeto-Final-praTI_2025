@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 
+import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 
+import Input from '../components/Form/Input';
+import Select from '../components/Form/Select';
+import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
+
+import FlashCardPageButtons from '../components/FlashCardPageButtons';
 import ModalForm from '../components/ModalForm';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
@@ -41,15 +47,20 @@ export default function FlashcardPage() {
   const { theme } = useTheme();
 
   // For new Flashcard
-  const [term, setTerm] = useState();
-  const [areaId, setAreaId] = useState();
-  const [description, setDescription] = useState();
+  const [term, setTerm] = useState('');
+  const [areaId, setAreaId] = useState('');
+  const [description, setDescription] = useState('');
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
   const [modalForm, setModalForm] = useState(false);
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+
+  // For Forms
+  const input = useForm('input');
+  const select = useForm('select');
+  const textarea = useForm('textarea');
 
   // For selected icon
   const [selectedIcon, setSelectedIcon] = useState('mortarboard');
@@ -117,7 +128,7 @@ export default function FlashcardPage() {
     console.log(description);
 
     try {
-      if (term != 'Selecione uma opção' && areaId && description) {
+      if (true) {
         const response = await newFlashcardAPI(
           accessToken,
           term,
@@ -131,7 +142,7 @@ export default function FlashcardPage() {
     } catch (err) {
       console.log('ERRO: ', err);
     }
-    handleClear();
+    handleClear(e);
   }
 
   // OPEN DELETE CONFIRMATION MODAL
@@ -174,6 +185,11 @@ export default function FlashcardPage() {
     setAreaId(item.areaId);
     setDescription(item.description);
     setId(item.id);
+
+    input.setValue(item.term);
+    select.setValue(item.areaId);
+    textarea.setValue(item.description);
+
     setUpdateRequest(true);
   }
 
@@ -198,6 +214,9 @@ export default function FlashcardPage() {
 
   const handleClear = (e) => {
     e.preventDefault();
+    input.setValue('');
+    select.setValue('');
+    textarea.setValue('');
     setTerm('');
     setDescription('');
   };
@@ -299,93 +318,82 @@ export default function FlashcardPage() {
       <section
         className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
       >
-        <form className={`form-flashcard-container `}>
-          <h1>Criar Flashcard</h1>
-          <nav className="nav-flashcard-container">
-            <div className="nav-flashcard-title">
-              <label>Título:</label>
-              <input
-                type="text"
-                onChange={({ target }) => setTerm(target.value)}
-                value={term}
-                placeholder="Título"
-              />
-            </div>
-            <div className="nav-flashcard-options">
-              <label htmlFor="">Área de Conhecimento:</label>
-              <select
-                name="selectArea"
-                id="areaId"
-                onChange={({ target }) => setAreaId(target.value)}
-              >
-                <option value="" disabled>
-                  Selecione uma opção
-                </option>
-                <option value="LC">
-                  Linguagens, Códigos e suas Tecnologias
-                </option>
-                <option value="CH">Ciências Humanas e suas Tecnologias</option>
-                <option value="CN">
-                  Ciências da Natureza e suas Tecnologias
-                </option>
-                <option value="MT">Matemáticas e suas Tecnologias</option>
-              </select>
-            </div>
-          </nav>
-          <div className="description-flashcard-container">
-            <label htmlFor="">Descrição:</label>
-            <textarea
-              placeholder="Dados do Flashcard"
-              onChange={({ target }) => setDescription(target.value)}
-              value={description}
-              rows="6"
-            />
+        <form className={`form-flashcard-container`}>
+        <h1>Criar Flashcard</h1>
+        <div className="form-title">
+          <Input
+            id="title"
+            label="Título:"
+            type="text"
+            value={term}
+            onChange={({ target }) => {
+              setTerm(target.value);
+              input.onChange({ target });
+            }}
+            onBlur={() => input.onBlur(term)}
+            placeholder="Título"
+            error={input.error}
+            maxLength={40}
+            required
+          />
+        </div>
+        <div className="form-options">
+          <Select
+            label="Área de Conhecimento:"
+            id="areaId"
+            name="selectArea"
+            value={areaId}
+            onChange={({ target }) => {
+              setAreaId(target.value);
+              select.onChange({ target });
+            }}
+            onBlur={() => select.onBlur(areaId)}
+            error={select.error}
+          />
+          <div className="form-description">
+          <Textarea
+            id="description"
+            label="Descrição:"
+            value={description}
+            onChange={({ target }) => {
+              setDescription(target.value);
+              textarea.onChange({ target });
+            }}
+            onBlur={() => textarea.onBlur(description)}
+            placeholder="Dados do Flashcard"
+            error={textarea.error}
+            rows="3"
+            maxLength={120}
+            required
+          />
             <div className="buttons-flashcard-container">
-              {/* <button onClick={handleNewFlashcard}>Criar Flashcard</button> */}
-              {updateRequest ? (
-                <button onClick={handleUpdateFlashcard}>Atualizar</button>
-              ) : (
-                <button onClick={handleNewFlashcard}>Criar</button>
-              )}
-              <button onClick={handleClear}>Limpar</button>
-            </div>
+            {updateRequest ? (
+              <button onClick={handleUpdateFlashcard}>Atualizar</button>
+            ) : (
+              <button onClick={handleNewFlashcard}>Criar</button>
+            )}
+            <button onClick={handleClear}>Limpar</button>
           </div>
-        </form>
+        </div>
+      </form>
+      <FlashCardPageButtons />
         <section className="icons-flashcard-container">
-          <div className="icons-section">
-            <BsFillMortarboardFill
-              className={`icon-flashcard ${theme} ${
-                selectedIcon === 'mortarboard' ? 'selected' : ''
-              }`}
-              onClick={() => handleIconClick('mortarboard')}
-            />
-            <FaBookOpen
-              className={`icon-flashcard ${theme} ${
-                selectedIcon === 'book' ? 'selected' : ''
-              }`}
-              onClick={() => handleIconClick('book')}
-            />
-            <TbMathFunction
-              className={`icon-flashcard ${theme} ${
-                selectedIcon === 'math' ? 'selected' : ''
-              }`}
-              onClick={() => handleIconClick('math')}
-            />
-            <GiMicroscope
-              className={`icon-flashcard ${theme} ${
-                selectedIcon === 'microscope' ? 'selected' : ''
-              }`}
-              onClick={() => handleIconClick('microscope')}
-            />
-            <FaGlobeAmericas
-              className={`icon-flashcard ${theme} ${
-                selectedIcon === 'globe' ? 'selected' : ''
-              }`}
-              onClick={() => handleIconClick('globe')}
-            />
+          <div>
+            {pageButtons.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <IconComponent
+                  key={i}
+                  className={`icon-flashcard ${theme}`}
+                  name={`${item.area}`}
+                  onClick={handleSelectArea}
+                />
+              );
+            })}
           </div>
+        </section>
 
-          {/* Botões de seleção múltipla */}
+        {/* Botões de seleção múltipla */}
           {flashcardsData && flashcardsData.length > 0 && (
             <div className="selection-buttons">
               <button
@@ -423,9 +431,7 @@ export default function FlashcardPage() {
             </div>
           )}
         </section>
-
-        <section
-          className={`flashcard-dashboard-container ${theme} ${
+        <section className={`flashcard-dashboard-container ${theme} ${
             flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
           }`}
         >
@@ -437,8 +443,8 @@ export default function FlashcardPage() {
                   ? 'Excluindo flashcard...'
                   : 'Carregando flashcards...'}
               </p>
-            </div>
-          ) : flashcardsData && flashcardsData.length > 0 ? (
+            </div>) 
+            : flashcardsData && flashcardsData.length > 0 ? (
             <>
               {flashcardsData.map((item, index) => (
                 <FlashCard
@@ -446,14 +452,17 @@ export default function FlashcardPage() {
                   id={item.id}
                   term={item.term}
                   description={item.description}
+                  areaName={item.areaName}
                   areaId={item.areaId}
                   index={index}
                   onDeleteStart={handleDeleteStart}
-                  handleDelete={handleDeleteFlashcard}
+
+                  handleDelete={() => handleDeleteFlashcard(item.id)}
                   handleUpdate={() => handleRequestUpdateFlashcard(item)}
                   isSelectionMode={isSelectionMode}
                   isSelected={selectedFlashcards.includes(item.id)}
                   onToggleSelection={() => toggleFlashcardSelection(item.id)}
+
                 />
               ))}
             </>
@@ -475,6 +484,7 @@ export default function FlashcardPage() {
                 </span>
               </div>
             </div>
+
           )}
         </section>
       </section>

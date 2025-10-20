@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { IoCloseCircleOutline } from 'react-icons/io5';
+
 import '../styles/components/ViewFlashCard.sass';
 
 const ViewFlashCard = () => {
@@ -26,8 +28,8 @@ const ViewFlashCard = () => {
   };
 
   return (
-    <div onClick={() => navigate('/flashCardPage')}>
-      <section className="card-container">
+    <div className="card-container">
+      <section className="section-card-container">
         {cardContent && (
           <div
             className={`innercard-container ${isFlipped ? 'flipped' : ''}`}
@@ -47,6 +49,10 @@ const ViewFlashCard = () => {
           </div>
         )}
       </section>
+      <IoCloseCircleOutline
+        className={`card-close-icon ${isFlipped ? 'flipped' : ''}`}
+        onClick={() => navigate('/flashCardPage')}
+      />
     </div>
   );
 };

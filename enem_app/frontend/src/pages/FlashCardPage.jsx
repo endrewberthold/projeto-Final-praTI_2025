@@ -10,7 +10,6 @@ import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
 
 import FlashCardPageButtons from '../components/FlashCardPageButtons';
-import ModalForm from '../components/ModalForm';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 import {
@@ -22,8 +21,6 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 
-import '../styles/pages/flashCardPage.sass';
-
 // API calls from services
 import {
   fetchFlashcardsAPI,
@@ -31,6 +28,8 @@ import {
   deleteFlashcardAPI,
   updateFlashcardAPI,
 } from '../services/flashcardsServices';
+
+import '../styles/pages/flashCardPage.sass';
 
 export default function FlashcardPage() {
   const { accessToken } = useAuth();
@@ -47,7 +46,6 @@ export default function FlashcardPage() {
   const [description, setDescription] = useState('');
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
-  const [modalForm, setModalForm] = useState(false);
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
@@ -75,16 +73,6 @@ export default function FlashcardPage() {
     selectedIds: [],
     selectedCount: 0,
   });
-
-  // Function to start delete loading
-  const handleDeleteStart = () => {
-    setIsDeleting(true);
-
-    // Reset loading state after 1 second (apenas efeito visual)
-    setTimeout(() => {
-      setIsDeleting(false);
-    }, 1000);
-  };
 
   // For the first time the page loads
   useEffect(() => {
@@ -123,51 +111,17 @@ export default function FlashcardPage() {
     console.log(description);
 
     try {
-      if (true) {
-        const response = await newFlashcardAPI(
-          accessToken,
-          term,
-          areaId,
-          description,
-        );
-        setNewFlascard(response?.data);
-      } else {
-        setModalForm((prev) => !prev);
-      }
+      const response = await newFlashcardAPI(
+        accessToken,
+        term,
+        areaId,
+        description,
+      );
+      setNewFlascard(response?.data);
     } catch (err) {
       console.log('ERRO: ', err);
     }
     handleClear(e);
-  }
-
-  // OPEN DELETE CONFIRMATION MODAL
-  function handleDeleteFlashcard(flashcardId) {
-    const flashcard = flashcardsData.find((item) => item.id === flashcardId);
-    setDeleteModal({
-      isOpen: true,
-      flashcardId: flashcardId,
-      flashcardTerm: flashcard?.term || 'Flashcard',
-    });
-  }
-
-  // CONFIRM DELETE FLASHCARD
-  async function handleConfirmDelete() {
-    try {
-      const response = await deleteFlashcardAPI(
-        accessToken,
-        deleteModal.flashcardId,
-      );
-      console.log('DELETADO: ', response);
-      handleFetchFlashcards();
-      setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
-    } catch (err) {
-      console.log('ERRO ON DELETE CARD: ', err);
-    }
-  }
-
-  // CLOSE DELETE MODAL
-  function handleCloseDeleteModal() {
-    setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
   }
 
   // REQUEST UPDATE FLASHCARD
@@ -207,6 +161,46 @@ export default function FlashcardPage() {
     handleClear(e);
   }
 
+  // OPEN DELETE CONFIRMATION MODAL
+  function handleDeleteFlashcard(flashcardId) {
+    const flashcard = flashcardsData.find((item) => item.id === flashcardId);
+    setDeleteModal({
+      isOpen: true,
+      flashcardId: flashcardId,
+      flashcardTerm: flashcard?.term || 'Flashcard',
+    });
+  }
+
+  // CONFIRM DELETE FLASHCARD
+  async function handleConfirmDelete() {
+    try {
+      const response = await deleteFlashcardAPI(
+        accessToken,
+        deleteModal.flashcardId,
+      );
+      console.log('DELETADO: ', response);
+      handleFetchFlashcards();
+      setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
+    } catch (err) {
+      console.log('ERRO ON DELETE CARD: ', err);
+    }
+  }
+
+  // CLOSE DELETE MODAL
+  function handleCloseDeleteModal() {
+    setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
+  }
+
+  // Function to start delete loading
+  const handleDeleteStart = () => {
+    setIsDeleting(true);
+
+    // Reset loading state after 1 second (apenas efeito visual)
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, 1000);
+  };
+
   const handleClear = (e) => {
     e.preventDefault();
     input.setValue('');
@@ -214,10 +208,6 @@ export default function FlashcardPage() {
     textarea.setValue('');
     setTerm('');
     setDescription('');
-  };
-
-  const handleCloseModal = () => {
-    setModalForm((prev) => !prev);
   };
 
   const handleIconClick = (iconName) => {
@@ -293,7 +283,6 @@ export default function FlashcardPage() {
 
   return (
     <>
-      {modalForm && <ModalForm onClose={handleCloseModal} />}
       <ConfirmDeleteModal
         isOpen={deleteModal.isOpen}
         onClose={handleCloseDeleteModal}
@@ -310,9 +299,7 @@ export default function FlashcardPage() {
         message={`Tem certeza que deseja excluir ${bulkDeleteModal.selectedCount} flashcard(s) selecionado(s)?`}
         itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
       />
-      <section
-        className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
-      >
+      <section className={`flashcard-container`}>
         <form className={`form-flashcard-container`}>
           <h1>Criar Flashcard</h1>
           <div className="form-input">

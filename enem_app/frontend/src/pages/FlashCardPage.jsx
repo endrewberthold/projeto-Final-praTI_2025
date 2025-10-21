@@ -14,7 +14,6 @@ import ModalForm from '../components/ModalForm';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 import {
-  FaBookOpen,
   FaSpinner,
   FaPlus,
   FaLightbulb,
@@ -22,10 +21,6 @@ import {
   FaCheck,
   FaTimes,
 } from 'react-icons/fa';
-import { TbMathFunction } from 'react-icons/tb';
-import { GiMicroscope } from 'react-icons/gi';
-import { FaGlobeAmericas } from 'react-icons/fa';
-import { BsFillMortarboardFill } from 'react-icons/bs';
 
 import '../styles/pages/flashCardPage.sass';
 
@@ -320,7 +315,7 @@ export default function FlashcardPage() {
       >
         <form className={`form-flashcard-container`}>
           <h1>Criar Flashcard</h1>
-          <div className="form-title">
+          <div className="form-input">
             <Input
               id="title"
               label="Título:"
@@ -377,23 +372,9 @@ export default function FlashcardPage() {
             <button onClick={handleClear}>Limpar</button>
           </div>
         </form>
-        <FlashCardPageButtons />
         <section className="icons-flashcard-container">
-          <div>
-            {pageButtons.map((item, i) => {
-              const IconComponent = item.icon;
-              return (
-                <IconComponent
-                  key={i}
-                  className={`icon-flashcard ${theme}`}
-                  name={`${item.area}`}
-                  onClick={handleSelectArea}
-                />
-              );
-            })}
-          </div>
+          <FlashCardPageButtons />
         </section>
-
         {/* Botões de seleção múltipla */}
         {flashcardsData && flashcardsData.length > 0 && (
           <div className="selection-buttons">

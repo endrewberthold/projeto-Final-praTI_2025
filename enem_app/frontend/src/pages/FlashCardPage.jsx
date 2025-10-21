@@ -319,54 +319,56 @@ export default function FlashcardPage() {
         className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
       >
         <form className={`form-flashcard-container`}>
-        <h1>Criar Flashcard</h1>
-        <div className="form-title">
-          <Input
-            id="title"
-            label="Título:"
-            type="text"
-            value={term}
-            onChange={({ target }) => {
-              setTerm(target.value);
-              input.onChange({ target });
-            }}
-            onBlur={() => input.onBlur(term)}
-            placeholder="Título"
-            error={input.error}
-            maxLength={40}
-            required
-          />
-        </div>
-        <div className="form-options">
-          <Select
-            label="Área de Conhecimento:"
-            id="areaId"
-            name="selectArea"
-            value={areaId}
-            onChange={({ target }) => {
-              setAreaId(target.value);
-              select.onChange({ target });
-            }}
-            onBlur={() => select.onBlur(areaId)}
-            error={select.error}
-          />
+          <h1>Criar Flashcard</h1>
+          <div className="form-title">
+            <Input
+              id="title"
+              label="Título:"
+              type="text"
+              value={term}
+              onChange={({ target }) => {
+                setTerm(target.value);
+                input.onChange({ target });
+              }}
+              onBlur={() => input.onBlur(term)}
+              placeholder="Título"
+              error={input.error}
+              maxLength={40}
+              required
+            />
+          </div>
+          <div className="form-options">
+            <Select
+              label="Área de Conhecimento:"
+              id="areaId"
+              name="selectArea"
+              value={areaId}
+              onChange={({ target }) => {
+                setAreaId(target.value);
+                select.onChange({ target });
+              }}
+              onBlur={() => select.onBlur(areaId)}
+              error={select.error}
+            />
+          </div>
           <div className="form-description">
-          <Textarea
-            id="description"
-            label="Descrição:"
-            value={description}
-            onChange={({ target }) => {
-              setDescription(target.value);
-              textarea.onChange({ target });
-            }}
-            onBlur={() => textarea.onBlur(description)}
-            placeholder="Dados do Flashcard"
-            error={textarea.error}
-            rows="3"
-            maxLength={120}
-            required
-          />
-            <div className="buttons-flashcard-container">
+            <Textarea
+              id="description"
+              label="Descrição:"
+              value={description}
+              onChange={({ target }) => {
+                setDescription(target.value);
+                textarea.onChange({ target });
+              }}
+              onBlur={() => textarea.onBlur(description)}
+              placeholder="Dados do Flashcard"
+              error={textarea.error}
+              rows="3"
+              maxLength={120}
+              required
+            />
+          </div>
+          <div className="buttons-flashcard-container">
             {updateRequest ? (
               <button onClick={handleUpdateFlashcard}>Atualizar</button>
             ) : (
@@ -374,9 +376,8 @@ export default function FlashcardPage() {
             )}
             <button onClick={handleClear}>Limpar</button>
           </div>
-        </div>
-      </form>
-      <FlashCardPageButtons />
+        </form>
+        <FlashCardPageButtons />
         <section className="icons-flashcard-container">
           <div>
             {pageButtons.map((item, i) => {
@@ -394,99 +395,96 @@ export default function FlashcardPage() {
         </section>
 
         {/* Botões de seleção múltipla */}
-          {flashcardsData && flashcardsData.length > 0 && (
-            <div className="selection-buttons">
-              <button
-                className={`selection-mode-btn ${
-                  isSelectionMode ? 'active' : ''
-                }`}
-                onClick={toggleSelectionMode}
-              >
-                {isSelectionMode ? <FaTimes /> : <FaCheck />}
-                {isSelectionMode ? 'Cancelar' : 'Selecionar Múltiplos'}
-              </button>
+        {flashcardsData && flashcardsData.length > 0 && (
+          <div className="selection-buttons">
+            <button
+              className={`selection-mode-btn ${
+                isSelectionMode ? 'active' : ''
+              }`}
+              onClick={toggleSelectionMode}
+            >
+              {isSelectionMode ? <FaTimes /> : <FaCheck />}
+              {isSelectionMode ? 'Cancelar' : 'Selecionar Múltiplos'}
+            </button>
 
-              {isSelectionMode && (
-                <>
+            {isSelectionMode && (
+              <>
+                <button
+                  className="select-all-btn"
+                  onClick={selectAllFlashcards}
+                >
+                  {selectedFlashcards.length === flashcardsData.length
+                    ? 'Desmarcar Todos'
+                    : 'Selecionar Todos'}
+                </button>
+
+                {selectedFlashcards.length > 0 && (
                   <button
-                    className="select-all-btn"
-                    onClick={selectAllFlashcards}
+                    className="bulk-delete-btn"
+                    onClick={openBulkDeleteModal}
                   >
-                    {selectedFlashcards.length === flashcardsData.length
-                      ? 'Desmarcar Todos'
-                      : 'Selecionar Todos'}
+                    <FaTrash />
+                    Excluir ({selectedFlashcards.length})
                   </button>
-
-                  {selectedFlashcards.length > 0 && (
-                    <button
-                      className="bulk-delete-btn"
-                      onClick={openBulkDeleteModal}
-                    >
-                      <FaTrash />
-                      Excluir ({selectedFlashcards.length})
-                    </button>
-                  )}
-                </>
-              )}
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </section>
+      <section
+        className={`flashcard-dashboard-container ${theme} ${
+          flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
+        }`}
+      >
+        {isLoading || isDeleting ? (
+          <div className="loading-container">
+            <FaSpinner className="loading-spinner" />
+            <p className="loading-text">
+              {isDeleting
+                ? 'Excluindo flashcard...'
+                : 'Carregando flashcards...'}
+            </p>
+          </div>
+        ) : flashcardsData && flashcardsData.length > 0 ? (
+          <>
+            {flashcardsData.map((item, index) => (
+              <FlashCard
+                key={item.id}
+                id={item.id}
+                term={item.term}
+                description={item.description}
+                areaName={item.areaName}
+                areaId={item.areaId}
+                index={index}
+                onDeleteStart={handleDeleteStart}
+                handleDelete={() => handleDeleteFlashcard(item.id)}
+                handleUpdate={() => handleRequestUpdateFlashcard(item)}
+                isSelectionMode={isSelectionMode}
+                isSelected={selectedFlashcards.includes(item.id)}
+                onToggleSelection={() => toggleFlashcardSelection(item.id)}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="empty-flashcards-container">
+            <FaLightbulb className="empty-icon" />
+            <h3 className="empty-title">Nenhum flashcard encontrado</h3>
+            <p className="empty-description">
+              Que tal criar seu primeiro flashcard? É uma ótima forma de estudar
+              e memorizar conteúdo!
+            </p>
+            <div
+              className="empty-actions"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <FaPlus className="action-icon" />
+              <span className="action-text">
+                Use o formulário acima para começar
+              </span>
             </div>
-          )}
-        </section>
-        <section className={`flashcard-dashboard-container ${theme} ${
-            flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
-          }`}
-        >
-          {isLoading || isDeleting ? (
-            <div className="loading-container">
-              <FaSpinner className="loading-spinner" />
-              <p className="loading-text">
-                {isDeleting
-                  ? 'Excluindo flashcard...'
-                  : 'Carregando flashcards...'}
-              </p>
-            </div>) 
-            : flashcardsData && flashcardsData.length > 0 ? (
-            <>
-              {flashcardsData.map((item, index) => (
-                <FlashCard
-                  key={item.id}
-                  id={item.id}
-                  term={item.term}
-                  description={item.description}
-                  areaName={item.areaName}
-                  areaId={item.areaId}
-                  index={index}
-                  onDeleteStart={handleDeleteStart}
-
-                  handleDelete={() => handleDeleteFlashcard(item.id)}
-                  handleUpdate={() => handleRequestUpdateFlashcard(item)}
-                  isSelectionMode={isSelectionMode}
-                  isSelected={selectedFlashcards.includes(item.id)}
-                  onToggleSelection={() => toggleFlashcardSelection(item.id)}
-
-                />
-              ))}
-            </>
-          ) : (
-            <div className="empty-flashcards-container">
-              <FaLightbulb className="empty-icon" />
-              <h3 className="empty-title">Nenhum flashcard encontrado</h3>
-              <p className="empty-description">
-                Que tal criar seu primeiro flashcard? É uma ótima forma de
-                estudar e memorizar conteúdo!
-              </p>
-              <div
-                className="empty-actions"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                <FaPlus className="action-icon" />
-                <span className="action-text">
-                  Use o formulário acima para começar
-                </span>
-              </div>
-            </div>
-
-          )}
-        </section>
+          </div>
+        )}
       </section>
     </>
   );

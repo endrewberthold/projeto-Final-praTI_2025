@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,9 +8,10 @@ import { FaCheck } from 'react-icons/fa';
 import '../styles/components/Flashcard.sass';
 
 export default function Flashcard({
-  term,
   id,
+  term,
   description,
+  // areaName,
   areaId,
   handleDelete,
   handleUpdate,
@@ -21,8 +20,11 @@ export default function Flashcard({
   onToggleSelection,
 }) {
   const { theme } = useTheme();
-
   const navigate = useNavigate();
+
+  // implementar tooltip para botões flashcard (futuramente)
+  // const [tooltipUpdate, setTooltipUpdate] = useState(true);
+  // const [tooltipDelete, setTooltipDelete] = useState(false);
 
   const handleNavigate = (e) => {
     e.preventDefault();
@@ -37,8 +39,10 @@ export default function Flashcard({
   };
 
   return (
-    <div 
-      className={`flashcards-dashboard ${theme} ${isSelectionMode ? 'selection-mode' : ''} ${isSelected ? 'selected' : ''}`}
+    <div
+      className={`flashcards-dashboard ${theme} ${
+        isSelectionMode ? 'selection-mode' : ''
+      } ${isSelected ? 'selected' : ''}`}
       onClick={handleCardClick}
     >
       {isSelectionMode && (
@@ -48,13 +52,13 @@ export default function Flashcard({
           </div>
         </div>
       )}
-      
+
       <div className="flashcard-inner-container">
         <div className="title-container">
-          <h3 className="flashcards-dash-title">{term}</h3>
+          <h3 className="flashcards-title">{term}</h3>
         </div>
       </div>
-      
+
       {!isSelectionMode && (
         <>
           <div className={`flashcards-dash-buttons ${theme}`}>

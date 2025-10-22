@@ -465,11 +465,14 @@ export default function FlashcardPage() {
             </p>
             <div
               className="empty-actions"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => {
+                setIsFormExpanded(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             >
               <FaPlus className="action-icon" />
               <span className="action-text">
-                Use o formulário acima para começar
+                Criar meu primeiro flashcard
               </span>
             </div>
           </div>

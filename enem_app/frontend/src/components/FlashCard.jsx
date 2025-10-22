@@ -11,7 +11,7 @@ export default function Flashcard({
   id,
   term,
   description,
-  // areaName,
+  areaName,
   areaId,
   handleDelete,
   handleUpdate,
@@ -35,6 +35,9 @@ export default function Flashcard({
     if (isSelectionMode) {
       e.preventDefault();
       onToggleSelection();
+    } else {
+      // Se não estiver em modo de seleção, navegar para a página de visualização
+      handleNavigate(e);
     }
   };
 
@@ -53,32 +56,40 @@ export default function Flashcard({
         </div>
       )}
 
-      <div className="flashcard-inner-container">
+      {!isSelectionMode && (
+        <div className={`flashcards-dash-buttons ${theme}`}>
+          <RxUpdate
+            onClick={(e) => {
+              e.stopPropagation();
+              handleUpdate(id);
+            }}
+            className="flashdash-icons"
+          />
+          <AiFillDelete
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(id);
+            }}
+            className="flashdash-icons"
+          />
+        </div>
+      )}
+
+      <div className="flashcard-content">
         <div className="title-container">
           <h3 className="flashcards-title">{term}</h3>
         </div>
+        {areaName && (
+          <div className="area-container">
+            <span className="flashcards-area">{areaName}</span>
+          </div>
+        )}
       </div>
 
       {!isSelectionMode && (
-        <>
-          <div className={`flashcards-dash-buttons ${theme}`}>
-            <RxUpdate
-              onClick={(e) => {
-                e.stopPropagation();
-                handleUpdate(id);
-              }}
-              className="flashdash-icons"
-            />
-            <AiFillDelete
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(id);
-              }}
-              className="flashdash-icons"
-            />
-          </div>
-          <button onClick={handleNavigate}>abrir</button>
-        </>
+        <div className="practice-message">
+          Clique para praticar
+        </div>
       )}
     </div>
   );

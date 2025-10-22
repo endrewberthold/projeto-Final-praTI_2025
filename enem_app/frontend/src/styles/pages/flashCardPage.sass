@@ -3,7 +3,7 @@
 .flashcard-container
     display: flex
     flex-direction: column
-    min-height: 100vh
+    min-height: auto
     min-width: 100%
     padding: min(3rem, 4vh) min(2.5rem, 3vw)
     overflow-x: hidden
@@ -258,12 +258,24 @@
 
 .flashcard-dashboard-container
     display: grid
-    min-height: 100%
+    min-height: auto
     min-width: 100%
-    grid-template-columns: repeat(auto-fit, max(280px))
+    // grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr))
     padding: 15px 0
     flex: 1
-    gap: 1rem
+    gap: min(0.25rem, 4px, 0.25vw)
+    align-items: flex-start
+    justify-content: center
+    justify-items: flex-start
+
+    // Quando não há flashcards, centraliza o container vazio
+    &:has(.empty-flashcards-container)
+        display: flex
+        align-items: flex-start
+        justify-content: center
+        min-height: auto
+        padding-top: 0
+        padding-bottom: 2rem
 
     .loading-container
         display: flex
@@ -294,13 +306,21 @@
         justify-content: center
         grid-column: 1 / -1
         width: 100%
-        padding: 4rem 2rem
+        max-width: 1000px
+        padding: 1.5rem 2rem
         text-align: center
         gap: 1.5rem
         background: var(--bg-secondary)
         border: 2px dashed var(--border-primary)
         border-radius: 1rem
-        margin: 2rem 0
+        margin: 0 auto
+        transition: all 0.3s ease
+
+        &:hover
+            border-color: var(--accent-primary)
+            background: rgba(99, 102, 241, 0.05)
+            transform: translateY(-2px)
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.1)
 
         .empty-icon
             font-size: 4rem
@@ -325,26 +345,35 @@
             align-items: center
             gap: 0.75rem
             padding: 1rem 2rem
-            background: var(--accent-primary)
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
             color: white
             border-radius: 2rem
             font-weight: 600
             transition: all 0.3s ease
             cursor: pointer
+            border: none
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2)
 
             &:hover
-                background: var(--accent-secondary)
-                transform: translateY(-2px)
-                box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3)
+                background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))
+                transform: translateY(-3px)
+                box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4)
+
+            &:active
+                transform: translateY(-1px) scale(0.98)
+                transition: transform 0.1s ease
 
             .action-icon
-                font-size: 1.2rem
-                color: white
+                font-size: 1.1rem
+                transition: transform 0.3s ease
+
+            &:hover .action-icon
+                transform: scale(1.1)
 
             .action-text
                 font-size: 1rem
-                color: white
                 font-weight: 600
+                color: white
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
 
 @keyframes spin
@@ -414,8 +443,9 @@
     padding: 10px
 
 .flashcard-dashboard-container
-    grid-template-columns: repeat(auto-fit, max(280px))
-    gap: 1rem
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr))
+    gap: min(0.25rem, 4px, 0.25vw)
+    justify-items: center
 
 .empty-flashcards-container
     padding: 2rem 1rem
@@ -436,12 +466,22 @@
             font-size: 1.5rem
 
     .empty-flashcards-container
-    .empty-title
-        font-size: 1.25rem
+        padding: 1rem 1rem
+        margin: 0 auto
+        max-width: 95%
 
-    .empty-description
-        font-size: 0.9rem
-        font-size: 0.9rem
+        .empty-title
+            font-size: 1.25rem
+
+        .empty-description
+            font-size: 0.9rem
+
+        .empty-actions
+            padding: 0.8rem 1.5rem
+            font-size: 0.9rem
+
+            .action-text
+                font-size: 0.9rem
 
 // Estilos para o container de ícones com botões
 .icons-flashcard-container

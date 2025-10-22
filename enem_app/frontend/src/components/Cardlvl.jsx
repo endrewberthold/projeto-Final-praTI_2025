@@ -1,7 +1,14 @@
 import React from "react";
 import "../styles/components/cardlvl.sass";
-import { BiMath } from "react-icons/bi";
-import mathImage from "../assets/ChatGPT Image 10 de out. de 2025, 18_41_44.png";
+import { 
+  BiMath
+} from "react-icons/bi";
+import { 
+  FaLanguage,
+  FaFlask,
+  FaMapMarkedAlt
+} from "react-icons/fa";
+
 
 function LevelCard({
   titulo,
@@ -9,47 +16,65 @@ function LevelCard({
   respondidas,
   textoBotao,
   onClick,
+  dificuldade,
+  numeroNivel,
+  areaConhecimento = 'MT', // MT, LC, CN, CH
 }) {
-  const progressPercentage = (respondidas / totalQuestoes) * 100;
-  const radius = 90;
-  const circunferency = 2 * Math.PI * radius;
-  const dashArray = circunferency * 0.95;
-  const progressLength = (dashArray * progressPercentage) / 100;
+
+  // Função para retornar o ícone baseado na área de conhecimento
+  const getAreaIcon = (area) => {
+    switch (area) {
+      case 'MT': // Matemática e suas Tecnologias
+        return <BiMath size={50} />;
+      case 'LC': // Linguagens, Códigos e suas Tecnologias
+        return <FaLanguage size={50} />;
+      case 'CN': // Ciências da Natureza e suas Tecnologias
+        return <FaFlask size={50} />;
+      case 'CH': // Ciências Humanas e suas Tecnologias
+        return <FaMapMarkedAlt size={50} />;
+      default:
+        return <BiMath size={50} />;
+    }
+  };
+
+  // Função para retornar a cor padrão (todos os cards terão a mesma cor)
+  const getAreaColor = (area) => {
+    return '#4A90E2'; // Cor padrão azul para todos os cards
+  };
 
   return (
-    <div className="level-card">
-      <div className="progress-circle">
-        <svg className="progress-svg" viewBox="0 0 200 200">
-          <circle
-            cx="100"
-            cy="100"
-            r="90"
-            stroke="#c0d5f3ff"
-            strokeWidth="8"
-            fill="none"
-            strokeDasharray={`${dashArray} ${circunferency}`}
-            strokeDashoffset="0"
-            className="progress-background"
-          />
-          <circle
-            cx="100"
-            cy="100"
-            r="90"
-            stroke="#4e6dc2ff"
-            strokeWidth="8"
-            fill="none"
-            strokeDasharray={`${progressLength} ${circunferency}`}
-            strokeDashoffset="0"
-            className="progress-foreground"
-          />
-        </svg>
-        
-        <div className="card-content">
-          <div className="level-icon">
-            <img src={mathImage} alt="Matemática" className="math-image" />
-          </div>
+    <div 
+      className="level-card"
+      style={{ '--area-color': getAreaColor(areaConhecimento) }}
+    >
+      <div className="card-content">
+        {/* Ícone da área de conhecimento */}
+        <div className="area-icon">
+          {getAreaIcon(areaConhecimento)}
         </div>
+        
+        {/* Número do nível */}
+        {numeroNivel && (
+          <div className="level-number">
+            {numeroNivel}
+          </div>
+        )}
+        
+        {/* Botão para navegar */}
+        <button 
+          className="level-button"
+          onClick={onClick}
+        >
+          {textoBotao || 'Começar'}
+        </button>
       </div>
+      
+      {/* Label de dificuldade */}
+      {dificuldade && (
+        <div className="dificuldade-label">
+          {dificuldade}
+        </div>
+      )}
     </div>
   );
 }

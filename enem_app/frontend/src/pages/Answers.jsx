@@ -60,7 +60,13 @@ export default function Answers() {
   // Envia resposta e avança
   async function handleAnswer() {
    const question = questions[currentIndex];
-   if(!selectedAnswer) return alert("Selecione uma alternativa!") // precisa arrumar
+   const answerTimeMs = Date.now() - sessionStartRef.current;
+
+      console.log("Dados enviados:", {
+          questionId: question.questionId,
+          presentedId: selectedAnswer,
+          answerTimeMs
+      });
 
     try {
       await sendAnswerAPI(
@@ -68,7 +74,8 @@ export default function Answers() {
         sessionId,
         question.questionId,
         levelId,
-        selectedAnswer
+        selectedAnswer,
+        answerTimeMs
       );
 
       // =========== TESTE DE ENVIO RESPOSTAS ==============
@@ -102,7 +109,8 @@ export default function Answers() {
       }
 
     } catch (err) {
-      console.log("Erro ao enviar as respostas: ", err);
+      // console.log("Erro ao enviar as respostas: ", err);
+        console.error("❌ Erro ao enviar:", err.response?.status, err.response?.data);
     }
   }
 

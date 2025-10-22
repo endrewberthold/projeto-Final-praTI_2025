@@ -24,7 +24,7 @@ function QuestionPage({
                             selected === alt.presentedId ? "selected" : ""
                         }`}
                     >
-                        <span className="answer-letter">{letter})</span>{" "}
+                        <span className="answer-letter">{letter}) </span>
                         <span className="answer-text">{alt.text}</span>
                     </div>
                 );

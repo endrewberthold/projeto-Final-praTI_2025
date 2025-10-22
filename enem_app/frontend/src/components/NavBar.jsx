@@ -24,11 +24,9 @@ export default function Navbar() {
 
   // Esconde ou não o navbar
     const hideNavbar =
-        location.pathname.includes("/answer/")
-        location.pathname.includes("/feedback/")
+        location.pathname.includes("/answer/") ||
+        location.pathname.includes("/feedback/") ||
         location.pathname.includes("/viewFlashPage/")
-
-    if (hideNavbar) return null
 
   // --- lógica da borda do menu (mantive sua implementação) ---
   useEffect(() => {
@@ -110,6 +108,7 @@ export default function Navbar() {
     setProfileOpen(false);
     navigate("/", { replace: true });
   };
+    if (hideNavbar) return null
 
   return (
     <>

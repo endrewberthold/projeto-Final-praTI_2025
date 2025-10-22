@@ -16,6 +16,46 @@
         filter: blur(3px)
         pointer-events: none
 
+    // Floating Add Button
+    .floating-add-btn
+        position: fixed
+        bottom: 2rem
+        right: 2rem
+        width: 60px
+        height: 60px
+        border-radius: 50%
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+        color: white
+        border: none
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4)
+        cursor: pointer
+        transition: all 0.3s ease
+        z-index: 1000
+        display: flex
+        align-items: center
+        justify-content: center
+        font-size: 1.5rem
+
+        &:hover
+            transform: translateY(-3px) scale(1.1)
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6)
+
+        &:active
+            transform: translateY(-1px) scale(1.05)
+
+        &.expanded
+            background: #dc3545
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4)
+
+            &:hover
+                box-shadow: 0 12px 35px rgba(220, 53, 69, 0.6)
+
+        .add-icon
+            transition: transform 0.3s ease
+
+            &.rotated
+                transform: rotate(45deg)
+
     .form-flashcard-container
         display: flex
         align-items: flex-start
@@ -27,6 +67,16 @@
         border-radius: 1rem
         box-shadow: var(--shadow-lg)
         margin-bottom: 2rem
+        transition: all 0.4s ease
+        transform-origin: top
+        overflow: hidden
+
+        &.expanded
+            animation: slideDown 0.4s ease-out
+            margin-bottom: 2rem
+
+        &:not(.expanded)
+            animation: slideUp 0.3s ease-in
 
         h1
             color: var(--text-primary)
@@ -36,8 +86,7 @@
             text-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
 
         .form-input
-            max-width: 400px
-            flex: 1
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -48,19 +97,18 @@
 
             input
                 padding: 8px 12px
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
                 border-radius: variables.$border-radius-flashcard-page
                 width: 100%
 
                 &:focus
-                    padding: 7px 12px
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
         .form-options
-            flex: 1
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -75,14 +123,15 @@
                 color: var(--text-primary)
                 padding: 8px 12px
                 border-radius: variables.$border-radius-flashcard-page
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 width: 100%
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
         .form-description
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -96,12 +145,11 @@
                 padding: 10px 12px
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 border-radius: variables.$border-radius-flashcard-page
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
-                    padding: 9px 12px
+                    border-color: var(--accent-primary)
                     outline: none
 
                 &::placeholder
@@ -114,13 +162,13 @@
                 font-size: 1rem
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 border-radius: variables.$border-radius-flashcard-page
                 resize: vertical
                 min-height: 120px
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
                 &::placeholder
@@ -129,7 +177,9 @@
                     color: var(--text-secondary)
 
         .buttons-flashcard-container
+            width: 100%
             display: flex
+            justify-content: flex-start
             margin-top: 1rem
             gap: 1rem
 
@@ -137,36 +187,37 @@
                 display: flex
                 justify-content: center
                 align-items: center
-                width: 9rem
-                height: 2.8rem
-                font-size: .9rem
-                font-weight: 500
-                background-color: var(--accent-primary)
+                padding: 10px 20px
+                font-size: 0.9rem
+                font-weight: 600
+                background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
                 color: white
                 border: none
-                border-radius: variables.$border-radius-flashcard-page
-                box-shadow: var(--shadow-sm)
+                border-radius: 0.75rem
+                box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3)
                 cursor: pointer
                 transition: all 0.3s ease
+                width: auto
+                min-width: 250px
 
-            &:nth-of-type(2)
-                background-color: var(--bg-primary)
-                color: var(--accent-primary)
-                border: 2px solid var(--accent-primary)
+                &:nth-of-type(2)
+                    background: var(--bg-primary)
+                    color: var(--accent-primary)
+                    border: 2px solid var(--accent-primary)
+                    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1)
 
-            &:hover
-                box-shadow: var(--shadow-lg)
-                transform: translateY(-2px)
-                background-color: var(--accent-secondary)
+                &:hover
+                    transform: translateY(-2px)
+                    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4)
 
-            &:nth-of-type(2)
-                background-color: var(--accent-primary)
-                color: white
+                &:nth-of-type(2):hover
+                    background: var(--accent-primary)
+                    color: white
+                    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3)
 
-            &:active
-                transform: translateY(0px) scale(0.98)
-                box-shadow: var(--shadow-sm)
-                transition: transform 0.1s ease, box-shadow 0.1s ease
+                &:active
+                    transform: translateY(0px) scale(0.98)
+                    transition: transform 0.1s ease
 
 .icons-flashcard-container
     display: flex
@@ -302,10 +353,37 @@
     100%
         transform: rotate(360deg)
 
+@keyframes slideDown
+    0%
+        opacity: 0
+        transform: translateY(-20px) scale(0.95)
+        max-height: 0
+    100%
+        opacity: 1
+        transform: translateY(0) scale(1)
+        max-height: 1000px
+
+@keyframes slideUp
+    0%
+        opacity: 1
+        transform: translateY(0) scale(1)
+        max-height: 1000px
+    100%
+        opacity: 0
+        transform: translateY(-20px) scale(0.95)
+        max-height: 0
+
 // Responsividade para dispositivos móveis
 @media (max-width: 768px)
     .flashcard-container
         padding: 1rem
+
+        .floating-add-btn
+            bottom: 1.5rem
+            right: 1.5rem
+            width: 55px
+            height: 55px
+            font-size: 1.3rem
 
         .form-flashcard-container
             padding: 1.5rem

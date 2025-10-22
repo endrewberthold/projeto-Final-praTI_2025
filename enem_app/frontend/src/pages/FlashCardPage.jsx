@@ -50,6 +50,9 @@ export default function FlashcardPage() {
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
 
+  // For form expansion
+  const [isFormExpanded, setIsFormExpanded] = useState(false);
+
   // For Forms
   const input = useForm('input');
   const select = useForm('select');
@@ -214,6 +217,11 @@ export default function FlashcardPage() {
     setSelectedIcon(iconName);
   };
 
+  // Toggle form expansion
+  const toggleFormExpansion = () => {
+    setIsFormExpanded(!isFormExpanded);
+  };
+
   // Funções para seleção múltipla
   const toggleSelectionMode = () => {
     setIsSelectionMode(!isSelectionMode);
@@ -300,7 +308,18 @@ export default function FlashcardPage() {
         itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
       />
       <section className={`flashcard-container`}>
-        <form className={`form-flashcard-container`}>
+        {/* Floating Add Button */}
+        <button 
+          className={`floating-add-btn ${isFormExpanded ? 'expanded' : ''}`}
+          onClick={toggleFormExpansion}
+          title={isFormExpanded ? 'Fechar formulário' : 'Criar novo flashcard'}
+        >
+          <FaPlus className={`add-icon ${isFormExpanded ? 'rotated' : ''}`} />
+        </button>
+
+        {/* Form Container - Only show when expanded */}
+        {isFormExpanded && (
+          <form className={`form-flashcard-container expanded`}>
           <h1>Criar Flashcard</h1>
           <div className="form-input">
             <Input
@@ -359,6 +378,8 @@ export default function FlashcardPage() {
             <button onClick={handleClear}>Limpar</button>
           </div>
         </form>
+        )}
+
         <section className="icons-flashcard-container">
           <FlashCardPageButtons />
         </section>

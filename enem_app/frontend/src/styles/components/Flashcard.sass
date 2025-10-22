@@ -21,7 +21,9 @@
     z-index: 1
 
     &.dark
-        border-color: #818cf8
+        background-color: var(--bg-secondary)
+        border-color: var(--border-primary)
+        box-shadow: var(--shadow-lg)
 
     &:hover
         transform: translateY(-4px)
@@ -48,17 +50,19 @@
             font-size: 15px
             padding: 0.75rem
             transition: all 0.3s ease
+            text-align: center
 
         .area-container
             margin-top: 0.5rem
 
             .flashcards-area
-                font-size: 0.8rem
+                font-size: 0.7rem
                 color: variables.$clr-accent
                 font-weight: 300
                 text-transform: uppercase
                 letter-spacing: 0.5px
                 transition: all 0.3s ease
+                opacity: 0.7
 
     .flashcards-dash-buttons
         position: absolute
@@ -69,13 +73,14 @@
         gap: 0.5rem
         z-index: 10
 
+
         .flashdash-icons
-            width: 1.5rem
-            height: 1.5rem
+            width: 2.5rem
+            height: 2.5rem
             color: variables.$clr-accent
             transition: all 0.3s ease
             cursor: pointer
-            padding: 0.4rem
+            padding: 0.6rem
             border-radius: 50%
             display: flex
             align-items: center
@@ -83,12 +88,13 @@
             position: relative
             background: rgba(78, 109, 194, 0.1)
             border: 2px solid transparent
+            font-size: 1.3rem
 
             &:hover
                 transform: translateY(-2px) scale(1.1)
                 color: white
                 background: variables.$clr-accent
-                border-color: variables.$clr-accent
+                border-color: transparent
                 box-shadow: 0 4px 15px rgba(78, 109, 194, 0.4)
 
             &:active
@@ -103,16 +109,18 @@
                 &:hover
                     color: white
                     background: variables.$clr-accent
+                    border-color: transparent
                     box-shadow: 0 4px 15px rgba(78, 109, 194, 0.4)
 
             // Ícone de deletar (segundo)
             &:nth-of-type(2)
-                color: #dc3545
-                background: rgba(220, 53, 69, 0.1)
+                color: variables.$clr-accent
+                background: rgba(78, 109, 194, 0.1)
 
                 &:hover
                     color: white
                     background: #dc3545
+                    border-color: transparent
                     box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4)
 
 // Estilos para seleção múltipla
@@ -177,9 +185,18 @@ body.dark
                     background: #818cf8
                     color: white
 
+
 // Responsividade para seleção múltipla
 @media (max-width: 768px)
     .flashcards-dashboard
+        .flashcards-dash-buttons
+            .flashdash-icons
+                width: 2.2rem
+                height: 2.2rem
+                padding: 0.5rem
+                font-size: 1.1rem
+
+                
         .selection-checkbox
             .checkbox
                 width: 18px
@@ -190,6 +207,14 @@ body.dark
 
 @media (max-width: 480px)
     .flashcards-dashboard
+        .flashcards-dash-buttons
+            .flashdash-icons
+                width: 2rem
+                height: 2rem
+                padding: 0.4rem
+                font-size: 1rem
+
+                
         .selection-checkbox
             .checkbox
                 width: 16px

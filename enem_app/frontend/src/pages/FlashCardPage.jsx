@@ -308,13 +308,16 @@ export default function FlashcardPage() {
         itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
       />
       <section className={`flashcard-container`}>
-        {/* Floating Add Button */}
+        {/* Add Button */}
         <button 
-          className={`floating-add-btn ${isFormExpanded ? 'expanded' : ''}`}
+          className={`add-flashcard-btn ${isFormExpanded ? 'expanded' : ''}`}
           onClick={toggleFormExpansion}
           title={isFormExpanded ? 'Fechar formulário' : 'Criar novo flashcard'}
         >
-          <FaPlus className={`add-icon ${isFormExpanded ? 'rotated' : ''}`} />
+          <span className="add-text">Criar Flashcards</span>
+          <div className="add-icon-container">
+            <FaPlus className={`add-icon ${isFormExpanded ? 'rotated' : ''}`} />
+          </div>
         </button>
 
         {/* Form Container - Only show when expanded */}

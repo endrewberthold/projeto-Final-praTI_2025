@@ -16,45 +16,86 @@
         filter: blur(3px)
         pointer-events: none
 
-    // Floating Add Button
-    .floating-add-btn
-        position: fixed
-        bottom: 2rem
-        right: 2rem
-        width: 60px
+    // Add Flashcard Button
+    .add-flashcard-btn
+        width: 100%
         height: 60px
-        border-radius: 50%
-        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
-        color: white
-        border: none
-        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4)
+        padding: 0 2rem
+        border-radius: 12px
+        background: var(--bg-secondary)
+        color: var(--text-primary)
+        border: 2px solid var(--border-primary)
+        box-shadow: var(--shadow-lg)
         cursor: pointer
         transition: all 0.3s ease
-        z-index: 1000
         display: flex
         align-items: center
-        justify-content: center
-        font-size: 1.5rem
+        justify-content: space-between
+        font-family: 'Comic Sans MS', cursive, sans-serif
+        font-weight: 600
+        font-size: 1rem
+        margin-top: 1rem
+        margin-bottom: 1rem
 
         &:hover
-            transform: translateY(-3px) scale(1.1)
-            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6)
+            transform: translateY(-2px)
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15)
+            border-color: var(--accent-primary)
 
         &:active
-            transform: translateY(-1px) scale(1.05)
+            transform: translateY(0px) scale(0.98)
 
         &.expanded
-            background: #dc3545
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4)
+            background: var(--accent-primary)
+            color: white
+            border-color: var(--accent-primary)
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3)
 
             &:hover
-                box-shadow: 0 12px 35px rgba(220, 53, 69, 0.6)
+                box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4)
+
+            .add-text
+                color: white
+
+        .add-text
+            font-size: 1rem
+            font-weight: 600
+            white-space: nowrap
+            flex: 1
+            text-align: left
+
+        .add-icon-container
+            width: 36px
+            height: 36px
+            border-radius: 50%
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+            display: flex
+            align-items: center
+            justify-content: center
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3)
+            transition: all 0.3s ease
 
         .add-icon
+            font-size: 1.1rem
+            color: white
             transition: transform 0.3s ease
 
             &.rotated
                 transform: rotate(45deg)
+
+        &:hover .add-icon-container
+            transform: scale(1.1)
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4)
+
+        &.expanded .add-icon-container
+            background: linear-gradient(135deg, #ffffff, #f8f9fa)
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3)
+
+            .add-icon
+                color: var(--accent-primary)
+
+        &.expanded:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4)
 
     .form-flashcard-container
         display: flex
@@ -63,7 +104,7 @@
         gap: 1rem
         width: 100%
         background-color: var(--bg-secondary)
-        padding: 2rem
+        padding: 1rem
         border-radius: 1rem
         box-shadow: var(--shadow-lg)
         margin-bottom: 2rem
@@ -261,7 +302,6 @@
     min-height: auto
     min-width: 100%
     // grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr))
-    padding: 15px 0
     flex: 1
     gap: min(0.25rem, 4px, 0.25vw)
     align-items: flex-start
@@ -407,12 +447,21 @@
     .flashcard-container
         padding: 1rem
 
-        .floating-add-btn
-            bottom: 1.5rem
-            right: 1.5rem
-            width: 55px
+        .add-flashcard-btn
             height: 55px
-            font-size: 1.3rem
+            padding: 0 1.5rem
+            font-size: 0.9rem
+            border-radius: 10px
+
+            .add-text
+                font-size: 0.9rem
+
+            .add-icon-container
+                width: 32px
+                height: 32px
+
+            .add-icon
+                font-size: 1rem
 
         .form-flashcard-container
             padding: 1.5rem
@@ -459,6 +508,22 @@
     .flashcard-container
         padding: 0.75rem
 
+        .add-flashcard-btn
+            height: 50px
+            padding: 0 1.25rem
+            font-size: 0.85rem
+            border-radius: 8px
+
+            .add-text
+                font-size: 0.85rem
+
+            .add-icon-container
+                width: 28px
+                height: 28px
+
+            .add-icon
+                font-size: 0.9rem
+
     .form-flashcard-container
         padding: 1rem
 
@@ -488,7 +553,6 @@
     display: flex
     justify-content: center
     align-items: center
-    margin: 2rem 0
     position: relative
     
     .icons-section
@@ -648,3 +712,44 @@ body.dark
         .bulk-delete-btn
             font-size: 0.8rem
             padding: 0.35rem 0.7rem
+
+// Estilos específicos para tema escuro
+body.dark
+    .add-flashcard-btn
+        background: var(--bg-secondary)
+        color: var(--text-primary)
+        border-color: var(--border-primary)
+        box-shadow: var(--shadow-lg)
+
+        &:hover
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4)
+            border-color: var(--accent-primary)
+
+        .add-icon-container
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+            box-shadow: 0 2px 8px rgba(129, 140, 248, 0.3)
+
+        &:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(129, 140, 248, 0.4)
+
+        &.expanded
+            background: var(--accent-primary)
+            color: white
+            border-color: var(--accent-primary)
+            box-shadow: 0 4px 15px rgba(129, 140, 248, 0.3)
+
+            &:hover
+                box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
+
+            .add-text
+                color: white
+
+        &.expanded .add-icon-container
+            background: linear-gradient(135deg, #ffffff, #f8f9fa)
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2)
+
+            .add-icon
+                color: var(--accent-primary)
+
+        &.expanded:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3)

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ export default function Flashcard({
 }) {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const [hoverMessage, setHoverMessage] = useState('');
 
   // implementar tooltip para botões flashcard (futuramente)
   // const [tooltipUpdate, setTooltipUpdate] = useState(true);
@@ -63,6 +65,8 @@ export default function Flashcard({
               e.stopPropagation();
               handleUpdate(id);
             }}
+            onMouseEnter={() => setHoverMessage('Clique para atualizar')}
+            onMouseLeave={() => setHoverMessage('')}
             className="flashdash-icons"
           />
           <AiFillDelete
@@ -70,6 +74,8 @@ export default function Flashcard({
               e.stopPropagation();
               handleDelete(id);
             }}
+            onMouseEnter={() => setHoverMessage('Clique para deletar')}
+            onMouseLeave={() => setHoverMessage('')}
             className="flashdash-icons"
           />
         </div>
@@ -88,7 +94,7 @@ export default function Flashcard({
 
       {!isSelectionMode && (
         <div className="practice-message">
-          Clique para praticar
+          {hoverMessage || 'Clique para praticar'}
         </div>
       )}
     </div>

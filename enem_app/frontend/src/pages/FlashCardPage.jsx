@@ -384,15 +384,14 @@ export default function FlashcardPage() {
         )}
 
         <section className="icons-flashcard-container">
-          <FlashCardPageButtons />
+          <FlashCardPageButtons theme={theme} />
         </section>
-        {/* Botões de seleção múltipla */}
+
+        {/* Controles de seleção múltipla */}
         {flashcardsData && flashcardsData.length > 0 && (
-          <div className="selection-buttons">
+          <div className="selection-controls">
             <button
-              className={`selection-mode-btn ${
-                isSelectionMode ? 'active' : ''
-              }`}
+              className={`selection-btn ${isSelectionMode ? 'active' : ''}`}
               onClick={toggleSelectionMode}
             >
               {isSelectionMode ? <FaTimes /> : <FaCheck />}
@@ -402,23 +401,20 @@ export default function FlashcardPage() {
             {isSelectionMode && (
               <>
                 <button
-                  className="select-all-btn"
+                  className="selection-btn"
                   onClick={selectAllFlashcards}
                 >
-                  {selectedFlashcards.length === flashcardsData.length
-                    ? 'Desmarcar Todos'
-                    : 'Selecionar Todos'}
+                  {selectedFlashcards.length === flashcardsData.length ? 'Desmarcar Todos' : 'Selecionar Todos'}
                 </button>
 
-                {selectedFlashcards.length > 0 && (
-                  <button
-                    className="bulk-delete-btn"
-                    onClick={openBulkDeleteModal}
-                  >
-                    <FaTrash />
-                    Excluir ({selectedFlashcards.length})
-                  </button>
-                )}
+                <button
+                  className="delete-selected-btn"
+                  onClick={openBulkDeleteModal}
+                  disabled={selectedFlashcards.length === 0}
+                >
+                  <FaTrash />
+                  Excluir ({selectedFlashcards.length})
+                </button>
               </>
             )}
           </div>

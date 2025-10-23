@@ -28,17 +28,23 @@ const pageButtons = [
 ];
 
 const FlashCardPageButtons = ({ theme }) => {
+  console.log('FlashCardPageButtons renderizando com tema:', theme);
+  
   return (
     <div className="icons-flashcard-container">
       {pageButtons.map((item, i) => {
         const IconComponent = item.icon;
         return (
-          <IconComponent
+          <button
             key={i}
             className={`icon-flashcard ${theme}`}
-            name={`${item.area}`}
+            title={item.area}
             // onClick={handleSelectArea}
-          />
+          >
+            <div className="icon-wrapper">
+              <IconComponent />
+            </div>
+          </button>
         );
       })}
     </div>

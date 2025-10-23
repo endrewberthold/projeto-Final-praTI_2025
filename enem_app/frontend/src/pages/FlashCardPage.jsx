@@ -155,6 +155,7 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
+      setUpdateRequest(false);
     } catch (err) {
       console.log('ERRO: ', err);
     }
@@ -208,6 +209,7 @@ export default function FlashcardPage() {
     textarea.setValue('');
     setTerm('');
     setDescription('');
+    setUpdateRequest(false);
   };
 
   const handleIconClick = (iconName) => {
@@ -352,11 +354,16 @@ export default function FlashcardPage() {
           </div>
           <div className="buttons-flashcard-container">
             {updateRequest ? (
-              <button onClick={handleUpdateFlashcard}>Atualizar</button>
+              <>
+                <button onClick={handleUpdateFlashcard}>Atualizar</button>
+                <button onClick={handleClear}>Cancelar</button>
+              </>
             ) : (
-              <button onClick={handleNewFlashcard}>Criar</button>
+              <>
+                <button onClick={handleNewFlashcard}>Criar</button>
+                <button onClick={handleClear}>Limpar</button>
+              </>
             )}
-            <button onClick={handleClear}>Limpar</button>
           </div>
         </form>
         <section className="icons-flashcard-container">

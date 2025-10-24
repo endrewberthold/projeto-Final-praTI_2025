@@ -35,8 +35,10 @@ export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+
   // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
@@ -54,6 +56,9 @@ export default function FlashcardPage() {
   const input = useForm("input");
   const select = useForm("select");
   const textarea = useForm("textarea");
+
+  // For FlashCardPageButtons
+  const [selectedAreaIds, setSelectedAreaIds] = useState([]);
 
   // For selected icon
   const [selectedIcon, setSelectedIcon] = useState("mortarboard");
@@ -283,6 +288,26 @@ export default function FlashcardPage() {
     }
   };
 
+  if (isLoading || isDeleting) {
+    return (
+      <div className="loading-container">
+        <FaSpinner className="loading-spinner" />
+        <p className="loading-text">
+          {isDeleting ? 'Excluindo flashcard...' : 'Carregando flashcards...'}
+        </p>
+      </div>
+    );
+  }
+
+  // For FlashCardPageButtons filter render
+  const filteredFlashcards = flashcardsData.filter((flashcard) => {
+    if (selectedAreaIds.length === 0) {
+      return true;
+    } else {
+      return selectedAreaIds.includes(flashcard.areaId);
+    }
+  });
+
   return (
     <>
       <ConfirmDeleteModal
@@ -366,9 +391,15 @@ export default function FlashcardPage() {
             )}
           </div>
         </form>
+
         <section className="icons-flashcard-container">
-          <FlashCardPageButtons />
+          <FlashCardPageButtons
+            // flashcardsData={flashcardsData}
+            setSelectedAreaIds={setSelectedAreaIds}
+            theme={theme}
+          />
         </section>
+
         {/* Botões de seleção múltipla */}
         {flashcardsData && flashcardsData.length > 0 && (
           <div className="selection-buttons">
@@ -423,7 +454,7 @@ export default function FlashcardPage() {
           </div>
         ) : flashcardsData && flashcardsData.length > 0 ? (
           <>
-            {flashcardsData.map((item, index) => (
+            {filteredFlashcards.map((item, index) => (
               <FlashCard
                 key={item.id}
                 id={item.id}

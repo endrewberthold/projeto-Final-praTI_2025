@@ -34,18 +34,18 @@ export default function MobileNavbar() {
   // Limpa o estado do body quando o componente for desmontado
   useEffect(() => {
     return () => {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.classList.remove("mobile-menu-open");
     };
   }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    
+
     // Controla o scroll do body
     if (!isOpen) {
-      document.body.classList.add('mobile-menu-open');
+      document.body.classList.add("mobile-menu-open");
     } else {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.classList.remove("mobile-menu-open");
     }
   };
 
@@ -55,7 +55,7 @@ export default function MobileNavbar() {
       <div className="mobile-navbar">
         <div className="mobile-navbar__header">
           <h2 className="mobile-navbar__logo">ENEM App</h2>
-          <button 
+          <button
             className="mobile-navbar__toggle"
             onClick={toggleMenu}
             aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
@@ -66,19 +66,20 @@ export default function MobileNavbar() {
 
         {/* Overlay */}
         {isOpen && (
-          <div 
-            className="mobile-navbar__overlay"
-            onClick={toggleMenu}
-          />
+          <div className="mobile-navbar__overlay" onClick={toggleMenu} />
         )}
 
         {/* Menu lateral */}
-        <nav className={`mobile-navbar__menu ${isOpen ? 'mobile-navbar__menu--open' : ''}`}>
+        <nav
+          className={`mobile-navbar__menu ${
+            isOpen ? "mobile-navbar__menu--open" : ""
+          }`}
+        >
           <div className="mobile-navbar__menu-content">
             {/* Header do menu */}
             <div className="mobile-navbar__menu-header">
               <h3>Menu</h3>
-              <button 
+              <button
                 className="mobile-navbar__close"
                 onClick={toggleMenu}
                 aria-label="Fechar menu"
@@ -89,31 +90,47 @@ export default function MobileNavbar() {
 
             {/* Links de navegação */}
             <div className="mobile-navbar__links">
-              <NavLink 
+              <NavLink
                 to="/userStatusPage"
-                className={`mobile-navbar__link ${activeIndex === 0 ? 'active' : ''}`}
+                className={`mobile-navbar__link ${
+                  activeIndex === 0 ? "active" : ""
+                }`}
                 onClick={() => handleMenuClick(0)}
               >
                 <BsPerson size={20} />
                 <span>Perfil</span>
               </NavLink>
 
-              <NavLink 
+              <NavLink
                 to="/dashboard"
-                className={`mobile-navbar__link ${activeIndex === 1 ? 'active' : ''}`}
+                className={`mobile-navbar__link ${
+                  activeIndex === 1 ? "active" : ""
+                }`}
                 onClick={() => handleMenuClick(1)}
               >
                 <BsGrid size={20} />
                 <span>Dashboard</span>
               </NavLink>
 
-              <NavLink 
+              <NavLink
                 to="/flashCardPage"
-                className={`mobile-navbar__link ${activeIndex === 2 ? 'active' : ''}`}
+                className={`mobile-navbar__link ${
+                  activeIndex === 2 ? "active" : ""
+                }`}
                 onClick={() => handleMenuClick(2)}
               >
                 <PiCards size={20} />
                 <span>FlashCards</span>
+              </NavLink>
+
+              <NavLink
+                to="/ai"
+                className="mobile-navbar__link"
+                onClick={() => setIsOpen(false)}
+              >
+                <span style={{ fontSize: "18px" }}>🤖</span>
+
+                <span>ENEM AI</span>
               </NavLink>
             </div>
 
@@ -127,7 +144,7 @@ export default function MobileNavbar() {
                 <span>Configurações</span>
               </button>
 
-              <button 
+              <button
                 className="mobile-navbar__setting-item mobile-navbar__logout"
                 onClick={handleLogout}
               >

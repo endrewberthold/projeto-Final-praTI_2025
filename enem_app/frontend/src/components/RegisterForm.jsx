@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import ProfileImageSelector from "./ProfileImageSelector";
 
 import { registerAPI } from "../services/userServices";
-import "../styles/components/RegisterForm.sass"
+import "../styles/components/RegisterForm.sass";
 
 export default function RegisterForm() {
   const [profileImage, setProfileImage] = useState(null);
@@ -13,32 +13,71 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const userRef = useRef();
+  const errRef = useRef();
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  const extractErrorMessage = (err) => {
+    try {
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+      if (!err?.response) return "Sem resposta do servidor";
+      if (status === 400) {
+        // Validações de campo (mapa field -> message)
+        if (typeof data === "object" && data && !data.error) {
+          const messages = Object.values(data);
+          if (messages.length) return messages.join(" | ");
+          return "Verifique os dados informados";
+        }
+        if (data?.error?.toLowerCase().includes("email já cadastrado")) {
+          return "Este e-mail já está cadastrado. Faça login ou recupere sua senha.";
+        }
+        return data?.error || "Dados inválidos";
+      }
+      return data?.error || "Falha no cadastro. Tente novamente mais tarde.";
+    } catch (_) {
+      return "Falha no cadastro";
+    }
+  };
+
   async function handleRegister(e) {
     e.preventDefault();
-    if(profileImage === null){
-      console.log("Selecione uma imagem de perfil");
-      return 
-    }
-    try {
-      const response = await registerAPI(profileImage, name, email, password);
+    setMessage("");
 
-      console.log(response);
+    try {
+      const response = await registerAPI(
+        profileImage ?? null,
+        name,
+        email,
+        password
+      );
+      // Cadastro OK
       navigate(from, { replace: true });
     } catch (err) {
-      console.log("ERRO ON REGISTER: ", err);
+      const msg = extractErrorMessage(err);
+      setMessage(msg);
+      errRef.current?.focus();
     }
   }
 
   return (
     <div className="register-form">
+      <p
+        ref={errRef}
+        className={message ? "errmsg" : "offscreen"}
+        aria-live="assertive"
+      >
+        {message}
+      </p>
+
       <h1>Registre-se</h1>
 
-      < ProfileImageSelector onChange={(selected) => setProfileImage(selected)}/>
+      <ProfileImageSelector
+        onChange={(selected) => setProfileImage(selected)}
+      />
 
       <form onSubmit={handleRegister}>
         <label htmlFor="name">Usuario </label>
@@ -59,7 +98,7 @@ export default function RegisterForm() {
             autoComplete="off"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            />
+          />
         </div>
 
         <label htmlFor="email">email: </label>
@@ -87,7 +126,10 @@ export default function RegisterForm() {
         </div>
 
         <label htmlFor="password">Password: </label>
-        <div className="email-password-container-register" id="password-container-register">
+        <div
+          className="email-password-container-register"
+          id="password-container-register"
+        >
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,48 +149,51 @@ export default function RegisterForm() {
               required
             />
           </div>
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                cursor: 'pointer',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center'
-              }}
-            >
-              {showPassword ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="currentColor"
-                >
-                  <path d="M630.92-441.08 586-486q9-49.69-28.35-89.35Q520.31-615 466-606l-44.92-44.92q13.54-6.08 27.77-9.12 14.23-3.04 31.15-3.04 68.08 0 115.58 47.5T643.08-500q0 16.92-3.04 31.54-3.04 14.61-9.12 27.38Zm127.23 124.46L714-358q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-46.61-46.61q37.92-15.08 77.46-22.23Q438.39-780 480-780q140.61 0 253.61 77.54T898.46-500q-22.23 53.61-57.42 100.08-35.2 46.46-82.89 83.3Zm32.31 231.39L628.62-245.85q-30.77 11.39-68.2 18.62Q523-220 480-220q-141 0-253.61-77.54Q113.77-375.08 61.54-500q22.15-53 57.23-98.88 35.08-45.89 77.23-79.58l-110.77-112 42.16-42.15 705.22 705.22-42.15 42.16Zm-552.3-551.08q-31.7 25.23-61.66 60.66Q146.54-540.23 128-500q50 101 143.5 160.5T480-280q27.31 0 54.39-4.62 27.07-4.61 45.92-9.53L529.69-346q-10.23 4.15-23.69 6.61-13.46 2.47-26 2.47-68.08 0-115.58-47.5T316.92-500q0-12.15 2.47-25.42 2.46-13.27 6.61-24.27l-87.84-86.62ZM541-531Zm-131.77 65.77Z" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="currentColor"
-                >
-                  <path d="M480.09-336.92q67.99 0 115.49-47.59t47.5-115.58q0-67.99-47.59-115.49t-115.58-47.5q-67.99 0-115.49 47.59t-47.5 115.58q0 67.99 47.59 115.49t115.58 47.5ZM480-392q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm.05 172q-137.97 0-251.43-76.12Q115.16-372.23 61.54-500q53.62-127.77 167.02-203.88Q341.97-780 479.95-780q137.97 0 251.43 76.12Q844.84-627.77 898.46-500q-53.62 127.77-167.02 203.88Q618.03-220 480.05-220ZM480-500Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
-                </svg>
-              )}
-            </button>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "4px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {showPassword ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M630.92-441.08 586-486q9-49.69-28.35-89.35Q520.31-615 466-606l-44.92-44.92q13.54-6.08 27.77-9.12 14.23-3.04 31.15-3.04 68.08 0 115.58 47.5T643.08-500q0 16.92-3.04 31.54-3.04 14.61-9.12 27.38Zm127.23 124.46L714-358q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-46.61-46.61q37.92-15.08 77.46-22.23Q438.39-780 480-780q140.61 0 253.61 77.54T898.46-500q-22.23 53.61-57.42 100.08-35.2 46.46-82.89 83.3Zm32.31 231.39L628.62-245.85q-30.77 11.39-68.2 18.62Q523-220 480-220q-141 0-253.61-77.54Q113.77-375.08 61.54-500q22.15-53 57.23-98.88 35.08-45.89 77.23-79.58l-110.77-112 42.16-42.15 705.22 705.22-42.15 42.16Zm-552.3-551.08q-31.7 25.23-61.66 60.66Q146.54-540.23 128-500q50 101 143.5 160.5T480-280q27.31 0 54.39-4.62 27.07-4.61 45.92-9.53L529.69-346q-10.23 4.15-23.69 6.61-13.46 2.47-26 2.47-68.08 0-115.58-47.5T316.92-500q0-12.15 2.47-25.42 2.46-13.27 6.61-24.27l-87.84-86.62ZM541-531Zm-131.77 65.77Z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M480.09-336.92q67.99 0 115.49-47.59t47.5-115.58q0-67.99-47.59-115.49t-115.58-47.5q-67.99 0-115.49 47.59t-47.5 115.58q0 67.99 47.59 115.49t115.58 47.5ZM480-392q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm.05 172q-137.97 0-251.43-76.12Q115.16-372.23 61.54-500q53.62-127.77 167.02-203.88Q341.97-780 479.95-780q137.97 0 251.43 76.12Q844.84-627.77 898.46-500q-53.62 127.77-167.02 203.88Q618.03-220 480.05-220ZM480-500Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+              </svg>
+            )}
+          </button>
         </div>
 
         <button type="submit">Registrar</button>
       </form>
 
       <p className="register-container-register">
-        Já tem uma conta? <span><Link to="/">Login</Link></span>
+        Já tem uma conta?{" "}
+        <span>
+          <Link to="/">Login</Link>
+        </span>
       </p>
     </div>
   );

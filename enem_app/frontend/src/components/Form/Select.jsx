@@ -30,7 +30,7 @@ const Select = ({
         className="select"
         {...props}
       >
-        <option className="option" value="" disable>
+        <option className="option" value="" disable="true">
           Selecione uma opção
         </option>
         {optionValues.map((option, i) => {

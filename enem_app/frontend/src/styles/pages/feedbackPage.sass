@@ -1,3 +1,5 @@
+
+// === TELAS DE FEEDBACK ===
 .positive-feedback-screen, .negative-feedback-screen
   margin: 3rem auto
   padding: 40px
@@ -8,6 +10,7 @@
   background-color: var(--bg-primary)
   width: 80%
   max-width: 600px
+  min-width: 320px
   border-radius: 2rem
   box-shadow: var(--shadow-lg)
 
@@ -23,83 +26,102 @@
   color: var(--accent-primary)
 
 .feedback-text
+  color: var(--text-primary)
   margin: 5px 20px
-  font-size: 16px
+  font-size: 0.9rem
   text-align: center
 
 .results-container
+  margin: 0 2rem 0
   display: grid
   grid-template-columns: repeat(2, 1fr)
   margin-top: 2rem
 
 .buttons-container
+  margin: 2rem 0 0
   display: flex
-  justify-content: space-between
+  justify-content: center
+  align-items: center
+  gap: 0
+  flex-wrap: wrap
+
+// === BOTÕES UNIFICADOS ===
+.feedback-btn
+  background-color: var(--accent-primary)
+  color: var(--bg-primary, #ffffff)
+  font-size: 0.9rem
+  font-weight: bold
+  text-align: center
+  border-radius: 0.5rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+  margin: 0 auto
+  padding: 0.6rem 1rem
+  min-height: 1.8rem
+  min-width: 200px
+  max-width: 200px
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+// Cada botão herda da classe base
+.positive-screen-btn
+  @extend .feedback-btn
 
 .negative-screen-btn
-  margin-top: 2rem
-  background-color: var(--accent-primary)
-  color: var(--bg-primary)
-  font-size: 16px
-  font-weight: bold
-  height: min(3rem, 8vh)
-  min-height: 44px
-  width: min(15rem, 80%)
-  max-width: 300px
-  min-width: 200px
-  text-align: center
-  gap: min(1rem, 2vw)
-  border-radius: 0.7rem
-  box-shadow: var(--shadow-lg)
-  cursor: pointer
-  border: 1px solid var(--border-primary)
-  box-sizing: border-box
-  touch-action: manipulation
-  webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
+  @extend .feedback-btn
 
+// === RESPONSIVIDADE ===
+@media (max-width: 820px)
+  .positive-feedback-screen, .negative-feedback-screen
+    padding: 1rem
+    margin: 2rem auto
+    min-height: 600px
 
-  &:hover
-    z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+  .feedback-btn
+    padding: 0.5rem 1rem
+    font-size: 0.9rem
+    margin: 0.5rem auto
 
-  &:active
-    z-index: 20
-    transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
-    transition: transform 0.1s ease, box-shadow 0.1s ease
+@media (max-width: 425px)
+  .positive-feedback-screen, .negative-feedback-screen
+    margin: 2rem auto
+    min-height: 600px
 
-.positive-screen-btn
-  margin: 0 auto
-  margin-top: 2rem
-  font-size: 16px
-  background-color: var(--accent-primary)
-  color: var(--bg-primary)
-  font-weight: bold
-  height: min(3rem, 8vh)
-  min-height: 44px
-  width: min(15rem, 80%)
-  max-width: 300px
-  min-width: 200px
-  text-align: center
-  gap: min(1rem, 2vw)
-  border-radius: 0.7rem
-  box-shadow: var(--shadow-lg)
-  cursor: pointer
-  border: 1px solid var(--border-primary)
-  box-sizing: border-box
-  touch-action: manipulation
-  webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
+  #negative-image, #positive-image
+    min-height: 250px
+    min-width: 200px
+    margin: 0 auto
 
-  &:hover
-    z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+  .results-container
+    margin: 1rem 1rem 0
+    grid-template-columns: 1fr
 
-  &:active
-    z-index: 20
-    transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
-    transition: transform 0.1s ease, box-shadow 0.1s ease
+  .buttons-container
+    height: auto
+    flex-direction: column
+    margin: 1.5rem auto 0
+    gap: 0.5rem
+    justify-content: center
+    align-items: center
+
+  .feedback-title
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
+
+// === TEMA DARK ===
+body.dark
+  .feedback-btn
+    color: var(--text-primary)

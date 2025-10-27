@@ -7,6 +7,7 @@ import {
 } from "../services/SkillsServices";
 import useAuth from "../hooks/useAuth";
 import QuestionPage from "./QuestionPage.jsx";
+import AbandonSessionModal from "../components/AbandonSessionModal.jsx";
 import "../styles/pages/questionPage.sass";
 
 export default function Answers() {
@@ -23,6 +24,8 @@ export default function Answers() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [started, setStarted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [abandonModal, setAbandonModal] = useState({isOpen: false})
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const intervalRef = useRef(null); // guarda o intervalo ativo
@@ -58,15 +61,13 @@ export default function Answers() {
   }
 
   // Envia resposta e avança
-  async function handleAnswer() {
+   async function handleAnswer() {
    const question = questions[currentIndex];
-   const answerTimeMs = Date.now() - sessionStartRef.current;
 
-      console.log("Dados enviados:", {
-          questionId: question.questionId,
-          presentedId: selectedAnswer,
-          answerTimeMs
-      });
+      if (!selectedAnswer) {
+          setErrorMessage("Selecione uma alternativa!")
+          return;
+      }
 
     try {
       await sendAnswerAPI(
@@ -75,7 +76,6 @@ export default function Answers() {
         question.questionId,
         levelId,
         selectedAnswer,
-        answerTimeMs
       );
 
       // =========== TESTE DE ENVIO RESPOSTAS ==============
@@ -89,11 +89,11 @@ export default function Answers() {
       } else {
           const finishResponse = await finishSessionAPI(accessToken, sessionId);
 
-          // =========== TESTE RECEBIMENTO RESPOSTA BACKEND ===============
-          console.log("Resposta do finishSessionAPI:", finishResponse.data);
+      // =========== TESTE RECEBIMENTO RESPOSTA BACKEND ===============
+      console.log("Resposta do finishSessionAPI:", finishResponse.data);
 
-          clearInterval(intervalRef.current);
-          const totalSessionTime = Date.now() - sessionStartRef.current;
+      clearInterval(intervalRef.current);
+      const totalSessionTime = Date.now() - sessionStartRef.current;
 
           navigate(`/skillPage/${areaId}/feedback/${sessionId}`, {
               state: {
@@ -108,9 +108,9 @@ export default function Answers() {
           });
       }
 
+
     } catch (err) {
-      // console.log("Erro ao enviar as respostas: ", err);
-        console.error("❌ Erro ao enviar:", err.response?.status, err.response?.data);
+      console.error("Erro ao enviar:", err.response?.status, err.response?.data);
     }
   }
 
@@ -129,7 +129,12 @@ export default function Answers() {
             .toString().padStart(2, "0")} s`;
     }
 
-    //Navega de volta para a tela de níveis
+    function abandonSession() {
+        setAbandonModal({
+            isOpen: true
+        })
+    }
+
     function handleBack() {
         navigate(`/skillPage/${areaId}`);
     }
@@ -143,7 +148,7 @@ export default function Answers() {
               alt="Imagem feedback negativo"
           />
           <h3 className="start-title">Bem-vindo!</h3>
-          <p>Clique abaixo para começar o quiz.</p>
+          <p className="start-text">Clique abaixo para começar o quiz.</p>
 
           <button className="start-btn" onClick={handleStart}>
               Começar
@@ -153,13 +158,17 @@ export default function Answers() {
 
 
   return (
+
       <div className="question-screen">
 
-           <QuestionPage
+      <QuestionPage
            question={currentQuestion}
            selected={selectedAnswer}
-           onSelect={(_, val) => setSelectedAnswer(val)}
+           onSelect={(_, val) => {
+               setSelectedAnswer(val);
+               setErrorMessage("")}}
            onClick={handleAnswer}
+           error={errorMessage}
        >
           <h3 className="question-title">
               Pergunta {currentIndex + 1} de {questions.length}
@@ -171,10 +180,18 @@ export default function Answers() {
         <p>{formatTime(elapsedTime)}</p>
         <p className="questions-map-title"><strong>Questões:</strong></p>
         <div className="questions-map">
-            {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} onClick={() =>setCurrentIndex(index)}>{index + 1}</button>)}
+            {questions.map((question, index) => <button key={question.questionId || index} className={`question-btn ${index === currentIndex ? "selected" : ""}`} onClick={() =>setCurrentIndex(index)}>{index + 1}</button>)}
         </div>
-        <button className="abandon-btn" onClick={handleBack}>Abandonar sessão</button>
+        <button className="abandon-btn" onClick={abandonSession}>
+            Abandonar sessão</button>
     </div>
+
+          <AbandonSessionModal
+              isOpen={abandonModal.isOpen}
+              onConfirm={handleBack}
+              onClose={() => setAbandonModal({isOpen: false})}
+              message={"Tem certeza que deseja abandonar a sessão?"}
+          />
     </div>
   );
 }

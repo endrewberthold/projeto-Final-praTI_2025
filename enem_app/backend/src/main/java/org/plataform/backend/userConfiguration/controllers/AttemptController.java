@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.Generated;
 import org.plataform.backend.userConfiguration.dtos.question.AttemptRequestDTO;
 import org.plataform.backend.userConfiguration.dtos.question.AttemptResponseDTO;
@@ -16,14 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping({"/api/sessions/{sessionId}/attempts"})
+@RequestMapping("/api/sessions/{sessionId}/attempts")
 public class AttemptController {
     private final AttemptService attemptService;
-
 
     @PostMapping
     @Operation(
@@ -34,14 +33,9 @@ public class AttemptController {
             @ApiResponse(
                     responseCode = "201",
                     description = "Tentativa registrada com sucesso",
-                    content = @Content(
-                            schema = @Schema(implementation = AttemptResponseDTO.class)
-                    )
+                    content = @Content(schema = @Schema(implementation = AttemptResponseDTO.class))
             ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Dados inválidos na requisição",
-                    content = @Content)
+            @ApiResponse(responseCode = "400", description = "Dados inválidos na requisição", content = @Content)
     })
     public ResponseEntity<AttemptResponseDTO> submitAttempt(
             @AuthenticationPrincipal
@@ -50,13 +44,10 @@ public class AttemptController {
             @PathVariable
             @Parameter(description = "ID da sessão em que a tentativa será registrada", required = true, example = "1") Long sessionId,
 
-            @RequestBody(
-                    description = "Dados da tentativa a ser submetida",
-                    required = true,
-                    content = @Content(
-                            schema = @Schema(implementation = AttemptRequestDTO.class)
-                    )
-            ) AttemptRequestDTO req) {
+            @RequestBody
+            @Parameter(description = "Dados da tentativa a ser submetida", required = true)
+            AttemptRequestDTO req) {
+
         Long userId = principal.getId();
         AttemptResponseDTO resp = this.attemptService.submitAttempt(userId, sessionId, req);
         return ResponseEntity.status(201).body(resp);

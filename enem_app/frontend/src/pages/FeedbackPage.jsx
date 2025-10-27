@@ -3,15 +3,13 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/pages/feedbackPage.sass";
 import StatCard from "../components/StatCard.jsx";
 import {FaChartLine, FaClock, FaTrophy} from "react-icons/fa";
+import { FaCircleQuestion } from "react-icons/fa6";
 
 
 export default function FeedbackPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const { id: areaId} = useParams();
-
-    // const results = location.state?.results || [];
-    // const totalTime = location.state?.totalTime || 0;
 
     const {
         levelId,
@@ -24,6 +22,9 @@ export default function FeedbackPage() {
 
     //Calcula porcentagem de acertos
     const percent = totalQuestions ? Math.floor((correct / totalQuestions) * 100) : 0;
+
+    //Média de tempo por questão
+    const answerTimeAverage = totalTime / totalQuestions
 
     //Formata tempo total da sessão
     function formatTime(ms) {
@@ -65,13 +66,19 @@ export default function FeedbackPage() {
                 <StatCard
                     icon={<FaChartLine size={20} />}
                     value={percent + "%"}
-                    label="Desempenho"
+                    label="Acertos"
                     className= "results-icon"
                 />
                 <StatCard
                     icon={<FaTrophy size={20} />}
                     value={xpEarned}
                     label="XPs recebidos"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaCircleQuestion size={20} />}
+                    value={formatTime(answerTimeAverage)}
+                    label="Tempo por questão"
                     className= "results-icon"
                 />
             </div>
@@ -97,13 +104,19 @@ export default function FeedbackPage() {
                 <StatCard
                     icon={<FaChartLine size={20} />}
                     value={percent + "%"}
-                    label="Desempenho"
+                    label="Acertos"
                     className= "results-icon"
                 />
                 <StatCard
                     icon={<FaTrophy size={20} />}
                     value={xpEarned}
                     label="XPs recebidos"
+                    className= "results-icon"
+                />
+                <StatCard
+                    icon={<FaCircleQuestion size={20} />}
+                    value={formatTime(answerTimeAverage)}
+                    label="Tempo por questão"
                     className= "results-icon"
                 />
             </div>

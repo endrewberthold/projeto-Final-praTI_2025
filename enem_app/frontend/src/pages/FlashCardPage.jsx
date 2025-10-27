@@ -10,6 +10,8 @@ import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
 
 import FlashCardPageButtons from '../components/FlashCardPageButtons';
+
+import ConfirmChangeModal from '../components/ConfirmChangeModal';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 import {
@@ -57,18 +59,21 @@ export default function FlashcardPage() {
   const select = useForm('select');
   const textarea = useForm('textarea');
 
-  // For FlashCardPageButtons
-  const [selectedAreaIds, setSelectedAreaIds] = useState([]);
+  // For modals
+  const newCardModal = useForm();
+  const updateModal = useForm();
 
-  // For selected icon
-  const [selectedIcon, setSelectedIcon] = useState('mortarboard');
-
-  // For delete confirmation modal
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     flashcardId: null,
     flashcardTerm: '',
   });
+
+  // For FlashCardPageButtons
+  const [selectedAreaIds, setSelectedAreaIds] = useState([]);
+
+  // For selected icon
+  const [selectedIcon, setSelectedIcon] = useState('mortarboard');
 
   // For multiple selection
   const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -83,6 +88,16 @@ export default function FlashcardPage() {
   useEffect(() => {
     handleFetchFlashcards();
   }, [newFlashcard]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setNewCardModal({
+  //       isCreated: false,
+  //       flashcardId: null,
+  //       flashcardTerm: '',
+  //     });
+  //   }, 5000);
+  // }, [newCardModal]);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
@@ -123,6 +138,12 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
+      newCardModal.handleCardModal(
+        response?.data.id,
+        response?.data.term,
+        'new',
+      );
+      newCardModal.handleCloseModal();
     } catch (err) {
       console.log('ERRO: ', err);
     }
@@ -160,6 +181,13 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
+      updateModal.handleCardModal(
+        response?.data.id,
+        response?.data.term,
+        'update',
+      );
+      updateModal.handleCloseModal();
+
       setUpdateRequest(false);
     } catch (err) {
       console.log('ERRO: ', err);
@@ -310,6 +338,18 @@ export default function FlashcardPage() {
 
   return (
     <>
+      {newCardModal.cardModal.isOpen && (
+        <ConfirmChangeModal
+          cardTerm={newCardModal.cardModal.flashcardTerm}
+          modalId={newCardModal.cardModal.modalId}
+        />
+      )}
+      {updateModal.cardModal.isOpen && (
+        <ConfirmChangeModal
+          cardTerm={updateModal.cardModal.flashcardTerm}
+          modalId={updateModal.cardModal.modalId}
+        />
+      )}
       <ConfirmDeleteModal
         isOpen={deleteModal.isOpen}
         onClose={handleCloseDeleteModal}
@@ -394,7 +434,6 @@ export default function FlashcardPage() {
 
         <section className="icons-flashcard-container">
           <FlashCardPageButtons
-            // flashcardsData={flashcardsData}
             setSelectedAreaIds={setSelectedAreaIds}
             theme={theme}
           />

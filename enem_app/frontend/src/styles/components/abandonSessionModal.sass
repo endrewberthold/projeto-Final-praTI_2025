@@ -1,0 +1,132 @@
+.modal-overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.5)
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 1000
+    backdrop-filter: blur(4px)
+
+.confirm-abandon-session
+    background-color: var(--bg-secondary)
+    border-radius: 1rem
+    box-shadow: var(--shadow-lg)
+    border: 1px solid var(--border-primary)
+    max-width: 500px
+    width: 90%
+    max-height: 90vh
+    overflow: hidden
+    animation: modalSlideIn 0.3s ease-out
+
+.modal-header
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    padding: 0.8rem 1.5rem 0.5rem
+    border-bottom: 1px solid var(--border-primary)
+
+    .close-button
+        background: none
+        border: none
+        color: var(--text-secondary)
+        font-size: 1.25rem
+        cursor: pointer
+        padding: 0
+        border-radius: 0.5rem
+        transition: all 0.2s ease
+
+        &:hover
+            background-color: var(--bg-primary)
+            color: var(--text-primary)
+
+.modal-body
+  display: flex
+  flex-direction: column
+  padding: 1.5rem
+
+.confirm-message
+    color: var(--text-primary)
+    font-size: 1rem
+    line-height: 1.5
+    margin: 0 auto
+    display: flex
+    justify-content: center
+
+.confirm-button
+    background-color: var(--accent-primary)
+    color: var(--bg-primary, #ffffff)
+    border-radius: 0.5rem
+    padding: 0.75rem 1.5rem
+    font-size: 1rem
+    font-weight: bold
+    cursor: pointer
+    transition: all 0.2s ease
+    display: flex
+    justify-content: center
+    margin: 1rem auto
+
+    &:hover
+        background-color: #dc2626
+        transform: translateY(-1px)
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3)
+
+    &:active
+        transform: translateY(0)
+
+// Animação de entrada do modal
+@keyframes modalSlideIn
+    0%
+        transform: translateY(-50px) scale(0.95)
+        opacity: 0
+        
+    100%
+        transform: translateY(0) scale(1)
+        opacity: 1
+
+// Tema escuro
+body.dark
+    .confirm-abandon-session
+        background-color: var(--bg-secondary)
+        border-color: var(--border-primary)
+
+    .modal-header
+        border-bottom-color: var(--border-primary)
+
+        .close-button
+            color: var(--text-secondary)
+
+            &:hover
+                background-color: var(--bg-primary)
+                color: var(--text-primary)
+
+    .modal-body
+        .confirm-message
+            color: var(--text-primary, #ffffff)
+
+        .confirm-button
+            color: var(--text-primary, #ffffff)
+
+            &:hover
+                background-color: #dc2626
+                box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4)
+
+// Responsividade
+@media (max-width: 480px)
+    .confirm-abandon-session
+        width: 95%
+        margin: 1rem
+
+        .modal-header
+            padding: 1rem
+
+        .modal-body
+            padding: 1rem
+
+            .cancel-button,
+            .confirm-button
+                width: 100%
+                justify-content: center

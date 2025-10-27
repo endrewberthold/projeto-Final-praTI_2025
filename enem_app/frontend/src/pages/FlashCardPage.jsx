@@ -479,10 +479,19 @@ export default function FlashcardPage() {
       </section>
       <section
         className={`flashcard-dashboard-container ${theme} ${
-          filteredFlashcards.length > 1 ? 'multiple-cards' : 'single-card'
+          flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
         }`}
       >
-        {filteredFlashcards && filteredFlashcards.length > 0 ? (
+        {isLoading || isDeleting ? (
+          <div className="loading-container">
+            <FaSpinner className="loading-spinner" />
+            <p className="loading-text">
+              {isDeleting
+                ? 'Excluindo flashcard...'
+                : 'Carregando flashcards...'}
+            </p>
+          </div>
+        ) : flashcardsData && flashcardsData.length > 0 ? (
           <>
             {filteredFlashcards.map((item, index) => (
               <FlashCard

@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const types = {
   input: { message: 'Preencha o campo "Título"' },
   select: { message: 'Selecione uma área de conhecimento' },
   textarea: { message: 'Preencha o campo "Descrição"' },
+  empty: {
+    message:
+      'Para criar um Flashcard, preeencha todos os campos do formulário !',
+  },
 };
 
 const useForm = (type = '') => {
   const [value, setValue] = useState('');
-  const [cardModal, setCardModal] = useState({
+  const [modal, setModal] = useState({
     isOpen: false,
     flashcardId: null,
     flashcardTerm: '',
@@ -21,6 +25,7 @@ const useForm = (type = '') => {
     if (type === false) return true;
     if (!value || value.length === 0) {
       setError(types[type].message);
+      setTimeout(() => setError(null), 2500);
       return false;
     } else {
       setError(null);
@@ -35,17 +40,14 @@ const useForm = (type = '') => {
 
   //For Modals
   const handleCardModal = (cardId, cardTerm, modalId) => {
-    setCardModal({
+    setModal({
       isOpen: true,
       flashcardId: cardId,
       flashcardTerm: cardTerm || 'Flashcard',
       modalId: modalId,
     });
-  };
-
-  const handleCloseModal = () => {
     setTimeout(() => {
-      setCardModal({
+      setModal({
         isOpen: false,
         flashcardId: null,
         flashcardTerm: '',
@@ -59,13 +61,22 @@ const useForm = (type = '') => {
     onChange,
     onBlur: () => validate(value),
     validate: () => validate(value),
-    setCardModal,
+    setModal,
     handleCardModal,
-    handleCloseModal,
-    cardModal,
+    modal,
     value,
     error,
   };
 };
 
 export default useForm;
+
+// useEffect(() => {
+//   setTimeout(() => {
+//     setNewCardModal({
+//       isCreated: false,
+//       flashcardId: null,
+//       flashcardTerm: '',
+//     });
+//   }, 5000);
+// }, [newCardModal]);

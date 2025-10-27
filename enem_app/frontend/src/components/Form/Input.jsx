@@ -23,9 +23,7 @@ const Input = ({
         placeholder={placeholder}
         {...props}
       />
-      {error && (
-        <span style={{ color: '#f24d4dcc' }}>Preencha o campo "Título"</span>
-      )}
+      {error && <span style={{ color: '#f24d4dcc' }}>{error}</span>}
     </>
   );
 };

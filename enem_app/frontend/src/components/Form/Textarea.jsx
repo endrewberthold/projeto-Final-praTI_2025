@@ -23,9 +23,7 @@ const Textarea = ({
         placeholder={placeholder}
         {...props}
       />
-      {error && (
-        <span style={{ color: '#f24d4dcc' }}>Preencha o campo "Descrição"</span>
-      )}
+      {error && <span style={{ color: '#f24d4dcc' }}>{error}</span>}
     </>
   );
 };

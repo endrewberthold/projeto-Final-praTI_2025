@@ -11,7 +11,9 @@ const ConfirmCreateModal = ({ cardTerm, modalId }) => {
         {cardTerm && (
           <h3>
             Flashcard <strong>{cardTerm}</strong>
-            {modalId == 'new' ? ' criado !' : ' atualizado !'}
+            {modalId == 'new'
+              ? ' criado com sucesso!'
+              : ' atualizado com sucesso!'}
           </h3>
         )}
       </div>

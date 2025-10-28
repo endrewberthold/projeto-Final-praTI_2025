@@ -25,7 +25,7 @@ const useForm = (type = '') => {
     if (type === false) return true;
     if (!value || value.length === 0) {
       setError(types[type].message);
-      setTimeout(() => setError(null), 2500);
+      setTimeout(() => setError(null), 3000);
       return false;
     } else {
       setError(null);
@@ -70,13 +70,3 @@ const useForm = (type = '') => {
 };
 
 export default useForm;
-
-// useEffect(() => {
-//   setTimeout(() => {
-//     setNewCardModal({
-//       isCreated: false,
-//       flashcardId: null,
-//       flashcardTerm: '',
-//     });
-//   }, 5000);
-// }, [newCardModal]);

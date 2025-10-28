@@ -53,6 +53,7 @@ export default function FlashcardPage() {
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+  const [formTitle, setFormTitle] = useState(false);
 
   // For Forms
   const input = useForm('input');
@@ -117,7 +118,7 @@ export default function FlashcardPage() {
     console.log(areaId);
     console.log(description);
 
-    if (term !== '' || areaId !== '' || description !== '') {
+    if (term && areaId && description) {
       try {
         const response = await newFlashcardAPI(
           accessToken,
@@ -145,6 +146,7 @@ export default function FlashcardPage() {
   async function handleRequestUpdateFlashcard(item) {
     console.log('UPDATE: ', item);
     //console.log("REQUEST UPDATE: ", updateFlashcard);
+    setFormTitle(true);
 
     setTerm(item.term);
     setAreaId(item.areaId);
@@ -229,6 +231,7 @@ export default function FlashcardPage() {
     setAreaId('');
     setDescription('');
     setUpdateRequest(false);
+    setFormTitle(false);
   };
 
   // Funções para seleção múltipla
@@ -344,7 +347,7 @@ export default function FlashcardPage() {
       />
       <section className={`flashcard-container`}>
         <form className={`form-flashcard-container`}>
-          <h1>Criar Flashcard</h1>
+          {!formTitle ? <h1>Criar Flashcard</h1> : <h1>Atualizar Flashcard</h1>}
           <div className="form-input">
             <Input
               id="title"

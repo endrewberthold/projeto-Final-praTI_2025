@@ -53,6 +53,7 @@ export default function FlashcardPage() {
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+  const [formTitle, setFormTitle] = useState(false);
 
   // For Forms
   const input = useForm('input');
@@ -60,8 +61,8 @@ export default function FlashcardPage() {
   const textarea = useForm('textarea');
 
   // For modals
-  const newCardModal = useForm();
-  const updateModal = useForm();
+  const cardModal = useForm();
+  const newEmptyCard = useForm('empty');
 
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -71,9 +72,6 @@ export default function FlashcardPage() {
 
   // For FlashCardPageButtons
   const [selectedAreaIds, setSelectedAreaIds] = useState([]);
-
-  // For selected icon
-  const [selectedIcon, setSelectedIcon] = useState('mortarboard');
 
   // For multiple selection
   const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -88,16 +86,6 @@ export default function FlashcardPage() {
   useEffect(() => {
     handleFetchFlashcards();
   }, [newFlashcard]);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setNewCardModal({
-  //       isCreated: false,
-  //       flashcardId: null,
-  //       flashcardTerm: '',
-  //     });
-  //   }, 5000);
-  // }, [newCardModal]);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
@@ -130,22 +118,25 @@ export default function FlashcardPage() {
     console.log(areaId);
     console.log(description);
 
-    try {
-      const response = await newFlashcardAPI(
-        accessToken,
-        term,
-        areaId,
-        description,
-      );
-      setNewFlascard(response?.data);
-      newCardModal.handleCardModal(
-        response?.data.id,
-        response?.data.term,
-        'new',
-      );
-      newCardModal.handleCloseModal();
-    } catch (err) {
-      console.log('ERRO: ', err);
+    if (term && areaId && description) {
+      try {
+        const response = await newFlashcardAPI(
+          accessToken,
+          term,
+          areaId,
+          description,
+        );
+        setNewFlascard(response?.data);
+        cardModal.handleCardModal(
+          response?.data.id,
+          response?.data.term,
+          'new',
+        );
+      } catch (err) {
+        console.log('ERRO: ', err);
+      }
+    } else {
+      newEmptyCard.validate(false);
     }
     handleClear(e);
   }
@@ -155,6 +146,7 @@ export default function FlashcardPage() {
   async function handleRequestUpdateFlashcard(item) {
     console.log('UPDATE: ', item);
     //console.log("REQUEST UPDATE: ", updateFlashcard);
+    setFormTitle(true);
 
     setTerm(item.term);
     setAreaId(item.areaId);
@@ -181,13 +173,11 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
-      updateModal.handleCardModal(
+      cardModal.handleCardModal(
         response?.data.id,
         response?.data.term,
         'update',
       );
-      updateModal.handleCloseModal();
-
       setUpdateRequest(false);
     } catch (err) {
       console.log('ERRO: ', err);
@@ -237,16 +227,11 @@ export default function FlashcardPage() {
 
   const handleClear = (e) => {
     e.preventDefault();
-    input.setValue('');
-    select.setValue('');
-    textarea.setValue('');
     setTerm('');
+    setAreaId('');
     setDescription('');
     setUpdateRequest(false);
-  };
-
-  const handleIconClick = (iconName) => {
-    setSelectedIcon(iconName);
+    setFormTitle(false);
   };
 
   // Funções para seleção múltipla
@@ -338,16 +323,10 @@ export default function FlashcardPage() {
 
   return (
     <>
-      {newCardModal.cardModal.isOpen && (
+      {cardModal.modal.isOpen && (
         <ConfirmChangeModal
-          cardTerm={newCardModal.cardModal.flashcardTerm}
-          modalId={newCardModal.cardModal.modalId}
-        />
-      )}
-      {updateModal.cardModal.isOpen && (
-        <ConfirmChangeModal
-          cardTerm={updateModal.cardModal.flashcardTerm}
-          modalId={updateModal.cardModal.modalId}
+          cardTerm={cardModal.modal.flashcardTerm}
+          modalId={cardModal.modal.modalId}
         />
       )}
       <ConfirmDeleteModal
@@ -368,7 +347,7 @@ export default function FlashcardPage() {
       />
       <section className={`flashcard-container`}>
         <form className={`form-flashcard-container`}>
-          <h1>Criar Flashcard</h1>
+          {!formTitle ? <h1>Criar Flashcard</h1> : <h1>Atualizar Flashcard</h1>}
           <div className="form-input">
             <Input
               id="title"
@@ -416,6 +395,9 @@ export default function FlashcardPage() {
               maxLength={120}
               required
             />
+            {newEmptyCard.error && (
+              <span style={{ color: '#f24d4dcc' }}>{newEmptyCard.error}</span>
+            )}
           </div>
           <div className="buttons-flashcard-container">
             {updateRequest ? (

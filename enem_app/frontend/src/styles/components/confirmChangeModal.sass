@@ -2,22 +2,24 @@
     display: flex
     align-items: center
     justify-content: center
+    flex-wrap: wrap
     position: absolute
     z-index: 2
-    top: 55px
+    top: 65px
     right: -25px
-    width: 360px
-    margin: 1rem 2.5rem
+    min-width: 400px
+    margin: 1rem 2rem
     padding: 1.7rem 0
     gap: 0.75rem
     border-radius: .5rem
     opacity: .7
     transition: opacity 3.5s ease
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0);
 
     .title-icon
         color: var(--accent-primary)
         font-size: 1.25rem
+        margin-left: 1rem
 
     .pop-title
         display: flex
@@ -25,9 +27,9 @@
 
         h3
             color: var(--text-primary)
-            font-size: 1.25rem
+            font-size: 1rem
             font-weight: 600
-            margin: 0
+            margin-right: 1rem
 
             strong
                 color: var(--accent-primary)

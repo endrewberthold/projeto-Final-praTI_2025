@@ -3,6 +3,11 @@ package org.plataform.backend.userConfiguration.controllers;
 
 import org.plataform.backend.userConfiguration.dtos.metrics.ProfileDTO;
 import org.plataform.backend.userConfiguration.dtos.users.ProfileResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.plataform.backend.userConfiguration.dtos.users.UserResponse;
 import org.plataform.backend.userConfiguration.entity.User;
 import org.plataform.backend.userConfiguration.services.ProfileService;
@@ -35,6 +40,17 @@ public class UserController {
      * endpoint é usado para que um usuário autenticado obtenha suas próprias informações de perfil
      * **/
     @GetMapping("/profile")
+    @Operation(
+            summary = "Obter perfil do usuário",
+            description = "Retorna as informações de perfil do usuário atualmente autenticado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Perfil retornado com sucesso",
+                    content = @Content(
+                            schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Usuário não autenticado",
+                    content = @Content)
+    })
     public ResponseEntity<UserResponse> getProfile() {
         // Obtém o objeto de autenticação do contexto de segurança
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -62,6 +78,15 @@ public class UserController {
      * endpoint é usado para obter uma lista de todos os usuários do sistema
      * **/
     @GetMapping("/all")
+    @Operation(
+            summary = "Listar todos os usuários",
+            description = "Retorna uma lista com todos os usuários cadastrados no sistema."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuários retornada",
+                    content = @Content(
+                            schema = @Schema(implementation = UserResponse.class)))
+    })
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);

@@ -284,6 +284,7 @@ async function createFlashcard(term, areaId, description) {
         'Content-Type': 'application/json',
     };
 
+    
     let body = {
         term,
         areaId,

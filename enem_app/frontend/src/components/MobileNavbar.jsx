@@ -15,6 +15,11 @@ export default function MobileNavbar() {
   const { clearAuth } = useAuth();
   const navigate = useNavigate();
 
+  const hideMobileNavbar =
+      location.pathname.includes("/answer/") ||
+      location.pathname.includes("/feedback/") ||
+      location.pathname.includes("/viewFlashPage/")
+
   const handleLogout = () => {
     clearAuth();
     setIsOpen(false);
@@ -44,6 +49,7 @@ export default function MobileNavbar() {
     }
   };
 
+  if (hideMobileNavbar) return null
   return (
     <>
       <div className="mobile-navbar">

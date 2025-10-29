@@ -159,16 +159,16 @@ export default function Answers() {
            onClick={handleAnswer}
        >
           <h3 className="question-title">
-              Pergunta {currentIndex + 1} de {questions.length}
+              Questão {currentIndex + 1}
           </h3>
        </QuestionPage>
 
     <div className="timer-container">
         <p><strong>Tempo:</strong></p>
-        <p>{formatTime(elapsedTime)}</p>
+        <p className="timer-display">{formatTime(elapsedTime)}</p>
         <p className="questions-map-title"><strong>Questões:</strong></p>
         <div className="questions-map">
-            {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} onClick={() =>setCurrentIndex(index)}>{index + 1}</button>)}
+            {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} disabled>{index + 1}</button>)}
         </div>
         <button className="abandon-btn" onClick={handleBack}>← Abandonar sessão</button>
     </div>

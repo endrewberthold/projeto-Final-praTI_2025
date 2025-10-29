@@ -132,17 +132,29 @@ body
 
 .question-title
   font-size: 22px
-  font-weight: 700
-  margin-bottom: 2rem
+  font-weight: 600
+  width: 9rem
+  margin-top: 1.2rem
   background-color: inherit
   color: var(--accent-primary)
+
+.question-title-container
+  display: flex
+  
+  hr
+    width: 100%
+    border: none
+    height: 0.5px
+    background-color: var(--accent-primary)
+    border-radius: 1px
+
 
 .question-text
   font-size: 20px
   background-color: inherit
   text-align: center
   line-height: 1.7
-  margin-bottom: 3rem
+  padding: 3rem 0
   font-weight: 500
 
 .answers-list
@@ -153,7 +165,7 @@ body
   line-height: 1.8
 
 .answer-letter
-  color: var(--accent-primary)
+  color: white
   font-weight: bold
   font-size: 16px
   margin-right: 0.5rem
@@ -187,43 +199,74 @@ body
 .answer-text
   color: var(--text-primary)
   font-weight: 400
-  font-size: 14px
+  font-size: 18px
 
 .answer-btn
   margin: 2rem auto 0
   margin-right: 1rem
-  background-color: var(--text-secondary)
+  padding: 0 1.5rem
+  background: linear-gradient(135deg, #059669, #10b981)
   color: white
   font-weight: 600
-  height: min(3rem, 8vh)
-  min-height: 45px
-  width: min(12rem, 25%)
-  max-width: 200px
-  min-width: 120px
   text-align: center
-  font-size: 14px
+  font-size: 15px
+  width: fit-content
+  min-width: 160px
+  height: 3.2rem
   border-radius: 0.8rem
-  box-shadow: var(--shadow-sm)
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3)
   cursor: pointer
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
-  align-self: center
-  opacity: 0.7
+  transition: all 0.3s ease
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 0.5rem
+  border: 2px solid transparent
+  position: relative
+  overflow: hidden
+
+  &::before
+    content: '✓'
+    font-size: 14px
+    font-weight: bold
+
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 0.5s ease
 
   &:hover
-    background-color: var(--accent-primary)
-    opacity: 1
-    z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+    background: linear-gradient(135deg, #047857, #059669)
+    transform: translateY(-2px) scale(1.02)
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4)
+    border-color: rgba(255, 255, 255, 0.2)
+
+    &::after
+      left: 100%
 
   &:active
-    z-index: 20
     transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3)
     transition: transform 0.1s ease, box-shadow 0.1s ease
+
+  &:disabled
+    background: linear-gradient(135deg, #6b7280, #4b5563)
+    cursor: not-allowed
+    opacity: 0.6
+    transform: none
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2)
+
+    &:hover
+      transform: none
+      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2)
 
 
 // === BOX DE TEMPO ===
@@ -232,22 +275,61 @@ body
   display: flex
   flex: 0.18
   flex-direction: column
-  background-color: var(--bg-secondary)
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.05) 100%)
   padding: 2rem
   border-radius: 2rem
-  box-shadow: var(--shadow-lg)
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(129, 140, 248, 0.1)
   width: 90%
   max-width: 400px
   margin: 0
-  text-align: justify
+  text-align: center
+  border: 1px solid rgba(129, 140, 248, 0.1)
+  position: relative
+  overflow: hidden
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 4px
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
+    background-size: 200% 100%
+    animation: shimmer 3s ease-in-out infinite
 
 .timer-container p
   background-color: inherit
+  margin: 0.5rem 0
+
+.timer-container p:first-child
+  font-weight: 600
+  color: var(--text-primary)
+  font-size: 16px
+  position: relative
+
+  &::before
+    margin-right: 0.5rem
+    font-size: 14px
 
 .timer-display
   margin-top: 0.5rem
-  font-size: 18px
-  font-weight: 400
+  font-size: 24px
+  font-weight: 700
+  color: var(--accent-primary)
+  letter-spacing: 1px
+  position: relative
+
+  &::after
+    content: ''
+    position: absolute
+    bottom: -8px
+    left: 50%
+    transform: translateX(-50%)
+    width: 60px
+    height: 3px
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent)
+    border-radius: 2px
 
 .questions-map
   padding: 1rem
@@ -259,7 +341,20 @@ body
 .questions-map-title
   margin-top: 1.5rem
   font-size: 18px
-  font-weight: 400
+  font-weight: 600
+  color: var(--text-primary)
+  position: relative
+
+  &::before
+    margin-right: 0.5rem
+    font-size: 16px
+
+// === ANIMAÇÕES ===
+@keyframes shimmer
+  0%
+    background-position: -200% 0
+  100%
+    background-position: 200% 0
 
 .question-btn
   margin: 0 auto
@@ -298,35 +393,58 @@ body
 .abandon-btn
   margin: 1.2rem auto 0
   padding: 0 1.5rem
-  background-color: var(--text-secondary)
+  background: linear-gradient(135deg, #b91c1c, #dc2626)
   color: white
-  font-weight: bold
+  font-weight: 600
   text-align: center
-  font-size: 16px
+  font-size: 15px
   width: fit-content
-  min-width: 140px
-  height: 3.5rem
+  min-width: 160px
+  height: 3.2rem
   border-radius: 0.8rem
-  box-shadow: var(--shadow-sm)
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3)
   cursor: pointer
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
-  opacity: 0.7
+  transition: all 0.3s ease
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 0.5rem
+  border: 2px solid transparent
+  position: relative
+  overflow: hidden
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 0.5s ease
 
   &:hover
-    background-color: var(--accent-primary)
-    opacity: 1
-    z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+    background: linear-gradient(135deg, #991b1b, #b91c1c)
+    transform: translateY(-2px) scale(1.02)
+    box-shadow: 0 8px 25px rgba(185, 28, 28, 0.4)
+    border-color: rgba(255, 255, 255, 0.2)
+
+    &::before
+      left: 100%
 
   &:active
-    z-index: 20
     transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3)
     transition: transform 0.1s ease, box-shadow 0.1s ease
+
+  svg
+    transition: transform 0.2s ease
+
+  &:hover svg
+    transform: translateX(-2px)
 
 // === TEMA DARK ===
 body.dark
@@ -373,11 +491,15 @@ body.dark
   .question-title
     color: var(--accent-primary)
     
+  .question-title-container
+    hr
+      background-color: var(--accent-primary)
+    
   .question-text
     color: var(--text-primary)
     
   .answer-letter
-    color: var(--accent-primary)
+    color: white
     
   .answer-option
     background-color: var(--bg-primary)
@@ -394,30 +516,39 @@ body.dark
     color: var(--text-primary)
     
   .answer-btn
-    background-color: var(--text-secondary)
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
     color: white
-    box-shadow: var(--shadow-sm)
-    opacity: 0.7
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
     
     &:hover
-      background-color: var(--accent-primary)
-      opacity: 1
-      box-shadow: 0 8px 25px rgba(129, 140, 248, 0.5)
-      transform: translateY(-2px) scale(1.01)
+      background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))
+      box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5)
+      transform: translateY(-3px) scale(1.02)
       
     &:active
-      box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3)
+      box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+      
+    &:disabled
+      background: linear-gradient(135deg, #6b7280, #4b5563)
+      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3)
       
   .timer-container
-    background-color: var(--bg-secondary)
-    border: 1px solid var(--border-primary)
-    box-shadow: var(--shadow-lg)
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.08) 100%)
+    border: 1px solid rgba(129, 140, 248, 0.2)
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(129, 140, 248, 0.15)
+    
+    &::before
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
     
     p
       color: var(--text-primary)
       
+    p:first-child
+      color: var(--text-primary)
+      
   .timer-display
-    color: var(--text-primary)
+    color: var(--accent-primary)
+    text-shadow: 0 2px 4px rgba(129, 140, 248, 0.4)
       
   .questions-map-title
     color: var(--text-primary)
@@ -442,19 +573,17 @@ body.dark
       opacity: 1
       
   .abandon-btn
-    background-color: var(--text-secondary)
+    background: linear-gradient(135deg, #b91c1c, #dc2626)
     color: white
-    box-shadow: var(--shadow-sm)
-    opacity: 0.7
+    box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3)
     
     &:hover
-      background-color: var(--accent-primary)
-      opacity: 1
-      box-shadow: 0 8px 25px rgba(129, 140, 248, 0.5)
-      transform: translateY(-2px) scale(1.01)
+      background: linear-gradient(135deg, #b91c1c, #dc2626)
+      box-shadow: 0 8px 25px rgba(185, 28, 28, 0.4)
+      transform: translateY(-2px) scale(1.02)
       
     &:active
-      box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3)
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3)
 
 // === RESPONSIVIDADE ===
 @media (max-width: 1024px)
@@ -499,10 +628,13 @@ body.dark
     
   .answer-btn
     margin: 1.5rem auto 0
-    width: min(10rem, 30%)
-    font-size: 15px
-    height: 2.5rem
-    min-height: 40px
+    width: min(12rem, 35%)
+    font-size: 16px
+    height: 3rem
+    min-height: 45px
+    
+    &::before
+      font-size: 14px
 
 @media (max-width: 480px)
   .back-button
@@ -529,14 +661,23 @@ body.dark
   .answer-btn
     margin: 1rem auto 0
     margin-right: 1rem
-    width: min(8rem, 35%)
-    font-size: 14px
-    height: 2.2rem
-    min-height: 35px
+    width: min(10rem, 40%)
+    font-size: 15px
+    height: 2.8rem
+    min-height: 40px
+    
+    &::before
+      font-size: 13px
     
   .timer-container
-    padding: 1rem
+    padding: 1.5rem
     width: 95%
+    
+    .timer-display
+      font-size: 20px
+      
+    p:first-child
+      font-size: 14px
     
   .question-btn
     width: 22%

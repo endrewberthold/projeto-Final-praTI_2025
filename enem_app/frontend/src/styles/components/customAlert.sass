@@ -1,0 +1,197 @@
+.alert-overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.3)
+    display: flex
+    justify-content: center
+    align-items: flex-start
+    padding-top: 2rem
+    z-index: 2000
+    backdrop-filter: blur(2px)
+
+.custom-alert
+    background-color: var(--bg-secondary)
+    border-radius: 1rem
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2)
+    border: 2px solid transparent
+    max-width: 400px
+    width: 90%
+    max-height: 200px
+    overflow: hidden
+    animation: alertSlideIn 0.4s ease-out
+    position: relative
+
+    &.warning
+        border-color: #f59e0b
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(245, 158, 11, 0.05) 100%)
+
+    &.error
+        border-color: #ef4444
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(239, 68, 68, 0.05) 100%)
+
+    &.success
+        border-color: #10b981
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(16, 185, 129, 0.05) 100%)
+
+    &.info
+        border-color: #3b82f6
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(59, 130, 246, 0.05) 100%)
+
+    .alert-header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: 1rem 1.5rem 0.5rem 1.5rem
+
+        .alert-title
+            display: flex
+            align-items: center
+            gap: 0.75rem
+
+            .alert-icon
+                font-size: 1.25rem
+
+                &.warning
+                    color: #f59e0b
+
+                &.error
+                    color: #ef4444
+
+                &.success
+                    color: #10b981
+
+                &.info
+                    color: #3b82f6
+
+            h4
+                color: var(--text-primary)
+                font-size: 1.1rem
+                font-weight: 600
+                margin: 0
+
+        .alert-close
+            background: none
+            border: none
+            color: var(--text-secondary)
+            font-size: 1rem
+            cursor: pointer
+            padding: 0.5rem
+            border-radius: 0.5rem
+            transition: all 0.2s ease
+
+            &:hover
+                background-color: var(--bg-primary)
+                color: var(--text-primary)
+
+    .alert-body
+        padding: 0 1.5rem 1rem 1.5rem
+
+        p
+            color: var(--text-primary)
+            font-size: 0.95rem
+            line-height: 1.5
+            margin: 0
+
+    .alert-progress
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+        height: 3px
+        background-color: rgba(0, 0, 0, 0.1)
+        overflow: hidden
+
+        .progress-bar
+            height: 100%
+            background: linear-gradient(90deg, #f59e0b, #fbbf24)
+            animation: progressCountdown 4s linear forwards
+
+            .error &
+                background: linear-gradient(90deg, #ef4444, #f87171)
+
+            .success &
+                background: linear-gradient(90deg, #10b981, #34d399)
+
+            .info &
+                background: linear-gradient(90deg, #3b82f6, #60a5fa)
+
+// Animação de entrada
+@keyframes alertSlideIn
+    0%
+        transform: translateY(-100px) scale(0.9)
+        opacity: 0
+        
+    100%
+        transform: translateY(0) scale(1)
+        opacity: 1
+
+// Animação da barra de progresso
+@keyframes progressCountdown
+    0%
+        width: 100%
+        
+    100%
+        width: 0%
+
+// Tema escuro
+body.dark
+    .custom-alert
+        background-color: var(--bg-secondary)
+        border: 2px solid transparent
+
+        &.warning
+            border-color: #f59e0b
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(245, 158, 11, 0.08) 100%)
+
+        &.error
+            border-color: #ef4444
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(239, 68, 68, 0.08) 100%)
+
+        &.success
+            border-color: #10b981
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(16, 185, 129, 0.08) 100%)
+
+        &.info
+            border-color: #3b82f6
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(59, 130, 246, 0.08) 100%)
+
+        .alert-header
+            .alert-title
+                h4
+                    color: var(--text-primary)
+
+            .alert-close
+                color: var(--text-secondary)
+
+                &:hover
+                    background-color: var(--bg-primary)
+                    color: var(--text-primary)
+
+        .alert-body
+            p
+                color: var(--text-primary)
+
+// Responsividade
+@media (max-width: 480px)
+    .alert-overlay
+        padding-top: 1rem
+
+    .custom-alert
+        width: 95%
+        margin: 0 1rem
+
+        .alert-header
+            padding: 0.75rem 1rem 0.5rem 1rem
+
+            .alert-title
+                h4
+                    font-size: 1rem
+
+        .alert-body
+            padding: 0 1rem 0.75rem 1rem
+
+            p
+                font-size: 0.9rem

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
 import {
   startSessionAPI,
   sendAnswerAPI,
@@ -8,6 +8,8 @@ import {
 } from "../services/SkillsServices";
 import useAuth from "../hooks/useAuth";
 import QuestionPage from "./QuestionPage.jsx";
+import ConfirmFinishSessionModal from "../components/ConfirmFinishSessionModal.jsx";
+import CustomAlert from "../components/CustomAlert.jsx";
 import "../styles/pages/questionPage.sass";
 
 export default function Answers() {
@@ -26,6 +28,8 @@ export default function Answers() {
   const [started, setStarted] = useState(false);
 
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const intervalRef = useRef(null); // guarda o intervalo ativo
   const sessionStartRef = useRef(null); // guarda o tempo inicial
 
@@ -61,7 +65,10 @@ export default function Answers() {
   // Envia resposta e avança
   async function handleAnswer() {
    const question = questions[currentIndex];
-   if(!selectedAnswer) return alert("Selecione uma alternativa!") // precisa arrumar
+   if(!selectedAnswer) {
+     setShowAlert(true);
+     return;
+   }
 
     try {
       await sendAnswerAPI(
@@ -127,6 +134,28 @@ export default function Answers() {
         navigate(`/skillPage/${areaId}`);
     }
 
+    //Mostra modal de confirmação para finalizar sessão
+    function handleAbandonClick() {
+        setShowConfirmModal(true);
+    }
+
+    //Confirma finalização da sessão
+    function handleConfirmFinish() {
+        setShowConfirmModal(false);
+        clearInterval(intervalRef.current);
+        navigate(`/skillPage/${areaId}`);
+    }
+
+    //Cancela finalização da sessão
+    function handleCancelFinish() {
+        setShowConfirmModal(false);
+    }
+
+    //Fecha o alerta
+    function handleCloseAlert() {
+        setShowAlert(false);
+    }
+
   if (!started)
   return (
       <div className="start-screen">
@@ -150,6 +179,7 @@ export default function Answers() {
 
 
   return (
+    <>
       <div className="question-screen">
 
            <QuestionPage
@@ -158,9 +188,12 @@ export default function Answers() {
            onSelect={(_, val) => setSelectedAnswer(val)}
            onClick={handleAnswer}
        >
+        <div className="question-title-container">
           <h3 className="question-title">
-              Questão {currentIndex + 1}
+            Questão {currentIndex + 1}
           </h3>
+          <hr/>
+        </div>
        </QuestionPage>
 
     <div className="timer-container">
@@ -170,8 +203,29 @@ export default function Answers() {
         <div className="questions-map">
             {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} disabled>{index + 1}</button>)}
         </div>
-        <button className="abandon-btn" onClick={handleBack}>← Abandonar sessão</button>
+        <button className="abandon-btn" onClick={handleAbandonClick}>
+          <FaSignOutAlt size={16} />
+          Finalizar Sessão
+        </button>
     </div>
     </div>
+
+    <ConfirmFinishSessionModal
+      isOpen={showConfirmModal}
+      onClose={handleCancelFinish}
+      onConfirm={handleConfirmFinish}
+      title="Finalizar Sessão"
+      message="Tem certeza que deseja finalizar a sessão atual?"
+      additionalInfo="Todo o progresso não salvo será perdido."
+    />
+
+    <CustomAlert
+      isOpen={showAlert}
+      onClose={handleCloseAlert}
+      title="Atenção"
+      message="Selecione uma alternativa antes de continuar!"
+      type="warning"
+    />
+    </>
   );
 }

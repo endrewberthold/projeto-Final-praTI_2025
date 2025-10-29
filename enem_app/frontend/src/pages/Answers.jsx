@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import {
   startSessionAPI,
   sendAnswerAPI,
@@ -129,13 +130,17 @@ export default function Answers() {
   if (!started)
   return (
       <div className="start-screen">
+          <button className="back-button" onClick={handleBack}>
+              <FaArrowLeft size={16} />
+              Voltar tela anterior
+          </button>
           <img
               id="start-image"
               src="/Questions/quiz-image.svg"
               alt="Imagem feedback negativo"
           />
-          <h3 className="start-title">Bem-vindo!</h3>
-          <p>Clique abaixo para começar o quiz.</p>
+          <h3 className="start-title">Pronto para o desafio?</h3>
+          <p>Teste seus conhecimentos e mostre seu potencial!</p>
 
           <button className="start-btn" onClick={handleStart}>
               Começar
@@ -165,7 +170,7 @@ export default function Answers() {
         <div className="questions-map">
             {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} onClick={() =>setCurrentIndex(index)}>{index + 1}</button>)}
         </div>
-        <button className="abandon-btn" onClick={handleBack}>Abandonar sessão</button>
+        <button className="abandon-btn" onClick={handleBack}>← Abandonar sessão</button>
     </div>
     </div>
   );

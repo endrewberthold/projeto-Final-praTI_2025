@@ -85,8 +85,8 @@ export default function SkillPage() {
         <div className="area-icon-selector">
           <div className="icon-grid">
             {[
-              { id: 'MT', label: 'Matemática', color: getAreaColor('MT') },
               { id: 'LC', label: 'Linguagens', color: getAreaColor('LC') },
+              { id: 'MT', label: 'Matemática', color: getAreaColor('MT') },
               { id: 'CN', label: 'Ciências', color: getAreaColor('CN') },
               { id: 'CH', label: 'Humanas', color: getAreaColor('CH') }
             ].map((area) => (

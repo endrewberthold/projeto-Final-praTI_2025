@@ -21,7 +21,7 @@
     height: 55px !important
     border-radius: 50% !important
     border: 3px solid var(--area-color, #4A90E2) !important
-    background: linear-gradient(135deg, var(--bg-primary, #ffffff) 0%, #f8f9fa 100%) !important
+    background: var(--bg-primary) !important
     cursor: pointer !important
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important
     display: flex !important
@@ -39,7 +39,7 @@
         left: 0
         right: 0
         bottom: 0
-        background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(74, 144, 226, 0.05) 100%)
+        background: var(--bg-primary)
         border-radius: 50%
         opacity: 0
         transition: opacity 0.3s ease
@@ -110,12 +110,12 @@
 body.dark
     .icons-flashcard-container
         .icon-flashcard
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #2a2a2a 100%)
+            background: var(--bg-primary)
             border-color: #818cf8
             box-shadow: 0 4px 15px rgba(129, 140, 248, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3)
             
             &::before
-                background: linear-gradient(135deg, rgba(129, 140, 248, 0.15) 0%, rgba(129, 140, 248, 0.08) 100%)
+                background: var(--bg-primary)
             
             &:hover
                 box-shadow: 0 8px 25px rgba(129, 140, 248, 0.4), 0 4px 15px rgba(0, 0, 0, 0.4)

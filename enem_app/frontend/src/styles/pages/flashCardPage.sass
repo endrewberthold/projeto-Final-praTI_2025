@@ -298,15 +298,16 @@
         border-color: var(--accent-secondary)git c
 
 .flashcard-dashboard-container
-    display: grid
+    display: flex
+    flex-wrap: wrap
     min-height: auto
     min-width: 100%
-    // grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr))
+    max-width: 100%
     flex: 1
-    gap: min(0.25rem, 4px, 0.25vw)
+    gap: 0.5rem
     align-items: flex-start
-    justify-content: center
-    justify-items: flex-start
+    justify-content: flex-start
+    padding: 0 2rem
 
     // Quando não há flashcards, centraliza o container vazio
     &:has(.empty-flashcards-container)
@@ -491,10 +492,19 @@
     width: 2.5rem
     padding: 10px
 
-.flashcard-dashboard-container
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr))
-    gap: min(0.25rem, 4px, 0.25vw)
-    justify-items: center
+// Estilos para os cards individuais no container flex
+.flashcard-dashboard-container > *
+    flex: 0 0 auto
+    min-width: 20rem
+    max-width: 19rem
+    width: 100%
+    gap: 0.5rem
+    
+    
+    // Quando há apenas um card, ocupa toda a largura disponível
+    .single-card &
+        flex: 1 1 100%
+        max-width: 30rem
 
 .empty-flashcards-container
     padding: 2rem 1rem
@@ -504,9 +514,33 @@
     width: 100%
     justify-content: center
 
+// Responsividade para o container de flashcards
+@media (max-width: 1200px)
+    .flashcard-dashboard-container
+        padding: 0 1.5rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 18rem
+        max-width: 22rem
+
+@media (max-width: 768px)
+    .flashcard-dashboard-container
+        padding: 0 1rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 16rem
+        max-width: 20rem
+
 @media (max-width: 480px)
     .flashcard-container
         padding: 0.75rem
+        
+    .flashcard-dashboard-container
+        padding: 0 0.75rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 14rem
+        max-width: 18rem
 
         .add-flashcard-btn
             height: 50px

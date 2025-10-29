@@ -143,6 +143,10 @@ export default function FlashcardPage() {
     textarea.setValue(item.description);
 
     setUpdateRequest(true);
+    setIsFormExpanded(true); // Abre o formulário automaticamente
+    
+    // Scroll para o topo para mostrar o formulário
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // UPDATE FLASHCARD
@@ -158,10 +162,19 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
+      
+      // Apenas limpar os campos, manter formulário aberto
+      input.setValue('');
+      select.setValue('');
+      textarea.setValue('');
+      setTerm('');
+      setDescription('');
+      setAreaId('');
+      setId(null);
+      setUpdateRequest(false);
     } catch (err) {
       console.log('ERRO: ', err);
     }
-    handleClear(e);
   }
 
   // OPEN DELETE CONFIRMATION MODAL
@@ -211,6 +224,10 @@ export default function FlashcardPage() {
     textarea.setValue('');
     setTerm('');
     setDescription('');
+    setAreaId('');
+    setId(null);
+    setUpdateRequest(false);
+    // Não fecha o formulário automaticamente - apenas limpa os campos
   };
 
   const handleIconClick = (iconName) => {
@@ -220,6 +237,20 @@ export default function FlashcardPage() {
   // Toggle form expansion
   const toggleFormExpansion = () => {
     setIsFormExpanded(!isFormExpanded);
+  };
+
+  // Função para fechar o formulário (apenas quando usuário clicar no botão de fechar)
+  const handleCloseForm = () => {
+    setIsFormExpanded(false);
+    // Limpar campos ao fechar
+    input.setValue('');
+    select.setValue('');
+    textarea.setValue('');
+    setTerm('');
+    setDescription('');
+    setAreaId('');
+    setId(null);
+    setUpdateRequest(false);
   };
 
   // Funções para seleção múltipla
@@ -311,10 +342,10 @@ export default function FlashcardPage() {
         {/* Add Button */}
         <button 
           className={`add-flashcard-btn ${isFormExpanded ? 'expanded' : ''}`}
-          onClick={toggleFormExpansion}
+          onClick={isFormExpanded ? handleCloseForm : toggleFormExpansion}
           title={isFormExpanded ? 'Fechar formulário' : 'Criar novo flashcard'}
         >
-          <span className="add-text">Criar Flashcards</span>
+          <span className="add-text">{isFormExpanded ? 'Fechar' : 'Criar Flashcards'}</span>
           <div className="add-icon-container">
             <FaPlus className={`add-icon ${isFormExpanded ? 'rotated' : ''}`} />
           </div>

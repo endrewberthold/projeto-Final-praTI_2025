@@ -63,13 +63,14 @@
         margin: 0 auto 0.75rem auto
 
 .profile-banner 
-    background: var(--dashboard-banner-bg)
+    background: var(--bg-secondary)
     border-radius: 1rem
     width: 37rem
     height: 14rem
     display: flex
     position: relative
     flex-shrink: 0
+    border: 1px solid var(--border-primary);
 
     // Media queries para responsividade
     @media (max-width: 992px)
@@ -89,7 +90,7 @@
 .button-icon
     position: absolute
     padding: 0.7rem
-    background: var(--dashboard-banner-bg)
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     border-radius: 1rem
     box-shadow: 0 2px 0
     top: 6px

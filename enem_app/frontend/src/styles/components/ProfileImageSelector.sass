@@ -142,12 +142,17 @@
           border: 3px solid transparent
           border-radius: 50%
           padding: 0
-          background: transparent
+          background: var(--bg-primary)
           cursor: pointer
           transition: all 0.2s ease
 
+          &:hover
+            background: var(--bg-secondary)
+            border-color: var(--border-primary)
+
           &.selected
             border-color: var(--accent-primary)
+            background: var(--accent-primary)
             transform: scale(1.05)
 
           img

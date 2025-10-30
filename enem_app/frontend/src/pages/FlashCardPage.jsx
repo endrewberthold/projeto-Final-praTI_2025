@@ -335,27 +335,22 @@ export default function FlashcardPage() {
   };
 
   const confirmBulkDelete = async () => {
+    setIsDeleting(true);
+    const ids = bulkDeleteModal.selectedIds;
     try {
-      setIsDeleting(true);
-
-      // Deletar cada flashcard selecionado
-      for (const flashcardId of bulkDeleteModal.selectedIds) {
-        await deleteFlashcardAPI(accessToken, flashcardId);
-      }
-
-      // Atualizar a lista
+      await Promise.all(ids.map(id =>
+        deleteFlashcardAPI(accessToken, id).catch(e => e)
+      ));
       handleFetchFlashcards();
-
-      // Limpar seleção
       setSelectedFlashcards([]);
       setIsSelectionMode(false);
       closeBulkDeleteModal();
     } catch (err) {
-      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS:', err);
     } finally {
       setIsDeleting(false);
     }
-  };
+  }
 
   if (isLoading || isDeleting) {
     return (

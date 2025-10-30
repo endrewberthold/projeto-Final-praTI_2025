@@ -6,9 +6,11 @@
     position: fixed
     z-index: 1001
     top: 1rem
-    left: 50%
-    transform: translateX(-50%)
-    min-width: min(400px, 90vw)
+    right: 1.25rem
+    left: auto
+    transform: none
+    width: 96vw
+    max-width: 400px
     padding: 0.9rem 1rem
     border-radius: .75rem
     background: var(--bg-secondary)
@@ -18,7 +20,7 @@
     animation: toastSlideDown 0.35s ease-out
 
     .title-icon
-        color: var(--accent-primary)
+        color: #1ebd80
         font-size: 1.25rem
         flex-shrink: 0
 
@@ -35,15 +37,21 @@
             text-align: center
 
             strong
-                color: var(--accent-primary)
+                color: #1ebd80
+
+    &.info
+        .pop-title
+            h3
+                strong
+                    color: var( --accent-primary)
 
 // Slide down animation
 @keyframes toastSlideDown
     0%
         opacity: 0
-        transform: translate(-50%, -10px)
+        transform: translateY(-10px)
     100%
         opacity: 1
-        transform: translate(-50%, 0)
+        transform: translateY(0)
 
 // (toast does not need modal-body styling here)

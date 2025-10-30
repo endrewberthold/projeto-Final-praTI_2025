@@ -1,0 +1,300 @@
+@use '../variables'
+
+// === TELA COMEÇAR ===
+.start-screen
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  background-color: var(--bg-secondary)
+  padding: 40px
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+  width: 90%
+  max-width: 600px
+  min-width: 320px
+  margin: 6rem auto
+  text-align: center
+  overflow: hidden
+
+.start-title
+  font-weight: bold
+  font-size: 1.4rem
+  color: var(--accent-primary)
+  margin-bottom: 1rem
+
+.start-text
+  font-size: 0.9rem
+
+#start-image
+  width: 50%
+  height: 50%
+  display: block
+  margin: 0 auto 2rem
+
+.start-btn
+  background-color: var(--accent-primary)
+  color: var(--bg-primary, #ffffff)
+  font-weight: bold
+  min-height: 40px
+  max-width: 200px
+  min-width: 150px
+  text-align: center
+  font-size: 0.9rem
+  margin: 2rem auto 0
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+// === TELA QUESTÕES ===
+
+.question-screen
+  background-color: var(--bg-primary)
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: flex-start
+  width: 1000vh
+  height: auto
+  gap: 5%
+  margin: 1rem auto
+  overflow: hidden
+  box-sizing: border-box
+  padding: 2rem
+
+.question-container
+  display: flex
+  flex: 0.75       // ocupa ~75% da tela
+  flex-direction: column
+  justify-content: center
+  background-color: var(--bg-secondary)
+  padding: 1.5rem
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+  width: 60%
+  max-width: 820px
+  min-width: 320px
+  margin: 0
+  text-align: center
+  overflow: hidden
+
+.question-title
+  font-size: 1.2rem
+  margin-bottom: 0.5rem
+  color: var(--accent-primary)
+
+.question-text
+  font-size: 0.9rem
+  text-align: center
+  line-height: 1.2rem
+  margin-bottom: 2rem
+
+.answers-list
+  display: flex
+  flex-direction: column
+  gap: 10px
+  text-align: justify
+  line-height: 2
+
+.answer-letter
+  color: var(--accent-primary)
+  font-weight: bold
+
+.answer-option
+  font-size: 0.9rem
+  padding: 5px 7px
+  background-color: var(--bg-primary)
+  border-radius: variables.$border-radius-card-secondary
+  line-height: 2
+  cursor: pointer
+
+  &.selected
+    color: var(--text-primary)
+    border: 3px solid var(--text-secondary)
+    border-color: var(--accent-primary)
+
+.answer-text
+  color: var(--text-primary)
+
+.answer-btn
+  margin: 2rem auto 0
+  background-color: var(--accent-primary)
+  color: var(--bg-primary, #ffffff)
+  font-weight: bold
+  max-width: 200px
+  min-width: 150px
+  min-height: 40px
+  text-align: center
+  font-size: 0.9rem
+  border-radius: 0.7rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+.error-message
+  color: red
+  font-size: 0.8rem
+
+// === CONTAINER DE TEMPO ===
+.timer-container
+  font-size: 0.9rem
+  display: flex
+  flex: 0.20 // ocupa 20% da tela
+  flex-direction: column
+  background-color: var(--bg-secondary)
+  padding: 1rem
+  border-radius: 2rem
+  box-shadow: var(--shadow-lg)
+  width: 80%
+  max-width: 250px
+  height: auto
+  margin: 0
+  text-align: center
+
+.questions-map
+  padding: 0.5rem
+  display: flex
+  justify-content: space-around
+  height: 3rem
+
+.questions-map-title
+  margin-top: 1rem
+
+.question-btn
+  margin: 0 auto
+  width: 15%
+  background-color: var(--text-secondary)
+  color: var(--bg-primary, #ffffff)
+  text-align: center
+  border-radius: 0.5rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &.selected
+    background-color: var(--accent-primary)
+
+.abandon-btn
+  margin: 1rem auto 0
+  max-width: 150px
+  height: 1.8rem
+  background-color: var(--accent-primary)
+  color: var(--bg-primary, #ffffff)
+  font-weight: bold
+  text-align: center
+  font-size: 0.8rem
+  border-radius: 0.5rem
+  box-shadow: var(--shadow-lg)
+  cursor: pointer
+  box-sizing: border-box
+  touch-action: manipulation
+  webkit-tap-highlight-color: transparent
+  transition: all 0.2s ease
+
+  &:hover
+    z-index: 20
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
+    transform: translateY(-2px) scale(1.01)
+
+  &:active
+    z-index: 20
+    transform: translateY(0px) scale(0.98)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
+
+// Responsividade
+
+@media (max-width: 820px)
+  .start-screen
+    padding: 1rem
+    height: auto
+    margin: 4rem auto
+    gap: 1rem
+
+  .start-btn, .answer-btn
+    width: 80%
+    margin: 1rem auto 0
+    padding: 0.5rem 1rem
+
+  .abandon-btn
+    min-width: 200px
+    margin: 1rem auto 0
+
+  .question-screen
+    margin: 2rem auto
+    flex-direction: column
+    gap: 2rem
+
+  .question-container
+    flex: 1
+    width: 100%
+
+  .timer-container
+    margin: 0 auto
+
+@media (max-width: 425px)
+  .start-screen
+   margin: 2rem auto
+   min-height: 600px
+
+  .question-screen
+    margin: 2rem auto
+    padding: 1rem
+
+  .start-title, .question-title
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
+
+  .question-text
+    text-align: justify
+
+  .timer-container
+    width: 100%
+    flex: 1
+    max-width: 400px
+    min-width: 320px
+
+
+//Tema dark
+body.dark
+  .start-btn, .answer-btn, .abandon-btn
+    color: var(--text-primary, #ffffff)
+
+  .question-btn
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
+
+    &.selected
+      background-color: var(--accent-primary)

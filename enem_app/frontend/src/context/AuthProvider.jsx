@@ -49,14 +49,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("persist");
     }
     
-    // Resetar tema para claro ao fazer logout
-    localStorage.setItem("theme", "light");
-    document.body.className = "light";
-    
-    // Dispara evento customizado para notificar o ThemeContext
-    window.dispatchEvent(new CustomEvent('themeChanged', {
-      detail: { theme: 'light' }
-    }));
+    // NOTA: Removido o reset forçado do tema para manter a preferência do usuário
+    // O tema deve persistir independentemente do estado de autenticação
   };
 
   return (

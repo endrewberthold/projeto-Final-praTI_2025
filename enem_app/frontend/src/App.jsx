@@ -1,22 +1,24 @@
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider } from "react-router-dom";
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import Layout from './pages/Layout';
-import Dashboard from './pages/Dashboard';
+import Layout from "./pages/Layout";
+import Dashboard from "./pages/Dashboard";
 
-import FlashCardPage from './pages/FlashCardPage';
-import ViewFlashCard from './components/ViewFlashCard';
+import FlashCardPage from "./pages/FlashCardPage";
+import ViewFlashCard from "./components/ViewFlashCard";
 
-import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 
-import RequireAuth from './components/RequiredAuth';
-import PersistLogin from './components/PersistLogin';
-import UserStatusPage from './pages/UserStatusPage';
-import SkillPage from './pages/SkillPage';
-import Answers from './pages/Answers';
-import './styles/components/app.sass';
+import RequireAuth from "./components/RequiredAuth";
+import PersistLogin from "./components/PersistLogin";
+import UserStatusPage from "./pages/UserStatusPage";
+import SkillPage from "./pages/SkillPage";
+import Answers from "./pages/Answers";
+import FeedbackPage from "./pages/FeedbackPage.jsx";
+import "./styles/components/app.sass";
+import AiAssistantPage from "./pages/AiAssistantPage";
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
         <Route element={<PersistLogin />}>
           {/* Protected Routes */}
           <Route element={<RequireAuth />}>
+            <Route path="/ai" element={<AiAssistantPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/flashCardPage" element={<FlashCardPage />} />
             <Route path="/viewFlashPage/:id" element={<ViewFlashCard />} />
@@ -39,6 +42,10 @@ function App() {
             <Route
               path="/skillPage/:id/answer/:levelId"
               element={<Answers />}
+            />
+            <Route
+              path="/skillPage/:id/feedback/:sessionId"
+              element={<FeedbackPage />}
             />
           </Route>
         </Route>

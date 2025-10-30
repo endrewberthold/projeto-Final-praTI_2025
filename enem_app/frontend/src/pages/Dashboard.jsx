@@ -53,7 +53,7 @@ export default function Dashboard() {
     } else if (currentHour >= 12 && currentHour < 18) {
       return {
         greeting: `Boa tarde, ${name}!`,
-        message: "Continue firme nos estudos para o ENEM!",
+        message: "Mantenha o foco e continue estudando!",
         period: "afternoon",
       };
     } else {
@@ -76,8 +76,8 @@ export default function Dashboard() {
               <h2>{greetingData.greeting}</h2>
               <p>{greetingData.message}</p>
               <p className="banner-subtitle">
-                Acelere seus estudos com nosso método exclusivo preparatório
-                para o ENEM.
+                Pratique com questões reais e desenvolva suas habilidades para
+                conquistar sua vaga na universidade.
               </p>
             </div>
             <div className="banner-image">
@@ -146,7 +146,7 @@ export default function Dashboard() {
       <div className="upperCards">
         <UserStatusDashboard
           userData={userData}
-          imageProfile={"/imagemdeperfil.png"}
+          imageProfile={userData?.user?.profileImage || "/imagemdeperfil.png"}
           StudyTime={20}
           numberofcorrectanswers={9}
           percentage={10}

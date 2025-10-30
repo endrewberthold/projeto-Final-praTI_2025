@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public class SkillStatDTO {
     private Long skillId;
+    private String skillCode;
+    private String skillDescription;
     private long correctCount;
     private long totalCount;
     private double accuracyPct;

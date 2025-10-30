@@ -27,6 +27,27 @@
   --night-text: #ffffff
   --night-title: #ffffff
 
+  // Estilos específicos para autofill no tema claro
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active
+    -webkit-box-shadow: 0 0 0 30px #f8fafc inset !important
+    -webkit-text-fill-color: #1e293b !important
+    background-color: #f8fafc !important
+    color: #1e293b !important
+    transition: background-color 5000s ease-in-out 0s
+
+  // Estilos para autofill no Firefox (tema claro)
+  input:-moz-autofill
+    background-color: #f8fafc !important
+    color: #1e293b !important
+
+  // Estilos para autofill no Edge/IE (tema claro)
+  input:-ms-autofill
+    background-color: #f8fafc !important
+    color: #1e293b !important
+
 // Tema Escuro
 body.dark
   --bg-primary: #0f172a
@@ -38,6 +59,27 @@ body.dark
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4)
   --accent-primary: #818cf8
   --accent-secondary: #a78bfa
+
+  // Estilos específicos para autofill no tema escuro
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active
+    -webkit-box-shadow: 0 0 0 30px #1e293b inset !important
+    -webkit-text-fill-color: #f1f5f9 !important
+    background-color: #1e293b !important
+    color: #f1f5f9 !important
+    transition: background-color 5000s ease-in-out 0s
+
+  // Estilos para autofill no Firefox (tema escuro)
+  input:-moz-autofill
+    background-color: #1e293b !important
+    color: #f1f5f9 !important
+
+  // Estilos para autofill no Edge/IE (tema escuro)
+  input:-ms-autofill
+    background-color: #1e293b !important
+    color: #f1f5f9 !important
 
   // Cores específicas do dashboard (tema escuro)
   --dashboard-banner-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%)
@@ -60,3 +102,70 @@ body
   background-color: var(--bg-primary)
   color: var(--text-primary)
   transition: background-color 0.3s ease, color 0.3s ease
+
+// Garantir que as variáveis sejam aplicadas globalmente
+*
+  color: inherit
+
+// Aplicar cores de fundo para elementos específicos
+input, textarea, select
+  background-color: var(--bg-primary)
+  color: var(--text-primary)
+  border-color: var(--border-primary)
+
+// Estilos para autofill (preenchimento automático do navegador)
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+  -webkit-box-shadow: 0 0 0 30px var(--bg-primary) inset !important
+  -webkit-text-fill-color: var(--text-primary) !important
+  background-color: var(--bg-primary) !important
+  color: var(--text-primary) !important
+  transition: background-color 5000s ease-in-out 0s
+
+// Estilos para autofill no Firefox
+input:-moz-autofill
+  background-color: var(--bg-primary) !important
+  color: var(--text-primary) !important
+
+// Estilos para autofill no Edge/IE
+input:-ms-autofill
+  background-color: var(--bg-primary) !important
+  color: var(--text-primary) !important
+
+// Animação para forçar aplicação dos estilos de autofill
+@keyframes autofill
+  0%
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
+  100%
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
+
+// Aplicar animação aos inputs com autofill
+input:-webkit-autofill
+  animation: autofill 0s forwards
+
+button
+  background-color: var(--accent-primary)
+  color: white
+  border-color: var(--border-primary)
+
+// Aplicar cores para links
+a
+  color: var(--accent-primary)
+  
+  &:hover
+    color: var(--accent-secondary)
+
+// Aplicar cores para elementos de formulário
+label
+  color: var(--text-primary)
+
+// Aplicar cores para elementos de texto
+h1, h2, h3, h4, h5, h6
+  color: var(--text-primary)
+
+p
+  color: var(--text-primary)

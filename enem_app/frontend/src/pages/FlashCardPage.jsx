@@ -1,18 +1,27 @@
 import { useEffect, useState } from 'react';
 
+import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 
+import Input from '../components/Form/Input';
+import Select from '../components/Form/Select';
+import Textarea from '../components/Form/Textarea';
 import FlashCard from '../components/FlashCard';
-import ModalForm from '../components/ModalForm';
 
-import { FaBookOpen } from 'react-icons/fa';
-import { TbMathFunction } from 'react-icons/tb';
-import { GiMicroscope } from 'react-icons/gi';
-import { FaGlobeAmericas } from 'react-icons/fa';
-import { BsFillMortarboardFill } from 'react-icons/bs';
+import FlashCardPageButtons from '../components/FlashCardPageButtons';
 
-import '../styles/pages/flashCardPage.sass';
+import ConfirmChangeModal from '../components/ConfirmChangeModal';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+
+import {
+  FaSpinner,
+  FaPlus,
+  FaLightbulb,
+  FaTrash,
+  FaCheck,
+  FaTimes,
+} from 'react-icons/fa';
 
 // API calls from services
 import {
@@ -22,23 +31,56 @@ import {
   updateFlashcardAPI,
 } from '../services/flashcardsServices';
 
+import '../styles/pages/flashCardPage.sass';
+
 export default function FlashcardPage() {
   const { accessToken } = useAuth();
   const [message, setMessage] = useState();
   const [flashcardsData, setFlashcardsData] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // const [pages, setPages] = useState(1);
   const { theme } = useTheme();
 
   // For new Flashcard
-  const [term, setTerm] = useState();
-  const [areaId, setAreaId] = useState();
-  const [description, setDescription] = useState();
+  const [term, setTerm] = useState('');
+  const [areaId, setAreaId] = useState('');
+  const [description, setDescription] = useState('');
   const [id, setId] = useState();
   const [newFlashcard, setNewFlascard] = useState(null);
-  const [modalForm, setModalForm] = useState(false);
 
   // For update existent FlashCard
   const [updateRequest, setUpdateRequest] = useState(false);
+  const [formTitle, setFormTitle] = useState(false);
+
+  // For Forms
+  const input = useForm('input');
+  const select = useForm('select');
+  const textarea = useForm('textarea');
+
+  // For modals
+  const cardModal = useForm();
+  const newEmptyCard = useForm('empty');
+
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    flashcardId: null,
+    flashcardTerm: '',
+  });
+
+  // For FlashCardPageButtons
+  const [selectedAreaIds, setSelectedAreaIds] = useState([]);
+
+  // For multiple selection
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedFlashcards, setSelectedFlashcards] = useState([]);
+  const [bulkDeleteModal, setBulkDeleteModal] = useState({
+    isOpen: false,
+    selectedIds: [],
+    selectedCount: 0,
+  });
 
   // For the first time the page loads
   useEffect(() => {
@@ -48,12 +90,15 @@ export default function FlashcardPage() {
   // When the page first load it will first execute the fetch of all the user flashcards here.
   async function handleFetchFlashcards() {
     try {
+      setIsLoading(true);
       const response = await fetchFlashcardsAPI(accessToken);
       setFlashcardsData(response?.data.content);
+      setIsLoading(false);
       // setPages(response?.data.totalPages);
 
       //console.log("FLASHCARDS DATA: ", flashcardsData);
     } catch (err) {
+      setIsLoading(false);
       if (!err?.response) {
         setMessage('No Server Response');
       } else if (err.response?.status === 400) {
@@ -73,8 +118,8 @@ export default function FlashcardPage() {
     console.log(areaId);
     console.log(description);
 
-    try {
-      if (term != 'Selecione uma opção' && areaId && description) {
+    if (term && areaId && description) {
+      try {
         const response = await newFlashcardAPI(
           accessToken,
           term,
@@ -82,29 +127,18 @@ export default function FlashcardPage() {
           description,
         );
         setNewFlascard(response?.data);
-      } else {
-        setModalForm((prev) => !prev);
+        cardModal.handleCardModal(
+          response?.data.id,
+          response?.data.term,
+          'new',
+        );
+      } catch (err) {
+        console.log('ERRO: ', err);
       }
-    } catch (err) {
-      console.log('ERRO: ', err);
+    } else {
+      newEmptyCard.validate(false);
     }
-    handleClear();
-  }
-
-  // DELETE FLASHCARD
-  // $ Will be refactored in the futere, it does not need a response, only if it display something in the screen
-  async function handleDeleteFlashcard(item) {
-    //console.log("DELETE: ", item);
-    const id = item;
-    const DELETECARD_URL = `/api/flashcards/${id}`;
-
-    try {
-      const response = await deleteFlashcardAPI(accessToken, item);
-      console.log('DELETADO: ', response);
-      handleFetchFlashcards();
-    } catch (err) {
-      console.log('ERRO ON DELETE CARD: ', err);
-    }
+    handleClear(e);
   }
 
   // REQUEST UPDATE FLASHCARD
@@ -112,11 +146,17 @@ export default function FlashcardPage() {
   async function handleRequestUpdateFlashcard(item) {
     console.log('UPDATE: ', item);
     //console.log("REQUEST UPDATE: ", updateFlashcard);
+    setFormTitle(true);
 
     setTerm(item.term);
     setAreaId(item.areaId);
     setDescription(item.description);
     setId(item.id);
+
+    input.setValue(item.term);
+    select.setValue(item.areaId);
+    textarea.setValue(item.description);
+
     setUpdateRequest(true);
   }
 
@@ -133,106 +173,345 @@ export default function FlashcardPage() {
         description,
       );
       setNewFlascard(response?.data);
+      cardModal.handleCardModal(
+        response?.data.id,
+        response?.data.term,
+        'update',
+      );
+      setUpdateRequest(false);
     } catch (err) {
       console.log('ERRO: ', err);
     }
     handleClear(e);
   }
 
+  // OPEN DELETE CONFIRMATION MODAL
+  function handleDeleteFlashcard(flashcardId) {
+    const flashcard = flashcardsData.find((item) => item.id === flashcardId);
+    setDeleteModal({
+      isOpen: true,
+      flashcardId: flashcardId,
+      flashcardTerm: flashcard?.term || 'Flashcard',
+    });
+  }
+
+  // CONFIRM DELETE FLASHCARD
+  async function handleConfirmDelete() {
+    try {
+      const response = await deleteFlashcardAPI(
+        accessToken,
+        deleteModal.flashcardId,
+      );
+      console.log('DELETADO: ', response);
+      handleFetchFlashcards();
+      setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
+    } catch (err) {
+      console.log('ERRO ON DELETE CARD: ', err);
+    }
+  }
+
+  // CLOSE DELETE MODAL
+  function handleCloseDeleteModal() {
+    setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
+  }
+
+  // Function to start delete loading
+  const handleDeleteStart = () => {
+    setIsDeleting(true);
+
+    // Reset loading state after 1 second (apenas efeito visual)
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, 1000);
+  };
+
   const handleClear = (e) => {
     e.preventDefault();
     setTerm('');
+    setAreaId('');
     setDescription('');
+    setUpdateRequest(false);
+    setFormTitle(false);
   };
 
-  const handleCloseModal = () => {
-    setModalForm((prev) => !prev);
+  // Funções para seleção múltipla
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      setSelectedFlashcards([]);
+    }
   };
+
+  const toggleFlashcardSelection = (flashcardId) => {
+    setSelectedFlashcards((prev) => {
+      if (prev.includes(flashcardId)) {
+        return prev.filter((id) => id !== flashcardId);
+      } else {
+        return [...prev, flashcardId];
+      }
+    });
+  };
+
+  const selectAllFlashcards = () => {
+    if (selectedFlashcards.length === flashcardsData.length) {
+      setSelectedFlashcards([]);
+    } else {
+      setSelectedFlashcards(flashcardsData.map((card) => card.id));
+    }
+  };
+
+  const openBulkDeleteModal = () => {
+    if (selectedFlashcards.length > 0) {
+      setBulkDeleteModal({
+        isOpen: true,
+        selectedIds: selectedFlashcards,
+        selectedCount: selectedFlashcards.length,
+      });
+    }
+  };
+
+  const closeBulkDeleteModal = () => {
+    setBulkDeleteModal({
+      isOpen: false,
+      selectedIds: [],
+      selectedCount: 0,
+    });
+  };
+
+  const confirmBulkDelete = async () => {
+    try {
+      setIsDeleting(true);
+
+      // Deletar cada flashcard selecionado
+      for (const flashcardId of bulkDeleteModal.selectedIds) {
+        await deleteFlashcardAPI(accessToken, flashcardId);
+      }
+
+      // Atualizar a lista
+      handleFetchFlashcards();
+
+      // Limpar seleção
+      setSelectedFlashcards([]);
+      setIsSelectionMode(false);
+      closeBulkDeleteModal();
+    } catch (err) {
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  if (isLoading || isDeleting) {
+    return (
+      <div className="loading-container">
+        <FaSpinner className="loading-spinner" />
+        <p className="loading-text">
+          {isDeleting ? 'Excluindo flashcard...' : 'Carregando flashcards...'}
+        </p>
+      </div>
+    );
+  }
+
+  // For FlashCardPageButtons filter render
+  const filteredFlashcards = flashcardsData.filter((flashcard) => {
+    if (selectedAreaIds.length === 0) {
+      return true;
+    } else {
+      return selectedAreaIds.includes(flashcard.areaId);
+    }
+  });
 
   return (
     <>
-      {modalForm && <ModalForm onClose={handleCloseModal} />}
-      <section
-        className={`flashcard-container ${modalForm ? 'modal-active' : ''}`}
-      >
-        <form className={`form-flashcard-container `}>
-          <h1>Criar Flashcard</h1>
-          <nav className="nav-flashcard-container">
-            <div className="nav-flashcard-title">
-              <label>Título:</label>
-              <input
-                type="text"
-                onChange={(e) => setTerm(e.target.value)}
-                value={term}
-                placeholder="Título"
-              />
-            </div>
-            <div className="nav-flashcard-options">
-              <label htmlFor="">Área de Conhecimento:</label>
-              <select
-                name="selectArea"
-                id="areaId"
-                onChange={(e) => setAreaId(e.target.value)}
-              >
-                <option>Selecione uma opção</option>
-                <option value="LC">
-                  Linguagens, Códigos e suas Tecnologias
-                </option>
-                <option value="CH">Ciências Humanas e suas Tecnologias</option>
-                <option value="CN">
-                  Ciências da Natureza e suas Tecnologias
-                </option>
-                <option value="MT">Matemáticas e suas Tecnologias</option>
-              </select>
-            </div>
-          </nav>
-          <div className="description-flashcard-container">
-            <label htmlFor="">Descrição:</label>
-            <textarea
-              placeholder="Dados do Flashcard"
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-              rows="6"
+      {cardModal.modal.isOpen && (
+        <ConfirmChangeModal
+          cardTerm={cardModal.modal.flashcardTerm}
+          modalId={cardModal.modal.modalId}
+        />
+      )}
+      <ConfirmDeleteModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        title="Confirmar Exclusão"
+        message="Tem certeza que deseja excluir este flashcard?"
+        itemName={deleteModal.flashcardTerm}
+      />
+      <ConfirmDeleteModal
+        isOpen={bulkDeleteModal.isOpen}
+        onClose={closeBulkDeleteModal}
+        onConfirm={confirmBulkDelete}
+        title="Confirmar Exclusão Múltipla"
+        message={`Tem certeza que deseja excluir ${bulkDeleteModal.selectedCount} flashcard(s) selecionado(s)?`}
+        itemName={`${bulkDeleteModal.selectedCount} flashcard(s)`}
+      />
+      <section className={`flashcard-container`}>
+        <form className={`form-flashcard-container`}>
+          {!formTitle ? <h1>Criar Flashcard</h1> : <h1>Atualizar Flashcard</h1>}
+          <div className="form-input">
+            <Input
+              id="title"
+              label="Título:"
+              type="text"
+              value={term}
+              onChange={({ target }) => {
+                setTerm(target.value);
+                input.onChange({ target });
+              }}
+              onBlur={() => input.onBlur(term)}
+              placeholder="Título"
+              error={input.error}
+              maxLength={40}
+              required
             />
-            <div className="buttons-flashcard-container">
-              {/* <button onClick={handleNewFlashcard}>Criar Flashcard</button> */}
-              {updateRequest ? (
+          </div>
+          <div className="form-options">
+            <Select
+              label="Área de Conhecimento:"
+              id="areaId"
+              name="selectArea"
+              value={areaId}
+              onChange={({ target }) => {
+                setAreaId(target.value);
+                select.onChange({ target });
+              }}
+              onBlur={() => select.onBlur(areaId)}
+              error={select.error}
+            />
+          </div>
+          <div className="form-description">
+            <Textarea
+              id="description"
+              label="Descrição:"
+              value={description}
+              onChange={({ target }) => {
+                setDescription(target.value);
+                textarea.onChange({ target });
+              }}
+              onBlur={() => textarea.onBlur(description)}
+              placeholder="Dados do Flashcard"
+              error={textarea.error}
+              rows="3"
+              maxLength={120}
+              required
+            />
+            {newEmptyCard.error && (
+              <span style={{ color: '#f24d4dcc' }}>{newEmptyCard.error}</span>
+            )}
+          </div>
+          <div className="buttons-flashcard-container">
+            {updateRequest ? (
+              <>
                 <button onClick={handleUpdateFlashcard}>Atualizar</button>
-              ) : (
+                <button onClick={handleClear}>Cancelar</button>
+              </>
+            ) : (
+              <>
                 <button onClick={handleNewFlashcard}>Criar</button>
-              )}
-              <button onClick={handleClear}>Limpar</button>
-            </div>
+                <button onClick={handleClear}>Limpar</button>
+              </>
+            )}
           </div>
         </form>
+
         <section className="icons-flashcard-container">
-          <div>
-            <BsFillMortarboardFill className={`icon-flashcard ${theme}`} />
-            <FaBookOpen className={`icon-flashcard ${theme}`} />
-            <TbMathFunction className={`icon-flashcard ${theme}`} />
-            <GiMicroscope className={`icon-flashcard ${theme}`} />
-            <FaGlobeAmericas className={`icon-flashcard ${theme}`} />
+          <FlashCardPageButtons
+            setSelectedAreaIds={setSelectedAreaIds}
+            theme={theme}
+          />
+        </section>
+
+        {/* Botões de seleção múltipla */}
+        {flashcardsData && flashcardsData.length > 0 && (
+          <div className="selection-buttons">
+            <button
+              className={`selection-mode-btn ${
+                isSelectionMode ? 'active' : ''
+              }`}
+              onClick={toggleSelectionMode}
+            >
+              {isSelectionMode ? <FaTimes /> : <FaCheck />}
+              {isSelectionMode ? 'Cancelar' : 'Selecionar Múltiplos'}
+            </button>
+
+            {isSelectionMode && (
+              <>
+                <button
+                  className="select-all-btn"
+                  onClick={selectAllFlashcards}
+                >
+                  {selectedFlashcards.length === flashcardsData.length
+                    ? 'Desmarcar Todos'
+                    : 'Selecionar Todos'}
+                </button>
+
+                {selectedFlashcards.length > 0 && (
+                  <button
+                    className="bulk-delete-btn"
+                    onClick={openBulkDeleteModal}
+                  >
+                    <FaTrash />
+                    Excluir ({selectedFlashcards.length})
+                  </button>
+                )}
+              </>
+            )}
           </div>
-        </section>
-        <section className={`flashcard-dashboard-container ${theme}`}>
-          {flashcardsData && flashcardsData.length > 0 ? (
-            <>
-              {flashcardsData.map((item) => (
-                <FlashCard
-                  key={item.id}
-                  id={item.id}
-                  term={item.term}
-                  description={item.description}
-                  area={item.areaId}
-                  handleDelete={handleDeleteFlashcard}
-                  handleUpdate={() => handleRequestUpdateFlashcard(item)}
-                />
-              ))}
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </section>
+        )}
+      </section>
+      <section
+        className={`flashcard-dashboard-container ${theme} ${
+          flashcardsData.length > 1 ? 'multiple-cards' : 'single-card'
+        }`}
+      >
+        {isLoading || isDeleting ? (
+          <div className="loading-container">
+            <FaSpinner className="loading-spinner" />
+            <p className="loading-text">
+              {isDeleting
+                ? 'Excluindo flashcard...'
+                : 'Carregando flashcards...'}
+            </p>
+          </div>
+        ) : flashcardsData && flashcardsData.length > 0 ? (
+          <>
+            {filteredFlashcards.map((item, index) => (
+              <FlashCard
+                key={item.id}
+                id={item.id}
+                term={item.term}
+                description={item.description}
+                areaName={item.areaName}
+                areaId={item.areaId}
+                index={index}
+                onDeleteStart={handleDeleteStart}
+                handleDelete={() => handleDeleteFlashcard(item.id)}
+                handleUpdate={() => handleRequestUpdateFlashcard(item)}
+                isSelectionMode={isSelectionMode}
+                isSelected={selectedFlashcards.includes(item.id)}
+                onToggleSelection={() => toggleFlashcardSelection(item.id)}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="empty-flashcards-container">
+            <FaLightbulb className="empty-icon" />
+            <h3 className="empty-title">Nenhum flashcard encontrado</h3>
+            <p className="empty-description">
+              Que tal criar seu primeiro flashcard? É uma ótima forma de estudar
+              e memorizar conteúdo!
+            </p>
+            <div
+              className="empty-actions"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <FaPlus className="action-icon" />
+              <span className="action-text">
+                Use o formulário acima para começar
+              </span>
+            </div>
+          </div>
+        )}
       </section>
     </>
   );

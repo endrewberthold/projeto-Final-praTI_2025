@@ -1,74 +1,60 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { LuFileQuestion } from 'react-icons/lu';
-import { TiPencil } from 'react-icons/ti';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import '../styles/components/ViewFlashCard.sass';
 
-const ViewFlashCard = ({ onClose }) => {
+const ViewFlashCard = () => {
   const params = useParams();
   const location = useLocation();
-  const { term, description, areaId } = location.state || {};
+  const { term, description, areaName } = location.state || {};
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardContent, setCardContent] = useState(false);
 
-  // inicialização do cartão com um conteúdo do back ou vazio
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (term && description && areaId) {
-      setCardContent(true);
+    if (term && description) {
+      setCardContent((prev) => !prev);
     }
-  }, [term, description, areaId]);
+  }, [term, description]);
 
-  //Editar ?
-  const handleEdit = () => {
-    console.log('Editar card');
-  };
-
-  //Deletar ?
-  const handleDelete = () => {
-    if (window.confirm('Tem certeza que deseja excluir este card?')) {
-      // Logic to handle delete functionality
-      console.log(`Card ${term} excluído!`);
-      onClose();
-    }
-  };
-
-  // verificação e trigger do flip
-  const handleCardClick = (e) => {
-    if (
-      e.target.tagName !== 'BUTTON' &&
-      e.target.tagName !== 'TEXTAREA' &&
-      e.target.className !== 'card-actions-container'
-    ) {
-      handleFlip();
-    }
+  const handleFlip = (e) => {
+    e.stopPropagation();
+    setIsFlipped((prev) => !prev);
   };
 
   return (
-    <section className="card-container">
-      <div
-        className={`card ${isFlipped ? 'flipped' : ''}`}
-        onClick={() => setIsFlipped((prev) => !prev)}
-      >
-        <div>{params.id}</div>
-        <div className="innerCard">
-          <div className="face frontside">
-            <span>{areaId}</span>
-            <span className="question-text">{term}</span>
+    <div className="card-container">
+      <section className="section-card-container">
+        {cardContent && (
+          <div
+            className={`innercard-container ${isFlipped ? 'flipped' : ''}`}
+            onClick={handleFlip}
+          >
+            <div className="innercard">
+              <div className="face frontside">
+                <span>{areaName}</span>
+                <div className="card-id">Card n॰{params.id}</div>
+                <span className="question-text">{term}</span>
+              </div>
+              <div className="face backside">
+                <span>{areaName}</span>
+                <span className="answer-text">{description}</span>
+              </div>
+            </div>
           </div>
-          <div className="face backside">
-            <span>{areaId}</span>
-            <span className="answer-text">{description}</span>
-          </div>
-        </div>
-      </div>
-    </section>
+        )}
+      </section>
+      <IoCloseCircleOutline
+        className={`card-close-icon ${isFlipped ? 'flipped' : ''}`}
+        onClick={() => navigate('/flashCardPage')}
+      />
+    </div>
   );
 };
 
 export default ViewFlashCard;
-
-// e.stopPropagation();

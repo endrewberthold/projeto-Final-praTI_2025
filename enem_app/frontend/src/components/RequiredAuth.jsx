@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import NavBar from "./NavBar";
 import MobileNavbar from "./MobileNavbar";
 import { NavbarProvider } from "../context/NavbarContext";
+import { AiFloatingButton } from "../components/AiAssistant";
 
 const RequireAuth = () => {
   const { auth, accessToken } = useAuth();
@@ -25,6 +26,7 @@ const RequireAuth = () => {
         <NavBar />
         <MobileNavbar />
         <Outlet />
+        <AiFloatingButton />
       </NavbarProvider>
     );
   }

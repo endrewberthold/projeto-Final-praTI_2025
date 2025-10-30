@@ -1,8 +1,9 @@
 @use '../variables.sass'
 
-.flashcards-dashboard
+.flashcards-container
     display: flex
     flex-direction: column
+    justify-content: space-between
     height: 200px
     width: 100%
     padding: 15px
@@ -11,6 +12,8 @@
     border: 1px solid
     border-radius: .5rem
     transition: all 0.2s ease-in-out;
+    position: relative
+    z-index: 1
 
     &.dark
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
@@ -22,11 +25,11 @@
         &.dark
             box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8);
 
-    .flashcard-inner-container
-        display: flex
-        flex-direction: column
-        justify-content: center
-        flex: 1
+    .flashcards-area
+        margin: 8px auto
+        font-size: .85rem
+        color: black
+
 
         .title-container
             display: flex
@@ -39,13 +42,10 @@
         .flashcards-dash-title
             width: fit-content
 
-        .flashcards-dash-area
-            margin-top: 15px
-            font-size: .9rem
-
     .flashcards-dash-buttons
         align-self: flex-end
         color: #131f4c
+        padding: 8px
 
         &.dark
             color: variables.$clr-body
@@ -60,3 +60,86 @@
 
             &:hover
                 transform: translateY(-2px)
+
+// Estilos para seleção múltipla
+.flashcards-dashboard
+    &.selection-mode
+        cursor: pointer
+        position: relative
+        
+        &:hover
+            transform: translateY(-2px)
+            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.4)
+            
+            &.dark
+                box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8)
+                
+        &.selected
+            border: 2px solid #4A90E2
+            background-color: rgba(74, 144, 226, 0.1)
+            
+            &.dark
+                border-color: #818cf8
+                background-color: rgba(129, 140, 248, 0.1)
+                
+    .selection-checkbox
+        position: absolute
+        top: 10px
+        left: 10px
+        z-index: 10
+        
+        .checkbox
+            width: 20px
+            height: 20px
+            border: 2px solid #4A90E2
+            border-radius: 4px
+            background: white
+            display: flex
+            align-items: center
+            justify-content: center
+            transition: all 0.2s ease
+            
+            &.checked
+                background: #4A90E2
+                color: white
+                
+            svg
+                font-size: 12px
+
+// Tema escuro para seleção múltipla
+body.dark
+    .flashcards-dashboard
+        &.selection-mode
+            &.selected
+                border-color: #818cf8
+                background-color: rgba(129, 140, 248, 0.1)
+                
+        .selection-checkbox
+            .checkbox
+                border-color: #818cf8
+                background: #2a2a2a
+                
+                &.checked
+                    background: #818cf8
+                    color: white
+
+// Responsividade para seleção múltipla
+@media (max-width: 768px)
+    .flashcards-dashboard
+        .selection-checkbox
+            .checkbox
+                width: 18px
+                height: 18px
+                
+                svg
+                    font-size: 10px
+
+@media (max-width: 480px)
+    .flashcards-dashboard
+        .selection-checkbox
+            .checkbox
+                width: 16px
+                height: 16px
+                
+                svg
+                    font-size: 9px

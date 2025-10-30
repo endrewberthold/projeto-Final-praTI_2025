@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "../styles/components/navbar.sass";
 import { PiCards } from "react-icons/pi";
 import { BsPerson, BsGrid } from "react-icons/bs";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
 import { useTheme } from "../context/ThemeContext";
 import { TbSettings } from "react-icons/tb";
@@ -18,10 +18,15 @@ export default function Navbar() {
   const { toggleTheme, isDark } = useTheme();
   const { clearAuth } = useAuth();
   const navigate = useNavigate();
-
   const [profileOpen, setProfileOpen] = useState(false);
-
   const firstLoad = useRef(true);
+  const location = useLocation();
+
+  // Esconde ou não o navbar
+    const hideNavbar =
+        location.pathname.includes("/answer/") ||
+        location.pathname.includes("/feedback/") ||
+        location.pathname.includes("/viewFlashPage/")
 
   // --- lógica da borda do menu (mantive sua implementação) ---
   useEffect(() => {
@@ -103,6 +108,7 @@ export default function Navbar() {
     setProfileOpen(false);
     navigate("/", { replace: true });
   };
+    if (hideNavbar) return null
 
   return (
     <>

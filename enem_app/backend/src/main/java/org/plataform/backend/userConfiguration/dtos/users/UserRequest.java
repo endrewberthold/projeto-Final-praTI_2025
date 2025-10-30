@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UserRequest(
+        String profileImage,
         @NotBlank(message = "Nome é obrigatório")
         String name,
         @NotBlank(message = "Email é obrigatório") @Email(message = "Email inválido")

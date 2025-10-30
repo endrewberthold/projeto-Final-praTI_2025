@@ -36,8 +36,8 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(length = 50)
-    private String nickname;
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
@@ -77,6 +77,7 @@ public class User implements UserDetails {
     public User(UserRequest userRequest) {
         this.name = userRequest.name();
         this.email = userRequest.email();
+        this.profileImage = userRequest.profileImage();
         this.password_hash = userRequest.password();
         this.provider = "local";
         this.isOauthUser = false;

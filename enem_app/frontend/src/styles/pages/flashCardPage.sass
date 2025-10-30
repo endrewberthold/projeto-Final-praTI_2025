@@ -3,7 +3,7 @@
 .flashcard-container
     display: flex
     flex-direction: column
-    min-height: 100vh
+    min-height: auto
     min-width: 100%
     padding: min(3rem, 4vh) min(2.5rem, 3vw)
     overflow-x: hidden
@@ -16,6 +16,87 @@
         filter: blur(3px)
         pointer-events: none
 
+    // Add Flashcard Button
+    .add-flashcard-btn
+        width: 100%
+        height: 60px
+        padding: 0 2rem
+        border-radius: 12px
+        background: var(--bg-secondary)
+        color: var(--text-primary)
+        border: 2px solid var(--border-primary)
+        box-shadow: var(--shadow-lg)
+        cursor: pointer
+        transition: all 0.3s ease
+        display: flex
+        align-items: center
+        justify-content: space-between
+        font-family: 'Comic Sans MS', cursive, sans-serif
+        font-weight: 600
+        font-size: 1rem
+        margin-top: 1rem
+        margin-bottom: 1rem
+
+        &:hover
+            transform: translateY(-2px)
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15)
+            border-color: var(--accent-primary)
+
+        &:active
+            transform: translateY(0px) scale(0.98)
+
+        &.expanded
+            background: var(--accent-primary)
+            color: white
+            border-color: var(--accent-primary)
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3)
+
+            &:hover
+                box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4)
+
+            .add-text
+                color: white
+
+        .add-text
+            font-size: 1rem
+            font-weight: 600
+            white-space: nowrap
+            flex: 1
+            text-align: left
+
+        .add-icon-container
+            width: 36px
+            height: 36px
+            border-radius: 50%
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+            display: flex
+            align-items: center
+            justify-content: center
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3)
+            transition: all 0.3s ease
+
+        .add-icon
+            font-size: 1.1rem
+            color: white
+            transition: transform 0.3s ease
+
+            &.rotated
+                transform: rotate(45deg)
+
+        &:hover .add-icon-container
+            transform: scale(1.1)
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4)
+
+        &.expanded .add-icon-container
+            background: linear-gradient(135deg, #ffffff, #f8f9fa)
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3)
+
+            .add-icon
+                color: var(--accent-primary)
+
+        &.expanded:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4)
+
     .form-flashcard-container
         display: flex
         align-items: flex-start
@@ -23,10 +104,20 @@
         gap: 1rem
         width: 100%
         background-color: var(--bg-secondary)
-        padding: 2rem
+        padding: 1rem
         border-radius: 1rem
         box-shadow: var(--shadow-lg)
         margin-bottom: 2rem
+        transition: all 0.4s ease
+        transform-origin: top
+        overflow: hidden
+
+        &.expanded
+            animation: slideDown 0.4s ease-out
+            margin-bottom: 2rem
+
+        &:not(.expanded)
+            animation: slideUp 0.3s ease-in
 
         h1
             color: var(--text-primary)
@@ -36,8 +127,7 @@
             text-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
 
         .form-input
-            max-width: 400px
-            flex: 1
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -48,19 +138,18 @@
 
             input
                 padding: 8px 12px
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
                 border-radius: variables.$border-radius-flashcard-page
                 width: 100%
 
                 &:focus
-                    padding: 7px 12px
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
         .form-options
-            flex: 1
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -75,14 +164,15 @@
                 color: var(--text-primary)
                 padding: 8px 12px
                 border-radius: variables.$border-radius-flashcard-page
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 width: 100%
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
         .form-description
+            width: 100%
             display: flex
             flex-direction: column
             gap: 0.5rem
@@ -96,12 +186,11 @@
                 padding: 10px 12px
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 border-radius: variables.$border-radius-flashcard-page
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
-                    padding: 9px 12px
+                    border-color: var(--accent-primary)
                     outline: none
 
                 &::placeholder
@@ -114,13 +203,13 @@
                 font-size: 1rem
                 background-color: var(--bg-primary)
                 color: var(--text-primary)
-                border: 1px solid var(--border-primary)
+                border: 2px solid var(--border-primary)
                 border-radius: variables.$border-radius-flashcard-page
                 resize: vertical
                 min-height: 120px
 
                 &:focus
-                    border: 2px solid var(--accent-primary)
+                    border-color: var(--accent-primary)
                     outline: none
 
                 &::placeholder
@@ -129,7 +218,9 @@
                     color: var(--text-secondary)
 
         .buttons-flashcard-container
+            width: 100%
             display: flex
+            justify-content: flex-start
             margin-top: 1rem
             gap: 1rem
 
@@ -137,36 +228,58 @@
                 display: flex
                 justify-content: center
                 align-items: center
-                width: 9rem
-                height: 2.8rem
-                font-size: .9rem
-                font-weight: 500
-                background-color: var(--accent-primary)
+                padding: 0.875rem 2rem
+                font-size: 1rem
+                font-weight: 600
+                background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
                 color: white
                 border: none
-                border-radius: variables.$border-radius-flashcard-page
-                box-shadow: var(--shadow-sm)
+                border-radius: 0.875rem
+                box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3)
                 cursor: pointer
-                transition: all 0.3s ease
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+                width: auto
+                min-width: 140px
+                position: relative
+                overflow: hidden
 
-            &:nth-of-type(2)
-                background-color: var(--bg-primary)
-                color: var(--accent-primary)
-                border: 2px solid var(--accent-primary)
+                &::before
+                    content: ''
+                    position: absolute
+                    top: 0
+                    left: -100%
+                    width: 100%
+                    height: 100%
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+                    transition: left 0.5s ease
 
-            &:hover
-                box-shadow: var(--shadow-lg)
-                transform: translateY(-2px)
-                background-color: var(--accent-secondary)
+                &:nth-of-type(2)
+                    background: transparent
+                    color: var(--text-primary)
+                    border: 2px solid var(--border-primary)
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1)
 
-            &:nth-of-type(2)
-                background-color: var(--accent-primary)
-                color: white
+                &:hover
+                    background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))
+                    transform: translateY(-3px)
+                    box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4)
 
-            &:active
-                transform: translateY(0px) scale(0.98)
-                box-shadow: var(--shadow-sm)
-                transition: transform 0.1s ease, box-shadow 0.1s ease
+                    &::before
+                        left: 100%
+
+                &:nth-of-type(2):hover
+                    background: var(--bg-secondary)
+                    border-color: var(--accent-primary)
+                    color: var(--accent-primary)
+                    transform: translateY(-2px)
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15)
+
+                    &::before
+                        left: 100%
+
+                &:active
+                    transform: translateY(-1px) scale(0.98)
+                    transition: transform 0.1s ease
 
 .icons-flashcard-container
     display: flex
@@ -206,13 +319,25 @@
         border-color: var(--accent-secondary)git c
 
 .flashcard-dashboard-container
-    display: grid
-    min-height: 100%
+    display: flex
+    flex-wrap: wrap
+    min-height: auto
     min-width: 100%
-    grid-template-columns: repeat(auto-fit, max(280px))
-    padding: 15px 0
+    max-width: 100%
     flex: 1
-    gap: 1rem
+    gap: 0.5rem
+    align-items: flex-start
+    justify-content: flex-start
+    padding: 0 2rem
+
+    // Quando não há flashcards, centraliza o container vazio
+    &:has(.empty-flashcards-container)
+        display: flex
+        align-items: flex-start
+        justify-content: center
+        min-height: auto
+        padding-top: 0
+        padding-bottom: 2rem
 
     .loading-container
         display: flex
@@ -243,13 +368,21 @@
         justify-content: center
         grid-column: 1 / -1
         width: 100%
-        padding: 4rem 2rem
+        max-width: 1000px
+        padding: 1.5rem 2rem
         text-align: center
         gap: 1.5rem
         background: var(--bg-secondary)
         border: 2px dashed var(--border-primary)
         border-radius: 1rem
-        margin: 2rem 0
+        margin: 0 auto
+        transition: all 0.3s ease
+
+        &:hover
+            border-color: var(--accent-primary)
+            background: rgba(99, 102, 241, 0.05)
+            transform: translateY(-2px)
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.1)
 
         .empty-icon
             font-size: 4rem
@@ -274,26 +407,50 @@
             align-items: center
             gap: 0.75rem
             padding: 1rem 2rem
-            background: var(--accent-primary)
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
             color: white
             border-radius: 2rem
             font-weight: 600
-            transition: all 0.3s ease
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
             cursor: pointer
+            position: relative
+            overflow: hidden
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3)
+
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: -100%
+                width: 100%
+                height: 100%
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+                transition: left 0.5s ease
 
             &:hover
-                background: var(--accent-secondary)
-                transform: translateY(-2px)
-                box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3)
+                background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))
+                transform: translateY(-3px)
+                box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4)
+
+                &::before
+                    left: 100%
+
+            &:active
+                transform: translateY(-1px)
+                box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3)
+                transition: transform 0.1s ease
 
             .action-icon
-                font-size: 1.2rem
-                color: white
+                font-size: 1.1rem
+                transition: transform 0.3s ease
+
+            &:hover .action-icon
+                transform: scale(1.1)
 
             .action-text
                 font-size: 1rem
-                color: white
                 font-weight: 600
+                color: white
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
 
 @keyframes spin
@@ -302,10 +459,46 @@
     100%
         transform: rotate(360deg)
 
+@keyframes slideDown
+    0%
+        opacity: 0
+        transform: translateY(-20px) scale(0.95)
+        max-height: 0
+    100%
+        opacity: 1
+        transform: translateY(0) scale(1)
+        max-height: 1000px
+
+@keyframes slideUp
+    0%
+        opacity: 1
+        transform: translateY(0) scale(1)
+        max-height: 1000px
+    100%
+        opacity: 0
+        transform: translateY(-20px) scale(0.95)
+        max-height: 0
+
 // Responsividade para dispositivos móveis
 @media (max-width: 768px)
     .flashcard-container
         padding: 1rem
+
+        .add-flashcard-btn
+            height: 55px
+            padding: 0 1.5rem
+            font-size: 0.9rem
+            border-radius: 10px
+
+            .add-text
+                font-size: 0.9rem
+
+            .add-icon-container
+                width: 32px
+                height: 32px
+
+            .add-icon
+                font-size: 1rem
 
         .form-flashcard-container
             padding: 1.5rem
@@ -323,8 +516,11 @@
             flex-direction: column
             gap: 0.75rem
 
-        button
-            width: 100%
+            button
+                width: 100%
+                min-width: auto
+                padding: 0.75rem 1.5rem
+                font-size: 0.9rem
 
 .icons-flashcard-container
     padding: 1rem
@@ -335,9 +531,19 @@
     width: 2.5rem
     padding: 10px
 
-.flashcard-dashboard-container
-    grid-template-columns: repeat(auto-fit, max(280px))
-    gap: 1rem
+// Estilos para os cards individuais no container flex
+.flashcard-dashboard-container > *
+    flex: 0 0 auto
+    min-width: 20rem
+    max-width: 19rem
+    width: 100%
+    gap: 0.5rem
+    
+    
+    // Quando há apenas um card, ocupa toda a largura disponível
+    .single-card &
+        flex: 1 1 100%
+        max-width: 30rem
 
 .empty-flashcards-container
     padding: 2rem 1rem
@@ -347,9 +553,49 @@
     width: 100%
     justify-content: center
 
+// Responsividade para o container de flashcards
+@media (max-width: 1200px)
+    .flashcard-dashboard-container
+        padding: 0 1.5rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 18rem
+        max-width: 22rem
+
+@media (max-width: 768px)
+    .flashcard-dashboard-container
+        padding: 0 1rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 16rem
+        max-width: 20rem
+
 @media (max-width: 480px)
     .flashcard-container
         padding: 0.75rem
+        
+    .flashcard-dashboard-container
+        padding: 0 0.75rem
+        
+    .flashcard-dashboard-container > *
+        min-width: 14rem
+        max-width: 18rem
+
+        .add-flashcard-btn
+            height: 50px
+            padding: 0 1.25rem
+            font-size: 0.85rem
+            border-radius: 8px
+
+            .add-text
+                font-size: 0.85rem
+
+            .add-icon-container
+                width: 28px
+                height: 28px
+
+            .add-icon
+                font-size: 0.9rem
 
     .form-flashcard-container
         padding: 1rem
@@ -357,20 +603,30 @@
         h1
             font-size: 1.5rem
 
-    // .empty-flashcards-container
-    .empty-title
-        font-size: 1.25rem
+    .empty-flashcards-container
+        padding: 1rem 1rem
+        margin: 0 auto
+        max-width: 95%
 
-    .empty-description
-        font-size: 0.9rem
-        font-size: 0.9rem
+        .empty-title
+            font-size: 1.25rem
+
+        .empty-description
+            font-size: 0.9rem
+
+        .empty-actions
+            padding: 0.8rem 1.5rem
+            font-size: 0.9rem
+            border-radius: 1.5rem
+
+            .action-text
+                font-size: 0.9rem
 
 // Estilos para o container de ícones com botões
 .icons-flashcard-container
     display: flex
     justify-content: center
     align-items: center
-    margin: 2rem 0
     position: relative
     
     .icons-section
@@ -380,116 +636,117 @@
         align-items: center
         flex-wrap: wrap
         
-    .selection-buttons
-        position: absolute
-        right: 0
-        top: 50%
-        transform: translateY(-50%)
-        display: flex
-        gap: 0.75rem
-        align-items: center
-        flex-wrap: wrap
-        justify-content: flex-end
-        
-    .selection-mode-btn
-        display: flex
-        align-items: center
-        gap: 0.5rem
-        padding: 0.5rem 1rem
-        background: var(--accent-primary)
-        color: white
-        border: none
-        border-radius: 0.5rem
-        font-size: 0.9rem
-        font-weight: 500
-        cursor: pointer
-        transition: all 0.2s ease
-        order: 1
-        
-        &:hover
-            background: #668fccff
-            transform: translateY(-1px)
-            
-        &.active
-            background: #dc3545
-            
-            &:hover
-                background: #c82333
-                
-    .select-all-btn
-        padding: 0.5rem 1rem
-        background: var(--bg-primary)
-        color: var(--text-primary)
-        border: 1px solid var(--border-primary)
-        border-radius: 0.5rem
-        font-size: 0.9rem
-        font-weight: 500
-        cursor: pointer
-        transition: all 0.2s ease
-        order: 2
-        
-        &:hover
-            background: var(--bg-hover)
-            border-color: var(--accent-primary)
-            
-    .bulk-delete-btn
-        display: flex
-        align-items: center
-        gap: 0.5rem
-        padding: 0.5rem 1rem
-        background: #dc3545
-        color: white
-        border: none
-        border-radius: 0.5rem
-        font-size: 0.9rem
-        font-weight: 500
-        cursor: pointer
-        transition: all 0.2s ease
-        order: 3
-        
-        &:hover
-            background: #c82333
-            transform: translateY(-1px)
             
     .selection-count
         font-size: 0.9rem
         color: var(--text-secondary)
         font-weight: 500
 
+// Estilos para os botões de seleção múltipla
+.selection-controls
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    gap: 1rem
+    margin: 0
+    padding: 0
+    background: transparent
+    border: none
+
+.selection-btn
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.75rem 1.5rem
+    background: var(--accent-primary)
+    color: white
+    border: none
+    border-radius: 0.5rem
+    font-size: 0.9rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.3s ease
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3)
+    min-width: 140px
+    justify-content: center
+    
+    &:hover
+        background: #5b5fd9
+        transform: translateY(-2px)
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4)
+        
+    &:active
+        transform: translateY(0)
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3)
+        
+    &.active
+        background: #dc3545
+        
+        &:hover
+            background: #c82333
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4)
+
+.delete-selected-btn
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.75rem 1.5rem
+    background: #dc3545
+    color: white
+    border: none
+    border-radius: 0.5rem
+    font-size: 0.9rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.3s ease
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3)
+    min-width: 140px
+    justify-content: center
+    
+    &:hover
+        background: #c82333
+        transform: translateY(-2px)
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4)
+        
+    &:disabled
+        background: #6c757d
+        cursor: not-allowed
+        transform: none
+        box-shadow: none
+        
+        &:hover
+            background: #6c757d
+            transform: none
+            box-shadow: none
+
+
 // Tema escuro para o container de ícones
 body.dark
     .icons-flashcard-container
         background: transparent
         
-        .selection-mode-btn
-            background: #818cf8
-            
-            &:hover
-                background: #6366f1
-                
-            &.active
-                background: #dc3545
-                
-                &:hover
-                    background: #c82333
-                    
-        .select-all-btn
-            background: var(--bg-primary)
-            color: var(--text-primary)
-            border-color: var(--border-primary)
-            
-            &:hover
-                background: var(--bg-hover)
-                border-color: #818cf8
-                
-        .bulk-delete-btn
-            background: #dc3545
-            
-            &:hover
-                background: #c82333
                 
         .selection-count
             color: var(--text-secondary)
+            
+    .selection-controls
+        background: transparent
+        
+    .selection-btn
+        background: #818cf8
+        
+        &:hover
+            background: #6366f1
+            
+        &.active
+            background: #dc3545
+            
+    .delete-selected-btn
+        background: #dc3545
+        
+        &:hover
+            background: #c82333
+            
 
 // Responsividade para o container de ícones
 @media (max-width: 768px)
@@ -501,18 +758,18 @@ body.dark
         .icons-section
             gap: 1rem
             
-        .selection-buttons
-            position: static
-            transform: none
-            gap: 0.5rem
-            justify-content: center
-            margin-top: 1rem
+    .selection-controls
+        flex-direction: column
+        gap: 0.75rem
+        margin: 0
+        padding: 0
+        
+    .selection-btn,
+    .delete-selected-btn
+        font-size: 0.85rem
+        padding: 0.6rem 1.2rem
+        min-width: 120px
             
-        .selection-mode-btn,
-        .select-all-btn,
-        .bulk-delete-btn
-            font-size: 0.85rem
-            padding: 0.4rem 0.8rem
 
 @media (max-width: 480px)
     .icons-flashcard-container
@@ -522,11 +779,140 @@ body.dark
         .icons-section
             gap: 0.75rem
             
-        .selection-buttons
-            gap: 0.4rem
+    .selection-controls
+        gap: 0.5rem
+        margin: 0
+        padding: 0
+        
+    .selection-btn,
+    .delete-selected-btn
+        font-size: 0.8rem
+        padding: 0.5rem 1rem
+        min-width: 100px
             
-        .selection-mode-btn,
-        .select-all-btn,
-        .bulk-delete-btn
-            font-size: 0.8rem
-            padding: 0.35rem 0.7rem
+
+// Estilos para mensagens de erro
+.error-message
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    color: #ef4444
+    font-size: 0.8rem
+    font-weight: 500
+    margin-top: 0.5rem
+    padding: 0.5rem 0.75rem
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))
+    border: 1px solid rgba(239, 68, 68, 0.2)
+    border-radius: 0.5rem
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1)
+    animation: errorSlideIn 0.3s ease-out
+    position: relative
+    overflow: hidden
+    max-width: fit-content
+    width: auto
+
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: -100%
+        width: 100%
+        height: 100%
+        background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.1), transparent)
+        transition: left 0.5s ease
+
+    &:hover::before
+        left: 100%
+
+    .error-icon
+        font-size: 0.875rem
+        flex-shrink: 0
+
+    .error-text
+        flex: 1
+        line-height: 1.3
+
+// Animação de entrada da mensagem de erro
+@keyframes errorSlideIn
+    0%
+        opacity: 0
+        transform: translateY(-10px) scale(0.95)
+    100%
+        opacity: 1
+        transform: translateY(0) scale(1)
+
+// Estilos específicos para tema escuro
+body.dark
+    .add-flashcard-btn
+        background: var(--bg-secondary)
+        color: var(--text-primary)
+        border-color: var(--border-primary)
+        box-shadow: var(--shadow-lg)
+
+    .buttons-flashcard-container
+        button
+            &:first-child
+                background: linear-gradient(135deg, #818cf8, #a78bfa)
+                box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
+
+                &:hover
+                    background: linear-gradient(135deg, #a78bfa, #818cf8)
+                    box-shadow: 0 12px 30px rgba(129, 140, 248, 0.5)
+
+            &:nth-of-type(2)
+                background: transparent
+                color: var(--text-primary)
+                border-color: var(--border-primary)
+
+                &:hover
+                    background: var(--bg-secondary)
+                    border-color: #818cf8
+                    color: #818cf8
+
+    .empty-actions
+        background: linear-gradient(135deg, #818cf8, #a78bfa)
+        box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
+
+        &:hover
+            background: linear-gradient(135deg, #a78bfa, #818cf8)
+            box-shadow: 0 12px 30px rgba(129, 140, 248, 0.5)
+
+    .error-message
+        color: #f87171
+        background: linear-gradient(135deg, rgba(248, 113, 113, 0.15), rgba(239, 68, 68, 0.08))
+        border-color: rgba(248, 113, 113, 0.3)
+        box-shadow: 0 2px 8px rgba(248, 113, 113, 0.2)
+        max-width: fit-content
+        width: auto
+
+        &::before
+            background: linear-gradient(90deg, transparent, rgba(248, 113, 113, 0.15), transparent)
+
+        .add-icon-container
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+            box-shadow: 0 2px 8px rgba(129, 140, 248, 0.3)
+
+        &:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(129, 140, 248, 0.4)
+
+        &.expanded
+            background: var(--accent-primary)
+            color: white
+            border-color: var(--accent-primary)
+            box-shadow: 0 4px 15px rgba(129, 140, 248, 0.3)
+
+            &:hover
+                box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
+
+            .add-text
+                color: white
+
+        &.expanded .add-icon-container
+            background: linear-gradient(135deg, #ffffff, #f8f9fa)
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2)
+
+            .add-icon
+                color: var(--accent-primary)
+
+        &.expanded:hover .add-icon-container
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3)

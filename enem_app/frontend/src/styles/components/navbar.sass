@@ -70,7 +70,7 @@
     clip-path: url(#menu)
     will-change: transform
     background-color: var(--accent-primary)
-    transition: transform var(--timeOut , var(--duration)), background-color 0.3s ease
+    transition: transform var(--timeOut , var(--duration)), background-color 0.1s ease
     transform: translate3d(var(--initial-left, 0), 0, 0) /* valor inicial */
     z-index: 10
 
@@ -329,6 +329,7 @@ body.dark
       
   .menu__border
     background-color: var(--bg-secondary)
+    transition: transform var(--timeOut , var(--duration)), background-color 0.1s ease
     
   .themeToggle
     color: var(--text-primary)

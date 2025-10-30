@@ -1,65 +1,131 @@
 @use '../variables.sass'
 
-.flashcards-container
+.flashcards-dashboard
+    position: relative
+    overflow: hidden
+    background: var(--bg-secondary)
+    border-radius: 1rem
+    padding: 1rem
+    width: 20rem
+    height: 15rem
+    transition: all 0.3s ease-in-out
+    transform: scale(1)
+    backface-visibility: hidden
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    border: 1px solid var(--border-primary)
     display: flex
     flex-direction: column
-    justify-content: space-between
-    height: 200px
-    width: 100%
-    padding: 15px
-    background-color: variables.$clr-accent-background
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
-    border: 1px solid
-    border-radius: .5rem
-    transition: all 0.2s ease-in-out;
-    position: relative
+    justify-content: center
+    align-items: center
     z-index: 1
 
     &.dark
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+        background-color: var(--bg-secondary)
+        border-color: var(--border-primary)
+        box-shadow: var(--shadow-lg)
 
     &:hover
-        transform: translateY(-2px);
-        box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.4);
+        transform: translateY(-4px)
+        box-shadow: 0 12px 30px rgba(78, 109, 194, 0.25)
+        border-color: variables.$clr-accent
 
         &.dark
-            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4)
 
-    .flashcards-area
-        margin: 8px auto
-        font-size: .85rem
-        color: black
 
+    .flashcard-content
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        text-align: center
+        flex: 1
+        gap: 0.5rem
+        position: relative
+        z-index: 1
+        width: 100%
+        height: 100%
 
         .title-container
             display: flex
             justify-content: center
             align-items: center
-            background-color: variables.$clr-accent
-            border-radius: .3rem
             font-size: 15px
+            padding: 0.75rem
+            transition: all 0.3s ease
+            text-align: center
 
-        .flashcards-dash-title
-            width: fit-content
+        .area-container
+            margin-top: 0.5rem
+
+            .flashcards-area
+                font-size: 0.7rem
+                color: variables.$clr-accent
+                font-weight: 300
+                text-transform: uppercase
+                letter-spacing: 0.5px
+                transition: all 0.3s ease
+                opacity: 0.7
 
     .flashcards-dash-buttons
-        align-self: flex-end
-        color: #131f4c
-        padding: 8px
+        position: absolute
+        top: 10px
+        right: 10px
+        display: flex
+        align-items: center
+        gap: 0.5rem
+        z-index: 10
 
-        &.dark
-            color: variables.$clr-body
 
         .flashdash-icons
-            width: 1.8rem
-            height: 1.3rem
-            transition: all 0.2s ease
-
-            &:nth-of-type(2)
-                margin-left: 5px
+            width: 2.5rem
+            height: 2.5rem
+            color: variables.$clr-accent
+            transition: all 0.3s ease
+            cursor: pointer
+            padding: 0.6rem
+            border-radius: 50%
+            display: flex
+            align-items: center
+            justify-content: center
+            position: relative
+            background: rgba(78, 109, 194, 0.1)
+            border: 2px solid transparent
+            font-size: 1.3rem
 
             &:hover
-                transform: translateY(-2px)
+                transform: translateY(-2px) scale(1.1)
+                color: white
+                background: variables.$clr-accent
+                border-color: transparent
+                box-shadow: 0 4px 15px rgba(78, 109, 194, 0.4)
+
+            &:active
+                transform: translateY(-1px) scale(1.05)
+                transition: transform 0.1s ease
+
+            // Ícone de atualizar (primeiro)
+            &:nth-of-type(1)
+                color: variables.$clr-accent
+                background: rgba(78, 109, 194, 0.1)
+
+                &:hover
+                    color: white
+                    background: variables.$clr-accent
+                    border-color: transparent
+                    box-shadow: 0 4px 15px rgba(78, 109, 194, 0.4)
+
+            // Ícone de deletar (segundo)
+            &:nth-of-type(2)
+                color: variables.$clr-accent
+                background: rgba(78, 109, 194, 0.1)
+
+                &:hover
+                    color: white
+                    background: #dc3545
+                    border-color: transparent
+                    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4)
 
 // Estilos para seleção múltipla
 .flashcards-dashboard
@@ -123,9 +189,18 @@ body.dark
                     background: #818cf8
                     color: white
 
+
 // Responsividade para seleção múltipla
 @media (max-width: 768px)
     .flashcards-dashboard
+        .flashcards-dash-buttons
+            .flashdash-icons
+                width: 2.2rem
+                height: 2.2rem
+                padding: 0.5rem
+                font-size: 1.1rem
+
+                
         .selection-checkbox
             .checkbox
                 width: 18px
@@ -136,6 +211,14 @@ body.dark
 
 @media (max-width: 480px)
     .flashcards-dashboard
+        .flashcards-dash-buttons
+            .flashdash-icons
+                width: 2rem
+                height: 2rem
+                padding: 0.4rem
+                font-size: 1rem
+
+                
         .selection-checkbox
             .checkbox
                 width: 16px
@@ -143,3 +226,30 @@ body.dark
                 
                 svg
                     font-size: 9px
+
+// Estilos para a mensagem "Clique para praticar"
+.practice-message
+    color: variables.$clr-accent
+    font-size: 0.75rem
+    font-weight: 500
+    text-align: center
+    transition: all 0.3s ease
+    text-transform: uppercase
+    letter-spacing: 0.5px
+    opacity: 0
+    transform: translateY(10px)
+    pointer-events: none
+    margin-top: 1rem
+
+.flashcards-dashboard:hover .practice-message
+    opacity: 1
+    transform: translateY(0)
+    animation: fadeInUp 0.3s ease
+
+@keyframes fadeInUp
+    0%
+        opacity: 0
+        transform: translateY(10px)
+    100%
+        opacity: 1
+        transform: translateY(0)

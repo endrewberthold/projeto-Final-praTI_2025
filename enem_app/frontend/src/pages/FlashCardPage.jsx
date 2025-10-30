@@ -86,9 +86,15 @@ export default function FlashcardPage() {
     selectedCount: 0,
   });
 
-  // For the first time the page loads
+  // For the first time the page loads and silent refresh after create/update
   useEffect(() => {
-    handleFetchFlashcards();
+    if (!newFlashcard) {
+      // Initial load with loading overlay
+      handleFetchFlashcards();
+    } else {
+      // Silent refresh to avoid closing/reopening the UI
+      handleRefreshFlashcardsSilent();
+    }
   }, [newFlashcard]);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
@@ -112,6 +118,18 @@ export default function FlashcardPage() {
       } else {
         setMessage('New Flash card creation failed');
       }
+    }
+  }
+
+  // Silent refresh that does not toggle the global loading overlay
+  async function handleRefreshFlashcardsSilent() {
+    try {
+      const response = await fetchFlashcardsAPI(accessToken);
+      setFlashcardsData(response?.data.content);
+      // No isLoading changes here to prevent UI flicker
+    } catch (err) {
+      // Keep UX stable; optionally log the error
+      console.log('Erro ao atualizar lista de flashcards:', err);
     }
   }
 

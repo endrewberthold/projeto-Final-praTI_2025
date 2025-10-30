@@ -10,16 +10,21 @@
   padding: 40px
   border-radius: 2rem
   box-shadow: var(--shadow-lg)
-  width: 80%
+  width: 90%
   max-width: 600px
-  margin: 4rem auto
+  min-width: 320px
+  margin: 6rem auto
   text-align: center
+  overflow: hidden
 
 .start-title
   font-weight: bold
-  font-size: 25px
+  font-size: 1.4rem
   color: var(--accent-primary)
   margin-bottom: 1rem
+
+.start-text
+  font-size: 0.9rem
 
 #start-image
   width: 50%
@@ -29,16 +34,14 @@
 
 .start-btn
   background-color: var(--accent-primary)
-  color: var(--bg-primary)
+  color: var(--bg-primary, #ffffff)
   font-weight: bold
-  height: min(3rem, 8vh)
-  min-height: 44px
-  width: min(15rem, 80%)
-  max-width: 300px
-  min-width: 200px
+  min-height: 40px
+  max-width: 200px
+  min-width: 150px
   text-align: center
-  font-size: 16px
-  margin-top: 2rem
+  font-size: 0.9rem
+  margin: 2rem auto 0
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)
   cursor: pointer
@@ -67,7 +70,7 @@
   justify-content: center
   align-items: flex-start
   width: 1000vh
-  height: 100vh
+  height: auto
   gap: 5%
   margin: 1rem auto
   overflow: hidden
@@ -76,7 +79,7 @@
 
 .question-container
   display: flex
-  flex: 0.75       // ocupa ~65% da tela
+  flex: 0.75       // ocupa ~75% da tela
   flex-direction: column
   justify-content: center
   background-color: var(--bg-secondary)
@@ -84,22 +87,21 @@
   border-radius: 2rem
   box-shadow: var(--shadow-lg)
   width: 60%
-  max-width: 700px
-  margin: 0 1rem
+  max-width: 820px
+  min-width: 320px
+  margin: 0
   text-align: center
-  overflow-y: auto
+  overflow: hidden
 
 .question-title
-  font-size: 18px
-  margin-bottom: 1rem
-  background-color: inherit
+  font-size: 1.2rem
+  margin-bottom: 0.5rem
   color: var(--accent-primary)
 
 .question-text
-  font-size: 14px
-  background-color: inherit
+  font-size: 0.9rem
   text-align: center
-  line-height: 1.5
+  line-height: 1.2rem
   margin-bottom: 2rem
 
 .answers-list
@@ -114,7 +116,7 @@
   font-weight: bold
 
 .answer-option
-  font-size: 14px
+  font-size: 0.9rem
   padding: 5px 7px
   background-color: var(--bg-primary)
   border-radius: variables.$border-radius-card-secondary
@@ -130,18 +132,15 @@
   color: var(--text-primary)
 
 .answer-btn
-  margin: 0 auto
+  margin: 2rem auto 0
   background-color: var(--accent-primary)
-  color: var(--bg-primary)
+  color: var(--bg-primary, #ffffff)
   font-weight: bold
-  height: min(3rem, 8vh)
-  min-height: 44px
-  width: min(15rem, 80%)
-  max-width: 300px
-  min-width: 200px
+  max-width: 200px
+  min-width: 150px
+  min-height: 40px
   text-align: center
-  font-size: 14px
-  margin-top: 2rem
+  font-size: 0.9rem
   border-radius: 0.7rem
   box-shadow: var(--shadow-lg)
   cursor: pointer
@@ -161,12 +160,15 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
+.error-message
+  color: red
+  font-size: 0.8rem
 
-// === BOX DE TEMPO ===
+// === CONTAINER DE TEMPO ===
 .timer-container
-  font-size: 14px
+  font-size: 0.9rem
   display: flex
-  flex: 0.20
+  flex: 0.20 // ocupa 20% da tela
   flex-direction: column
   background-color: var(--bg-secondary)
   padding: 1rem
@@ -174,11 +176,9 @@
   box-shadow: var(--shadow-lg)
   width: 80%
   max-width: 250px
+  height: auto
   margin: 0
   text-align: center
-
-.timer-container p
-  background-color: inherit
 
 .questions-map
   padding: 0.5rem
@@ -193,7 +193,7 @@
   margin: 0 auto
   width: 15%
   background-color: var(--text-secondary)
-  color: var(--bg-primary)
+  color: var(--bg-primary, #ffffff)
   text-align: center
   border-radius: 0.5rem
   box-shadow: var(--shadow-lg)
@@ -207,15 +207,14 @@
     background-color: var(--accent-primary)
 
 .abandon-btn
-  margin: 0.7rem auto 0
-  padding: 0 0.5rem
+  margin: 1rem auto 0
+  max-width: 150px
+  height: 1.8rem
   background-color: var(--accent-primary)
-  color: var(--bg-primary)
+  color: var(--bg-primary, #ffffff)
   font-weight: bold
   text-align: center
-  font-size: 13px
-  width: fit-content
-  height: 2.5rem
+  font-size: 0.8rem
   border-radius: 0.5rem
   box-shadow: var(--shadow-lg)
   cursor: pointer
@@ -234,3 +233,68 @@
     transform: translateY(0px) scale(0.98)
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
     transition: transform 0.1s ease, box-shadow 0.1s ease
+
+// Responsividade
+
+@media (max-width: 820px)
+  .start-screen
+    padding: 1rem
+    height: auto
+    margin: 4rem auto
+    gap: 1rem
+
+  .start-btn, .answer-btn
+    width: 80%
+    margin: 1rem auto 0
+    padding: 0.5rem 1rem
+
+  .abandon-btn
+    min-width: 200px
+    margin: 1rem auto 0
+
+  .question-screen
+    margin: 2rem auto
+    flex-direction: column
+    gap: 2rem
+
+  .question-container
+    flex: 1
+    width: 100%
+
+  .timer-container
+    margin: 0 auto
+
+@media (max-width: 425px)
+  .start-screen
+   margin: 2rem auto
+   min-height: 600px
+
+  .question-screen
+    margin: 2rem auto
+    padding: 1rem
+
+  .start-title, .question-title
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
+
+  .question-text
+    text-align: justify
+
+  .timer-container
+    width: 100%
+    flex: 1
+    max-width: 400px
+    min-width: 320px
+
+
+//Tema dark
+body.dark
+  .start-btn, .answer-btn, .abandon-btn
+    color: var(--text-primary, #ffffff)
+
+  .question-btn
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
+
+    &.selected
+      background-color: var(--accent-primary)

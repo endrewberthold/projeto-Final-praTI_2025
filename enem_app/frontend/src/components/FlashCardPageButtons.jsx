@@ -19,17 +19,33 @@ import '../styles/components/flashCardPageButtons.sass';
 const pageButtons = [
   {
     icon: BsFillMortarboardFill,
+    areaId: 'ALL',
     area: '',
   },
-  { icon: FaBookOpen, area: 'Linguagens, Códigos e suas Tecnologias' },
-  { icon: FaGlobeAmericas, area: 'Ciências Humanas e suas Tecnologias' },
-  { icon: GiMicroscope, area: 'Ciências da Natureza e suas Tecnologias' },
-  { icon: TbMathFunction, area: 'Matemáticas e suas Tecnologias' },
+  {
+    icon: FaBookOpen,
+    areaId: 'LC',
+    area: 'Linguagens, Códigos e suas Tecnologias',
+  },
+  {
+    icon: FaGlobeAmericas,
+    areaId: 'CH',
+    area: 'Ciências Humanas e suas Tecnologias',
+  },
+  {
+    icon: GiMicroscope,
+    areaId: 'CN',
+    area: 'Ciências da Natureza e suas Tecnologias',
+  },
+  {
+    icon: TbMathFunction,
+    areaId: 'MT',
+    area: 'Matemáticas e suas Tecnologias',
+  },
 ];
 
-const FlashCardPageButtons = ({ theme }) => {
+const FlashCardPageButtons = ({ setSelectedAreaIds, theme }) => {
   console.log('FlashCardPageButtons renderizando com tema:', theme);
-  
   return (
     <div className="icons-flashcard-container">
       {pageButtons.map((item, i) => {
@@ -39,7 +55,13 @@ const FlashCardPageButtons = ({ theme }) => {
             key={i}
             className={`icon-flashcard ${theme}`}
             title={item.area}
-            // onClick={handleSelectArea}
+            area={item.area ? `${item.area}` : ''}
+            areaid={item.areaId ? `${item.areaId}` : ''}
+            onClick={() => {
+              item.areaId == 'ALL'
+                ? setSelectedAreaIds([])
+                : setSelectedAreaIds([item.areaId]);
+            }}
           >
             <div className="icon-wrapper">
               <IconComponent />

@@ -6,6 +6,7 @@ function QuestionPage({
                           selected,
                           onSelect,
                           onClick,
+                          error,
                           children}) {
     return (
         <div className="question-container">{children}
@@ -18,19 +19,19 @@ function QuestionPage({
 
                     return (
                     <div
-                        key={index}
+                        key={alt.presentedId || index}
                         onClick={() => onSelect(question.questionId, alt.presentedId)}
                         className={`answer-option ${
                             selected === alt.presentedId ? "selected" : ""
                         }`}
                     >
-                        <span className="answer-letter">{letter})</span>{" "}
+                        <span className="answer-letter">{letter}) </span>
                         <span className="answer-text">{alt.text}</span>
                     </div>
                 );
             })}
             </div>
-
+                <p error={error} className="error-message">{error}</p>
             <button className="answer-btn" onClick={onClick}>
                 Responder
             </button>

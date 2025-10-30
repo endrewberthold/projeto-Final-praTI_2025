@@ -30,7 +30,7 @@ const Select = ({
         className="select"
         {...props}
       >
-        <option className="option" value="" disable>
+        <option className="option" value="" disable="true">
           Selecione uma opção
         </option>
         {optionValues.map((option, i) => {
@@ -43,9 +43,7 @@ const Select = ({
           );
         })}
       </select>
-      {error && (
-        <span className="error">Selecione uma área de conhecimento</span>
-      )}
+      {error && <span className="error">{error}</span>}
     </>
   );
 };

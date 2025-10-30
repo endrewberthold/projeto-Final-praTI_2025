@@ -18,6 +18,7 @@ import {
   FaSpinner,
   FaPlus,
   FaLightbulb,
+  FaExclamationCircle,
   FaTrash,
   FaCheck,
   FaTimes,
@@ -447,7 +448,10 @@ export default function FlashcardPage() {
               required
             />
             {newEmptyCard.error && (
-              <span style={{ color: '#f24d4dcc' }}>{newEmptyCard.error}</span>
+              <div className="error-message">
+                <FaExclamationCircle className="error-icon" />
+                <span className="error-text">{newEmptyCard.error}</span>
+              </div>
             )}
           </div>
           <div className="buttons-flashcard-container">

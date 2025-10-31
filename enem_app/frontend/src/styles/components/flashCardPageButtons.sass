@@ -1,27 +1,134 @@
 @use '../variables'
 
+// Estilos específicos para o componente FlashCardPageButtons
 .icons-flashcard-container
-    display: flex
-    align-content: center
-    justify-content: center
-    padding: 2rem
+    display: flex !important
+    justify-content: center !important
+    margin: 1rem 0 !important
+    width: 100% !important
+    gap: 1rem !important
+    align-items: center !important
+    padding: 0 !important
+    border: none !important
+    background: transparent !important
 
-    .icon-flashcard
-        padding: 13px
-        height: 3rem
-        width: 3rem
-        margin: 0 10px
+// Garantir que os estilos sejam aplicados
+.icons-flashcard-container *
+    box-sizing: border-box !important
+
+.icon-flashcard
+    width: 55px !important
+    height: 55px !important
+    border-radius: 50% !important
+    border: 3px solid var(--area-color, #4A90E2) !important
+    background: var(--bg-primary) !important
+    cursor: pointer !important
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important
+    display: flex !important
+    align-items: center !important
+    justify-content: center !important
+    position: relative !important
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1) !important
+    backdrop-filter: blur(10px) !important
+    overflow: hidden !important
+    
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        background: var(--bg-primary)
         border-radius: 50%
-        background-color: variables.$clr-accent
-        color: #fff
-        transition: all 0.3s ease
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
-
-        &.dark
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        opacity: 0
+        transition: opacity 0.3s ease
         
-        &:hover
-            transform: translateY(-2px);
-            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.4);
-            &.dark
-                box-shadow: 2px 6px 15px rgba(0, 0, 0, 0.8);
+    &:hover
+        transform: translateY(-3px) scale(1.05)
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3), 0 4px 15px rgba(0, 0, 0, 0.15)
+        border-width: 4px
+        border-color: var(--area-color, #4A90E2)
+        
+        &::before
+            opacity: 1
+            
+    &.selected
+        background: linear-gradient(135deg, var(--area-color, #4A90E2) 0%, #5ba0f2 100%)
+        border-color: var(--area-color, #4A90E2)
+        transform: translateY(-3px) scale(1.05)
+        box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4), 0 4px 20px rgba(0, 0, 0, 0.2)
+        
+        &::before
+            opacity: 0
+            
+        .icon-wrapper
+            color: white
+            transform: scale(1.1)
+            
+    &:active
+        transform: translateY(-1px) scale(1.02)
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.25), 0 2px 8px rgba(0, 0, 0, 0.1)
+
+.icon-wrapper
+    color: var(--area-color, #4A90E2)
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    display: flex
+    align-items: center
+    justify-content: center
+    font-size: 1.4rem
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))
+    z-index: 2
+    position: relative
+
+// Responsividade
+@media (max-width: 768px)
+    .icons-flashcard-container
+        gap: 0.8rem
+        margin: 0 !important
+        
+    .icon-flashcard
+        width: 50px !important
+        height: 50px !important
+        
+    .icon-wrapper
+        font-size: 1.1rem !important
+
+@media (max-width: 480px)
+    .icons-flashcard-container
+        gap: 0.6rem
+        margin: 0 !important
+        
+    .icon-flashcard
+        width: 45px !important
+        height: 45px !important
+        
+    .icon-wrapper
+        font-size: 1rem !important
+
+// Tema dark
+body.dark
+    .icons-flashcard-container
+        .icon-flashcard
+            background: var(--bg-primary)
+            border-color: #818cf8
+            box-shadow: 0 4px 15px rgba(129, 140, 248, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3)
+            
+            &::before
+                background: var(--bg-primary)
+            
+            &:hover
+                box-shadow: 0 8px 25px rgba(129, 140, 248, 0.4), 0 4px 15px rgba(0, 0, 0, 0.4)
+                
+            &.selected
+                background: linear-gradient(135deg, #818cf8 0%, #a5b4fc 100%)
+                border-color: #818cf8
+                box-shadow: 0 8px 30px rgba(129, 140, 248, 0.5), 0 4px 20px rgba(0, 0, 0, 0.5)
+                
+                .icon-wrapper
+                    color: white
+                    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))
+                    
+        .icon-wrapper
+            color: #818cf8
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))

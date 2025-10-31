@@ -45,14 +45,16 @@ const pageButtons = [
 ];
 
 const FlashCardPageButtons = ({ setSelectedAreaIds, theme }) => {
+  console.log('FlashCardPageButtons renderizando com tema:', theme);
   return (
     <div className="icons-flashcard-container">
       {pageButtons.map((item, i) => {
         const IconComponent = item.icon;
         return (
-          <IconComponent
+          <button
             key={i}
             className={`icon-flashcard ${theme}`}
+            title={item.area}
             area={item.area ? `${item.area}` : ''}
             areaid={item.areaId ? `${item.areaId}` : ''}
             onClick={() => {
@@ -60,7 +62,11 @@ const FlashCardPageButtons = ({ setSelectedAreaIds, theme }) => {
                 ? setSelectedAreaIds([])
                 : setSelectedAreaIds([item.areaId]);
             }}
-          />
+          >
+            <div className="icon-wrapper">
+              <IconComponent />
+            </div>
+          </button>
         );
       })}
     </div>

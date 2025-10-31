@@ -26,6 +26,21 @@ export default function UserStatusPage() {
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [currentProfileImage, setCurrentProfileImage] = useState(null);
 
+  // Função para normalizar imagem de perfil (mesma lógica do UserStatusDashboard)
+  const normalizeProfileImage = (value) => {
+    if (!value) return "/imagemdeperfil.png";
+    const s = String(value).trim();
+
+    // URLs absolutas externas (http/https)
+    if (/^https?:\/\//i.test(s)) return s;
+
+    // Caminho absoluto dentro do /public (já correto)
+    if (s.startsWith("/")) return s;
+    
+    // Qualquer outro caso
+    return "/imagemdeperfil.png";
+  };
+
   async function getUserData() {
     try {
       console.log("🔍 Iniciando busca de dados do usuário...");
@@ -47,6 +62,11 @@ export default function UserStatusPage() {
       setTopCompetencies(response.data.metrics.topCompetencies);
       setTopArea(response.data.metrics.topArea);
       setTopSkills(response.data.metrics.topSkills);
+      const profileImage = response.data.user?.profileImage || "/imagemdeperfil.png";
+      console.log("🖼️ ProfileImage original:", profileImage);
+      const normalizedImage = normalizeProfileImage(profileImage);
+      console.log("🖼️ ProfileImage normalizada:", normalizedImage);
+      setCurrentProfileImage(normalizedImage);
       setLoading(false);
 
       console.log("📊 METRICS: ", response.data.metrics);
@@ -157,6 +177,13 @@ export default function UserStatusPage() {
          <div>
            <div className="profile-section">
              <div className="profile-banner">
+               <img 
+                 alt="Perfil do usuário" 
+                 src={currentProfileImage || normalizeProfileImage(userData?.profileImage) || "/imagemdeperfil.png"}
+                 onError={(e) => {
+                   e.target.src = "/imagemdeperfil.png";
+                 }}
+               />
                <button className="button-icon" onClick={handleOpenImageSelector}>
                  < MdEdit size={20} fill="#fff" />
                </button>

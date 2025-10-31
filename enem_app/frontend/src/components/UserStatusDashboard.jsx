@@ -33,39 +33,18 @@ export default function StatusUsuario({
     // URLs absolutas externas (http/https)
     if (/^https?:\/\//i.test(s)) return s;
 
-    // Extrai número do avatar se existir
-    const numMatch = s.match(/(\d{1,3})/);
-    const num = numMatch ? numMatch[1] : null;
-    // Determina gênero com case-insensitive
-    const lower = s.toLowerCase();
-    const isFemale = lower.includes("female");
-    const isMale = lower.includes("male");
-
-    // Caminhos com prefixo Female/Male (qualquer casing), ajusta barra e casing
-    if (isFemale || isMale) {
-      const folder = isFemale ? "Female" : "Male";
-      if (num) return `/${folder}/${num}.png`;
-      // Se não achar número, tenta último segmento
-      const last = s
-        .replace(/\.png$/i, "")
-        .split("/")
-        .pop();
-      if (/^\d+$/.test(last)) return `/${folder}/${last}.png`;
-      return "/imagemdeperfil.png";
-    }
-    // Somente número (ex: "56")
-    if (num && /^\d+$/.test(s)) {
-      return `/Male/${num}.png`;
-    }
     // Caminho absoluto dentro do /public (já correto)
     if (s.startsWith("/")) return s;
+    
     // Qualquer outro caso
     return "/imagemdeperfil.png";
   }
 
   useEffect(() => {
     const src = userData?.user?.profileImage || imageProfile;
+    console.log("🖼️ UserStatusDashboard - ProfileImage original:", src);
     const normalized = normalizeProfileImage(src);
+    console.log("🖼️ UserStatusDashboard - ProfileImage normalizada:", normalized);
     setImgSrc(normalized);
   }, [userData?.user?.profileImage, imageProfile]);
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaExclamationCircle } from 'react-icons/fa';
 import './styles/select.sass';
 
 const optionValues = [
@@ -43,7 +44,12 @@ const Select = ({
           );
         })}
       </select>
-      {error && <span className="error">{error}</span>}
+      {error && (
+        <div className="error-message">
+          <FaExclamationCircle className="error-icon" />
+          <span className="error-text">{error}</span>
+        </div>
+      )}
     </>
   );
 };

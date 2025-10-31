@@ -135,9 +135,9 @@
 // Os estilos antigos foram substituídos pelo componente reutilizável StatCard
     
 .button-user-status
-    background-color: var(--accent-primary)
-    height: min(3rem, 8vh)
-    min-height: 44px
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))
+    height: min(3.5rem, 8vh)
+    min-height: 48px
     width: min(15rem, 80%)
     max-width: 300px
     min-width: 200px
@@ -145,38 +145,58 @@
     align-items: center
     justify-content: center
     gap: min(1rem, 2vw)
-    border-radius: 0.7rem
-    box-shadow: var(--shadow-lg)
+    border-radius: 0.875rem
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3)
     cursor: pointer
-    border: 1px solid var(--border-primary)
+    border: none
     box-sizing: border-box
     touch-action: manipulation
     -webkit-tap-highlight-color: transparent
-    transition: all 0.2s ease
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    position: relative
+    overflow: hidden
+
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: -100%
+        width: 100%
+        height: 100%
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+        transition: left 0.5s ease
 
     &:hover
-        background-color: #4e6dc2ff
+        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))
+        transform: translateY(-3px)
+        box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4)
+
+        &::before
+            left: 100%
 
     &:active
         z-index: 20
-        transform: translateY(0px) scale(0.98)
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+        transform: translateY(-1px) scale(0.98)
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3)
         transition: transform 0.1s ease, box-shadow 0.1s ease
         
     // Melhoria específica para mobile touch
     @media (max-width: 768px)
         &:hover
-            transform: none
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+            transform: translateY(-2px)
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.35)
             
         &:active
             transform: scale(0.96)
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3)
     
     h1
         color: #ffffff
         font-size: min(1.3rem, 4vw)
-        // white-space: nowrap
+        font-weight: 600
+        margin: 0
+        z-index: 1
+        position: relative
 
 // Media queries específicas para UserStatusDashboard
 @media (max-width: 1200px)
@@ -216,11 +236,13 @@
     .button-user-status
         width: 88%
         min-width: 170px
-        height: 3.4rem
+        height: 3.6rem
         margin-top: 0.5rem
+        border-radius: 0.75rem
         
         h1
             font-size: min(1.1rem, 3.2vw)
+            font-weight: 600
 
 @media (max-width: 480px)
     .status-user
@@ -255,11 +277,13 @@
     .button-user-status
         width: 92%
         min-width: 150px
-        height: 3.2rem
+        height: 3.4rem
         margin-top: 0.3rem
+        border-radius: 0.7rem
         
         h1
             font-size: min(1rem, 3.5vw)
+            font-weight: 600
 
 @media (max-width: 360px)
     .status-user
@@ -283,11 +307,13 @@
     .button-user-status
         width: 90%
         min-width: 130px
-        height: 3rem
+        height: 3.2rem
         gap: 0.7rem
+        border-radius: 0.6rem
         
         h1
             font-size: 0.9rem
+            font-weight: 600
 
 // Media query para telas muito pequenas (empilhar os cards)
 @media (max-width: 320px)
@@ -312,10 +338,12 @@
     .button-user-status
         min-width: 120px
         gap: 0.5rem
-        height: 2.8rem
+        height: 3rem
+        border-radius: 0.5rem
         
         h1
             font-size: 0.85rem
+            font-weight: 600
 
 // Tema Dark - Estilos específicos
 body.dark
@@ -344,18 +372,17 @@ body.dark
     // Estilos de information e information-container movidos para StatCard.sass
             
     .button-user-status
-        background-color: var(--accent-primary)
-        border-color: var(--accent-primary)
-        box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+        background: linear-gradient(135deg, #818cf8, #a78bfa)
+        box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4)
         
-        // &:hover
-        //     background-color: var(--accent-secondary)
-        //     box-shadow: 0 8px 25px rgba(129, 140, 248, 0.5)
-        //     transform: translateY(-2px) scale(1.01)
+        &:hover
+            background: linear-gradient(135deg, #a78bfa, #818cf8)
+            box-shadow: 0 12px 30px rgba(129, 140, 248, 0.5)
+            transform: translateY(-3px)
             
-        // &:active
-        //     box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3)
+        &:active
+            box-shadow: 0 8px 25px rgba(129, 140, 248, 0.3)
             
-        // h1
-        //     color: #ffffff
-        //     font-weight: 600
+        h1
+            color: #ffffff
+            font-weight: 600

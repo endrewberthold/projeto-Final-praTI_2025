@@ -9,7 +9,10 @@ body
     justify-content: center
     -webkit-tap-highlight-color: transparent
     box-sizing: border-box
-    transition: background-color 0.3s ease, color 0.3s ease
+    transition: background-color 0.1s ease, color 0.1s ease
+    // Prevenção do scrollbar empurrar o conteúdo
+    overflow-y: scroll
+    overflow-x: hidden
 
 
 // Linha 13 ate 35 é importante para a transição animada do Navbar
@@ -31,6 +34,7 @@ html *::before,
 html *::after 
     box-sizing: inherit
     max-width: 100%
+    transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -56,3 +60,61 @@ img, video, iframe, object, embed
 // Prevenção para elementos posicionados
 [style*="position: absolute"], [style*="position: fixed"]
     max-width: calc(100% - 2px) // Considerando a borda de 1px de cada lado
+
+// Solução para o scrollbar não empurrar o navbar
+html
+    scrollbar-gutter: stable
+
+// Para navegadores que não suportam scrollbar-gutter
+@supports not (scrollbar-gutter: stable)
+    body
+        width: 100vw
+        overflow-x: hidden
+
+    // Garantir que o navbar não seja afetado pelo scrollbar
+    .menu
+        width: 100vw
+        left: 0
+        right: 0
+
+// Estilização personalizada do scrollbar
+::-webkit-scrollbar
+    width: 8px
+    height: 8px
+
+::-webkit-scrollbar-track
+    background: var(--bg-primary)
+    border-radius: 4px
+
+::-webkit-scrollbar-thumb
+    background: var(--accent-primary)
+    border-radius: 4px
+    transition: background-color 0.3s ease
+
+    &:hover
+        background: var(--accent-secondary)
+
+::-webkit-scrollbar-corner
+    background: var(--bg-primary)
+
+// Para Firefox
+*
+    scrollbar-width: thin
+    scrollbar-color: var(--accent-primary) var(--bg-primary)
+
+// Estilos específicos para tema escuro
+body.dark
+    ::-webkit-scrollbar-track
+        background: var(--bg-primary)
+
+    ::-webkit-scrollbar-thumb
+        background: var(--accent-primary)
+
+        &:hover
+            background: var(--accent-secondary)
+
+    ::-webkit-scrollbar-corner
+        background: var(--bg-primary)
+
+    *
+        scrollbar-color: var(--accent-primary) var(--bg-primary)

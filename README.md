@@ -116,7 +116,7 @@ org.plataform.backend
 ## Tecnologias Utilizadas
 
 ### **Backend**
-- Java 17
+- Java 21
 - Spring Boot 3
 - Spring Security (JWT)
 - JPA / Hibernate

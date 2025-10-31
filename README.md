@@ -123,6 +123,7 @@ org.plataform.backend
 - PostgreSQL
 - Lombok
 - Swagger UI
+- Gemini
 
 ### **Frontend**
 - React + Vite
@@ -130,6 +131,10 @@ org.plataform.backend
 - Context API
 - Axios
 - React Router
+
+### **DevOps**
+- Docker
+- GitHub Actions (CI/CD)
 
 ---
 

@@ -424,7 +424,7 @@ export default function FlashcardPage() {
                 input.onChange({ target });
               }}
               onBlur={() => input.onBlur(term)}
-              placeholder="Título"
+              placeholder="Digite o título do flashcard"
               error={input.error}
               maxLength={40}
               required
@@ -454,7 +454,7 @@ export default function FlashcardPage() {
                 textarea.onChange({ target });
               }}
               onBlur={() => textarea.onBlur(description)}
-              placeholder="Dados do Flashcard"
+              placeholder="Digite a descrição ou dados do flashcard"
               error={textarea.error}
               rows="3"
               maxLength={120}

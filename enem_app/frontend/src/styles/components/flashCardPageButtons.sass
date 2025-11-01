@@ -87,20 +87,23 @@
 body.dark
     .icons-flashcard-container
         .icon-flashcard
-            background: var(--bg-secondary)
-            border-color: #818cf8
-            box-shadow: none
+            background: var(--bg-primary) !important
+            border: 3px solid #818cf8 !important
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important
             
             &:hover
-                box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3)
+                transform: translateY(-2px)
+                box-shadow: 0 4px 12px rgba(129, 140, 248, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3) !important
                 
             &.selected
                 background: #818cf8 !important
                 border-color: #818cf8 !important
-                box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3) !important
+                box-shadow: 0 4px 15px rgba(129, 140, 248, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4) !important
                 
                 .icon-wrapper
                     color: white !important
+                    filter: none !important
                     
         .icon-wrapper
-            color: #818cf8
+            color: #A5B4FC !important
+            transition: all 0.3s ease

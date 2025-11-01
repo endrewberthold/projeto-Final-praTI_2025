@@ -359,6 +359,9 @@ export default function FlashcardPage() {
     }
   });
 
+  // Determina qual filtro está ativo para passar para os FlashCards
+  const currentAreaFilter = selectedAreaIds.length === 0 ? 'ALL' : selectedAreaIds[0];
+
   return (
     <>
       {cardModal.modal.isOpen && (
@@ -541,6 +544,7 @@ export default function FlashcardPage() {
                 isSelectionMode={isSelectionMode}
                 isSelected={selectedFlashcards.includes(item.id)}
                 onToggleSelection={() => toggleFlashcardSelection(item.id)}
+                selectedAreaFilter={currentAreaFilter}
               />
             ))}
           </>

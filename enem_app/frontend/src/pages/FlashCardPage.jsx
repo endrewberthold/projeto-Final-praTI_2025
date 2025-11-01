@@ -538,7 +538,7 @@ export default function FlashcardPage() {
                 : 'Carregando flashcards...'}
             </p>
           </div>
-        ) : flashcardsData && flashcardsData.length > 0 ? (
+        ) : filteredFlashcards && filteredFlashcards.length > 0 ? (
           <>
             {filteredFlashcards.map((item, index) => (
               <FlashCard

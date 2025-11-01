@@ -6,15 +6,35 @@
   flex-direction: column
   align-items: center
   justify-content: center
-  // background-color: var(--bg-secondary)
-  padding: 40px
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.05) 100%)
+  padding: 3rem 2.5rem
   border-radius: 2rem
-  // box-shadow: var(--shadow-lg)
-  width: 80%
-  max-width: 600px
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(129, 140, 248, 0.1)
+  width: 85%
+  max-width: 650px
   margin: 4rem auto
   text-align: center
   position: relative
+  border: 1px solid rgba(129, 140, 248, 0.1)
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 4px
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
+    background-size: 200% 100%
+    animation: shimmer 3s ease-in-out infinite
+  
+  p
+    color: var(--text-primary)
+    font-size: 1.1rem
+    margin: 0.5rem 0 1.5rem
+    line-height: 1.6
+    opacity: 0.85
 
 .back-button
   position: fixed
@@ -23,70 +43,116 @@
   display: flex
   align-items: center
   gap: 0.5rem
-  padding: 0.75rem 1.5rem
+  padding: 0.85rem 1.6rem
   background: var(--bg-secondary)
   border: 1px solid var(--border-primary)
-  border-radius: 0.5rem
+  border-radius: 0.75rem
   color: var(--text-primary)
-  font-size: 0.9rem
-  font-weight: 500
+  font-size: 0.95rem
+  font-weight: 600
   cursor: pointer
-  transition: all 0.2s ease
-  box-shadow: var(--shadow-sm)
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)
   z-index: 1000
+  backdrop-filter: blur(10px)
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.1), transparent)
+    transition: left 0.5s ease
+  
+  svg
+    transition: transform 0.3s ease
   
   &:hover
-    background: var(--accent-primary)
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
     color: white
     border-color: var(--accent-primary)
-    transform: translateY(-1px)
-    box-shadow: var(--shadow-md)
+    transform: translateY(-2px) scale(1.02)
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.3)
+    
+    &::before
+      left: 100%
+    
+    svg
+      transform: translateX(-2px)
     
   &:active
-    transform: translateY(0)
-    box-shadow: var(--shadow-sm)
+    transform: translateY(0) scale(0.98)
+    box-shadow: 0 2px 8px rgba(129, 140, 248, 0.3), 0 1px 4px rgba(129, 140, 248, 0.2)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
 
 .start-title
-  font-weight: bold
-  font-size: 25px
+  font-weight: 700
+  font-size: 2rem
   color: var(--accent-primary)
-  margin-bottom: 1rem
+  margin-bottom: 0.5rem
+  letter-spacing: -0.5px
+  text-shadow: 0 2px 4px rgba(129, 140, 248, 0.15)
 
 #start-image
-  width: 50%
-  height: 50%
+  width: 45%
+  max-width: 280px
+  height: auto
   display: block
-  margin: 0 auto 2rem
+  margin: 1.5rem auto 2rem
+  filter: drop-shadow(0 4px 12px rgba(129, 140, 248, 0.2))
+  animation: float 3s ease-in-out infinite
 
 .start-btn
-  background-color: var(--accent-primary)
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
   color: variables.$clr-font-white !important
-  font-weight: bold
-  height: min(3rem, 8vh)
-  min-height: 44px
-  width: min(15rem, 80%)
-  max-width: 300px
-  min-width: 200px
+  font-weight: 600
+  height: min(3.5rem, 8vh)
+  min-height: 48px
+  width: min(18rem, 85%)
+  max-width: 320px
+  min-width: 220px
   text-align: center
-  font-size: 16px
-  margin-top: 2rem
-  border-radius: 0.7rem
-  box-shadow: var(--shadow-lg)
+  font-size: 1.1rem
+  margin-top: 1.5rem
+  border-radius: 1rem
+  box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.2)
   cursor: pointer
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  border: 2px solid transparent
+  position: relative
+  overflow: hidden
+  letter-spacing: 0.3px
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent)
+    transition: left 0.5s ease
 
   &:hover
     z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+    background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)
+    box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5), 0 4px 12px rgba(129, 140, 248, 0.3)
+    transform: translateY(-3px) scale(1.02)
+    border-color: rgba(255, 255, 255, 0.2)
+    
+    &::before
+      left: 100%
 
   &:active
     z-index: 20
-    transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transform: translateY(-1px) scale(0.98)
+    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 6px rgba(129, 140, 248, 0.2)
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
 // === TELA QUESTÕES ===
@@ -119,7 +185,7 @@
   margin: 0 1rem
   text-align: center
   overflow-y: auto
-  min-height: 80vh
+  min-height: 70vh
 
 .question-title
   font-size: 22px
@@ -347,6 +413,12 @@
   100%
     background-position: 200% 0
 
+@keyframes float
+  0%, 100%
+    transform: translateY(0px)
+  50%
+    transform: translateY(-10px)
+
 .question-btn
   margin: 0 auto
   width: 20%
@@ -440,36 +512,55 @@
 // === TEMA DARK ===
 body.dark
   .start-screen
-    background-color: var(--bg-secondary)
-    border: 1px solid var(--border-primary)
-    box-shadow: var(--shadow-lg)
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.08) 100%)
+    border: 1px solid rgba(129, 140, 248, 0.2)
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(129, 140, 248, 0.15)
+    
+    &::before
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
+    
+    p
+      color: var(--text-primary)
+      opacity: 0.9
     
   .back-button
     background: var(--bg-secondary)
     border-color: var(--border-primary)
     color: var(--text-primary)
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1)
     
     &:hover
-      background: #818cf8
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
       color: white
-      border-color: #818cf8
-      box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+      border-color: var(--accent-primary)
+      box-shadow: 0 6px 20px rgba(129, 140, 248, 0.5), 0 2px 8px rgba(129, 140, 248, 0.3)
+      transform: translateY(-2px) scale(1.02)
+      
+      svg
+        transform: translateX(-2px)
+    
+    &:active
+      box-shadow: 0 2px 8px rgba(129, 140, 248, 0.4), 0 1px 4px rgba(129, 140, 248, 0.2)
     
   .start-title
     color: var(--accent-primary)
+    text-shadow: 0 2px 8px rgba(129, 140, 248, 0.3)
+    
+  #start-image
+    filter: drop-shadow(0 4px 16px rgba(129, 140, 248, 0.3))
     
   .start-btn
-    background-color: var(--accent-primary)
-    color: var(--bg-primary)
-    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4)
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+    color: variables.$clr-font-white !important
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.2)
     
     &:hover
-      background-color: var(--accent-secondary)
-      box-shadow: 0 8px 25px rgba(129, 140, 248, 0.5)
-      transform: translateY(-2px) scale(1.01)
+      background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)
+      box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5), 0 4px 12px rgba(129, 140, 248, 0.3)
+      transform: translateY(-3px) scale(1.02)
       
     &:active
-      box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3)
+      box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 6px rgba(129, 140, 248, 0.2)
       
   .question-screen
     background-color: var(--bg-primary)
@@ -595,11 +686,32 @@ body.dark
     flex: none
 
 @media (max-width: 768px)
+  .start-screen
+    width: 90%
+    padding: 2.5rem 2rem
+    margin: 3rem auto
+    
+  .start-title
+    font-size: 1.75rem
+    
+  #start-image
+    width: 50%
+    max-width: 240px
+    margin: 1rem auto 1.5rem
+    
+  .start-btn
+    width: min(16rem, 80%)
+    font-size: 1rem
+    height: min(3.2rem, 8vh)
+    min-height: 46px
+    
   .back-button
     top: 1.5rem
     left: 1rem
-    padding: 0.5rem 1rem
-    font-size: 0.8rem
+    padding: 0.7rem 1.2rem
+    font-size: 0.85rem
+    border-radius: 0.6rem
+    gap: 0.4rem
     
   .question-container
     padding: 1.5rem
@@ -628,11 +740,42 @@ body.dark
       font-size: 14px
 
 @media (max-width: 480px)
+  .start-screen
+    width: 95%
+    padding: 2rem 1.5rem
+    margin: 2rem auto
+    
+  .start-title
+    font-size: 1.5rem
+    margin-bottom: 0.3rem
+    
+  .start-screen p
+    font-size: 1rem
+    margin: 0.3rem 0 1rem
+    
+  #start-image
+    width: 55%
+    max-width: 200px
+    margin: 1rem auto 1.5rem
+    
+  .start-btn
+    width: min(14rem, 85%)
+    font-size: 0.95rem
+    height: min(3rem, 8vh)
+    min-height: 44px
+    margin-top: 1rem
+    
   .back-button
     top: 1rem
     left: 0.5rem
-    padding: 0.4rem 0.8rem
-    font-size: 0.75rem
+    padding: 0.6rem 1rem
+    font-size: 0.8rem
+    border-radius: 0.5rem
+    gap: 0.3rem
+    
+    svg
+      width: 14px
+      height: 14px
     
   .question-container
     padding: 1rem

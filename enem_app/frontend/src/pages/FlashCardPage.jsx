@@ -486,6 +486,7 @@ export default function FlashcardPage() {
         <section className="icons-flashcard-container">
           <FlashCardPageButtons
             setSelectedAreaIds={setSelectedAreaIds}
+            selectedAreaIds={selectedAreaIds}
             theme={theme}
           />
         </section>

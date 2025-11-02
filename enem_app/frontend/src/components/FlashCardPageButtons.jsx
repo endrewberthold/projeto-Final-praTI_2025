@@ -44,25 +44,16 @@ const pageButtons = [
   },
 ];
 
-const FlashCardPageButtons = ({ setSelectedAreaIds, selectedAreaIds, theme }) => {
+const FlashCardPageButtons = ({ setSelectedAreaIds, theme }) => {
   console.log('FlashCardPageButtons renderizando com tema:', theme);
-  
-  const isSelected = (areaId) => {
-    if (areaId === 'ALL') {
-      return selectedAreaIds.length === 0;
-    }
-    return selectedAreaIds.includes(areaId);
-  };
-  
   return (
     <div className="icons-flashcard-container">
       {pageButtons.map((item, i) => {
         const IconComponent = item.icon;
-        const selected = isSelected(item.areaId);
         return (
           <button
             key={i}
-            className={`icon-flashcard ${theme} ${selected ? 'selected' : ''}`}
+            className={`icon-flashcard ${theme}`}
             title={item.area}
             area={item.area ? `${item.area}` : ''}
             areaid={item.areaId ? `${item.areaId}` : ''}

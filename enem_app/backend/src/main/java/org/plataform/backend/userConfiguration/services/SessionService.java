@@ -73,6 +73,25 @@ public class SessionService {
         session.setStartedAt(OffsetDateTime.now());
         session = sessionRepository.save(session); // gera id
 
+        Set<Long> skillIds = new LinkedHashSet<>();
+        Set<Long> competencyIds = new LinkedHashSet<>();
+        for (Question q : questions) {
+            if (q.getSkillId() != null) skillIds.add(q.getSkillId());
+            if (q.getCompetencyId() != null) competencyIds.add(q.getCompetencyId());
+        }
+
+        Map<Long, Skill> skillMap = new HashMap<>();
+        if (!skillIds.isEmpty()) {
+            List<Skill> skills = skillRepository.findAllById(new ArrayList<>(skillIds));
+            for (Skill s : skills) skillMap.put(s.getId(), s);
+        }
+
+        Map<Long, Competency> competencyMap = new HashMap<>();
+        if (!competencyIds.isEmpty()) {
+            List<Competency> comps = competencyRepository.findAllById(new ArrayList<>(competencyIds));
+            for (Competency c : comps) competencyMap.put(c.getId(), c);
+        }
+
         List<SessionQuestionDTO> dtoQuestions = new ArrayList<>();
         // mapping: questionId -> List<{presentedId, alternativeId, text, isCorrect}>
         Map<Long, List<Map<String, Object>>> sessionMapping = new LinkedHashMap<>();
@@ -112,6 +131,11 @@ public class SessionService {
                     .imageUrl(q.getImageUrl())
                     .difficulty(q.getDifficulty() != null ? q.getDifficulty().doubleValue() : 0.0)
                     .alternatives(presented)
+                    .skillId(q.getSkillId())
+                    .skillCode(skillMap.get(q.getSkillId()) != null ? skillMap.get(q.getSkillId()).getCode() : null)
+                    .skillDescription(skillMap.get(q.getSkillId()) != null ? skillMap.get(q.getSkillId()).getDescription() : null)
+                    .competencyId(q.getCompetencyId())
+                    .competencyDescription(competencyMap.get(q.getCompetencyId()) != null ? competencyMap.get(q.getCompetencyId()).getDescription() : null)
                     .build();
 
             dtoQuestions.add(sq);

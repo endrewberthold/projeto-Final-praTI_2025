@@ -231,19 +231,15 @@ export default function FlashcardPage() {
 
   // CONFIRM DELETE FLASHCARD
   async function handleConfirmDelete() {
+    const deletedCardId = deleteModal.flashcardId;
+    const deletedCardTerm = deleteModal.flashcardTerm;
+
     try {
-      const response = await deleteFlashcardAPI(
-        accessToken,
-        deleteModal.flashcardId,
-      );
+      const response = await deleteFlashcardAPI(accessToken, deletedCardId);
       console.log('DELETADO: ', response);
       handleFetchFlashcards();
+      cardModal.handleCardModal(null, deletedCardTerm, 'delete');
       setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
-      cardModal.handleCardModal(
-        response?.data.id,
-        response?.data.term,
-        'delete',
-      );
     } catch (err) {
       console.log('ERRO ON DELETE CARD: ', err);
     }
@@ -343,9 +339,9 @@ export default function FlashcardPage() {
     setIsDeleting(true);
     const ids = bulkDeleteModal.selectedIds;
     try {
-      await Promise.all(ids.map(id =>
-        deleteFlashcardAPI(accessToken, id).catch(e => e)
-      ));
+      await Promise.all(
+        ids.map((id) => deleteFlashcardAPI(accessToken, id).catch((e) => e)),
+      );
       handleFetchFlashcards();
       setSelectedFlashcards([]);
       setIsSelectionMode(false);
@@ -355,7 +351,7 @@ export default function FlashcardPage() {
     } finally {
       setIsDeleting(false);
     }
-  }
+  };
 
   if (isLoading || isDeleting) {
     return (
@@ -419,75 +415,79 @@ export default function FlashcardPage() {
         {/* Form Container - Only show when expanded */}
         {isFormExpanded && (
           <form className={`form-flashcard-container expanded`}>
-            {!formTitle ? <h1>Criar Flashcard</h1> : <h1>Atualizar Flashcard</h1>}
-          <div className="form-input">
-            <Input
-              id="title"
-              label="Título:"
-              type="text"
-              value={term}
-              onChange={({ target }) => {
-                setTerm(target.value);
-                input.onChange({ target });
-              }}
-              onBlur={() => input.onBlur(term)}
-              placeholder="Digite o título do flashcard"
-              error={input.error}
-              maxLength={40}
-              required
-            />
-          </div>
-          <div className="form-options">
-            <Select
-              label="Área de Conhecimento:"
-              id="areaId"
-              name="selectArea"
-              value={areaId}
-              onChange={({ target }) => {
-                setAreaId(target.value);
-                select.onChange({ target });
-              }}
-              onBlur={() => select.onBlur(areaId)}
-              error={select.error}
-            />
-          </div>
-          <div className="form-description">
-            <Textarea
-              id="description"
-              label="Descrição:"
-              value={description}
-              onChange={({ target }) => {
-                setDescription(target.value);
-                textarea.onChange({ target });
-              }}
-              onBlur={() => textarea.onBlur(description)}
-              placeholder="Digite a descrição ou dados do flashcard"
-              error={textarea.error}
-              rows="3"
-              maxLength={120}
-              required
-            />
-            {newEmptyCard.error && (
-              <div className="error-message">
-                <FaExclamationCircle className="error-icon" />
-                <span className="error-text">{newEmptyCard.error}</span>
-              </div>
-            )}
-          </div>
-          <div className="buttons-flashcard-container">
-            {updateRequest ? (
-              <>
-                <button onClick={handleUpdateFlashcard}>Atualizar</button>
-                <button onClick={handleClear}>Cancelar</button>
-              </>
+            {!formTitle ? (
+              <h1>Criar Flashcard</h1>
             ) : (
-              <>
-                <button onClick={handleNewFlashcard}>Criar</button>
-                <button onClick={handleClear}>Limpar</button>
-              </>
+              <h1>Atualizar Flashcard</h1>
             )}
-          </div>
-        </form>
+            <div className="form-input">
+              <Input
+                id="title"
+                label="Título:"
+                type="text"
+                value={term}
+                onChange={({ target }) => {
+                  setTerm(target.value);
+                  input.onChange({ target });
+                }}
+                onBlur={() => input.onBlur(term)}
+                placeholder="Digite o título do flashcard"
+                error={input.error}
+                maxLength={40}
+                required
+              />
+            </div>
+            <div className="form-options">
+              <Select
+                label="Área de Conhecimento:"
+                id="areaId"
+                name="selectArea"
+                value={areaId}
+                onChange={({ target }) => {
+                  setAreaId(target.value);
+                  select.onChange({ target });
+                }}
+                onBlur={() => select.onBlur(areaId)}
+                error={select.error}
+              />
+            </div>
+            <div className="form-description">
+              <Textarea
+                id="description"
+                label="Descrição:"
+                value={description}
+                onChange={({ target }) => {
+                  setDescription(target.value);
+                  textarea.onChange({ target });
+                }}
+                onBlur={() => textarea.onBlur(description)}
+                placeholder="Digite a descrição ou dados do flashcard"
+                error={textarea.error}
+                rows="3"
+                maxLength={120}
+                required
+              />
+              {newEmptyCard.error && (
+                <div className="error-message">
+                  <FaExclamationCircle className="error-icon" />
+                  <span className="error-text">{newEmptyCard.error}</span>
+                </div>
+              )}
+            </div>
+            <div className="buttons-flashcard-container">
+              {updateRequest ? (
+                <>
+                  <button onClick={handleUpdateFlashcard}>Atualizar</button>
+                  <button onClick={handleClear}>Cancelar</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={handleNewFlashcard}>Criar</button>
+                  <button onClick={handleClear}>Limpar</button>
+                </>
+              )}
+            </div>
+          </form>
         )}
 
         <section className="icons-flashcard-container">

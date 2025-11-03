@@ -1,48 +1,68 @@
 import { useEffect, useState } from 'react';
+
 import { GrCheckmark } from 'react-icons/gr';
 import { RxUpdate } from 'react-icons/rx';
+import { TiDelete } from 'react-icons/ti';
 
 import '../styles/components/confirmChangeModal.sass';
 
-const ConfirmCreateModal = ({ cardTerm, modalId }) => {
-  const [deleteIcon, setDeleteIcon] = useState(false);
+const statusId = [
+  {
+    icon: GrCheckmark,
+    id: 'new',
+    notification: ' criado com sucesso!',
+  },
+  {
+    icon: RxUpdate,
+    id: 'update',
+    notification: ' atualizado com sucesso!',
+  },
+  {
+    icon: TiDelete,
+    id: 'delete',
+    notification: ' excluído com sucesso!',
+  },
+];
 
-  const handleChangeTitle = () => {
-    switch (modalId) {
-      case 'new':
-        return ' criado com sucesso!';
-      case 'update':
-        return ' atualizado com sucesso!';
-      default:
-        return '';
-    }
-  };
+const ConfirmCreateModal = ({ cardTerm, modalId }) => {
+  const [statusConfirm, setStatusConfirm] = useState(null);
 
   useEffect(() => {
-    if (modalId === 'delete') {
-      setDeleteIcon(true);
+    switch (modalId) {
+      case 'new':
+        setStatusConfirm('new');
+        break;
+      case 'update':
+        setStatusConfirm('update');
+        break;
+      case 'delete':
+        setStatusConfirm('delete');
+        break;
     }
   }, [modalId]);
 
-  useEffect(() => {
-    console.log(deleteIcon, modalId);
-  }, [deleteIcon]);
-
   return (
     <div className="pop-header">
-      {!deleteIcon ? (
-        <FaCheckCircle className="title-icon" />
-      ) : (
-        <TiDelete className="title-icon" />
-      )}
-      <div className="pop-title">
-        {cardTerm && (
-          <h3>
-            Flashcard <strong>{cardTerm}</strong>
-            {!deleteIcon ? handleChangeTitle() : ' excluído com sucesso!'}
-          </h3>
-        )}
-      </div>
+      {statusId.map(({ icon, id, notification }) => {
+        const IconComponent = icon;
+        return (
+          <div className="pop-main" key={id}>
+            {statusConfirm === id && (
+              <>
+                <IconComponent className="pop-icon" />
+                <div className="pop-title">
+                  {cardTerm && (
+                    <h3>
+                      Flashcard <strong>{cardTerm}</strong>
+                      {statusConfirm === id && `${notification}`}
+                    </h3>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

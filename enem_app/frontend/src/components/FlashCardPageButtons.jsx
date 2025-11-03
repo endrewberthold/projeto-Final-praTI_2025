@@ -28,9 +28,9 @@ const pageButtons = [
     area: 'Linguagens, Códigos e suas Tecnologias',
   },
   {
-    icon: FaGlobeAmericas,
-    areaId: 'CH',
-    area: 'Ciências Humanas e suas Tecnologias',
+    icon: TbMathFunction,
+    areaId: 'MT',
+    area: 'Matemáticas e suas Tecnologias',
   },
   {
     icon: GiMicroscope,
@@ -38,9 +38,9 @@ const pageButtons = [
     area: 'Ciências da Natureza e suas Tecnologias',
   },
   {
-    icon: TbMathFunction,
-    areaId: 'MT',
-    area: 'Matemáticas e suas Tecnologias',
+    icon: FaGlobeAmericas,
+    areaId: 'CH',
+    area: 'Ciências Humanas e suas Tecnologias',
   },
 ];
 

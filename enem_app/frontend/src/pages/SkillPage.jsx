@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Cardlvl from "../components/Cardlvl";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import { FaArrowLeft, FaBookOpen, FaGlobeAmericas } from "react-icons/fa";
-import { TbMathFunction } from "react-icons/tb";
-import { GiMicroscope } from "react-icons/gi";
-import "../styles/pages/skillPage.sass";
+import React, { useEffect, useState } from 'react';
+import Cardlvl from '../components/Cardlvl';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { FaArrowLeft, FaBookOpen, FaGlobeAmericas } from 'react-icons/fa';
+import { TbMathFunction } from 'react-icons/tb';
+import { GiMicroscope } from 'react-icons/gi';
+import '../styles/pages/skillPage.sass';
 
 //import { startSessionAPI } from "../services/SkillsServices";
 
@@ -85,21 +85,37 @@ export default function SkillPage() {
         <div className="area-icon-selector">
           <div className="icon-grid">
             {[
-              { id: 'LC', label: 'Linguagens', color: getAreaColor('LC') },
-              { id: 'MT', label: 'Matemática', color: getAreaColor('MT') },
-              { id: 'CN', label: 'Ciências', color: getAreaColor('CN') },
-              { id: 'CH', label: 'Humanas', color: getAreaColor('CH') }
+              {
+                id: 'LC',
+                label: 'Linguagens, Códigos e suas Tecnologias',
+                color: getAreaColor('LC'),
+              },
+              {
+                id: 'MT',
+                label: 'Matemáticas e suas Tecnologias',
+                color: getAreaColor('MT'),
+              },
+              {
+                id: 'CN',
+                label: 'Ciências da Natureza e suas Tecnologias',
+                color: getAreaColor('CN'),
+              },
+              {
+                id: 'CH',
+                label: 'Ciências Humanas e suas Tecnologias',
+                color: getAreaColor('CH'),
+              },
             ].map((area) => (
               <button
                 key={area.id}
-                className={`icon-button ${areaId === area.id ? 'selected' : ''}`}
+                className={`icon-button ${
+                  areaId === area.id ? 'selected' : ''
+                }`}
                 onClick={() => handleAreaNavigation(area.id)}
                 style={{ '--area-color': area.color }}
                 title={area.label}
               >
-                <div className="icon-wrapper">
-                  {getAreaIcon(area.id)}
-                </div>
+                <div className="icon-wrapper">{getAreaIcon(area.id)}</div>
               </button>
             ))}
           </div>
@@ -165,9 +181,7 @@ export default function SkillPage() {
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   );
 }

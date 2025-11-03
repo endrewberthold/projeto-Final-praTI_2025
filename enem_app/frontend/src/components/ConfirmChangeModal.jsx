@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { TiDelete } from 'react-icons/ti';
+import { GrCheckmark } from 'react-icons/gr';
+import { RxUpdate } from 'react-icons/rx';
 
 import '../styles/components/confirmChangeModal.sass';
 

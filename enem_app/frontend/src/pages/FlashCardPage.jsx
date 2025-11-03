@@ -86,9 +86,15 @@ export default function FlashcardPage() {
     selectedCount: 0,
   });
 
-  // For the first time the page loads
+  // For the first time the page loads and silent refresh after create/update
   useEffect(() => {
-    handleFetchFlashcards();
+    if (!newFlashcard) {
+      // Initial load with loading overlay
+      handleFetchFlashcards();
+    } else {
+      // Silent refresh to avoid closing/reopening the UI
+      handleRefreshFlashcardsSilent();
+    }
   }, [newFlashcard]);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
@@ -112,6 +118,18 @@ export default function FlashcardPage() {
       } else {
         setMessage('New Flash card creation failed');
       }
+    }
+  }
+
+  // Silent refresh that does not toggle the global loading overlay
+  async function handleRefreshFlashcardsSilent() {
+    try {
+      const response = await fetchFlashcardsAPI(accessToken);
+      setFlashcardsData(response?.data.content);
+      // No isLoading changes here to prevent UI flicker
+    } catch (err) {
+      // Keep UX stable; optionally log the error
+      console.log('Erro ao atualizar lista de flashcards:', err);
     }
   }
 
@@ -322,27 +340,22 @@ export default function FlashcardPage() {
   };
 
   const confirmBulkDelete = async () => {
+    setIsDeleting(true);
+    const ids = bulkDeleteModal.selectedIds;
     try {
-      setIsDeleting(true);
-
-      // Deletar cada flashcard selecionado
-      for (const flashcardId of bulkDeleteModal.selectedIds) {
-        await deleteFlashcardAPI(accessToken, flashcardId);
-      }
-
-      // Atualizar a lista
+      await Promise.all(ids.map(id =>
+        deleteFlashcardAPI(accessToken, id).catch(e => e)
+      ));
       handleFetchFlashcards();
-
-      // Limpar seleção
       setSelectedFlashcards([]);
       setIsSelectionMode(false);
       closeBulkDeleteModal();
     } catch (err) {
-      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS:', err);
     } finally {
       setIsDeleting(false);
     }
-  };
+  }
 
   if (isLoading || isDeleting) {
     return (
@@ -406,84 +419,81 @@ export default function FlashcardPage() {
         {/* Form Container - Only show when expanded */}
         {isFormExpanded && (
           <form className={`form-flashcard-container expanded`}>
-            {!formTitle ? (
-              <h1>Criar Flashcard</h1>
-            ) : (
-              <h1>Atualizar Flashcard</h1>
+            {!formTitle ? <h1>Criar Flashcard</h1> : <h1>Atualizar Flashcard</h1>}
+          <div className="form-input">
+            <Input
+              id="title"
+              label="Título:"
+              type="text"
+              value={term}
+              onChange={({ target }) => {
+                setTerm(target.value);
+                input.onChange({ target });
+              }}
+              onBlur={() => input.onBlur(term)}
+              placeholder="Digite o título do flashcard"
+              error={input.error}
+              maxLength={40}
+              required
+            />
+          </div>
+          <div className="form-options">
+            <Select
+              label="Área de Conhecimento:"
+              id="areaId"
+              name="selectArea"
+              value={areaId}
+              onChange={({ target }) => {
+                setAreaId(target.value);
+                select.onChange({ target });
+              }}
+              onBlur={() => select.onBlur(areaId)}
+              error={select.error}
+            />
+          </div>
+          <div className="form-description">
+            <Textarea
+              id="description"
+              label="Descrição:"
+              value={description}
+              onChange={({ target }) => {
+                setDescription(target.value);
+                textarea.onChange({ target });
+              }}
+              onBlur={() => textarea.onBlur(description)}
+              placeholder="Digite a descrição ou dados do flashcard"
+              error={textarea.error}
+              rows="3"
+              maxLength={120}
+              required
+            />
+            {newEmptyCard.error && (
+              <div className="error-message">
+                <FaExclamationCircle className="error-icon" />
+                <span className="error-text">{newEmptyCard.error}</span>
+              </div>
             )}
-            <div className="form-input">
-              <Input
-                id="title"
-                label="Título:"
-                type="text"
-                value={term}
-                onChange={({ target }) => {
-                  setTerm(target.value);
-                  input.onChange({ target });
-                }}
-                onBlur={() => input.onBlur(term)}
-                placeholder="Título"
-                error={input.error}
-                maxLength={40}
-                required
-              />
-            </div>
-            <div className="form-options">
-              <Select
-                label="Área de Conhecimento:"
-                id="areaId"
-                name="selectArea"
-                value={areaId}
-                onChange={({ target }) => {
-                  setAreaId(target.value);
-                  select.onChange({ target });
-                }}
-                onBlur={() => select.onBlur(areaId)}
-                error={select.error}
-              />
-            </div>
-            <div className="form-description">
-              <Textarea
-                id="description"
-                label="Descrição:"
-                value={description}
-                onChange={({ target }) => {
-                  setDescription(target.value);
-                  textarea.onChange({ target });
-                }}
-                onBlur={() => textarea.onBlur(description)}
-                placeholder="Dados do Flashcard"
-                error={textarea.error}
-                rows="3"
-                maxLength={120}
-                required
-              />
-              {newEmptyCard.error && (
-                <div className="error-message">
-                  <FaExclamationCircle className="error-icon" />
-                  <span className="error-text">{newEmptyCard.error}</span>
-                </div>
-              )}
-            </div>
-            <div className="buttons-flashcard-container">
-              {updateRequest ? (
-                <>
-                  <button onClick={handleUpdateFlashcard}>Atualizar</button>
-                  <button onClick={handleClear}>Cancelar</button>
-                </>
-              ) : (
-                <>
-                  <button onClick={handleNewFlashcard}>Criar</button>
-                  <button onClick={handleClear}>Limpar</button>
-                </>
-              )}
-            </div>
-          </form>
+          </div>
+          <div className="buttons-flashcard-container">
+            {updateRequest ? (
+              <>
+                <button onClick={handleUpdateFlashcard}>Atualizar</button>
+                <button onClick={handleClear}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                <button onClick={handleNewFlashcard}>Criar</button>
+                <button onClick={handleClear}>Limpar</button>
+              </>
+            )}
+          </div>
+        </form>
         )}
 
         <section className="icons-flashcard-container">
           <FlashCardPageButtons
             setSelectedAreaIds={setSelectedAreaIds}
+            selectedAreaIds={selectedAreaIds}
             theme={theme}
           />
         </section>
@@ -534,7 +544,7 @@ export default function FlashcardPage() {
                 : 'Carregando flashcards...'}
             </p>
           </div>
-        ) : flashcardsData && flashcardsData.length > 0 ? (
+        ) : filteredFlashcards && filteredFlashcards.length > 0 ? (
           <>
             {filteredFlashcards.map((item, index) => (
               <FlashCard

@@ -79,47 +79,91 @@
 
     .modal-footer
         display: flex
-        justify-content: flex-end
+        justify-content: space-between
         gap: 1rem
-        padding: 1rem 1.5rem 1.5rem 1.5rem
+        padding: 1.25rem 1.5rem 1.5rem 1.5rem
         border-top: 1px solid var(--border-primary)
+        background: var(--bg-primary)
 
         .cancel-button
-            background-color: var(--bg-primary)
-            color: var(--text-primary)
-            border: 1px solid var(--border-primary)
-            border-radius: 0.5rem
-            padding: 0.75rem 1.5rem
+            background-color: transparent
+            color: var(--text-secondary)
+            border: 2px solid var(--border-primary)
+            border-radius: 0.75rem
+            padding: 0.875rem 1.5rem
             font-size: 1rem
-            font-weight: 500
+            font-weight: 600
             cursor: pointer
-            transition: all 0.2s ease
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+            min-width: 140px
+            position: relative
+            overflow: hidden
+
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: -100%
+                width: 100%
+                height: 100%
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)
+                transition: left 0.5s ease
 
             &:hover
-                background-color: var(--border-primary)
-                border-color: var(--text-secondary)
+                background-color: var(--bg-secondary)
+                border-color: var(--accent-primary)
+                color: var(--accent-primary)
+                transform: translateY(-2px)
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15)
 
-        .confirm-button
-            background-color: #ef4444
-            color: white
-            border: none
-            border-radius: 0.5rem
-            padding: 0.75rem 1.5rem
-            font-size: 1rem
-            font-weight: 500
-            cursor: pointer
-            transition: all 0.2s ease
-            display: flex
-            align-items: center
-            gap: 0.5rem
-
-            &:hover
-                background-color: #dc2626
-                transform: translateY(-1px)
-                box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3)
+                &::before
+                    left: 100%
 
             &:active
                 transform: translateY(0)
+                transition: transform 0.1s ease
+
+        .confirm-button
+            background: linear-gradient(135deg, #ef4444, #dc2626)
+            color: white
+            border: none
+            border-radius: 0.75rem
+            padding: 0.875rem 1.5rem
+            font-size: 1rem
+            font-weight: 600
+            cursor: pointer
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+            display: flex
+            align-items: center
+            justify-content: center
+            gap: 0.5rem
+            min-width: 140px
+            position: relative
+            overflow: hidden
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25)
+            margin: 0
+
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: -100%
+                width: 100%
+                height: 100%
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+                transition: left 0.5s ease
+
+            &:hover
+                background: linear-gradient(135deg, #dc2626, #ef4444)
+                transform: translateY(-3px)
+                box-shadow: 0 12px 30px rgba(239, 68, 68, 0.35)
+
+                &::before
+                    left: 100%
+
+            &:active
+                transform: translateY(-1px)
+                transition: transform 0.1s ease
 
 // Animação de entrada do modal
 @keyframes modalSlideIn
@@ -165,22 +209,25 @@ body.dark
 
         .modal-footer
             border-top-color: var(--border-primary)
+            background: var(--bg-primary)
 
             .cancel-button
-                background-color: var(--bg-primary)
-                color: var(--text-primary)
+                background-color: transparent
+                color: var(--text-secondary)
                 border-color: var(--border-primary)
 
                 &:hover
-                    background-color: var(--border-primary)
-                    border-color: var(--text-secondary)
+                    background-color: var(--bg-secondary)
+                    border-color: #818cf8
+                    color: #818cf8
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3)
 
             .confirm-button
-                background-color: #ef4444
+                background: linear-gradient(135deg, #ef4444, #dc2626)
 
                 &:hover
-                    background-color: #dc2626
-                    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4)
+                    background: linear-gradient(135deg, #dc2626, #ef4444)
+                    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.45)
 
 // Responsividade
 @media (max-width: 480px)

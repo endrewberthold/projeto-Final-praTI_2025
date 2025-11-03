@@ -31,9 +31,13 @@ export default function Answers() {
   const intervalRef = useRef(null); // guarda o intervalo ativo
   const sessionStartRef = useRef(null); // guarda o tempo inicial
 
+  const [toggleSkill, setToggleSkill] = useState(false);
+
   // Inicia sessão
   async function handleStart(e) {
     e.preventDefault();
+    setToggleSkill(false);
+
     try {
       const response = await startSessionAPI(
         accessToken,
@@ -50,10 +54,10 @@ export default function Answers() {
 
       sessionStartRef.current = Date.now();
 
-      // ! ISSO AQUI ?????????????????? LOOP de requisições do componente
-      // intervalRef.current = setInterval(() => {
-      //   setElapsedTime(Date.now() - sessionStartRef.current);
-      // });
+      //! LOOP de atualziaão do componente completo. Precisa mudar o cronometro para componente separado
+      intervalRef.current = setInterval(() => {
+        setElapsedTime(Date.now() - sessionStartRef.current);
+      });
     } catch (err) {
       console.log("Erro ao iniciar a sessão: ", err);
     }
@@ -63,12 +67,15 @@ export default function Answers() {
 
   // Envia resposta e avança
   async function handleAnswer() {
+    setToggleSkill(false);
     const question = questions[currentIndex];
 
     if (!selectedAnswer) {
       setErrorMessage("Selecione uma alternativa!");
       return;
     }
+
+    console.log("TOGGLE", toggleSkill);
 
     try {
       await sendAnswerAPI(
@@ -163,6 +170,8 @@ export default function Answers() {
   return (
     <div className="question-screen">
       <QuestionPage
+        toggleSkill={toggleSkill}
+        setToggleSkill={setToggleSkill}
         question={currentQuestion}
         selected={selectedAnswer}
         onSelect={(_, val) => {

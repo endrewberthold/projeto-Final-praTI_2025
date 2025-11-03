@@ -2,6 +2,8 @@ import "../styles/pages/questionPage.sass";
 import React, { useState } from "react";
 
 function QuestionPage({
+  toggleSkill,
+  setToggleSkill,
   question,
   selected,
   onSelect,
@@ -11,8 +13,7 @@ function QuestionPage({
 }) {
   console.log("QUESTION PAGE");
   console.log(question);
-
-  const [toggleSkill, setToggleSkill] = useState(false);
+  console.log("questionPage", toggleSkill);
 
   const handleToggle = () => {
     setToggleSkill(!toggleSkill);
@@ -21,13 +22,17 @@ function QuestionPage({
   return (
     <div className="question-container">
       {children}
-      <div>
-        {toggleSkill ? (
+      <div
+        className={
+          toggleSkill ? "skill-container-open" : "skill-container-closed"
+        }
+      >
+        {!toggleSkill ? (
           <button onClick={handleToggle}>Qual habilidade é nescessaria?</button>
         ) : (
           <>
             <button onClick={handleToggle}>X</button>
-            <p>{question.skillDescription}</p>
+            <h4>{question.skillDescription}</h4>
           </>
         )}
       </div>

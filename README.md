@@ -166,7 +166,7 @@ Question
 ```
 
 ## Como executar o projeto
-### 1. CLonar o repositório
+### 1. Clonar o repositório
 
 ```bash
 git clone
@@ -174,7 +174,7 @@ cd enem_app
 ```
 A pasta enem_app/ contém o arquivo docker-compose.yml responsável por subir todo o ambiente (backend, frontend e banco de dados).
 
-### 1. Build com Docker
+### 2. Build com Docker
 ertifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 Em seguida, execute o comando abaixo para buildar e subir todos os containers:
 

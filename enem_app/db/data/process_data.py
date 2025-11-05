@@ -71,7 +71,7 @@ class ProcessData:
 
         required_keys = ('SG_AREA', 'CO_HABILIDADE')
         if not all(k in area_df.columns for k in required_keys):
-            raise ValueError(f"area_csv_path must contain the columns: {', '.join(required_keys)}")
+            raise ValueError(f"area_csv_path deve conter as colunas: {', '.join(required_keys)}")
 
         wanted = ['SG_AREA', 'CO_HABILIDADE', 'COMPETENCIA', 'DS_HABILIDADE']
         available = [c for c in wanted if c in area_df.columns]

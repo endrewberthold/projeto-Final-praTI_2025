@@ -18,8 +18,8 @@ def main():
 
     process_data.process_and_save_levels(percentiles, 'ITENS_PROVA_PROCESSADOS.csv')
 
-    df_processado = pd.read_csv('ITENS_PROVA_PROCESSADOS.csv', sep=',')
-    ProcessData(df_processado).analyze_processed_difficulty_levels()
+    processed_df = pd.read_csv('ITENS_PROVA_PROCESSADOS.csv', sep=',')
+    ProcessData(processed_df).analyze_processed_difficulty_levels()
 
     process_data.merge_dataframes()
     process_data.merge_with_area_data('habilidades_map.csv', 'ITENS_PROVA_FINAL_COM_AREA.csv')

@@ -165,10 +165,29 @@ Question
  └── alternatives (1:N)
 ```
 
-## Acesso e Testes
-**Swagger UI**
+## Como executar o projeto
+### 1. CLonar o repositório
 
-http://localhost:8080/swagger-ui/index.html
+```bash
+git clone
+cd enem_app
+```
+A pasta enem_app/ contém o arquivo docker-compose.yml responsável por subir todo o ambiente (backend, frontend e banco de dados).
+
+### 1. Build com Docker
+ertifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+Em seguida, execute o comando abaixo para buildar e subir todos os containers:
+
+```bash
+docker-compose up --build
+```
+
+## 3. Acesso aos serviços
+Após o build e inicialização, os serviços principais estarão disponíveis em:
+
+- Frontend (React): http://localhost:5174
+- http://localhost:8080/swagger-ui/index.html
+- localhost:80/
 
 ## Autenticação
 

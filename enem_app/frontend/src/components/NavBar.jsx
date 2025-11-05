@@ -30,11 +30,28 @@ export default function Navbar() {
 
   // --- lógica da borda do menu (mantive sua implementação) ---
   useEffect(() => {
+    // Não executa se a navbar estiver escondida
+    if (hideNavbar) return;
+
     const offsetMenuBorder = () => {
       const menu = menuRef.current;
       const menuBorder = menuBorderRef.current;
       if (!menu || !menuBorder) return;
-      const activeItem = menu.children[activeIndex];
+      
+      // Pega o botão ativo, não o NavLink
+      let activeItem = null;
+      let itemIndex = 0;
+      for (let i = 0; i < menu.children.length; i++) {
+        const child = menu.children[i];
+        if (child.tagName === 'A' && child.querySelector('button')) {
+          if (itemIndex === activeIndex) {
+            activeItem = child.querySelector('button');
+            break;
+          }
+          itemIndex++;
+        }
+      }
+      
       if (!activeItem) return;
 
       const offsetActiveItem = activeItem.getBoundingClientRect();
@@ -53,19 +70,28 @@ export default function Navbar() {
     const menuBorder = menuBorderRef.current;
     if (!menuBorder) return;
 
-    if (firstLoad.current) {
-      // sem transição no primeiro load
-      menuBorder.style.transition = "none";
-      offsetMenuBorder();
-      requestAnimationFrame(() => {
-        menuBorder.style.transition = "";
-        firstLoad.current = false;
-      });
-    } else {
-      offsetMenuBorder();
-    }
+    // Adiciona um pequeno delay para garantir que o DOM foi atualizado
+    const updateBorder = () => {
+      if (firstLoad.current) {
+        // sem transição no primeiro load
+        menuBorder.style.transition = "none";
+        offsetMenuBorder();
+        requestAnimationFrame(() => {
+          menuBorder.style.transition = "";
+          firstLoad.current = false;
+        });
+      } else {
+        offsetMenuBorder();
+      }
+    };
+
+    // Aguarda um frame para garantir que o navbar foi renderizado
+    requestAnimationFrame(() => {
+      setTimeout(updateBorder, 0);
+    });
 
     const handleResize = () => {
+      if (hideNavbar) return;
       menuBorder.style.transition = "none";
       offsetMenuBorder();
       requestAnimationFrame(() => {
@@ -75,7 +101,7 @@ export default function Navbar() {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [activeIndex]);
+  }, [activeIndex, hideNavbar]);
 
   // Fecha o profile dropdown ao clicar fora
   useEffect(() => {

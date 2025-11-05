@@ -149,7 +149,7 @@ export default function Dashboard() {
           imageProfile={userData?.user?.profileImage || "/imagemdeperfil.png"}
           StudyTime={20}
           numberofcorrectanswers={9}
-          percentage={10}
+          percentage={userData?.user?.xpPoints}
         />
       </div>
     </div>

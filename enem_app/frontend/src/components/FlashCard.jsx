@@ -19,6 +19,7 @@ export default function Flashcard({
   isSelectionMode = false,
   isSelected = false,
   onToggleSelection,
+  selectedAreaFilter = null, // 'ALL' ou areaId específico (ex: 'CH', 'CN', 'LC', 'MT')
 }) {
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -30,7 +31,16 @@ export default function Flashcard({
 
   const handleNavigate = (e) => {
     e.preventDefault();
-    navigate(`/viewFlashPage/${id}`, { state: { term, description, areaId } });
+    // Passa o filtro selecionado para manter no ViewFlashCard
+    navigate(`/viewFlashPage/${id}`, { 
+      state: { 
+        term, 
+        description, 
+        areaName, 
+        areaId,
+        selectedAreaFilter: selectedAreaFilter || 'ALL' // Passa o filtro selecionado
+      } 
+    });
   };
 
   const handleCardClick = (e) => {

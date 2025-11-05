@@ -161,7 +161,7 @@ Attempt
  ├── questionId, alternativeId, isCorrect, answerTimeMs, xpEarned
 
 Question
- ├── id, statement, difficulty, areaId, competencyId, skillId
+ ├── id, difficulty, areaId, competencyId, skillId
  └── alternatives (1:N)
 ```
 

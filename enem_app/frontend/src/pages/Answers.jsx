@@ -26,7 +26,6 @@ export default function Answers() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [started, setStarted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [abandonModal, setAbandonModal] = useState({ isOpen: false });
 
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -76,7 +75,6 @@ export default function Answers() {
 
     if (!selectedAnswer) {
       setShowAlert(true);
-      setErrorMessage("Selecione uma alternativa!");
       return;
     }
 
@@ -206,10 +204,8 @@ export default function Answers() {
           selected={selectedAnswer}
           onSelect={(_, val) => {
             setSelectedAnswer(val);
-            setErrorMessage("");
           }}
           onClick={handleAnswer}
-          error={errorMessage}
         >
           <div className="question-title-container">
             <h3 className="question-title">

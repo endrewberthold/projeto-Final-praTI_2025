@@ -57,9 +57,6 @@ function QuestionPage({
           );
         })}
       </div>
-      <p error={error} className="error-message">
-        {error}
-      </p>
       <button className="answer-btn" onClick={onClick}>
         Responder
       </button>

@@ -1,6 +1,7 @@
 package org.plataform.backend.userConfiguration.dtos.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.plataform.backend.userConfiguration.entity.User;
 
 @JsonIgnoreProperties({"password", "password_hash", "passwordHash", "authorities", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled"})

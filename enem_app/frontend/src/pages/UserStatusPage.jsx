@@ -3,7 +3,15 @@ import "../styles/pages/userStatusPage.sass";
 import { MdEdit } from "react-icons/md";
 import { HiLightningBolt } from "react-icons/hi";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
-import { FaBook, FaTrophy, FaClock, FaChartLine, FaAward, FaBrain, FaStar } from "react-icons/fa";
+import {
+  FaBook,
+  FaTrophy,
+  FaClock,
+  FaChartLine,
+  FaAward,
+  FaBrain,
+  FaStar,
+} from "react-icons/fa";
 import StatCard from "../components/StatCard";
 import ProfileImageSelector from "../components/ProfileImageSelector";
 
@@ -26,6 +34,21 @@ export default function UserStatusPage() {
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [currentProfileImage, setCurrentProfileImage] = useState(null);
 
+  // Função para normalizar imagem de perfil (mesma lógica do UserStatusDashboard)
+  const normalizeProfileImage = (value) => {
+    if (!value) return "/imagemdeperfil.png";
+    const s = String(value).trim();
+
+    // URLs absolutas externas (http/https)
+    if (/^https?:\/\//i.test(s)) return s;
+
+    // Caminho absoluto dentro do /public (já correto)
+    if (s.startsWith("/")) return s;
+
+    // Qualquer outro caso
+    return "/imagemdeperfil.png";
+  };
+
   async function getUserData() {
     try {
       console.log("🔍 Iniciando busca de dados do usuário...");
@@ -47,6 +70,12 @@ export default function UserStatusPage() {
       setTopCompetencies(response.data.metrics.topCompetencies);
       setTopArea(response.data.metrics.topArea);
       setTopSkills(response.data.metrics.topSkills);
+      const profileImage =
+        response.data.user?.profileImage || "/imagemdeperfil.png";
+      console.log("🖼️ ProfileImage original:", profileImage);
+      const normalizedImage = normalizeProfileImage(profileImage);
+      console.log("🖼️ ProfileImage normalizada:", normalizedImage);
+      setCurrentProfileImage(normalizedImage);
       setLoading(false);
 
       console.log("📊 METRICS: ", response.data.metrics);
@@ -57,7 +86,9 @@ export default function UserStatusPage() {
     } catch (err) {
       console.error("❌ ERRO ao buscar dados do usuário:", err);
       console.error("📝 Detalhes do erro:", err.response?.data || err.message);
-      setError(err.response?.data?.message || "Erro ao carregar dados do usuário");
+      setError(
+        err.response?.data?.message || "Erro ao carregar dados do usuário"
+      );
       setLoading(false); // Importante: definir loading como false mesmo em caso de erro
     }
   }
@@ -85,7 +116,7 @@ export default function UserStatusPage() {
     // Por enquanto, vamos apenas atualizar o estado local
     setCurrentProfileImage(newImageId);
     setShowImageSelector(false);
-    
+
     // TODO: Implementar chamada para API para atualizar a imagem no backend
     // updateProfileImageAPI(accessToken, newImageId);
   };
@@ -94,14 +125,16 @@ export default function UserStatusPage() {
     return (
       <div className="user-status-page">
         <div className="container-usersatus">
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            fontSize: '1.2rem',
-            color: 'var(--text-primary)'
-          }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              fontSize: "1.2rem",
+              color: "var(--text-primary)",
+            }}
+          >
             Carregando...
           </div>
         </div>
@@ -113,20 +146,26 @@ export default function UserStatusPage() {
     return (
       <div className="user-status-page">
         <div className="container-usersatus">
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            fontSize: '1.2rem',
-            color: 'var(--text-primary)',
-            textAlign: 'center',
-            gap: '1rem'
-          }}>
-            <div style={{ color: 'var(--accent-primary)', fontSize: '3rem' }}>⚠️</div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              fontSize: "1.2rem",
+              color: "var(--text-primary)",
+              textAlign: "center",
+              gap: "1rem",
+            }}
+          >
+            <div style={{ color: "var(--accent-primary)", fontSize: "3rem" }}>
+              ⚠️
+            </div>
             <div>Erro ao carregar dados</div>
-            <div style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>{error}</div>
+            <div style={{ fontSize: "1rem", color: "var(--text-secondary)" }}>
+              {error}
+            </div>
             <button
               onClick={() => {
                 setError(null);
@@ -134,13 +173,13 @@ export default function UserStatusPage() {
                 getUserData();
               }}
               style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: 'var(--accent-primary)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                fontSize: '1rem'
+                padding: "0.75rem 1.5rem",
+                backgroundColor: "var(--accent-primary)",
+                color: "white",
+                border: "none",
+                borderRadius: "0.5rem",
+                cursor: "pointer",
+                fontSize: "1rem",
               }}
             >
               Tentar novamente
@@ -154,32 +193,57 @@ export default function UserStatusPage() {
   return (
     <div className="user-status-page">
       <div className="container-usersatus">
-         <div>
-           <div className="profile-section">
-             <div className="profile-banner">
-               <button className="button-icon" onClick={handleOpenImageSelector}>
-                 < MdEdit size={20} fill="#fff" />
-               </button>
-             </div>
+        <div>
+          <div className="profile-section">
+            <div className="profile-banner">
+              <img
+                alt="Perfil do usuário"
+                src={
+                  currentProfileImage ||
+                  normalizeProfileImage(userData?.profileImage) ||
+                  "/imagemdeperfil.png"
+                }
+                onError={(e) => {
+                  e.target.src = "/imagemdeperfil.png";
+                }}
+              />
+              <button className="button-icon" onClick={handleOpenImageSelector}>
+                <MdEdit size={20} fill="#fff" />
+              </button>
+            </div>
 
-             <div className="user-name">
-               {userData ? <h1 className="name">{userData.name}</h1> : <p>Loading....</p>}
-               {userData?.email && <p className="user-email">{userData.email}</p>}
-               <p className="userDate">
-                 Por aqui desde {userData?.createAt ? new Date(userData.createAt).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : 'março de 2024'}
-               </p>
-               {userData && (
-                 <div className="user-level-info">
-                   <p className="level-text">Nível {userData.level || 1}</p>
-                   <p className="xp-text">{userData.xpPoints || 0} XP</p>
-                 </div>
-               )}
-             </div>
-           </div>
+            <div className="user-name">
+              {userData ? (
+                <h1 className="name">{userData.name}</h1>
+              ) : (
+                <p>Loading....</p>
+              )}
+              {userData?.email && (
+                <p className="user-email">{userData.email}</p>
+              )}
+              <p className="userDate">
+                Por aqui desde{" "}
+                {userData?.createAt
+                  ? new Date(userData.createAt * 1000).toLocaleDateString(
+                      "pt-BR",
+                      {
+                        month: "long",
+                        year: "numeric",
+                      }
+                    )
+                  : "março de 2024"}
+              </p>
+              {userData && (
+                <div className="user-level-info">
+                  <p className="level-text">Nível {userData.level || 1}</p>
+                  <p className="xp-text">{userData.xpPoints || 0} XP</p>
+                </div>
+              )}
+            </div>
+          </div>
           <hr />
           <div className="statistics">
             <h2 className="name">Estatísticas</h2>
-
 
             <div className="container-statistics">
               <StatCard
@@ -189,7 +253,11 @@ export default function UserStatusPage() {
               />
               <StatCard
                 icon={<FaClock size={20} />}
-                value={userMetrics?.avgAnswerTimeMs ? Math.round(userMetrics.avgAnswerTimeMs / 1000 / 60) : 0}
+                value={
+                  userMetrics?.avgAnswerTimeMs
+                    ? Math.round(userMetrics.avgAnswerTimeMs / 1000 / 60)
+                    : 0
+                }
                 label="Minutos Médios"
               />
               <StatCard
@@ -199,7 +267,11 @@ export default function UserStatusPage() {
               />
               <StatCard
                 icon={<FaChartLine size={20} />}
-                value={userMetrics?.overallAccuracyPct ? Math.round(userMetrics.overallAccuracyPct) : 0}
+                value={
+                  userMetrics?.overallAccuracyPct
+                    ? Math.round(userMetrics.overallAccuracyPct)
+                    : 0
+                }
                 label="Precisão %"
               />
             </div>
@@ -216,7 +288,9 @@ export default function UserStatusPage() {
                   />
                   <StatCard
                     icon={<FaChartLine size={20} />}
-                    value={topArea.accuracyPct ? Math.round(topArea.accuracyPct) : 0}
+                    value={
+                      topArea.accuracyPct ? Math.round(topArea.accuracyPct) : 0
+                    }
                     label="Precisão %"
                   />
                   <StatCard
@@ -239,37 +313,51 @@ export default function UserStatusPage() {
               )}
             </div>
 
-             <h3 className="section-title">Top Competências</h3>
-             <div className="container-statistics">
-               {topCompetencies && topCompetencies.length > 0 ? (
-                 topCompetencies.slice(0, 4).map((item, index) => (
-                   <StatCard
-                     key={index}
-                     icon={<FaBrain size={20} />}
-                     value={item.accuracyPct ? Math.round(item.accuracyPct) : 0}
-                     label={`${item.competencyDescription?.substring(0, 20)}...` || `Competência ${index + 1}`}
-                   />
-                 ))
-               ) : (
-                 <StatCard
-                   icon={<FaBrain size={20} />}
-                   value="N/A"
-                   label="Nenhuma competência disponível"
-                 />
-               )}
-             </div>
+            <h3 className="section-title">Top Competências</h3>
+            <div className="container-statistics">
+              {topCompetencies && topCompetencies.length > 0 ? (
+                topCompetencies
+                  .slice(0, 4)
+                  .map((item, index) => (
+                    <StatCard
+                      key={index}
+                      icon={<FaBrain size={20} />}
+                      value={
+                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                      }
+                      label={
+                        `${item.competencyDescription?.substring(0, 20)}...` ||
+                        `Competência ${index + 1}`
+                      }
+                    />
+                  ))
+              ) : (
+                <StatCard
+                  icon={<FaBrain size={20} />}
+                  value="N/A"
+                  label="Nenhuma competência disponível"
+                />
+              )}
+            </div>
 
             <h3 className="section-title">Top Skills</h3>
             <div className="container-statistics">
               {topSkills && topSkills.length > 0 ? (
-                topSkills.slice(0, 4).map((item, index) => (
-                  <StatCard
-                    key={index}
-                    icon={<FaStar size={20} />}
-                    value={item.accuracyPct ? Math.round(item.accuracyPct) : 0}
-                    label={`${item.skillDescription?.substring(0, 20)}...` || `Skill ${index + 1}`}
-                  />
-                ))
+                topSkills
+                  .slice(0, 4)
+                  .map((item, index) => (
+                    <StatCard
+                      key={index}
+                      icon={<FaStar size={20} />}
+                      value={
+                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                      }
+                      label={
+                        `${item.skillDescription?.substring(0, 20)}...` ||
+                        `Skill ${index + 1}`
+                      }
+                    />
+                  ))
               ) : (
                 <StatCard
                   icon={<FaStar size={20} />}

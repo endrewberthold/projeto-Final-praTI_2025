@@ -26,6 +26,8 @@ export default function Answers() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [started, setStarted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [abandonModal, setAbandonModal] = useState({ isOpen: false });
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -33,10 +35,13 @@ export default function Answers() {
   const intervalRef = useRef(null); // guarda o intervalo ativo
   const sessionStartRef = useRef(null); // guarda o tempo inicial
 
+  const [toggleSkill, setToggleSkill] = useState(false);
 
   // Inicia sessão
   async function handleStart(e) {
     e.preventDefault();
+    setToggleSkill(false);
+
     try {
       const response = await startSessionAPI(
         accessToken,
@@ -48,27 +53,32 @@ export default function Answers() {
       setQuestions(response.data.questions || []);
       setSessionId(response.data.sessionId);
       setStarted(true);
-      setCurrentIndex(0)
+      setCurrentIndex(0);
       setSelectedAnswer(null);
 
       sessionStartRef.current = Date.now();
 
+      //! LOOP de atualziaão do componente completo. Precisa mudar o cronometro para componente separado
       intervalRef.current = setInterval(() => {
-          setElapsedTime(Date.now() - sessionStartRef.current);
+        setElapsedTime(Date.now() - sessionStartRef.current);
       });
-
     } catch (err) {
       console.log("Erro ao iniciar a sessão: ", err);
     }
   }
 
+  //console.log("startSessionAPI: ", questions);
+
   // Envia resposta e avança
   async function handleAnswer() {
-   const question = questions[currentIndex];
-   if(!selectedAnswer) {
-     setShowAlert(true);
-     return;
-   }
+    setToggleSkill(false);
+    const question = questions[currentIndex];
+
+    if (!selectedAnswer) {
+      setShowAlert(true);
+      setErrorMessage("Selecione uma alternativa!");
+      return;
+    }
 
     try {
       await sendAnswerAPI(
@@ -80,59 +90,68 @@ export default function Answers() {
       );
 
       // =========== TESTE DE ENVIO RESPOSTAS ==============
-        console.log("Enviando resposta:", selectedAnswer);
+      console.log("Enviando resposta:", selectedAnswer);
 
       const nextIndex = currentIndex + 1;
 
       if (nextIndex < questions.length) {
-          setCurrentIndex(nextIndex);
-          setSelectedAnswer(null);
+        setCurrentIndex(nextIndex);
+        setSelectedAnswer(null);
       } else {
-          const finishResponse = await finishSessionAPI(accessToken, sessionId);
+        const finishResponse = await finishSessionAPI(accessToken, sessionId);
 
-          // =========== TESTE RECEBIMENTO RESPOSTA BACKEND ===============
-          console.log("Resposta do finishSessionAPI:", finishResponse.data);
+        // =========== TESTE RECEBIMENTO RESPOSTA BACKEND ===============
+        console.log("Resposta do finishSessionAPI:", finishResponse.data);
 
-          clearInterval(intervalRef.current);
-          const totalSessionTime = Date.now() - sessionStartRef.current;
+        clearInterval(intervalRef.current);
+        const totalSessionTime = Date.now() - sessionStartRef.current;
 
-          navigate(`/skillPage/${areaId}/feedback/${sessionId}`, {
-              state: {
-                  totalTime: totalSessionTime,
-                  levelCompleted: finishResponse.data.levelCompleted,
-                  correct: finishResponse.data.correct,
-                  wrong: finishResponse.data.wrong,
-                  xpEarned: finishResponse.data.xpEarned,
-                  totalQuestions: finishResponse.data.totalQuestions,
-                  levelId
-              },
-          });
+        navigate(`/skillPage/${areaId}/feedback/${sessionId}`, {
+          state: {
+            totalTime: totalSessionTime,
+            levelCompleted: finishResponse.data.levelCompleted,
+            correct: finishResponse.data.correct,
+            wrong: finishResponse.data.wrong,
+            xpEarned: finishResponse.data.xpEarned,
+            totalQuestions: finishResponse.data.totalQuestions,
+            levelId,
+          },
+        });
       }
-
     } catch (err) {
-      console.log("Erro ao enviar as respostas: ", err);
+      console.error(
+        "Erro ao enviar:",
+        err.response?.status,
+        err.response?.data
+      );
     }
   }
 
   // Limpa o cronômetro
-    useEffect(() => {
-        return () => clearInterval(intervalRef.current);
-    }, []);
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
-    const currentQuestion = questions[currentIndex];
+  const currentQuestion = questions[currentIndex];
 
-    function formatTime(ms) {
-        const totalSeconds = Math.floor(ms / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes.toString().padStart(2, "0")} m : ${seconds
-            .toString().padStart(2, "0")} s`;
-    }
+  function formatTime(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, "0")} m : ${seconds
+      .toString()
+      .padStart(2, "0")} s`;
+  }
 
-    //Navega de volta para a tela de níveis
-    function handleBack() {
-        navigate(`/skillPage/${areaId}`);
-    }
+  function abandonSession() {
+    setAbandonModal({
+      isOpen: true,
+    });
+  }
+
+  function handleBack() {
+    navigate(`/skillPage/${areaId}`);
+  }
 
     //Mostra modal de confirmação para finalizar sessão
     function handleAbandonClick() {
@@ -157,7 +176,7 @@ export default function Answers() {
     }
 
   if (!started)
-  return (
+    return (
       <div className="start-screen">
           <button className="back-button" onClick={handleBack}>
               <FaArrowLeft size={16} />
@@ -171,61 +190,75 @@ export default function Answers() {
           <h3 className="start-title">Pronto para o desafio?</h3>
           <p>Teste seus conhecimentos e mostre seu potencial!</p>
 
-          <button className="start-btn" onClick={handleStart}>
-              Começar
-          </button>
+        <button className="start-btn" onClick={handleStart}>
+          Começar
+        </button>
       </div>
-      );
-
+    );
 
   return (
     <>
       <div className="question-screen">
+        <QuestionPage
+          toggleSkill={toggleSkill}
+          setToggleSkill={setToggleSkill}
+          question={currentQuestion}
+          selected={selectedAnswer}
+          onSelect={(_, val) => {
+            setSelectedAnswer(val);
+            setErrorMessage("");
+          }}
+          onClick={handleAnswer}
+          error={errorMessage}
+        >
+          <div className="question-title-container">
+            <h3 className="question-title">
+              Questão {currentIndex + 1}
+            </h3>
+            <hr />
+          </div>
+        </QuestionPage>
 
-           <QuestionPage
-           question={currentQuestion}
-           selected={selectedAnswer}
-           onSelect={(_, val) => setSelectedAnswer(val)}
-           onClick={handleAnswer}
-       >
-        <div className="question-title-container">
-          <h3 className="question-title">
-            Questão {currentIndex + 1}
-          </h3>
-          <hr/>
+        <div className="timer-container">
+          <p><strong>Tempo:</strong></p>
+          <p className="timer-display">{formatTime(elapsedTime)}</p>
+          <p className="questions-map-title"><strong>Questões:</strong></p>
+          <div className="questions-map">
+            {questions.map((question, index) => (
+              <button
+                key={question.questionId || index}
+                className={`question-btn ${
+                  index === currentIndex ? "selected" : ""
+                }`}
+                disabled
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+          <button className="abandon-btn" onClick={handleAbandonClick}>
+            <FaSignOutAlt size={16} />
+            Finalizar Sessão
+          </button>
         </div>
-       </QuestionPage>
+      </div>
 
-    <div className="timer-container">
-        <p><strong>Tempo:</strong></p>
-        <p className="timer-display">{formatTime(elapsedTime)}</p>
-        <p className="questions-map-title"><strong>Questões:</strong></p>
-        <div className="questions-map">
-            {questions.map((question, index) => <button className={`question-btn ${index === currentIndex ? "selected" : ""}`} disabled>{index + 1}</button>)}
-        </div>
-        <button className="abandon-btn" onClick={handleAbandonClick}>
-          <FaSignOutAlt size={16} />
-          Finalizar Sessão
-        </button>
-    </div>
-    </div>
+      <ConfirmFinishSessionModal
+        isOpen={showConfirmModal}
+        onClose={handleCancelFinish}
+        onConfirm={handleConfirmFinish}
+        title="Finalizar Sessão"
+        message="Tem certeza que deseja finalizar a sessão atual?"
+        additionalInfo="Todo o progresso não salvo será perdido."
+      />
 
-    <ConfirmFinishSessionModal
-      isOpen={showConfirmModal}
-      onClose={handleCancelFinish}
-      onConfirm={handleConfirmFinish}
-      title="Finalizar Sessão"
-      message="Tem certeza que deseja finalizar a sessão atual?"
-      additionalInfo="Todo o progresso não salvo será perdido."
-    />
-
-    <CustomAlert
-      isOpen={showAlert}
-      onClose={handleCloseAlert}
-      title="Atenção"
-      message="Selecione uma alternativa antes de continuar!"
-      type="warning"
-    />
+      <CustomAlert
+        isOpen={showAlert}
+        onClose={handleCloseAlert}
+        title="Atenção"
+        message="Selecione uma alternativa antes de continuar!"
+        type="warning"
+      />
     </>
   );
 }

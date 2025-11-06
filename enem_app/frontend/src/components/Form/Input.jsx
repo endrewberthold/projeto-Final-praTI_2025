@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaExclamationCircle } from 'react-icons/fa';
 
 const Input = ({
   id,
@@ -24,7 +25,10 @@ const Input = ({
         {...props}
       />
       {error && (
-        <span style={{ color: '#f24d4dcc' }}>Preencha o campo "Título"</span>
+        <div className="error-message">
+          <FaExclamationCircle className="error-icon" />
+          <span className="error-text">{error}</span>
+        </div>
       )}
     </>
   );

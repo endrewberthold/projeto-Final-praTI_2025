@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaExclamationCircle } from 'react-icons/fa';
 import './styles/select.sass';
 
 const optionValues = [
@@ -30,7 +31,7 @@ const Select = ({
         className="select"
         {...props}
       >
-        <option className="option" value="" disable>
+        <option className="option" value="" disable="true">
           Selecione uma opção
         </option>
         {optionValues.map((option, i) => {
@@ -44,7 +45,10 @@ const Select = ({
         })}
       </select>
       {error && (
-        <span className="error">Selecione uma área de conhecimento</span>
+        <div className="error-message">
+          <FaExclamationCircle className="error-icon" />
+          <span className="error-text">{error}</span>
+        </div>
       )}
     </>
   );

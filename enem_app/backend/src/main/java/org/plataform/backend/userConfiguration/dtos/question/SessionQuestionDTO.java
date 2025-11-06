@@ -20,4 +20,10 @@ public class SessionQuestionDTO {
     private String imageUrl;
     private Double difficulty;
     private List<PresentedAlternativeDTO> alternatives;
+
+    private Long skillId;
+    private String skillCode;
+    private String skillDescription;
+    private Long competencyId;
+    private String competencyDescription;
 }

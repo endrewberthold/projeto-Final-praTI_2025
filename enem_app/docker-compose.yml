@@ -21,7 +21,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: ../../../projeto-Final-praTI_2025/enem_app/backend/Dockerfile.backend
+      dockerfile: Dockerfile.backend
     container_name: enem_app_backend
     ports:
       - "8080:8080"
@@ -32,8 +32,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/enem_app
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password
-      # Variável opcional para frontend, caso queira backend URL dinamicamente
       - BACKEND_URL=http://backend:8080
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
 
   frontend:
     build:
@@ -46,7 +48,6 @@ services:
     depends_on:
       - backend
     environment:
-      # Faz o frontend saber onde está o backend dentro da rede Docker
       - REACT_APP_API_URL=http://backend:8080
 
 volumes:

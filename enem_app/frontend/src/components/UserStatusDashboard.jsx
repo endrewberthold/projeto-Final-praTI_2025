@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
 import useAuth from "../hooks/useAuth";
 import StatCard from "./StatCard";
+import React, { useEffect, useState } from "react";
 
 export default function StatusUsuario({
   userData,
@@ -22,12 +23,50 @@ export default function StatusUsuario({
   const dashArray = circunferency * 0.83;
   const progressLength = (dashArray * percentage) / 100;
 
+  const [imgSrc, setImgSrc] = useState("/imagemdeperfil.png");
+
+  // Normaliza diferentes formatos vindos do backend/registro para caminhos válidos em /public
+  function normalizeProfileImage(value) {
+    if (!value) return "/imagemdeperfil.png";
+    const s = String(value).trim();
+
+    // URLs absolutas externas (http/https)
+    if (/^https?:\/\//i.test(s)) return s;
+
+    // Caminho absoluto dentro do /public (já correto)
+    if (s.startsWith("/")) return s;
+    
+    // Qualquer outro caso
+    return "/imagemdeperfil.png";
+  }
+
+  useEffect(() => {
+    const src = userData?.user?.profileImage || imageProfile;
+    console.log("🖼️ UserStatusDashboard - ProfileImage original:", src);
+    const normalized = normalizeProfileImage(src);
+    console.log("🖼️ UserStatusDashboard - ProfileImage normalizada:", normalized);
+    setImgSrc(normalized);
+  }, [userData?.user?.profileImage, imageProfile]);
+
+  const handleImgError = () => {
+    if (imgSrc.includes("/Male/")) {
+      const num = imgSrc.split("/").pop()?.replace(".png", "");
+      setImgSrc(`/Female/${num}.png`);
+    } else {
+      setImgSrc("/imagemdeperfil.png");
+    }
+  };
+
   return (
     <div className="status-user">
       <div className="container-progress">
         <div className="progress-circle">
           <div className="photo-profile">
-            <img src={imageProfile} alt="Perfil do usuário" />
+            <img
+              src={imgSrc}
+              alt="Perfil do usuário"
+              onError={handleImgError}
+            />
           </div>
           <svg className="progress-svg" viewBox="0 0 200 200">
             <circle
@@ -61,15 +100,15 @@ export default function StatusUsuario({
         <div className="name-user">{userData?.user?.name || "Usuário"}</div>
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
-          <StatCard 
-            icon={<FaBook size={20} />} 
-            value={numberofcorrectanswers} 
-            label={numberofcorrectanswers === 1 ? "Resposta" : "Respostas"} 
+          <StatCard
+            icon={<FaBook size={20} />}
+            value={numberofcorrectanswers}
+            label={numberofcorrectanswers === 1 ? "Resposta" : "Respostas"}
           />
-          <StatCard 
-            icon={<MdOutlineAccessTimeFilled size={20} />} 
-            value={StudyTime} 
-            label={StudyTime === 1 ? "Minuto" : "Minutos"} 
+          <StatCard
+            icon={<MdOutlineAccessTimeFilled size={20} />}
+            value={StudyTime}
+            label={StudyTime === 1 ? "Minuto" : "Minutos"}
           />
         </div>
         <NavLink to={"/userStatusPage"}>

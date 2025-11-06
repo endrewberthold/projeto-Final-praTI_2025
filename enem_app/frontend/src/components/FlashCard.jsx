@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,16 +12,18 @@ export default function Flashcard({
   id,
   term,
   description,
-  // areaName,
+  areaName,
   areaId,
   handleDelete,
   handleUpdate,
   isSelectionMode = false,
   isSelected = false,
   onToggleSelection,
+  selectedAreaFilter = null, // 'ALL' ou areaId específico (ex: 'CH', 'CN', 'LC', 'MT')
 }) {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const [hoverMessage, setHoverMessage] = useState('');
 
   // implementar tooltip para botões flashcard (futuramente)
   // const [tooltipUpdate, setTooltipUpdate] = useState(true);
@@ -28,13 +31,25 @@ export default function Flashcard({
 
   const handleNavigate = (e) => {
     e.preventDefault();
-    navigate(`/viewFlashPage/${id}`, { state: { term, description, areaId } });
+    // Passa o filtro selecionado para manter no ViewFlashCard
+    navigate(`/viewFlashPage/${id}`, { 
+      state: { 
+        term, 
+        description, 
+        areaName, 
+        areaId,
+        selectedAreaFilter: selectedAreaFilter || 'ALL' // Passa o filtro selecionado
+      } 
+    });
   };
 
   const handleCardClick = (e) => {
     if (isSelectionMode) {
       e.preventDefault();
       onToggleSelection();
+    } else {
+      // Se não estiver em modo de seleção, navegar para a página de visualização
+      handleNavigate(e);
     }
   };
 
@@ -53,32 +68,44 @@ export default function Flashcard({
         </div>
       )}
 
-      <div className="flashcard-inner-container">
+      {!isSelectionMode && (
+        <div className={`flashcards-dash-buttons ${theme}`}>
+          <RxUpdate
+            onClick={(e) => {
+              e.stopPropagation();
+              handleUpdate(id);
+            }}
+            onMouseEnter={() => setHoverMessage('Clique para atualizar')}
+            onMouseLeave={() => setHoverMessage('')}
+            className="flashdash-icons"
+          />
+          <AiFillDelete
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(id);
+            }}
+            onMouseEnter={() => setHoverMessage('Clique para deletar')}
+            onMouseLeave={() => setHoverMessage('')}
+            className="flashdash-icons"
+          />
+        </div>
+      )}
+
+      <div className="flashcard-content">
         <div className="title-container">
           <h3 className="flashcards-title">{term}</h3>
         </div>
+        {areaName && (
+          <div className="area-container">
+            <span className="flashcards-area">{areaName}</span>
+          </div>
+        )}
       </div>
 
       {!isSelectionMode && (
-        <>
-          <div className={`flashcards-dash-buttons ${theme}`}>
-            <RxUpdate
-              onClick={(e) => {
-                e.stopPropagation();
-                handleUpdate(id);
-              }}
-              className="flashdash-icons"
-            />
-            <AiFillDelete
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(id);
-              }}
-              className="flashdash-icons"
-            />
-          </div>
-          <button onClick={handleNavigate}>abrir</button>
-        </>
+        <div className="practice-message">
+          {hoverMessage || 'Clique para praticar'}
+        </div>
       )}
     </div>
   );

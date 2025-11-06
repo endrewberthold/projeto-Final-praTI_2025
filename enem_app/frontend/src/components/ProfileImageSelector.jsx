@@ -7,18 +7,16 @@ export default function ProfileImageSelector({
   value = null,
   onChange = () => {},
   maleAvatars = [
-    "/public/Male/10.png",
-    "/public/Male/17.png",
-    "/public/Male/18.png",
-    "/public/Male/41.png",
-    "/public/Male/42.png",
+    "/Male/avatar_transparent.png",
+    "/Male/avatar2_transparent.png",
+    "/Male/avatar3_transparent.png",
+    "/Male/avatar4_transparent.png",
   ],
   femaleAvatars = [
-    "/public/Female/56.png",
-    "/public/Female/57.png",
-    "/public/Female/64.png",
-    "/public/Female/73.png",
-    "/public/Female/91.png",
+    "/Female/avatar5_transparent.png",
+    "/Female/avatar6_transparent.png",
+    "/Female/avatar7_transparent.png",
+    "/Female/avatar8_transparent.png",
   ],
   buttonLabel = "Escolher imagem de perfil",
   isOpen = null, // Para controle externo do modal
@@ -51,7 +49,7 @@ export default function ProfileImageSelector({
   }
 
   function confirmSelection() {
-    onChange(selected.split("/").slice(-1)[0].split(".")[0]);
+    onChange(selected);
     closeModal();
   }
 
@@ -65,7 +63,10 @@ export default function ProfileImageSelector({
             {selected ? (
               <img src={selected} alt="Avatar selecionado" />
             ) : (
-              <div className="pis-placeholder"> < CiImageOff size={30}/> </div>
+              <div className="pis-placeholder">
+                {" "}
+                <CiImageOff size={30} />{" "}
+              </div>
             )}
           </div>
 
@@ -77,7 +78,10 @@ export default function ProfileImageSelector({
 
       {isModalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="profile-image-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="profile-image-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <div className="modal-title">
                 <FaUser className="title-icon" />

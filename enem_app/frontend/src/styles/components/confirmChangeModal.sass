@@ -1,0 +1,57 @@
+.pop-header
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 0.75rem
+    position: fixed
+    z-index: 1001
+    top: 1rem
+    right: 1.25rem
+    left: auto
+    transform: none
+    width: 96vw
+    max-width: 400px
+    padding: 0.9rem 1rem
+    border-radius: .75rem
+    background: var(--bg-secondary)
+    border: 1px solid var(--border-primary)
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18)
+    opacity: 1
+    animation: toastSlideDown 0.35s ease-out
+
+    .title-icon
+        color: #1ebd80
+        font-size: 1.25rem
+        flex-shrink: 0
+
+    .pop-title
+        display: flex
+        align-items: center
+        justify-content: center
+
+        h3
+            color: var(--text-primary)
+            font-size: 0.95rem
+            font-weight: 600
+            margin: 0
+            text-align: center
+
+            strong
+                color: #1ebd80
+
+    &.info
+        .pop-title
+            h3
+                strong
+                    color: var( --accent-primary)
+
+// Slide down animation
+@keyframes toastSlideDown
+    0%
+        opacity: 0
+        transform: translateY(-10px)
+    100%
+        opacity: 1
+        transform: translateY(0)
+
+// (toast does not need modal-body styling here)

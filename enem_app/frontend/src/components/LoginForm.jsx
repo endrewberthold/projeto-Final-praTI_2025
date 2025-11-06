@@ -26,6 +26,39 @@ export default function LoginForm() {
     setMessage("");
   }, [email, password]);
 
+  const extractErrorMessage = (err) => {
+    try {
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+      if (!err?.response) return "Sem resposta do servidor";
+      // 401: credenciais erradas
+      if (status === 401) {
+        const msg = data?.error || "Email ou senha incorretos";
+        return msg;
+      }
+
+      // 400: validação ou usuário não encontrado
+      if (status === 400) {
+        if (typeof data === "object" && data && !data.error) {
+          // Map de validação por campo
+          const messages = Object.values(data);
+          if (messages.length) return messages.join(" | ");
+          return "Verifique os dados informados";
+        }
+
+        if (data?.error?.toLowerCase().includes("usuário não encontrado")) {
+          return "Usuário não encontrado. Faça seu cadastro.";
+        }
+
+        return data?.error || "Dados inválidos";
+      }
+      // Outros códigos
+      return data?.error || "Falha no login. Tente novamente mais tarde.";
+    } catch (_) {
+      return "Falha no login";
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,37 +71,27 @@ export default function LoginForm() {
       const userName = response?.data?.user.name;
 
       // Cria o objeto de autenticação completo
-      const authData = { 
-        email, 
-        role, 
+      const authData = {
+        email,
+        role,
         accessToken,
         userId,
         userName,
-        loginTime: new Date().toISOString() // Para controle de sessão
+        loginTime: new Date().toISOString(), // Para controle de sessão
       };
 
       setAccessToken(accessToken);
       setAuth(authData);
-      
+
       // Limpa os campos do formulário
       setEmail("");
       setPassword("");
-      
-      console.log("Login successful. Persist:", persist);
-      console.log("Auth data:", authData);
-      
+
       navigate(from, { replace: true });
     } catch (err) {
-      if (!err?.response) {
-        setMessage("No Server Response");
-      } else if (err.response?.status === 400) {
-        setMessage("Missing email or Password");
-      } else if (err.response?.status === 401) {
-        setMessage("Unauthorized");
-      } else {
-        setMessage("Login Failed");
-      }
-      errRef.current.focus();
+      const msg = extractErrorMessage(err);
+      setMessage(msg);
+      errRef.current?.focus();
     }
   };
 
@@ -89,7 +112,7 @@ export default function LoginForm() {
       >
         {message}
       </p>
-     
+
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
@@ -117,7 +140,7 @@ export default function LoginForm() {
           />
         </div>
 
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Senha</label>
         <div className="email-password-container" id="password-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -9,7 +9,6 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "alternatives", schema = "public")
 public class Alternative {

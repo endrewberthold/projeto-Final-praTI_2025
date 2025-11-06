@@ -25,7 +25,6 @@ import java.time.OffsetDateTime;
 @Table(name = "users", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User implements UserDetails {
 
     @Id

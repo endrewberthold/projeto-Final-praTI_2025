@@ -13,7 +13,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class SessionStartRequest {
     private Long levelId;
     private Integer numQuestions = 5;

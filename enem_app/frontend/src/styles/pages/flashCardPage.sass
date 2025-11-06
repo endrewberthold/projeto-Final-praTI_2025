@@ -194,10 +194,9 @@
                     outline: none
 
                 &::placeholder
+                    font-size: 0.9rem
+                    font-family: variables.$font-family
                     color: var(--text-secondary)
-                    opacity: 1
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
-                    font-weight: 100
 
             textarea
                 padding: 10px 12px
@@ -214,10 +213,9 @@
                     outline: none
 
                 &::placeholder
+                    font-size: 0.9rem
+                    font-family: variables.$font-family
                     color: var(--text-secondary)
-                    opacity: 1
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
-                    font-weight: 100
 
         .buttons-flashcard-container
             width: 100%
@@ -283,7 +281,42 @@
                     transform: translateY(-1px) scale(0.98)
                     transition: transform 0.1s ease
 
-// Estilos dos ícones movidos para flashCardPageButtons.sass
+.icons-flashcard-container
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 2rem
+    flex-wrap: wrap
+    gap: 4rem
+
+.icon-flashcard
+    padding: 13px
+    height: 3rem
+    width: 3rem
+    border-radius: 50%
+    background-color: transparent
+    color: var(--accent-primary)
+    transition: all 0.3s ease
+    cursor: pointer
+    border: 2px solid var(--accent-primary)
+    margin: 0 1rem
+
+    &:hover
+        transform: translateY(-2px)
+        color: var(--accent-primary)
+        border-color: var(--accent-primary)
+        box-shadow: var(--shadow-sm)
+        background-color: rgba(99, 102, 241, 0.1)
+
+    &.selected
+        background-color: var(--accent-primary)
+        color: white
+        border-color: var(--accent-primary)
+        box-shadow: var(--shadow-sm)
+
+    &:hover
+        background-color: var(--accent-secondary)
+        border-color: var(--accent-secondary)git c
 
 .flashcard-dashboard-container
     display: flex
@@ -296,8 +329,6 @@
     align-items: flex-start
     justify-content: flex-start
     padding: 0 2rem
-    padding-left: 8rem
-    padding-block: 1rem
 
     // Quando não há flashcards, centraliza o container vazio
     &:has(.empty-flashcards-container)
@@ -491,7 +522,14 @@
                 padding: 0.75rem 1.5rem
                 font-size: 0.9rem
 
-// Estilos de ícones movidos para flashCardPageButtons.sass
+.icons-flashcard-container
+    padding: 1rem
+    gap: 0.75rem
+
+.icon-flashcard
+    height: 2.5rem
+    width: 2.5rem
+    padding: 10px
 
 // Estilos para os cards individuais no container flex
 .flashcard-dashboard-container > *
@@ -584,7 +622,25 @@
             .action-text
                 font-size: 0.9rem
 
-// Estilos para o container de ícones movidos para flashCardPageButtons.sass
+// Estilos para o container de ícones com botões
+.icons-flashcard-container
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    
+    .icons-section
+        display: flex
+        gap: 1.5rem
+        justify-content: center
+        align-items: center
+        flex-wrap: wrap
+        
+            
+    .selection-count
+        font-size: 0.9rem
+        color: var(--text-secondary)
+        font-weight: 500
 
 // Estilos para os botões de seleção múltipla
 .selection-controls

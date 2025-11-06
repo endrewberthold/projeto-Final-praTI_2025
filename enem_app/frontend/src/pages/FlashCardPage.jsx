@@ -86,15 +86,9 @@ export default function FlashcardPage() {
     selectedCount: 0,
   });
 
-  // For the first time the page loads and silent refresh after create/update
+  // For the first time the page loads
   useEffect(() => {
-    if (!newFlashcard) {
-      // Initial load with loading overlay
-      handleFetchFlashcards();
-    } else {
-      // Silent refresh to avoid closing/reopening the UI
-      handleRefreshFlashcardsSilent();
-    }
+    handleFetchFlashcards();
   }, [newFlashcard]);
 
   // When the page first load it will first execute the fetch of all the user flashcards here.
@@ -118,18 +112,6 @@ export default function FlashcardPage() {
       } else {
         setMessage('New Flash card creation failed');
       }
-    }
-  }
-
-  // Silent refresh that does not toggle the global loading overlay
-  async function handleRefreshFlashcardsSilent() {
-    try {
-      const response = await fetchFlashcardsAPI(accessToken);
-      setFlashcardsData(response?.data.content);
-      // No isLoading changes here to prevent UI flicker
-    } catch (err) {
-      // Keep UX stable; optionally log the error
-      console.log('Erro ao atualizar lista de flashcards:', err);
     }
   }
 
@@ -335,22 +317,27 @@ export default function FlashcardPage() {
   };
 
   const confirmBulkDelete = async () => {
-    setIsDeleting(true);
-    const ids = bulkDeleteModal.selectedIds;
     try {
-      await Promise.all(ids.map(id =>
-        deleteFlashcardAPI(accessToken, id).catch(e => e)
-      ));
+      setIsDeleting(true);
+
+      // Deletar cada flashcard selecionado
+      for (const flashcardId of bulkDeleteModal.selectedIds) {
+        await deleteFlashcardAPI(accessToken, flashcardId);
+      }
+
+      // Atualizar a lista
       handleFetchFlashcards();
+
+      // Limpar seleção
       setSelectedFlashcards([]);
       setIsSelectionMode(false);
       closeBulkDeleteModal();
     } catch (err) {
-      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS:', err);
+      console.log('ERRO AO DELETAR MÚLTIPLOS FLASHCARDS: ', err);
     } finally {
       setIsDeleting(false);
     }
-  }
+  };
 
   if (isLoading || isDeleting) {
     return (
@@ -427,7 +414,7 @@ export default function FlashcardPage() {
                 input.onChange({ target });
               }}
               onBlur={() => input.onBlur(term)}
-              placeholder="Digite o título do flashcard"
+              placeholder="Título"
               error={input.error}
               maxLength={40}
               required
@@ -457,7 +444,7 @@ export default function FlashcardPage() {
                 textarea.onChange({ target });
               }}
               onBlur={() => textarea.onBlur(description)}
-              placeholder="Digite a descrição ou dados do flashcard"
+              placeholder="Dados do Flashcard"
               error={textarea.error}
               rows="3"
               maxLength={120}
@@ -489,7 +476,6 @@ export default function FlashcardPage() {
         <section className="icons-flashcard-container">
           <FlashCardPageButtons
             setSelectedAreaIds={setSelectedAreaIds}
-            selectedAreaIds={selectedAreaIds}
             theme={theme}
           />
         </section>
@@ -541,7 +527,7 @@ export default function FlashcardPage() {
                 : 'Carregando flashcards...'}
             </p>
           </div>
-        ) : filteredFlashcards && filteredFlashcards.length > 0 ? (
+        ) : flashcardsData && flashcardsData.length > 0 ? (
           <>
             {filteredFlashcards.map((item, index) => (
               <FlashCard

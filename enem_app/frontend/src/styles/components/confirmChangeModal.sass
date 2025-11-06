@@ -2,56 +2,53 @@
     display: flex
     align-items: center
     justify-content: center
+    flex-wrap: wrap
+    position: absolute
+    z-index: 2
+    top: 65px
+    right: -25px
+    min-width: 400px
+    margin: 1rem 2rem
+    padding: 1.7rem 0
     gap: 0.75rem
-    position: fixed
-    z-index: 1001
-    top: 1rem
-    right: 1.25rem
-    left: auto
-    transform: none
-    width: 96vw
-    max-width: 400px
-    padding: 0.9rem 1rem
-    border-radius: .75rem
-    background: var(--bg-secondary)
-    border: 1px solid var(--border-primary)
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18)
-    opacity: 1
-    animation: toastSlideDown 0.35s ease-out
+    border-radius: .5rem
+    opacity: .7
+    transition: opacity 3.5s ease
+    background-color: rgba(0, 0, 0);
 
     .title-icon
-        color: #1ebd80
+        color: var(--accent-primary)
         font-size: 1.25rem
-        flex-shrink: 0
+        margin-left: 1rem
 
     .pop-title
         display: flex
         align-items: center
-        justify-content: center
 
         h3
             color: var(--text-primary)
-            font-size: 0.95rem
+            font-size: 1rem
             font-weight: 600
-            margin: 0
-            text-align: center
+            margin-right: 1rem
 
             strong
-                color: #1ebd80
+                color: var(--accent-primary)
 
-    &.info
-        .pop-title
-            h3
-                strong
-                    color: var( --accent-primary)
+    .modal-body
+        padding: 1.5rem
 
-// Slide down animation
-@keyframes toastSlideDown
-    0%
-        opacity: 0
-        transform: translateY(-10px)
-    100%
-        opacity: 1
-        transform: translateY(0)
+        .confirm-message
+            color: var(--text-primary)
+            font-size: 1rem
+            line-height: 1.5
+            margin: 0 0 1rem 0
 
-// (toast does not need modal-body styling here)
+        .item-info
+            background-color: var(--bg-primary)
+            border: 1px solid var(--border-primary)
+            border-radius: 0.5rem
+            padding: 1rem
+            color: var(--text-primary)
+
+            strong
+                color: var(--accent-primary)

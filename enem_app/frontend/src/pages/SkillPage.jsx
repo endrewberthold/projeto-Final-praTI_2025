@@ -150,10 +150,30 @@ export default function SkillPage() {
         <div className="area-icon-selector">
           <div className="icon-grid">
             {[
-              { id: 'LC', label: 'Linguagens', color: getAreaColor('LC') },
-              { id: 'MT', label: 'Matemática', color: getAreaColor('MT') },
-              { id: 'CN', label: 'Ciências', color: getAreaColor('CN') },
-              { id: 'CH', label: 'Humanas', color: getAreaColor('CH') }
+              // { id: 'LC', label: 'Linguagens', color: getAreaColor('LC') },
+              // { id: 'MT', label: 'Matemática', color: getAreaColor('MT') },
+              // { id: 'CN', label: 'Ciências', color: getAreaColor('CN') },
+              // { id: 'CH', label: 'Humanas', color: getAreaColor('CH') }
+               {
+                id: 'LC',
+                label: 'Linguagens, Códigos e suas Tecnologias',
+                color: getAreaColor('LC'),
+              },
+              {
+                id: 'MT',
+                label: 'Matemáticas e suas Tecnologias',
+                color: getAreaColor('MT'),
+              },
+              {
+                id: 'CN',
+                label: 'Ciências da Natureza e suas Tecnologias',
+                color: getAreaColor('CN'),
+              },
+              {
+                id: 'CH',
+                label: 'Ciências Humanas e suas Tecnologias',
+                color: getAreaColor('CH'),
+              },
             ].map((area) => (
               <button
                 key={area.id}

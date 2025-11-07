@@ -15,6 +15,7 @@ function QuestionPage({
   console.log(question);
   console.log("questionPage", toggleSkill);
 
+
   const handleToggle = () => {
     setToggleSkill(!toggleSkill);
   };
@@ -28,7 +29,7 @@ function QuestionPage({
         }
       >
         {!toggleSkill ? (
-          <button onClick={handleToggle}>Qual habilidade é nescessaria?</button>
+          <button onClick={handleToggle}>Qual Habilidade é Necessária?</button>
         ) : (
           <>
             <button onClick={handleToggle}>X</button>

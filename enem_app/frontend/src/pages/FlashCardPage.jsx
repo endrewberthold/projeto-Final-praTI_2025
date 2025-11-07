@@ -231,13 +231,18 @@ export default function FlashcardPage() {
 
   // CONFIRM DELETE FLASHCARD
   async function handleConfirmDelete() {
+    const deletedCardId = deleteModal.flashcardId;
+    const deletedCardTerm = deleteModal.flashcardTerm;
+
     try {
       const response = await deleteFlashcardAPI(
         accessToken,
         deleteModal.flashcardId,
       );
+
       console.log('DELETADO: ', response);
       handleFetchFlashcards();
+      cardModal.handleCardModal(null, deletedCardTerm, 'delete');
       setDeleteModal({ isOpen: false, flashcardId: null, flashcardTerm: '' });
     } catch (err) {
       console.log('ERRO ON DELETE CARD: ', err);

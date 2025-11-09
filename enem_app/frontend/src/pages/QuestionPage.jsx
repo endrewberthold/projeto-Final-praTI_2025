@@ -35,20 +35,6 @@ function QuestionPage({
     <div className="question-container">
       <div className="question-content-wrapper" ref={contentWrapperRef}>
         {children}
-        <div
-          className={
-            toggleSkill ? "skill-container-open" : "skill-container-closed"
-          }
-        >
-          {!toggleSkill ? (
-            <button onClick={handleToggle}>Qual habilidade é nescessaria?</button>
-          ) : (
-            <>
-              <button onClick={handleToggle}>X</button>
-              <h4>{question.skillDescription}</h4>
-            </>
-          )}
-        </div>
         <h3 className="question-title">{question.title}</h3>
         <p className="question-text">{question.text}</p>
 

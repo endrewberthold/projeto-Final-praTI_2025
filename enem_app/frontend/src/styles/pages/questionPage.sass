@@ -163,13 +163,14 @@
   flex-direction: row
   justify-content: center
   align-items: flex-start
-  width: 1000vh
+  width: 100%
   height: auto
   gap: 5%
   margin: 1rem auto
   overflow: hidden
   box-sizing: border-box
   padding: 2rem
+  position: relative
 
 .question-container
   display: flex
@@ -250,6 +251,61 @@
   overflow-wrap: break-word
   max-width: 100%
 
+.skill-container-open
+  width: 100%
+  max-width: 400px
+  background: var(--bg-secondary)
+  border: 2px solid var(--accent-primary)
+  border-radius: 1rem
+  padding: 1.25rem
+  box-shadow: 0 4px 16px rgba(129, 140, 248, 0.3)
+  
+  .skill-header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: 1rem
+    padding-bottom: 0.75rem
+    border-bottom: 1px solid var(--accent-primary)
+    
+    h4
+      color: var(--text-primary)
+      font-size: 0.95rem
+      font-weight: 600
+      margin: 0
+      display: flex
+      align-items: center
+      gap: 0.5rem
+      margin-left: 2.4rem
+      
+      svg
+        color: var(--accent-primary)
+    
+    .skill-close-btn
+      width: 2rem
+      height: 2rem
+      border-radius: 50%
+      border: none
+      background: var(--bg-primary)
+      color: var(--text-primary)
+      cursor: pointer
+      display: flex
+      align-items: center
+      justify-content: center
+      transition: all 0.2s ease
+      
+      &:hover
+        background: var(--accent-primary)
+        color: white
+        transform: rotate(90deg) scale(1.1)
+  
+  .skill-description
+    color: var(--text-primary)
+    font-size: 0.95rem
+    line-height: 1.6
+    margin: 0
+    text-align: justify
+
 .answers-list
   display: flex
   flex-direction: column
@@ -258,7 +314,7 @@
   line-height: 1.8
 
 .answer-letter
-  color: white
+  color: var(--text-primary)
   font-weight: bold
   font-size: 16px
   margin-right: 0.5rem
@@ -368,13 +424,12 @@
 .timer-container
   font-size: 18px
   display: flex
-  flex: 0.18
   flex-direction: column
   background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.05) 100%)
   padding: 2rem
   border-radius: 2rem
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(129, 140, 248, 0.1)
-  width: 90%
+  width: 100%
   max-width: 400px
   margin: 0
   text-align: center
@@ -392,6 +447,96 @@
     background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
     background-size: 200% 100%
     animation: shimmer 3s ease-in-out infinite
+
+.timer-theme-toggle
+  display: flex
+  justify-content: flex-end
+  
+  .button
+    width: 2.6rem
+    height: 2.5rem
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 50%
+    cursor: pointer
+    border: none
+    background: none
+    transition: all 0.3s ease
+    
+    &:hover
+      background-color: rgba(129, 140, 248, 0.1)
+      transform: scale(1.05)
+
+// Toggle de tema (mesmo estilo do navbar)
+.themeToggle
+  color: var(--text-primary)
+  width: 1.5rem
+  transition: color 0.3s ease
+
+.st-sunMoonThemeToggleBtn
+  position: relative
+  cursor: pointer
+
+  .themeToggleInput
+    opacity: 0
+    width: 100%
+    aspect-ratio: 1
+
+  svg
+    position: absolute
+    left: 0
+    width: 100%
+    height: 100%
+    transition: transform 0.4s ease
+    transform: rotate(40deg)
+    color: var(--text-primary)
+
+    .sunMoon
+      transform-origin: center center
+      transition: inherit
+      transform: scale(1)
+      fill: currentColor
+
+    .sunRay
+      transform-origin: center center
+      transform: scale(0)
+      fill: currentColor
+
+    mask > circle
+      transition: transform 0.64s cubic-bezier(0.41, 0.64, 0.32, 1.575)
+      transform: translate(0px, 0px)
+
+    .sunRay2
+      animation-delay: 0.05s !important
+    .sunRay3
+      animation-delay: 0.1s !important
+    .sunRay4
+      animation-delay: 0.17s !important
+    .sunRay5
+      animation-delay: 0.25s !important
+    .sunRay6
+      animation-delay: 0.29s !important
+
+  .themeToggleInput
+    &:checked + svg
+      transform: rotate(90deg)
+
+      mask > circle
+        transform: translate(16px, -3px)
+
+      .sunMoon
+        transform: scale(0.55)
+
+      .sunRay
+        animation: showRay1832 0.4s ease 0s 1 forwards
+
+@keyframes showRay1832
+  0%
+    transform: scale(0)
+  100%
+    transform: scale(1)
 
 .timer-container p
   background-color: inherit
@@ -546,6 +691,62 @@
 
   &:hover svg
     transform: translateX(-2px)
+
+// === SIDEBAR CONTAINER ===
+.sidebar-container
+  display: flex
+  flex-direction: column
+  gap: 1.5rem
+  flex: 0.18
+  align-items: center
+
+// === SKILL CONTAINER ===
+.skill-container-closed
+  width: 100%
+  max-width: 400px
+  
+  .skill-toggle-btn
+    width: 100%
+    padding: 1rem 1.5rem
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.1) 100%)
+    border: none
+    border-radius: 1rem
+    color: var(--text-primary)
+    font-weight: 600
+    font-size: 0.95rem
+    cursor: pointer
+    transition: all 0.3s ease
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 0.75rem
+    box-shadow: 0 2px 8px rgba(129, 140, 248, 0.2)
+    
+    svg
+      color: var(--accent-primary)
+      transition: transform 0.3s ease, color 0.3s ease
+    
+    span
+      color: inherit
+      transition: color 0.3s ease
+    
+    &:hover
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+      color: white
+      transform: translateY(-2px)
+      box-shadow: 0 4px 16px rgba(129, 140, 248, 0.4)
+      
+      svg
+        color: white
+        transform: scale(1.1) rotate(5deg)
+      
+      span
+        color: white
+    
+    &:active
+      transform: translateY(0)
+      box-shadow: 0 2px 8px rgba(129, 140, 248, 0.2)
+
 
 // === TEMA DARK ===
 body.dark
@@ -705,6 +906,37 @@ body.dark
     &:active
       box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3)
 
+  .skill-container-closed
+    .skill-toggle-btn
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.2) 100%)
+      border-color: var(--accent-primary)
+      color: var(--text-primary)
+      
+      &:hover
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+        color: white
+
+  .skill-container-open
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.2) 100%)
+    border-color: var(--accent-primary)
+    
+    .skill-header
+      border-bottom-color: var(--accent-primary)
+      
+      h4
+        color: var(--accent-primary)
+      
+      .skill-close-btn
+        background: var(--bg-primary)
+        color: var(--text-primary)
+        
+        &:hover
+          background: var(--accent-primary)
+          color: white
+    
+    .skill-description
+      color: var(--text-primary)
+
 // === RESPONSIVIDADE ===
 @media (max-width: 1024px)
   .question-screen
@@ -719,10 +951,19 @@ body.dark
     max-height: 75vh
     flex: none
     
-  .timer-container
+  .sidebar-container
     width: 90%
     max-width: 400px
     flex: none
+    
+  .timer-container
+    width: 100%
+    max-width: 400px
+    
+  .skill-container-closed,
+  .skill-container-open
+    width: 100%
+    max-width: 400px
 
 @media (max-width: 768px)
   .start-screen

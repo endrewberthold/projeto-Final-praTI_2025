@@ -60,7 +60,7 @@ export default function Answers() {
 
       sessionStartRef.current = Date.now();
 
-      //! LOOP de atualziaão do componente completo. Precisa mudar o cronometro para componente separado
+      //! LOOP de atualização do componente completo. Precisa mudar o cronometro para componente separado
       intervalRef.current = setInterval(() => {
         setElapsedTime(Date.now() - sessionStartRef.current);
       });

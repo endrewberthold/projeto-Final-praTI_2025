@@ -250,6 +250,10 @@
   word-wrap: break-word
   overflow-wrap: break-word
   max-width: 100%
+  user-select: none
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
 
 .skill-container-open
   width: 100%
@@ -301,10 +305,12 @@
   
   .skill-description
     color: var(--text-primary)
-    font-size: 0.95rem
-    line-height: 1.6
+    font-size: 0.9rem
+    line-height: 1.7
     margin: 0
-    text-align: justify
+    text-align: left
+    padding: 0.5rem 0
+    opacity: 0.9
 
 .answers-list
   display: flex
@@ -321,7 +327,7 @@
 
 .answer-option
   font-size: 18px
-  padding: 20px 25px
+  padding-left: 1rem
   background-color: var(--bg-primary)
   border-radius: variables.$border-radius-card-secondary
   line-height: 1.8
@@ -349,6 +355,10 @@
   color: var(--text-primary)
   font-weight: 400
   font-size: 18px
+  user-select: none
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
 
 .answer-btn
   margin: 1.5rem auto 0
@@ -450,7 +460,10 @@
 
 .timer-theme-toggle
   display: flex
-  justify-content: flex-end
+  justify-content: center
+  align-items: center
+  border-radius: 50%
+  padding: 0.5rem
   
   .button
     width: 2.6rem
@@ -466,8 +479,24 @@
     transition: all 0.3s ease
     
     &:hover
-      background-color: rgba(129, 140, 248, 0.1)
+      background-color: rgba(255, 255, 255, 0.1)
       transform: scale(1.05)
+      
+  .st-sunMoonThemeToggleBtn
+    svg
+      color: #000000
+      
+      .sunMoon,
+      .sunRay
+        fill: #000 !important
+        
+    .themeToggleInput
+      &:checked + svg
+        color: #000000
+        
+        .sunMoon,
+        .sunRay
+          fill: #ffff !important
 
 // Toggle de tema (mesmo estilo do navbar)
 .themeToggle
@@ -631,10 +660,23 @@
     transform: translateY(-2px)
     box-shadow: var(--shadow-md)
 
+  &.answered
+    background-color: var(--accent-primary) !important
+    color: white !important
+    opacity: 1 !important
+
   &.selected
     background-color: var(--accent-primary)
     transform: scale(1.08)
     opacity: 1
+    color: white
+    border: 2px solid white
+    
+    &.answered
+      background-color: var(--accent-primary) !important
+      color: white !important
+      opacity: 1 !important
+      border: 2px solid white !important
 
 .abandon-btn
   margin: 1.2rem auto 0
@@ -750,6 +792,15 @@
 
 // === TEMA DARK ===
 body.dark
+  .timer-theme-toggle
+    .st-sunMoonThemeToggleBtn
+      svg
+        color: var(--text-primary)
+        
+        .sunMoon,
+        .sunRay
+          fill: var(--text-primary)
+          
   .start-screen
     background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.08) 100%)
     border: 1px solid rgba(129, 140, 248, 0.2)
@@ -884,6 +935,16 @@ body.dark
       cursor: default
       opacity: 0.6
     
+    &.answered
+      background-color: var(--accent-primary) !important
+      color: white !important
+      opacity: 1 !important
+    
+    &.selected
+      background-color: var(--accent-primary)
+      color: white
+      border: 2px solid white
+    
     &:hover:not(:disabled)
       transform: translateY(-2px)
       box-shadow: var(--shadow-md)
@@ -924,7 +985,7 @@ body.dark
       border-bottom-color: var(--accent-primary)
       
       h4
-        color: var(--accent-primary)
+        color: #ffffff
       
       .skill-close-btn
         background: var(--bg-primary)

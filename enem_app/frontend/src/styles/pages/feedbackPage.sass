@@ -1,78 +1,134 @@
+// === ANIMAÇÕES ===
+@keyframes shimmer
+  0%
+    background-position: -200% 0
+  100%
+    background-position: 200% 0
+
+@keyframes float
+  0%, 100%
+    transform: translateY(0px)
+  50%
+    transform: translateY(-10px)
 
 // === TELAS DE FEEDBACK ===
 .positive-feedback-screen, .negative-feedback-screen
-  margin: 3rem auto
-  padding: 40px
-  text-align: center
-  justify-content: center
   display: flex
   flex-direction: column
-  background-color: var(--bg-primary)
-  width: 80%
-  max-width: 600px
-  min-width: 320px
+  align-items: center
+  justify-content: center
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.05) 100%)
+  padding: 3rem 2.5rem
   border-radius: 2rem
-  box-shadow: var(--shadow-lg)
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(129, 140, 248, 0.1)
+  width: 85%
+  max-width: 650px
+  margin: 4rem auto
+  text-align: center
+  position: relative
+  border: 1px solid rgba(129, 140, 248, 0.1)
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 4px
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
+    background-size: 200% 100%
+    animation: shimmer 3s ease-in-out infinite
 
 #negative-image, #positive-image
-  width: 50%
-  height: 50%
+  width: 45%
+  max-width: 280px
+  height: auto
   display: block
-  margin: 0 auto 2rem
+  margin: 1.5rem auto 2rem
+  filter: drop-shadow(0 4px 12px rgba(129, 140, 248, 0.2))
+  animation: float 3s ease-in-out infinite
 
 .feedback-title
-  font-weight: bold
-  font-size: 25px
+  font-weight: 700
+  font-size: 2rem
   color: var(--accent-primary)
+  margin-bottom: 0.5rem
+  letter-spacing: -0.5px
+  text-shadow: 0 2px 4px rgba(129, 140, 248, 0.15)
 
 .feedback-text
   color: var(--text-primary)
-  margin: 5px 20px
-  font-size: 0.9rem
-  text-align: center
+  font-size: 1.1rem
+  margin: 0.5rem 0 1.5rem
+  line-height: 1.6
+  opacity: 0.85
 
 .results-container
-  margin: 0 2rem 0
+  margin: 1.5rem 1rem 0
   display: grid
   grid-template-columns: repeat(2, 1fr)
-  margin-top: 2rem
+  gap: 1rem
+  width: 100%
+  max-width: 500px
 
 .buttons-container
   margin: 2rem 0 0
   display: flex
   justify-content: center
   align-items: center
-  gap: 0
-  flex-wrap: wrap
+  gap: 1rem
+  flex-wrap: nowrap
+  width: 100%
 
 .feedback-btn
-  background-color: var(--accent-primary)
-  color: var(--bg-primary, #ffffff)
-  font-size: 0.9rem
-  font-weight: bold
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+  color: white
+  font-weight: 600
+  height: min(3.5rem, 8vh)
+  min-height: 48px
+  width: min(18rem, 85%)
+  max-width: 320px
+  min-width: 220px
   text-align: center
-  border-radius: 0.5rem
-  box-shadow: var(--shadow-lg)
+  font-size: 1.1rem
+  margin-top: 1.5rem
+  border-radius: 1rem
+  box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.2)
   cursor: pointer
   box-sizing: border-box
   touch-action: manipulation
   webkit-tap-highlight-color: transparent
-  transition: all 0.2s ease
-  margin: 2rem auto 0
-  padding: 0.6rem 1rem
-  min-height: 1.8rem
-  min-width: 200px
-  max-width: 200px
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  border: 2px solid transparent
+  position: relative
+  overflow: hidden
+  letter-spacing: 0.3px
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent)
+    transition: left 0.5s ease
 
   &:hover
     z-index: 20
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08)
-    transform: translateY(-2px) scale(1.01)
+    background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)
+    box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5), 0 4px 12px rgba(129, 140, 248, 0.3)
+    transform: translateY(-3px) scale(1.02)
+    border-color: rgba(255, 255, 255, 0.2)
+    
+    &::before
+      left: 100%
 
   &:active
     z-index: 20
-    transform: translateY(0px) scale(0.98)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 5px rgba(0, 0, 0, 0.06)
+    transform: translateY(-1px) scale(0.98)
+    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 6px rgba(129, 140, 248, 0.2)
     transition: transform 0.1s ease, box-shadow 0.1s ease
 
 // Cada botão herda da classe base
@@ -85,42 +141,83 @@
 // === RESPONSIVIDADE ===
 @media (max-width: 820px)
   .positive-feedback-screen, .negative-feedback-screen
-    padding: 1rem
-    margin: 2rem auto
-    min-height: 600px
+    width: 90%
+    padding: 2.5rem 2rem
+    margin: 3rem auto
 
-  .feedback-btn
-    padding: 0.5rem 1rem
-    font-size: 0.9rem
-    margin: 0.5rem auto
-
-@media (max-width: 425px)
+@media (max-width: 480px)
   .positive-feedback-screen, .negative-feedback-screen
+    width: 95%
+    padding: 2rem 1.5rem
     margin: 2rem auto
-    min-height: 600px
-
+    
+  .feedback-title
+    font-size: 1.5rem
+    margin-bottom: 0.3rem
+    
+  .feedback-text
+    font-size: 1rem
+    margin: 0.3rem 0 1rem
+    
   #negative-image, #positive-image
-    min-height: 250px
-    min-width: 200px
-    margin: 0 auto
-
+    width: 55%
+    max-width: 200px
+    margin: 1rem auto 1.5rem
+    
+  .feedback-btn
+    width: min(14rem, 85%)
+    font-size: 0.95rem
+    height: min(3rem, 8vh)
+    min-height: 44px
+    margin-top: 1rem
+    
   .results-container
-    margin: 1rem 1rem 0
+    margin: 1rem 0.5rem 0
     grid-template-columns: 1fr
+    gap: 0.75rem
 
   .buttons-container
-    height: auto
-    flex-direction: column
     margin: 1.5rem auto 0
-    gap: 0.5rem
+    gap: 0.75rem
     justify-content: center
     align-items: center
-
-  .feedback-title
-    font-size: 1.2rem
-    margin-bottom: 0.5rem
+    flex-wrap: wrap
+    
+    .feedback-btn
+      flex: 1 1 auto
+      min-width: 140px
+      max-width: 200px
 
 // === TEMA DARK ===
 body.dark
+  .positive-feedback-screen, .negative-feedback-screen
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(129, 140, 248, 0.08) 100%)
+    border: 1px solid rgba(129, 140, 248, 0.2)
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(129, 140, 248, 0.15)
+    
+    &::before
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))
+    
+    .feedback-text
+      color: var(--text-primary)
+      opacity: 0.9
+  
+  .feedback-title
+    color: var(--accent-primary)
+    text-shadow: 0 2px 8px rgba(129, 140, 248, 0.3)
+    
+  #negative-image, #positive-image
+    filter: drop-shadow(0 4px 16px rgba(129, 140, 248, 0.3))
+  
   .feedback-btn
-    color: var(--text-primary)
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+    color: white
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.2)
+    
+    &:hover
+      background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)
+      box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5), 0 4px 12px rgba(129, 140, 248, 0.3)
+      transform: translateY(-3px) scale(1.02)
+      
+    &:active
+      box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 6px rgba(129, 140, 248, 0.2)

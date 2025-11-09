@@ -30,6 +30,7 @@ export default function Answers() {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [started, setStarted] = useState(false);
   const [abandonModal, setAbandonModal] = useState({ isOpen: false });
+  const [answeredQuestions, setAnsweredQuestions] = useState(new Set());
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -57,6 +58,7 @@ export default function Answers() {
       setStarted(true);
       setCurrentIndex(0);
       setSelectedAnswer(null);
+      setAnsweredQuestions(new Set());
 
       sessionStartRef.current = Date.now();
 
@@ -92,6 +94,14 @@ export default function Answers() {
 
       // =========== TESTE DE ENVIO RESPOSTAS ==============
       console.log("Enviando resposta:", selectedAnswer);
+      console.log("Question ID:", question.questionId);
+
+      // Adiciona a questão atual à lista de questões respondidas
+      setAnsweredQuestions(prev => {
+        const newSet = new Set([...prev, question.questionId]);
+        console.log("Answered questions:", Array.from(newSet));
+        return newSet;
+      });
 
       const nextIndex = currentIndex + 1;
 
@@ -269,17 +279,19 @@ export default function Answers() {
             <p className="timer-display">{formatTime(elapsedTime)}</p>
             <p className="questions-map-title"><strong>Questões:</strong></p>
             <div className="questions-map">
-              {questions.map((question, index) => (
-                <button
-                  key={question.questionId || index}
-                  className={`question-btn ${
-                    index === currentIndex ? "selected" : ""
-                  }`}
-                  disabled
-                >
-                  {index + 1}
-                </button>
-              ))}
+              {questions.map((question, index) => {
+                const isAnswered = answeredQuestions.has(question.questionId);
+                const isSelected = index === currentIndex;
+                return (
+                  <button
+                    key={question.questionId || index}
+                    className={`question-btn ${isSelected ? "selected" : ""} ${isAnswered ? "answered" : ""}`}
+                    disabled
+                  >
+                    {index + 1}
+                  </button>
+                );
+              })}
             </div>
             <button className="abandon-btn" onClick={handleAbandonClick}>
               <FaSignOutAlt size={16} />

@@ -126,11 +126,15 @@
     height: 100%
     transition: transform 0.4s ease
     transform: rotate(40deg)
+    color: #ffffff
+    fill: #ffffff
 
     .sunMoon
       transform-origin: center center
       transition: inherit
       transform: scale(1)
+      fill: #ffffff
+      color: #ffffff
 
     .sunRay
       transform-origin: center center
@@ -362,14 +366,19 @@ body.dark
         
   .st-sunMoonThemeToggleBtn
     svg
+      color: #ffffff
+      fill: #ffffff
+      
       .sunMoon,
       .sunRay
-        fill: var(--text-primary)
+        fill: #ffffff
+        color: #ffffff
         
       &:hover
         .sunMoon,
         .sunRay
-          fill: var(--accent-primary)
+          fill: #ffffff
+          color: #ffffff
           
   // Ícones laterais no tema dark
   .iconesLateral

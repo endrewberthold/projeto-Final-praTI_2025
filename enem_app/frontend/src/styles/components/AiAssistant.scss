@@ -5,19 +5,34 @@
   height: 600px;
   max-width: 800px;
   margin: 0 auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  border: 1px solid rgba(100, 116, 139, 0.1);
+  border-radius: 1rem;
   background: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   // ===== MODAL OVERLAY =====
   &.ai-modal {
-    height: 80vh;
-    max-height: 600px;
+    height: 85vh;
+    max-height: 700px;
     width: 90%;
-    max-width: 500px;
+    max-width: 550px;
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+    animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@keyframes modalSlideIn {
+  0% {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 
@@ -27,11 +42,22 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: overlayFadeIn 0.2s ease-out;
+}
+
+@keyframes overlayFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 // ===== FLOATING BUTTON =====
@@ -607,9 +633,11 @@
     max-width: none;
 
     &.ai-modal {
-      width: 100%;
-      height: 100vh;
+      width: 95%;
+      height: 90vh;
       max-height: none;
+      border-radius: 1rem;
+      margin: auto;
     }
   }
 
@@ -659,6 +687,139 @@
         width: 40px;
         height: 40px;
         font-size: 14px;
+      }
+    }
+  }
+}
+
+// ===== TEMA DARK =====
+body.dark {
+  .ai-container {
+    background: var(--bg-secondary);
+    border-color: var(--border-primary);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+
+    &.ai-modal {
+      background: var(--bg-secondary);
+      border-color: var(--border-primary);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .ai-modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+  }
+
+  .ai-explanation-modal {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+
+    .modal-content {
+      .question-section,
+      .answer-section,
+      .original-explanation-section,
+      .ai-explanation-section {
+        h4 {
+          color: var(--text-primary);
+        }
+
+        p {
+          color: var(--text-secondary);
+        }
+      }
+
+      .answer-section {
+        .alternative {
+          background: var(--bg-primary);
+          border-left-color: var(--border-primary);
+          color: var(--text-primary);
+
+          &.correct-answer {
+            background: rgba(76, 175, 80, 0.2);
+            border-left-color: #4caf50;
+            color: #81c784;
+          }
+        }
+      }
+
+      .ai-explanation-section {
+        .ai-response {
+          background: var(--bg-primary);
+          border-left-color: var(--accent-primary);
+          color: var(--text-primary);
+
+          .response-content {
+            p {
+              color: var(--text-primary);
+            }
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      background: var(--bg-secondary);
+      border-top-color: var(--border-primary);
+    }
+  }
+
+  .ai-messages {
+    background: var(--bg-secondary);
+
+    .welcome-message {
+      background: var(--bg-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+      h4 {
+        color: var(--text-primary);
+      }
+
+      p {
+        color: var(--text-secondary);
+      }
+
+      ul {
+        li {
+          color: var(--text-secondary);
+        }
+      }
+    }
+
+    .message {
+      &.user .message-content {
+        background: var(--accent-primary);
+        color: white;
+      }
+
+      &.ai .message-content {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border-color: var(--border-primary);
+
+        .formatted-message {
+          p {
+            color: var(--text-primary);
+          }
+        }
+      }
+    }
+  }
+
+  .ai-input {
+    background: var(--bg-secondary);
+    border-top-color: var(--border-primary);
+
+    .input-container {
+      input {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border-color: var(--border-primary);
+
+        &::placeholder {
+          color: var(--text-secondary);
+        }
       }
     }
   }

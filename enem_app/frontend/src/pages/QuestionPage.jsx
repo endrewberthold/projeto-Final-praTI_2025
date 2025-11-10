@@ -1,5 +1,5 @@
 import "../styles/pages/questionPage.sass";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 function QuestionPage({
   toggleSkill,
@@ -15,52 +15,48 @@ function QuestionPage({
   console.log(question);
   console.log("questionPage", toggleSkill);
 
+  const contentWrapperRef = useRef(null);
 
   const handleToggle = () => {
     setToggleSkill(!toggleSkill);
   };
 
+  // Scroll para o topo quando a questão muda
+  useEffect(() => {
+    if (contentWrapperRef.current) {
+      contentWrapperRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [question?.questionId]);
+
   return (
     <div className="question-container">
-      {children}
-      <div
-        className={
-          toggleSkill ? "skill-container-open" : "skill-container-closed"
-        }
-      >
-        {!toggleSkill ? (
-          <button onClick={handleToggle}>Qual Habilidade é Necessária?</button>
-        ) : (
-          <>
-            <button onClick={handleToggle}>X</button>
-            <h4>{question.skillDescription}</h4>
-          </>
-        )}
-      </div>
-      <h3 className="question-title">{question.title}</h3>
-      <p className="question-text">{question.text}</p>
+      <div className="question-content-wrapper" ref={contentWrapperRef}>
+        {children}
+        <h3 className="question-title">{question.title}</h3>
+        <p className="question-text">{question.text}</p>
 
-      <div className="answers-list">
-        {question.alternatives.map((alt, index) => {
-          const letter = String.fromCharCode(97 + index); // renderiza letras das alternativas
+        <div className="answers-list">
+          {question.alternatives.map((alt, index) => {
+            const letter = String.fromCharCode(97 + index); // renderiza letras das alternativas
 
-          return (
-            <div
-              key={alt.presentedId || index}
-              onClick={() => onSelect(question.questionId, alt.presentedId)}
-              className={`answer-option ${
-                selected === alt.presentedId ? "selected" : ""
-              }`}
-            >
-              <span className="answer-letter">{letter}) </span>
-              <span className="answer-text">{alt.text}</span>
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={alt.presentedId || index}
+                onClick={() => onSelect(question.questionId, alt.presentedId)}
+                className={`answer-option ${
+                  selected === alt.presentedId ? "selected" : ""
+                }`}
+              >
+                <span className="answer-letter">{letter}) </span>
+                <span className="answer-text">{alt.text}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <p error={error} className="error-message">
-        {error}
-      </p>
       <button className="answer-btn" onClick={onClick}>
         Responder
       </button>

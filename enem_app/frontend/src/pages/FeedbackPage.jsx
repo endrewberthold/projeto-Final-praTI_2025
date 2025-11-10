@@ -125,6 +125,7 @@ export default function FeedbackPage() {
             <button className="negative-screen-btn" onClick={handleBack}>Sair</button>
             </div>
        </div>
-    )};
+    )
+}
 
 

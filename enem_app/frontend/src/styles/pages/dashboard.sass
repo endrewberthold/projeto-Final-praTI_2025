@@ -108,21 +108,22 @@
 
     .banner-image
         flex-shrink: 0
-        max-width: 30% // Imagem ocupando 45% da largura
+        max-width: 40% // Imagem ocupando mais espaço
         display: flex
         align-items: center
         justify-content: center
 
         img
             width: 100%
-            max-width: min(320px, 35vw)
+            max-width: min(450px, 50vw)
             height: auto
             display: block
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))
             animation: float 6s ease-in-out infinite
 
             #book
-                width: 3rem
+                width: 100%
+                max-width: min(450px, 50vw)
 
 // Animação de flutuação (Nível 0)
 @keyframes float
@@ -168,6 +169,7 @@
     gap: min(2rem, 2vh)
     color: var(--text-primary)
     width: 100%
+    margin-left: 2rem
 
     h1
         font-size: min(1.8rem, 5vw)
@@ -218,7 +220,7 @@
                 font-size: min(1rem, 2.5vw)
 
         .banner-image img
-            max-width: min(260px, 30vw)
+            max-width: min(380px, 45vw)
 
     .knowledAreCard-component
         margin-left: 0
@@ -266,7 +268,7 @@
             max-width: 80%
 
             img
-                max-width: min(200px, 45vw)
+                max-width: min(300px, 55vw)
 
     .knowledAreCard-component
         margin-left: 0
@@ -308,7 +310,7 @@
                 font-size: 0.75rem
 
         .banner-image img
-            max-width: 150px
+            max-width: 220px
 
     .knowledAreCard-component
         margin-left: 0
@@ -343,7 +345,7 @@
             max-width: 100%
 
             img
-                max-width: 120px
+                max-width: 180px
 
     .knowledAreCard-component
         h1

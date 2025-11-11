@@ -194,3 +194,15 @@ Após o build e inicialização, os serviços principais estarão disponíveis e
 Autenticação via token JWT;
 
 Enviar Authorization: Bearer <token> nos endpoints protegidos.
+
+## Equipe & LinkedIn
+
+- [Alexia Sacerdote de Oliveira](https://www.linkedin.com/in/alexiasacerdote/)
+- [André Tanuri Lucho](https://www.linkedin.com/in/dev-andre-lucho/)
+- [Bernardo Ortiz Ianiak](https://www.linkedin.com/in/bernardoianiak/)
+- [Endrew Berthold](https://www.linkedin.com/in/endrew-bert/)
+- [Giovanna Adelle](https://www.linkedin.com/in/giovannadelle/)
+- [Jakeline Victor Pereira](https://www.linkedin.com/in/jakeline-pereira-488992a4/)
+- [Lucas Vieira Bagolin](https://www.linkedin.com/in/lucasbagolin/)
+- [Otávio José de Mendonça](https://www.linkedin.com/in/otavio-jos%C3%A9-de-mendon%C3%A7a/)
+- [Patrícia Zan de Oliveira](https://www.linkedin.com/in/patriciazandeoliveira/)

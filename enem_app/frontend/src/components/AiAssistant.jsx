@@ -9,7 +9,7 @@ const AiAssistant = ({
   isOpen = true,
   onClose = null,
   className = '',
-  title = 'ENEM AI',
+  title = 'GABI',
   // Props para modo explicação
   isExplanationMode = false,
   questionData = null,
@@ -230,7 +230,7 @@ Por favor, forneça uma explicação clara e didática sobre:
 
         <div className="ai-explanation-section">
           <div className="section-header">
-            <h4>🤖 Explicação do ENEMAI</h4>
+            <h4>🤖 Explicação da GABI</h4>
             <button
               className="get-explanation-button"
               onClick={handleGetExplanation}
@@ -296,7 +296,7 @@ Por favor, forneça uma explicação clara e didática sobre:
       <div className="ai-messages">
         {messages.length === 0 && (
           <div className="welcome-message">
-            <h4>👋 Olá! Sou o ENEMAI, seu assistente de IA para o ENEM</h4>
+            <h4>👋 Olá! Sou a GABI, sua assistente de IA para o ENEM</h4>
             <p>Posso te ajudar com:</p>
             <ul>
               <li>📚 Explicações de matérias</li>

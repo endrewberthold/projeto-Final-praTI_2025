@@ -11,9 +11,9 @@ function QuestionPage({
   error,
   children,
 }) {
-  console.log("QUESTION PAGE");
-  console.log(question);
-  console.log("questionPage", toggleSkill);
+  //console.log("QUESTION PAGE");
+  //console.log(question);
+  //console.log("questionPage", toggleSkill);
 
   const contentWrapperRef = useRef(null);
 

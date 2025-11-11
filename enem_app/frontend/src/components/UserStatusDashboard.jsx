@@ -1,7 +1,6 @@
-import { FaBook } from "react-icons/fa";
-import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { PiCards } from "react-icons/pi";
 import { BsPerson } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
 import "../styles/components/userStatusDashboard.sass";
 import { NavLink } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
@@ -15,6 +14,7 @@ export default function StatusUsuario({
   percentage,
   StudyTime,
   numberofcorrectanswers,
+  userMetrics,
 }) {
   const { updateActiveIndex } = useNavbar();
   const { auth } = useAuth();
@@ -101,14 +101,14 @@ export default function StatusUsuario({
         {/* Depois definir limite de caracteres */}
         <div className="information-progress">
           <StatCard
-            icon={<FaBook size={20} />}
-            value={numberofcorrectanswers}
-            label={numberofcorrectanswers === 1 ? "Resposta" : "Respostas"}
+            icon={<FaStar size={20} />}
+            value={userData?.user?.level || userMetrics?.currentLevel || 1}
+            label="Nível"
           />
           <StatCard
-            icon={<MdOutlineAccessTimeFilled size={20} />}
-            value={StudyTime}
-            label={StudyTime === 1 ? "Minuto" : "Minutos"}
+            icon={<PiCards size={20} />}
+            value={userMetrics?.flashcardsCount || 0}
+            label={userMetrics?.flashcardsCount === 1 ? "Flashcard" : "Flashcards"}
           />
         </div>
         <NavLink to={"/userStatusPage"}>
@@ -117,7 +117,6 @@ export default function StatusUsuario({
             onClick={() => updateActiveIndex(0)}
           >
             <BsPerson color="#fff" size={"2rem"} />
-            <h1>Ver perfil</h1>
           </button>
         </NavLink>
 
@@ -127,7 +126,6 @@ export default function StatusUsuario({
             onClick={() => updateActiveIndex(2)}
           >
             <PiCards color="#fff" size={"2rem"} />
-            <h1>FlashCards</h1>
           </button>
         </NavLink>
       </div>

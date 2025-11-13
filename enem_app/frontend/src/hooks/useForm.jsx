@@ -43,7 +43,7 @@ const useForm = (type = '') => {
     setModal({
       isOpen: true,
       flashcardId: cardId,
-      flashcardTerm: cardTerm || 'Flashcard',
+      flashcardTerm: cardTerm || '',
       modalId: modalId,
     });
     setTimeout(() => {

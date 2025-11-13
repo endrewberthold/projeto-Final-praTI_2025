@@ -131,30 +131,49 @@ form label
     font-weight: 500
     color: var(--text-primary)
 
-form button 
+form button[type="submit"]
     border: none
-    background-color: var(--accent-primary)
-    padding: 1rem
-    border-radius: 8px
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)
+    padding: 1rem 1.5rem
+    border-radius: 0.75rem
     cursor: pointer
     color: white
     font-weight: 600
-    font-size: 1rem
-    min-height: 44px // Tamanho mínimo para touch
-    touch-action: manipulation // Otimização touch
+    font-size: 1.1rem
+    min-height: 3.5rem
+    touch-action: manipulation
     -webkit-tap-highlight-color: transparent
-    transition: all 0.2s ease
-    width: 100% // Garante que o botão ocupe toda a largura
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    width: 100%
     box-sizing: border-box
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4), 0 2px 8px rgba(129, 140, 248, 0.2)
+    position: relative
+    overflow: hidden
+    letter-spacing: 0.3px
+    
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: -100%
+        width: 100%
+        height: 100%
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent)
+        transition: left 0.5s ease
     
     &:hover
-        background-color: var(--accent-secondary)
-        transform: translateY(-1px)
-        box-shadow: var(--shadow-sm)
+        background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)
+        transform: translateY(-3px) scale(1.02)
+        box-shadow: 0 10px 30px rgba(129, 140, 248, 0.5), 0 4px 12px rgba(129, 140, 248, 0.3)
+        
+        &::before
+            left: 100%
 
 
-form button:active 
-    transform: translateY(1px)
+form button[type="submit"]:active 
+    transform: translateY(-1px) scale(0.98)
+    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4), 0 2px 6px rgba(129, 140, 248, 0.2)
+    transition: transform 0.1s ease, box-shadow 0.1s ease
 
 
 .helpers-register
@@ -283,10 +302,11 @@ form p
         padding: 0.7rem
         font-size: 1rem
         
-    form button
-        padding: 0.9rem
+    form button[type="submit"]
+        padding: 0.9rem 1.25rem
         font-size: 1rem
-        border-radius: 6px
+        border-radius: 0.65rem
+        min-height: 3rem
         
     .helpers
         font-size: 0.8rem
@@ -309,9 +329,10 @@ form p
         padding: 0.6rem
         font-size: 0.9rem
         
-    form button
-        padding: 0.8rem
+    form button[type="submit"]
+        padding: 0.8rem 1.1rem
         font-size: 0.9rem
+        min-height: 2.75rem
         
     .helpers-register
         font-size: 0.75rem

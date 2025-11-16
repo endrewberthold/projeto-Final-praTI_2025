@@ -265,15 +265,7 @@ export default function UserStatusPage() {
                 value={userMetrics?.flashcardsCount || 0}
                 label="Flashcards"
               />
-              <StatCard
-                icon={<FaChartLine size={20} />}
-                value={
-                  userMetrics?.overallAccuracyPct
-                    ? Math.round(userMetrics.overallAccuracyPct)
-                    : 0
-                }
-                label="Precisão %"
-              />
+              
             </div>
 
             {/* Top Área Section */}
@@ -286,13 +278,7 @@ export default function UserStatusPage() {
                     value={topArea.areaName || "N/A"}
                     label="Área"
                   />
-                  <StatCard
-                    icon={<FaChartLine size={20} />}
-                    value={
-                      topArea.accuracyPct ? Math.round(topArea.accuracyPct) : 0
-                    }
-                    label="Precisão %"
-                  />
+                  
                   <StatCard
                     icon={<FaTrophy size={20} />}
                     value={topArea.correctCount || 0}
@@ -323,10 +309,10 @@ export default function UserStatusPage() {
                       key={index}
                       icon={<FaBrain size={20} />}
                       value={
-                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                        ""
                       }
                       label={
-                        `${item.competencyDescription?.substring(0, 20)}...` ||
+                        `${item.competencyDescription}` ||
                         `Competência ${index + 1}`
                       }
                     />
@@ -350,10 +336,10 @@ export default function UserStatusPage() {
                       key={index}
                       icon={<FaStar size={20} />}
                       value={
-                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                        ""
                       }
                       label={
-                        `${item.skillDescription?.substring(0, 20)}...` ||
+                        `${item.skillDescription}` ||
                         `Skill ${index + 1}`
                       }
                     />

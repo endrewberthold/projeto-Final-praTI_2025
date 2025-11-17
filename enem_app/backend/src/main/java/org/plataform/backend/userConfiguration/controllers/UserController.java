@@ -1,6 +1,7 @@
 package org.plataform.backend.userConfiguration.controllers;
 
 
+import org.plataform.backend.userConfiguration.dtos.flashcards.FlashcardResponseDTO;
 import org.plataform.backend.userConfiguration.dtos.metrics.ProfileDTO;
 import org.plataform.backend.userConfiguration.dtos.users.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,6 +61,14 @@ public class UserController {
     }
 
     @GetMapping("/profile/full")
+    @Operation(summary = "Métricas do usuário", description = "Dados refentes a desempenho e atividade do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dados retornados com sucesso", content = @Content(
+                    schema = @Schema(implementation = FlashcardResponseDTO.class)
+            )),
+            @ApiResponse(responseCode = "400", description = "Dados não encontrados",
+                    content = @Content)
+    })
     public ResponseEntity<ProfileResponse> getFullProfile(@AuthenticationPrincipal User principal) {
         if (principal == null) {
             return ResponseEntity.status(401).build();

@@ -35,6 +35,14 @@ public class FlashcardController {
      *Endpoint para criar o flashcard
      ***/
     @PostMapping()
+    @Operation(summary = "Criar flashcard", description = "Criação de flashcard com ID único")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Flashcard criado com sucesso", content = @Content(
+                    schema = @Schema(implementation = FlashcardResponseDTO.class)
+            )),
+            @ApiResponse(responseCode = "400", description = "Dados inseridos são inválidos",
+                    content = @Content)
+    })
     public ResponseEntity<FlashcardResponseDTO> createFlashcard(
             @AuthenticationPrincipal User principal,
             @Valid @RequestBody FlashcardRequestDTO dto

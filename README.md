@@ -144,6 +144,8 @@ enem_app
 └── README.md
 ```
 
+---
+
 ### **Principais endpoints**
 | Método | Endpoint | Descrição |
 |--------|-----------|-----------|
@@ -153,8 +155,6 @@ enem_app
 | `POST` | `/attempts/submit` | Registra uma tentativa de resposta |
 | `GET` | `/flashcards` | Lista flashcards do usuário |
 | `POST` | `/flashcards` | Cria novo flashcard |
-
-*(mais endpoints disponíveis via Swagger: `http://localhost:8080/swagger-ui.html`)*
 
 ---
 
@@ -177,9 +177,8 @@ Question
  └── alternatives (1:N)
 ```
 
----
 
-## Fluxo de dados
+### Fluxo de dados
 - **Extração de dados:** As informações são obtidas a partir de arquivos PDF e CSV. Durante essa etapa, os dados são estruturados e consolidados em um CSV padronizado, com colunas e formatos consistentes.
 - **Carga no banco de dados:** O arquivo CSV consolidado é utilizado para popular o banco de dados. Essa carga pode ser realizada manualmente.
 - **Persistência via JPA:** O JPA (Java Persistence API) é responsável por gerenciar o mapeamento objeto-relacional, permitindo que os dados extraídos do CSV sejam convertidos em entidades Java e armazenados de forma estruturada no banco. Esse processo garante integridade e abstrai a complexidade das operações SQL.

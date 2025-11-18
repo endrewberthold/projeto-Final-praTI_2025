@@ -1,4 +1,4 @@
-# Plataforma de Estudos — Gabaritando
+# Plataforma de estudos — Gabaritando
 A plataforma interativa de estudos Gabaritando é voltada para alunos do Ensino Médio e vestibulandos, com foco em questões do **ENEM**.  Este produto foi desenvolvido como projeto final da Formação Desenvolvedor FullStack Júnior, oferecida pela +PraTI  e CodificaEdu.
 O sistema promove progressão do aluno em questões organizadas por **área de conhecimento** e por **níveis de dificuldade**, permite a criação de **flashcards** para reforço dos conceitos aprendidos e oferece **métricas** sobre o desempenho do usuário.
 
@@ -13,16 +13,16 @@ Oferecer um ambiente digital inteligente de estudo, que:
 
 ---
 
-## Conceito Pedagógico
+## Conceito pedagógico
 A lógica pedagógica se baseia em três pilares:
 1. **Repetição ativa:** o aluno só progride ao acertar pelo meno 70% das questões.
 3. **Autonomia guiada:** o aluno controla o ritmo, mas o sistema direciona a progressão.
 
 ---
 
-## Estrutura do Sistema
+## Estrutura do sistema
 
-### **1. Autenticação e Perfil**
+### **1. Autenticação e perfil**
 - Login simples com papéis de acesso:
     - `local` → aluno (usuário principal)
     - `admin` → administrador e gestor de conteúdo
@@ -32,7 +32,7 @@ A lógica pedagógica se baseia em três pilares:
     - Métricas de desempenho (precisão, tempo médio, áreas dominantes);
     - **Avatar personalizável**
 
-### **2. Sessões de Estudo**
+### **2. Sessões de estudo**
 - Cada aluno pode iniciar uma **sessão** que controla:
     - Questões apresentadas;
     - Alternativas embaralhadas;
@@ -43,14 +43,14 @@ A lógica pedagógica se baseia em três pilares:
     - Resultado (acerto ou erro);
     - Mapeamento completo da ordem apresentada.
 
-### **3. Sistema de Questões**
+### **3. Sistema de questões**
 - Questões classificadas por:
     - **Área** (ex: Matemática e suas Tecnologias);
     - **Competência** (ex: Resolver problemas com proporcionalidade);
     - **Habilidade** (ex: H5 — Resolver problemas que envolvam razão e proporção);
 - Cada questão possui:
-    - Enunciado, alternativas e identificação da correta;
-    - Dificuldade (nível 1 a 5);
+    - Enunciado, alternativas (A-E) e identificação da correta;
+    - Dificuldade (nível 1-5);
     - Relacionamento com **competência** e **habilidade**.
 
 ### **4. Progressão e XP**
@@ -65,10 +65,14 @@ A lógica pedagógica se baseia em três pilares:
 - Criados manualmente a partir de dificuldades encontradas pelo aluno;
 - Contêm termo, definição e origem;
 - Sistema de busca e filtro por área.
+- Podem ser visualizados um por vez, para estudo em ordem aleatória ou de criação.
+
+### **6. Assistente IA**
+- Integrada ao Google Gemini, permite a realização de perguntas sobre o conteúdo sem sair da plataforma.
 
 ---
 
-## Tecnologias Utilizadas
+## Tecnologias utilizadas
 
 ### **Backend**
 - Java 21
@@ -93,7 +97,7 @@ A lógica pedagógica se baseia em três pilares:
 
 ---
 
-## Métricas e Monitoramento
+## Métricas e monitoramento
 Endpoint `/profile/full` retorna um conjunto completo de informações do aluno:
 - XP total e nível atual;
 - Precisão geral e tempo médio de resposta;
@@ -140,7 +144,7 @@ enem_app
 └── README.md
 ```
 
-### **Principais Endpoints**
+### **Principais endpoints**
 | Método | Endpoint | Descrição |
 |--------|-----------|-----------|
 | `POST` | `/auth/login` | Autenticação do usuário |
@@ -154,7 +158,7 @@ enem_app
 
 ---
 
-## Estrutura de Dados Simplificada
+## Estrutura de dados simplificada
 
 ```tree
 User

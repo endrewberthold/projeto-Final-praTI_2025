@@ -42,9 +42,9 @@ export default function StatusUsuario({
 
   useEffect(() => {
     const src = userData?.user?.profileImage || imageProfile;
-    console.log("🖼️ UserStatusDashboard - ProfileImage original:", src);
+    //console.log("🖼️ UserStatusDashboard - ProfileImage original:", src);
     const normalized = normalizeProfileImage(src);
-    console.log("🖼️ UserStatusDashboard - ProfileImage normalizada:", normalized);
+    //console.log("🖼️ UserStatusDashboard - ProfileImage normalizada:", normalized);
     setImgSrc(normalized);
   }, [userData?.user?.profileImage, imageProfile]);
 

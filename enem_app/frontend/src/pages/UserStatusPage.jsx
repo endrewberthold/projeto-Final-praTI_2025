@@ -20,15 +20,13 @@ import { userStatusFullAPI } from "../services/userStatusServices";
 
 export default function UserStatusPage() {
   const { accessToken } = useAuth();
+
+  //const [userData, setuserData] = useState(null)
+
   const [userData, setUserdata] = useState(null);
-  const [userMetrics, setUserMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // More metrics
-  const [topCompetencies, setTopCompetencies] = useState([]);
-  const [topArea, setTopArea] = useState([]);
-  const [topSkills, setTopSkills] = useState([]);
 
   // Profile image modal state
   const [showImageSelector, setShowImageSelector] = useState(false);
@@ -51,8 +49,8 @@ export default function UserStatusPage() {
 
   async function getUserData() {
     try {
-      console.log("🔍 Iniciando busca de dados do usuário...");
-      console.log("🔑 AccessToken disponível:", !!accessToken);
+      //console.log("🔍 Iniciando busca de dados do usuário...");
+      //console.log("🔑 AccessToken disponível:", !!accessToken);
 
       if (!accessToken) {
         console.log("❌ AccessToken não disponível");
@@ -63,26 +61,16 @@ export default function UserStatusPage() {
 
       setError(null); // Limpar erros anteriores
       const response = await userStatusFullAPI(accessToken);
-      console.log("✅ Resposta da API recebida:", response.data);
 
-      setUserdata(response.data.user);
-      setUserMetrics(response.data.metrics);
-      setTopCompetencies(response.data.metrics.topCompetencies);
-      setTopArea(response.data.metrics.topArea);
-      setTopSkills(response.data.metrics.topSkills);
-      const profileImage =
-        response.data.user?.profileImage || "/imagemdeperfil.png";
-      console.log("🖼️ ProfileImage original:", profileImage);
+      setUserdata(response.data);
+
+      const profileImage = response.data.user?.profileImage || "/imagemdeperfil.png";
       const normalizedImage = normalizeProfileImage(profileImage);
-      console.log("🖼️ ProfileImage normalizada:", normalizedImage);
       setCurrentProfileImage(normalizedImage);
       setLoading(false);
 
-      console.log("📊 METRICS: ", response.data.metrics);
-      console.log("👤 USER DATA: ", response.data.user);
-      console.log("TOP COMPETENCIAS: ", response.data.metrics.topCompetencies);
-      console.log("TOP AREA: ", response.data.metrics.topArea);
-      console.log("TOP SKILLS: ", response.data.metrics.topSkills);
+      console.log("FULL DATA: ", response.data);
+      
     } catch (err) {
       console.error("❌ ERRO ao buscar dados do usuário:", err);
       console.error("📝 Detalhes do erro:", err.response?.data || err.message);
@@ -223,8 +211,8 @@ export default function UserStatusPage() {
               )}
               <p className="userDate">
                 Por aqui desde{" "}
-                {userData?.createAt
-                  ? new Date(userData.createAt * 1000).toLocaleDateString(
+                {userData?.user.createAt
+                  ? new Date(userData.user.createAt * 1000).toLocaleDateString(
                       "pt-BR",
                       {
                         month: "long",
@@ -235,73 +223,59 @@ export default function UserStatusPage() {
               </p>
               {userData && (
                 <div className="user-level-info">
-                  <p className="level-text">Nível {userData.level || 1}</p>
-                  <p className="xp-text">{userData.xpPoints || 0} XP</p>
+                  <p className="level-text">Nível {userData.user.level || 1}</p>
+                  <p className="xp-text">{userData.user.xpPoints || 0} XP</p>
                 </div>
               )}
             </div>
           </div>
           <hr />
           <div className="statistics">
-            <h2 className="name">Estatísticas</h2>
+            <h2 className="name">Suas Estatísticas</h2>
 
             <div className="container-statistics">
               <StatCard
                 icon={<FaBook size={20} />}
-                value={userMetrics?.totalSessions || 0}
-                label="Sessões"
+                value={userData?.metrics.totalSessions || 0}
+                label="Sessões Finalizadas"
               />
               <StatCard
                 icon={<FaClock size={20} />}
                 value={
-                  userMetrics?.avgAnswerTimeMs
-                    ? Math.round(userMetrics.avgAnswerTimeMs / 1000 / 60)
+                  userData?.metrics.avgAnswerTimeMs
+                    ? Math.round(userData?.metrics.avgAnswerTimeMs / 1000 / 60)
                     : 0
                 }
-                label="Minutos Médios"
+                label="Tempo Médio por Questão (minutos)"
               />
               <StatCard
                 icon={<FaTrophy size={20} />}
-                value={userMetrics?.flashcardsCount || 0}
-                label="Flashcards"
+                value={userData?.metrics.flashcardsCount || 0}
+                label="Flashcards na Biblioteca"
               />
-              <StatCard
-                icon={<FaChartLine size={20} />}
-                value={
-                  userMetrics?.overallAccuracyPct
-                    ? Math.round(userMetrics.overallAccuracyPct)
-                    : 0
-                }
-                label="Precisão %"
-              />
+             
             </div>
 
             {/* Top Área Section */}
             <h3 className="section-title">Top Área</h3>
             <div className="container-statistics">
-              {topArea ? (
+              {userData ? (
                 <>
                   <StatCard
                     icon={<FaAward size={20} />}
-                    value={topArea.areaName || "N/A"}
-                    label="Área"
+                    value={userData?.metrics.topArea.areaName || "N/A"}
+                    label=""
                   />
-                  <StatCard
-                    icon={<FaChartLine size={20} />}
-                    value={
-                      topArea.accuracyPct ? Math.round(topArea.accuracyPct) : 0
-                    }
-                    label="Precisão %"
-                  />
+                  
                   <StatCard
                     icon={<FaTrophy size={20} />}
-                    value={topArea.correctCount || 0}
-                    label="Acertos"
+                    value={userData?.metrics.topArea.correctCount || 0}
+                    label="Total de Acertos"
                   />
                   <StatCard
                     icon={<FaBook size={20} />}
-                    value={topArea.totalCount || 0}
-                    label="Total"
+                    value={userData?.metrics.topArea.totalCount || 0}
+                    label="Total de Questões Respondidas"
                   />
                 </>
               ) : (
@@ -313,20 +287,20 @@ export default function UserStatusPage() {
               )}
             </div>
 
-            <h3 className="section-title">Top Competências</h3>
+            <h3 className="section-title">Competências mais Desenvolvidas</h3>
             <div className="container-statistics">
-              {topCompetencies && topCompetencies.length > 0 ? (
-                topCompetencies
+              {userData && userData?.metrics.topCompetencies.length > 0 ? (
+                userData?.metrics.topCompetencies
                   .slice(0, 4)
                   .map((item, index) => (
                     <StatCard
                       key={index}
                       icon={<FaBrain size={20} />}
                       value={
-                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                        ""
                       }
                       label={
-                        `${item.competencyDescription?.substring(0, 20)}...` ||
+                        `${item.competencyDescription}` ||
                         `Competência ${index + 1}`
                       }
                     />
@@ -342,18 +316,18 @@ export default function UserStatusPage() {
 
             <h3 className="section-title">Top Skills</h3>
             <div className="container-statistics">
-              {topSkills && topSkills.length > 0 ? (
-                topSkills
+              {userData && userData?.metrics.topSkills.length > 0 ? (
+                userData?.metrics.topSkills
                   .slice(0, 4)
                   .map((item, index) => (
                     <StatCard
                       key={index}
                       icon={<FaStar size={20} />}
                       value={
-                        item.accuracyPct ? Math.round(item.accuracyPct) : 0
+                        ""
                       }
                       label={
-                        `${item.skillDescription?.substring(0, 20)}...` ||
+                        `${item.skillDescription}` ||
                         `Skill ${index + 1}`
                       }
                     />
